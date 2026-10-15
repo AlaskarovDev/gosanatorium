@@ -1,0 +1,28 @@
+# GoSanatorium
+
+> Free Online Sanatorium Booking platform. We help users find and book sanatoriums, health resorts, and wellness centers online.
+
+## About
+GoSanatorium is an online booking service for sanatoriums and health resorts. The platform allows users to search, compare, and book sanatorium treatments across multiple countries.
+
+## Main Sections
+- [Home](https://gosanatorium.com/) â€” Main page with search and featured sanatoriums
+- [Sanatoriums](https://gosanatorium.com/sanatoriums) â€” Full catalog of sanatoriums
+- [Search](https://gosanatorium.com/search) â€” Search and filter sanatoriums by location, price, treatment
+- [Blog](https://gosanatorium.com/blog) â€” Articles about health, treatments, and wellness
+- [About](https://gosanatorium.com/about) â€” About the company
+- [Contacts](https://gosanatorium.com/contacts) â€” Contact information
+- [FAQ](https://gosanatorium.com/faq) â€” Frequently asked questions
+
+## Contact
+- Phone: +994519158894
+- Website: https://gosanatorium.com
+
+## Languages
+Russian, English
+
+## Services
+- Online sanatorium booking
+- Health resort search
+- Treatment programs
+- Wellness and rehabilitation centers

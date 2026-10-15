@@ -1,0 +1,26 @@
+User-agent: *
+Allow: /
+
+Disallow: /admin
+Disallow: /admin/
+Disallow: /agency
+Disallow: /agency/
+Disallow: /user
+Disallow: /user/
+Disallow: /login
+Disallow: /register
+Disallow: /logout
+Disallow: /password/
+Disallow: /password-reset
+Disallow: /forget-password
+Disallow: /reset-password
+Disallow: /callback/
+Disallow: /migrate
+Disallow: /clear
+Disallow: /download-file/
+Disallow: /language-switcher
+Disallow: /currency-switcher
+Disallow: /theme/
+Disallow: /store-blog-comment/
+
+Sitemap: /sitemap.xml

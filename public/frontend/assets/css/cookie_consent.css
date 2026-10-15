@@ -1,0 +1,96 @@
+/* ===== Cookie consent — mərkəzdə, kiçik, minimalist pill bar ===== */
+/* display: none QOYULMUR (d-none klassı gizlətməyi idarə edir) */
+.cookie_consent_modal {
+    width: calc(100% - 32px) !important;
+    max-width: 640px !important;
+    padding: 11px 14px 11px 22px !important;
+    background-color: #fff !important;
+    position: fixed !important;
+    bottom: 20px !important;
+    left: 50% !important;
+    right: auto !important;
+    top: auto !important;
+    transform: translateX(-50%) !important;
+    z-index: 9999 !important;
+    border: 1px solid #ececec !important;
+    box-shadow: 0 12px 40px rgba(0, 0, 0, 0.16) !important;
+    border-radius: 50px !important;
+    display: flex;
+    align-items: center !important;
+    gap: 14px !important;
+}
+
+/* Başlıq gizli — minimalist */
+.cookie_consent_modal h5 {
+    display: none !important;
+}
+
+/* Mesaj — sol tərəfdə, kiçik */
+.cookie_consent_modal p {
+    order: 1;
+    flex: 1;
+    font-size: 13px !important;
+    line-height: 1.4 !important;
+    margin: 0 !important;
+    color: #4a4a4a !important;
+}
+
+/* Accept — kompakt bənövşəyi pill düymə */
+.cookie_consent_modal .cookie_consent_accept_btn {
+    order: 2;
+    flex: 0 0 auto;
+    display: inline-flex !important;
+    align-items: center;
+    background: var(--tg-theme-primary, #560ce3) !important;
+    border-radius: 40px !important;
+    padding: 9px 22px !important;
+    margin: 0 !important;
+    white-space: nowrap;
+    transition: opacity .2s ease;
+}
+.cookie_consent_modal .cookie_consent_accept_btn:hover {
+    opacity: .9;
+}
+.cookie_consent_modal .cookie_consent_accept_btn span {
+    color: #fff !important;
+    font-size: 13px !important;
+    font-weight: 600 !important;
+}
+
+/* Bağla düyməsi — kiçik, sağda */
+.cookie_consent_modal .btn-close {
+    order: 3;
+    position: static !important;
+    flex: 0 0 auto;
+    opacity: .5;
+    padding: 4px !important;
+    margin: 0 !important;
+}
+.cookie_consent_modal .btn-close:hover {
+    opacity: 1;
+}
+
+/* Mobil — sətirlərə bölünür */
+@media (max-width: 575px) {
+    .cookie_consent_modal {
+        flex-wrap: wrap !important;
+        border-radius: 16px !important;
+        padding: 14px 16px !important;
+        gap: 10px !important;
+        bottom: 74px !important; /* mobil alt menyunun üstündə */
+        width: calc(100% - 20px) !important;
+    }
+    .cookie_consent_modal p {
+        flex: 1 1 100%;
+        padding-right: 18px;
+    }
+    .cookie_consent_modal .cookie_consent_accept_btn {
+        order: 2;
+    }
+    .cookie_consent_modal .btn-close {
+        order: 3;
+        position: absolute !important;
+        top: 10px;
+        right: 14px;
+    }
+}
