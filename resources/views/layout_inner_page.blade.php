@@ -445,11 +445,6 @@
                                     <i class="fab fa-telegram-plane"></i>
                                 </a>
                                 @endif
-                                @if($footer->vk ?? false)
-                                <a href="{{ $footer->vk }}" class="tg-social-icon tg-vk" target="_blank" title="VKontakte">
-                                    <i class="fab fa-vk"></i>
-                                </a>
-                                @endif
                                 @if($phoneClean)
                                 <a href="viber://chat?number=%2B{{ $phoneClean }}" class="tg-social-icon tg-viber" target="_blank" title="Viber">
                                     <i class="fab fa-viber"></i>

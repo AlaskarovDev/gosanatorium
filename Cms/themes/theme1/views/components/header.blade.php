@@ -47,16 +47,6 @@
                                 </a>
                                 @endif
 
-                                {{-- VKontakte --}}
-                                @if($footer->vk ?? false)
-                                <a href="{{ $footer->vk }}" 
-                                class="tg-social-icon tg-vk" 
-                                target="_blank" 
-                                title="VKontakte">
-                                    <i class="fab fa-vk"></i>
-                                </a>
-                                @endif
-
                                 {{-- Viber --}}
                                 @if($phoneClean)
                                 <a href="viber://chat?number=%2B{{ $phoneClean }}" 
