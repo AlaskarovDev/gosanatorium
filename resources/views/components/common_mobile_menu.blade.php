@@ -21,9 +21,6 @@
                 @if($phoneClean)
                 <li><a href="https://t.me/+{{ $phoneClean }}" target="_blank" class="mobile-social-telegram"><i class="fab fa-telegram-plane"></i></a></li>
                 @endif
-                @if($footer->vk ?? false)
-                <li><a href="{{ $footer->vk }}" target="_blank" class="mobile-social-vk"><i class="fab fa-vk"></i></a></li>
-                @endif
                 @if($phoneClean)
                 <li><a href="viber://chat?number=%2B{{ $phoneClean }}" target="_blank" class="mobile-social-viber"><i class="fab fa-viber"></i></a></li>
                 @endif
@@ -55,7 +52,6 @@
 }
 .mobile-social-whatsapp { background: #25D366 !important; }
 .mobile-social-telegram { background: #0088cc !important; }
-.mobile-social-vk { background: #4C75A3 !important; }
 .mobile-social-viber { background: #665CAC !important; }
 .mobile-social-email { background: #EA4335 !important; }
 </style>

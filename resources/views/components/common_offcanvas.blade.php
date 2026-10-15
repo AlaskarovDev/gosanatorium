@@ -39,12 +39,6 @@
             </a>
             @endif
 
-            @if($footer->vk ?? false)
-            <a href="{{ $footer->vk }}" target="_blank" title="VKontakte" class="offcanvas-social-btn offcanvas-vk">
-                <i class="fab fa-vk"></i>
-            </a>
-            @endif
-
             @if($phoneClean)
             <a href="viber://chat?number=%2B{{ $phoneClean }}" target="_blank" title="Viber" class="offcanvas-social-btn offcanvas-viber">
                 <i class="fab fa-viber"></i>
@@ -88,8 +82,6 @@
     .offcanvas-whatsapp:hover { background: #1da851; }
     .offcanvas-telegram { background: #0088cc; }
     .offcanvas-telegram:hover { background: #006699; }
-    .offcanvas-vk { background: #4C75A3; }
-    .offcanvas-vk:hover { background: #3b6291; }
     .offcanvas-viber { background: #665CAC; }
     .offcanvas-viber:hover { background: #54489e; }
     .offcanvas-email { background: #EA4335; }
