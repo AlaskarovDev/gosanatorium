@@ -190,7 +190,7 @@ jobs:
             echo "## Client request"; echo; jq -r .description "$WORK/task.json"; echo
             echo "## Summary"; echo; echo "$SUMMARY"; echo
             echo "## $SEC"; echo; echo '```'; head -c 6000 "$WORK/security.txt"; echo '```'
-            echo; echo "_TaskDesk task #$TASK_ID — run $RUN_URL_"
+            echo; echo "_TaskDesk task #$TASK_ID — run ${RUN_URL}_"
           } > "$WORK/pr-body.md"
           TITLE="$(jq -r '"Task #\(.id): \(.title)"' "$WORK/task.json")"
           STATE="$(gh pr view "$BRANCH" --json state -q .state 2>/dev/null || true)"
