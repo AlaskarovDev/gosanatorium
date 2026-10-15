@@ -1,0 +1,217 @@
+# TaskDesk task runner — installed by TaskDesk. Do not edit by hand.
+#
+# Started by TaskDesk (workflow_dispatch) when a task is approved. Fetches the task,
+# runs Claude Code headless on a task branch, opens/updates a pull request and reports
+# back to TaskDesk with HMAC-signed callbacks.
+#
+# Security: inputs and every value fetched from TaskDesk reach shell scripts ONLY
+# through env: variables (never ${{ }} inside run:), so they cannot inject commands.
+#
+# Required secrets: TASKDESK_CALLBACK_SECRET and CLAUDE_CODE_OAUTH_TOKEN (or ANTHROPIC_API_KEY).
+# Optional variable: TASKDESK_APP_URL — when set, app_url must match it.
+
+name: TaskDesk task
+
+on:
+  workflow_dispatch:
+    inputs:
+      task_id:
+        description: Task ID
+        required: true
+        type: string
+      run_token:
+        description: One-run token issued by TaskDesk
+        required: true
+        type: string
+      app_url:
+        description: TaskDesk base URL
+        required: true
+        type: string
+
+concurrency:
+  group: claude-task-${{ inputs.task_id }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  task:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      TASK_ID: ${{ inputs.task_id }}
+      RUN_TOKEN: ${{ inputs.run_token }}
+      APP_URL: ${{ inputs.app_url }}
+      PINNED_APP_URL: ${{ vars.TASKDESK_APP_URL }}
+      CALLBACK_SECRET: ${{ secrets.TASKDESK_CALLBACK_SECRET }}
+      BASE_BRANCH: ${{ github.ref_name }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      GH_TOKEN: ${{ github.token }}
+      WORK: ${{ runner.temp }}/taskdesk
+
+    steps:
+      - name: Validate inputs
+        run: |
+          set -euo pipefail
+          echo "::add-mask::$RUN_TOKEN"
+          [[ "$TASK_ID" =~ ^[0-9]{1,10}$ ]] || { echo "Invalid task_id"; exit 1; }
+          [[ "$RUN_TOKEN" =~ ^[A-Za-z0-9]{32,128}$ ]] || { echo "Invalid run_token"; exit 1; }
+          [[ "$APP_URL" =~ ^https?://[A-Za-z0-9.:-]+(/[A-Za-z0-9._/-]*)?$ ]] || { echo "Invalid app_url"; exit 1; }
+          if [ -n "$PINNED_APP_URL" ] && [ "${APP_URL%/}" != "${PINNED_APP_URL%/}" ]; then echo "app_url does not match TASKDESK_APP_URL"; exit 1; fi
+          [ -n "$CALLBACK_SECRET" ] || { echo "Secret TASKDESK_CALLBACK_SECRET is missing"; exit 1; }
+          mkdir -p "$WORK"
+
+      - name: Prepare callback helper
+        run: |
+          set -euo pipefail
+          cat > "$WORK/notify.sh" <<'SH'
+          #!/usr/bin/env bash
+          # notify.sh <status> [extra.json] — signed status callback to TaskDesk.
+          set -euo pipefail
+          status="$1"; extra="${2:-}"
+          if [ -z "$extra" ] || [ ! -f "$extra" ]; then extra="$WORK/empty.json"; echo '{}' > "$extra"; fi
+          body="$(jq -c --arg status "$status" --arg token "$RUN_TOKEN" --arg run_url "$RUN_URL" \
+            --arg run_id "$GITHUB_RUN_ID" --argjson ts "$(date +%s)" \
+            '. + {status: $status, run_token: $token, run_url: $run_url, run_id: ($run_id|tonumber), timestamp: $ts}' "$extra")"
+          sig="$(printf '%s' "$body" | openssl dgst -sha256 -hmac "$CALLBACK_SECRET" -r | cut -d' ' -f1)"
+          curl -fsS --retry 3 --retry-all-errors --max-time 30 -X POST "${APP_URL%/}/api/runner/tasks/$TASK_ID/status" \
+            -H 'Content-Type: application/json' -H "X-Signature: sha256=$sig" --data-binary "$body" -o /dev/null
+          SH
+          chmod +x "$WORK/notify.sh"
+
+      - name: Fetch task
+        run: |
+          set -euo pipefail
+          curl -fsS --retry 3 --retry-all-errors --max-time 60 --get "${APP_URL%/}/api/runner/tasks/$TASK_ID" \
+            --data-urlencode "token=$RUN_TOKEN" -o "$WORK/task.json"
+          jq -e '.id and .prompt and .branch' "$WORK/task.json" > /dev/null
+          "$WORK/notify.sh" running
+
+      - uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Keep trusted copies from the base branch
+        run: |
+          set -euo pipefail
+          # Taken BEFORE Claude runs: the executed security check cannot be changed by the task.
+          if git cat-file -e "origin/$BASE_BRANCH:scripts/security-check.sh" 2>/dev/null; then
+            git show "origin/$BASE_BRANCH:scripts/security-check.sh" > "$WORK/security-check.sh"
+          else
+            printf '#!/usr/bin/env bash\necho "scripts/security-check.sh is missing on the base branch"\nexit 1\n' > "$WORK/security-check.sh"
+          fi
+          chmod +x "$WORK/security-check.sh"
+
+      - name: Check out the task branch
+        run: |
+          set -euo pipefail
+          BRANCH="$(jq -r .branch "$WORK/task.json")"
+          [[ "$BRANCH" =~ ^task/[0-9]+-[a-z0-9-]+$ ]] || { echo "Invalid branch name"; exit 1; }
+          git config user.name "taskdesk-bot"
+          git config user.email "taskdesk-bot@users.noreply.github.com"
+          if git ls-remote --exit-code --heads origin "$BRANCH" > /dev/null; then
+            git fetch origin "$BRANCH"
+            git checkout -B "$BRANCH" "origin/$BRANCH"
+          else
+            git checkout -b "$BRANCH"
+          fi
+          echo "BRANCH=$BRANCH" >> "$GITHUB_ENV"
+
+      - name: Download attachments
+        run: |
+          set -euo pipefail
+          mkdir -p .task-assets/site .task-assets/reference
+          jq -r '.attachments[] | [.url, .filename, (if .use_on_website then "site" else "reference" end)] | @tsv' "$WORK/task.json" |
+          while IFS=$'\t' read -r url name role; do
+            [[ "$name" =~ ^[A-Za-z0-9._-]+$ ]] || { echo "Skipping invalid file name"; continue; }
+            curl -fsS --max-time 60 "$url" -o ".task-assets/$role/$name"
+          done
+          find .task-assets -type f | sort
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+
+      - name: Run Claude Code
+        env:
+          CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          set -euo pipefail
+          if [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}" ]; then unset ANTHROPIC_API_KEY; else unset CLAUDE_CODE_OAUTH_TOKEN; fi
+          [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}${ANTHROPIC_API_KEY:-}" ] || { echo "Set CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY"; exit 1; }
+          npm i -g @anthropic-ai/claude-code
+          PROMPT="$(jq -r .prompt "$WORK/task.json")"
+          claude -p "$PROMPT" --permission-mode acceptEdits \
+            --allowedTools "Read,Edit,Write,Glob,Grep" \
+            --disallowedTools "Bash,WebFetch,WebSearch" \
+            --max-turns 40 --output-format json > "$WORK/claude.json"
+          jq -r '.result // ""' "$WORK/claude.json" > "$WORK/summary.txt"
+          if [ "$(jq -r '.is_error // false' "$WORK/claude.json")" = "true" ]; then
+            echo "Claude Code reported an error:"; head -c 2000 "$WORK/summary.txt"; exit 1
+          fi
+
+      - name: Commit, check and push
+        run: |
+          set -euo pipefail
+          rm -rf .task-assets
+          git add -A
+          if git diff --cached --quiet; then
+            echo "NO_CHANGES=true" >> "$GITHUB_ENV"
+            git diff --quiet "origin/$BASE_BRANCH"...HEAD && echo "NOTHING_ON_BRANCH=true" >> "$GITHUB_ENV" || true
+          else
+            jq -r '"Task #\(.id): \(.title)"' "$WORK/task.json" > "$WORK/commit.txt"
+            git commit -q -F "$WORK/commit.txt"
+          fi
+          set +e
+          "$WORK/security-check.sh" "origin/$BASE_BRANCH" > "$WORK/security.txt" 2>&1
+          code=$?
+          set -e
+          cat "$WORK/security.txt"
+          if [ $code -eq 0 ]; then echo "SECURITY_PASSED=true" >> "$GITHUB_ENV"; else echo "SECURITY_PASSED=false" >> "$GITHUB_ENV"; fi
+          if [ "${NOTHING_ON_BRANCH:-}" != "true" ]; then git push -u origin "$BRANCH"; fi
+
+      - name: Open or update the pull request
+        run: |
+          set -euo pipefail
+          SUMMARY="$(cat "$WORK/summary.txt")"
+          if [ "${SECURITY_PASSED}" = "true" ]; then SEC="✅ Security check passed"; else SEC="⚠ Security check failed"; fi
+          if [ "${NOTHING_ON_BRANCH:-}" = "true" ]; then
+            jq -n --arg s "$SUMMARY" --arg r "$(cat "$WORK/security.txt")" --arg b "$BRANCH" \
+              '{no_changes: true, summary: $s, security_passed: true, security_report: $r, branch: $b, changed_files: []}' > "$WORK/result.json"
+            exit 0
+          fi
+          {
+            echo "## Client request"; echo; jq -r .description "$WORK/task.json"; echo
+            echo "## Summary"; echo; echo "$SUMMARY"; echo
+            echo "## $SEC"; echo; echo '```'; head -c 6000 "$WORK/security.txt"; echo '```'
+            echo; echo "_TaskDesk task #$TASK_ID — run $RUN_URL_"
+          } > "$WORK/pr-body.md"
+          TITLE="$(jq -r '"Task #\(.id): \(.title)"' "$WORK/task.json")"
+          STATE="$(gh pr view "$BRANCH" --json state -q .state 2>/dev/null || true)"
+          if [ "$STATE" = "OPEN" ]; then
+            gh pr edit "$BRANCH" --body-file "$WORK/pr-body.md"
+            gh pr comment "$BRANCH" --body-file "$WORK/pr-body.md"
+          else
+            gh pr create --base "$BASE_BRANCH" --head "$BRANCH" --title "$TITLE" --body-file "$WORK/pr-body.md"
+          fi
+          gh pr view "$BRANCH" --json url,number > "$WORK/pr.json"
+          git diff --name-only "origin/$BASE_BRANCH"...HEAD | jq -R . | jq -s . > "$WORK/files.json"
+          jq -n --slurpfile pr "$WORK/pr.json" --slurpfile files "$WORK/files.json" \
+            --arg s "$SUMMARY" --arg r "$(head -c 6000 "$WORK/security.txt")" --arg b "$BRANCH" --arg sec "$SECURITY_PASSED" \
+            '{pr_url: $pr[0].url, pr_number: $pr[0].number, branch: $b, summary: $s,
+              security_passed: ($sec == "true"), security_report: $r, changed_files: $files[0], no_changes: (env.NO_CHANGES == "true")}' > "$WORK/result.json"
+
+      - name: Report to TaskDesk
+        run: |
+          set -euo pipefail
+          "$WORK/notify.sh" review "$WORK/result.json"
+
+      - name: Report failure to TaskDesk
+        if: failure() || cancelled()
+        run: |
+          jq -n --arg r "Workflow step failed — see the run log." '{reason: $r}' > "$WORK/failed.json" || echo '{}' > "$WORK/failed.json"
+          "$WORK/notify.sh" failed "$WORK/failed.json" || true

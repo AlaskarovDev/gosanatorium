@@ -40,3 +40,7 @@ jobs:
             bootstrap/cache/config.php
             error_log
             *.zip
+            CLAUDE.md
+            DEPLOY.md
+            scripts/**
+            .task-assets/**
