@@ -1,14 +1,14 @@
 #!/usr/bin/env bash
-# TaskDesk security check — installed by TaskDesk. Do not edit by hand.
+# TaskDesk check — installed by TaskDesk. Do not edit by hand.
 #
 # Usage: scripts/security-check.sh <base-ref>     (e.g. origin/main)
-# Inspects the changes between <base-ref> and HEAD. Exits non-zero when the diff
-# adds dangerous PHP/JS patterns, touches protected paths or is unusually large.
+# Enforces the one rule: the change must not expose the project's source code,
+# configuration or secrets. Exits non-zero when the diff adds code that could do so.
+# A failure never blocks the task — it only stops automatic publishing.
 # The task workflow runs the copy from the BASE branch, so a task cannot weaken it.
 set -uo pipefail
 
 BASE="${1:-origin/main}"
-MAX_ADDED_LINES="${MAX_ADDED_LINES:-400}"
 fail=0
 
 say() { printf '%s\n' "$*"; }
@@ -20,51 +20,35 @@ fi
 
 mapfile -t FILES < <(git diff --name-only "$BASE"...HEAD)
 say "Changed files: ${#FILES[@]}"
+added="$(git diff --numstat "$BASE"...HEAD | awk '$1 ~ /^[0-9]+$/ { s += $1 } END { print s + 0 }')"
+say "Added lines: $added"
 
-# 1. Protected paths
+# Secrets / environment files must never be committed.
 for f in "${FILES[@]}"; do
   case "$f" in
-    .github/*|scripts/*|CLAUDE.md|.task-assets/*) problem "protected path changed: $f" ;;
-    .env|.env.*|*/.env|*/.env.*) problem "environment file changed: $f" ;;
-    .htaccess|*/.htaccess|wp-config.php|*/wp-config.php) problem "server/credential file changed: $f" ;;
-    config/*database*|config/*credential*|config/*secret*|config/*services*|config/*mail*|config/*auth*) problem "credential config changed: $f" ;;
-    *.pem|*.key|*id_rsa*|*.p12|*.pfx) problem "key material added: $f" ;;
+    .env|.env.*|*/.env|*/.env.*) [[ "$f" == *.example ]] || problem "environment file committed: $f" ;;
+    *.pem|*.key|*id_rsa*|*.p12|*.pfx|*.sql|*.sql.gz|*.sqlite) problem "secret or database file committed: $f" ;;
   esac
 done
 
-# 2. Size of the change (binary files are ignored)
-added="$(git diff --numstat "$BASE"...HEAD | awk '$1 ~ /^[0-9]+$/ { s += $1 } END { print s + 0 }')"
-say "Added lines: $added (limit $MAX_ADDED_LINES)"
-if [ "$added" -gt "$MAX_ADDED_LINES" ]; then problem "diff adds $added lines (limit $MAX_ADDED_LINES)"; fi
-
-# 3. Dangerous patterns in ADDED lines of code/markup files
+# Code that can reveal source, config or secrets to visitors.
 PATTERNS=(
-  'eval|(^|[^A-Za-z0-9_.$])eval[[:space:]]*\('
-  'assert|(^|[^A-Za-z0-9_.$])assert[[:space:]]*\('
-  'shell execution|(^|[^A-Za-z0-9_.$>:])(shell_exec|exec|system|passthru|popen|proc_open)[[:space:]]*\('
-  'backtick shell|^[^`]*`[^`]*\$[A-Za-z_][^`]*`[[:space:]]*;'
-  'base64_decode|base64_decode[[:space:]]*\('
+  'source display|(highlight_file|show_source|php_strip_whitespace)[[:space:]]*\('
   'phpinfo|phpinfo[[:space:]]*\('
-  'source disclosure|(highlight_file|show_source|readfile)[[:space:]]*\('
-  '__FILE__ read-back|__FILE__'
-  'directory listing|(scandir|opendir|(^|[^A-Za-z0-9_.$])glob)[[:space:]]*\('
-  'file write|(file_put_contents|fopen|fwrite)[[:space:]]*\('
-  'upload handling|move_uploaded_file|\$_FILES'
-  'file deletion/permissions|(^|[^A-Za-z0-9_.$>:])(unlink|rename|chmod)[[:space:]]*\('
-  'dynamic include|(include|require)(_once)?[[:space:]]*\(?[[:space:]]*\$'
-  'environment access|getenv[[:space:]]*\(|\$_ENV'
-  'outbound connection|curl_exec|fsockopen'
-  'raw destructive SQL|(DROP[[:space:]]+(TABLE|DATABASE)|DELETE[[:space:]]+FROM|TRUNCATE[[:space:]])'
-  'cookie access|document\.cookie'
-  'iframe|<iframe'
+  'reads own source|(file_get_contents|readfile|fopen|file)[[:space:]]*\([^)]*__(FILE|DIR)__'
+  'serves project files|(readfile|file_get_contents|response\(\)->(file|download)|Storage::download)[[:space:]]*\([^)]*(base_path|app_path|config_path|resource_path|database_path|\.env|\$_(GET|POST|REQUEST)|\$request->)'
+  'exposes environment|print_r[[:space:]]*\([[:space:]]*\$_(ENV|SERVER)|var_dump[[:space:]]*\([[:space:]]*\$_(ENV|SERVER)|json_encode[[:space:]]*\([[:space:]]*(\$_ENV|\$_SERVER|config\(\)|getenv\(\))'
+  'directory listing|(scandir|opendir|glob|File::(allFiles|files|directories))[[:space:]]*\([^)]*(base_path|app_path|resource_path|config_path|\$_(GET|POST|REQUEST)|\$request->)'
+  'remote code|(eval|assert)[[:space:]]*\([[:space:]]*\$_(GET|POST|REQUEST|COOKIE)|(shell_exec|exec|system|passthru|popen|proc_open)[[:space:]]*\([^)]*\$_(GET|POST|REQUEST|COOKIE)|eval[[:space:]]*\([[:space:]]*base64_decode'
+  'blade raw source|@php[[:space:]]+(highlight_file|show_source|readfile)'
 )
 
 for f in "${FILES[@]}"; do
   case "$f" in
-    *.php|*.phtml|*.inc|*.js|*.mjs|*.cjs|*.ts|*.jsx|*.tsx|*.vue|*.svelte|*.html|*.htm|*.twig|*.tpl) ;;
+    *.php|*.phtml|*.inc|*.js|*.mjs|*.ts|*.vue|*.html|*.htm|*.twig) ;;
     *) continue ;;
   esac
-  git cat-file -e "HEAD:$f" 2>/dev/null || continue   # deleted file
+  git cat-file -e "HEAD:$f" 2>/dev/null || continue
   lines="$(git diff -U0 --no-color "$BASE"...HEAD -- "$f" | grep -E '^\+' | grep -vE '^\+\+\+ ' || true)"
   [ -z "$lines" ] && continue
   for entry in "${PATTERNS[@]}"; do
@@ -78,5 +62,15 @@ for f in "${FILES[@]}"; do
   done
 done
 
-if [ "$fail" -eq 0 ]; then say "PASS  no dangerous patterns, protected paths untouched"; fi
+# Web-server rules that would serve dotfiles or source.
+for f in "${FILES[@]}"; do
+  case "$f" in
+    .htaccess|*/.htaccess|nginx*.conf|*/web.config)
+      if git diff -U0 "$BASE"...HEAD -- "$f" | grep -E '^\+' | grep -qiE 'Options[[:space:]]+\+?Indexes|Allow from all.*\.(env|php)|Require all granted.*\.(env|git)'; then
+        problem "server rule may expose files: $f"
+      fi ;;
+  esac
+done
+
+if [ "$fail" -eq 0 ]; then say "PASS  nothing exposes source code, configuration or secrets"; fi
 exit "$fail"

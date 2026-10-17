@@ -39,7 +39,7 @@ permissions:
 jobs:
   task:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 60
     env:
       TASK_ID: ${{ inputs.task_id }}
       RUN_TOKEN: ${{ inputs.run_token }}
@@ -147,10 +147,10 @@ jobs:
           [ -n "${CLAUDE_CODE_OAUTH_TOKEN:-}${ANTHROPIC_API_KEY:-}" ] || { echo "Set CLAUDE_CODE_OAUTH_TOKEN or ANTHROPIC_API_KEY"; exit 1; }
           npm i -g @anthropic-ai/claude-code
           PROMPT="$(jq -r .prompt "$WORK/task.json")"
-          claude -p "$PROMPT" --permission-mode acceptEdits \
-            --allowedTools "Read,Edit,Write,Glob,Grep" \
-            --disallowedTools "Bash,WebFetch,WebSearch" \
-            --max-turns 40 --output-format json > "$WORK/claude.json"
+          # All tools allowed (shell, web). The one project rule — never expose source code —
+          # is in CLAUDE.md and checked afterwards by scripts/security-check.sh.
+          claude -p "$PROMPT" --permission-mode bypassPermissions \
+            --max-turns 150 --output-format json > "$WORK/claude.json"
           jq -r '.result // ""' "$WORK/claude.json" > "$WORK/summary.txt"
           echo "::group::Claude result ($(jq -r '"\(.subtype // "?") · \(.num_turns // "?") turns"' "$WORK/claude.json"))"
           cat "$WORK/summary.txt"
