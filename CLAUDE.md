@@ -23,7 +23,9 @@ reviewed by a human before they are merged and deployed.
 - Always set meaningful `alt` text and keep the existing image sizing conventions.
 
 ## Finish
-End with a plain 2–4 sentence summary: what you changed (which files, what the visitor will see), or why you changed nothing.
+End with two sections:
+- `## Summary` — 2–4 sentences for the developer: which files changed and the visible effect, or why nothing changed.
+- `## Client report` — for the website owner, in the language of their request: **Done:** bullets of what changed on the site, **Not done:** bullets of anything skipped and why. No file names, code, tools, AI, branches, commits or repositories.
 
 ## Project notes
 - Site: https://gosanatorium.com — sanatorium / health-resort booking platform (Laravel, PHP). Languages: English and Russian.
