@@ -36,7 +36,17 @@
     <section class="tg-page-section">
         <div class="container">
             @if ($diseases->count() > 0)
-                @include('tourbooking::front.diseases._cards', ['diseases' => $diseases])
+                <div class="diseases-grid">
+                    @foreach ($diseases as $disease)
+                        <a href="{{ route('diseases.show', ['slug' => $disease->slug]) }}" class="disease-card{{ $disease->image ? '' : ' no-image' }}">
+                            @if ($disease->image)
+                                <img src="{{ asset($disease->image) }}" alt="{{ $disease->name }}" class="card-img" loading="lazy">
+                            @endif
+                            <div class="card-overlay"></div>
+                            <span class="card-title">{{ $disease->name }}</span>
+                        </a>
+                    @endforeach
+                </div>
             @else
                 <div class="gs-disease-empty">{{ \Modules\TourBooking\App\Models\Disease::t('Coming soon') }}</div>
             @endif
