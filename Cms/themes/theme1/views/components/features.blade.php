@@ -17,7 +17,7 @@ $features = [
         'icon' => 'euro',
         'title' => 'Без предоплаты',
         'description' => 'Оплата по прибытии',
-        'link' => '#', // Link dəyişdirin
+        'link' => url('bez-predoplaty'),
         'color' => '#00b4d8',
     ],
     [

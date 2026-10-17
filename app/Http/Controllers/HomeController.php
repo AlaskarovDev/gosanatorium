@@ -106,6 +106,11 @@ class HomeController extends Controller
         ]);
     }
 
+    public function bezPredoplaty()
+    {
+        return view('bez-predoplaty');
+    }
+
     public function blogs(Request $request)
     {
 
