@@ -603,22 +603,16 @@
                                 </div>
                                 <div class="tg-footer-social">
                                     @isset($footer->facebook)
-                                        <a href="{{ $footer->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
-                                    @endisset
-                                    @isset($footer->twitter)
-                                        <a href="{{ $footer->twitter }}"><i class="fa-brands fa-twitter"></i></a>
+                                        <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
                                     @endisset
                                     @isset($footer->instagram)
-                                        <a href="{{ $footer->instagram }}"><i class="fa-brands fa-instagram"></i></a>
+                                        <a href="#"><i class="fa-brands fa-instagram"></i></a>
                                     @endisset
                                     @isset($footer->pinterest)
                                         <a href="{{ $footer->pinterest }}"><i class="fa-brands fa-pinterest-p"></i></a>
                                     @endisset
                                     @isset($footer->youtube)
                                         <a href="{{ $footer->youtube }}"><i class="fa-brands fa-youtube"></i></a>
-                                    @endisset
-                                    @isset($footer->linkedin)
-                                        <a href="{{ $footer->linkedin }}"><i class="fa-brands fa-linkedin"></i></a>
                                     @endisset
                                 </div>
                             </div>
@@ -666,7 +660,7 @@
                                     @endif
                                     @if ($footer->phone)
                                     <li>
-                                        <a class="d-flex" href="tel:+1238889999">
+                                        <a class="d-flex" href="tel:+{{ preg_replace('/[^0-9]/', '', $footer->phone) }}">
                                             <span class="mr-15">
                                                 <i class="fa-sharp text-white fa-solid fa-phone"></i>
                                             </span>
@@ -695,14 +689,20 @@
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
                             <div class="tg-footer-widget tg-footer-link mb-40">
-                                <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Utility Pages') }}</h3>
-                                {!! wp_nav_menu([
-                                    'theme_location' => 'footer_menu_2',
-                                    'menu_class' => '',
-                                    'container' => false,
-                                    'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                                    'menu_id' => 'main-nav',
-                                ]) !!}
+                                @php
+                                    $footerMenu2 = wp_nav_menu([
+                                        'theme_location' => 'footer_menu_2',
+                                        'menu_class' => '',
+                                        'container' => false,
+                                        'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
+                                        'menu_id' => 'main-nav',
+                                        'echo' => false,
+                                    ]);
+                                @endphp
+                                @if (trim(strip_tags((string) $footerMenu2)) !== '')
+                                    <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Utility Pages') }}</h3>
+                                    {!! $footerMenu2 !!}
+                                @endif
                             </div>
                         </div>
                     </div>
