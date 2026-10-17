@@ -747,26 +747,3 @@ div.edc-searchbar-clickaway {
   .diseases-grid { grid-template-columns: 1fr !important; }
   .disease-card { height: 130px; }
 }
-
-/* Blog list (/blogs) */
-.blog-hero { background: linear-gradient(135deg, #2d8a55, #4db876); padding: 48px 16px; text-align: center; color: #fff; margin-bottom: 40px; }
-.blog-hero h1 { font-size: 32px; font-weight: 800; margin-bottom: 8px; color: #fff; }
-.blog-hero p { font-size: 16px; opacity: 0.85; margin: 0; }
-.blog-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 28px; max-width: 1100px; margin: 32px auto; padding: 0 16px; }
-.blog-card { background: #fff; border-radius: 12px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,0.08); transition: transform 0.2s ease, box-shadow 0.2s ease; display: flex; flex-direction: column; }
-.blog-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.13); }
-.blog-card-img { width: 100%; height: 200px; object-fit: cover; display: block; }
-.blog-card-body { padding: 20px; flex: 1; display: flex; flex-direction: column; }
-.blog-card-date { font-size: 12px; color: #888; margin-bottom: 8px; }
-.blog-card-title { font-size: 16px; font-weight: 700; color: #1a1a1a; line-height: 1.4; margin-bottom: 10px; text-decoration: none; display: block; }
-.blog-card-title:hover { color: #2d8a55; }
-.blog-card-excerpt { font-size: 14px; color: #555; line-height: 1.6; flex: 1; margin-bottom: 16px; }
-.blog-card-link { display: inline-block; color: #2d8a55; font-weight: 600; font-size: 13px; text-decoration: none; border: 2px solid #2d8a55; padding: 6px 16px; border-radius: 6px; align-self: flex-start; }
-.blog-card-link:hover { background: #2d8a55; color: #fff; }
-.blog-empty { grid-column: 1 / -1; text-align: center; padding: 40px 0; }
-@media (max-width: 900px) { .blog-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-@media (max-width: 560px) { .blog-grid { grid-template-columns: 1fr !important; } .blog-card-img { height: 160px; } }
-.tag-cloud ul { padding: 0; margin: 0; list-style: none; }
-.tag-cloud li { display: inline; }
-.tag-cloud a { display: inline-block; background: #f0f0f0; color: #333; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin: 3px; text-decoration: none; }
-.tag-cloud a:hover { background: #2d8a55; color: #fff; }
