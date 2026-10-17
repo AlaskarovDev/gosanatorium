@@ -62,6 +62,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
 
     Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
     Route::get('/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->name('bez-predoplaty');
+    Route::get('/{locale}/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->where('locale', 'ru|az|en')->name('bez-predoplaty.locale');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
 
     Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');

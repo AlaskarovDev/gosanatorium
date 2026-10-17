@@ -106,7 +106,7 @@ class HomeController extends Controller
         ]);
     }
 
-    public function bezPredoplaty()
+    public function bezPredoplaty($locale = null)
     {
         return view('bez-predoplaty');
     }
