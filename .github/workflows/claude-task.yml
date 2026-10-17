@@ -152,6 +152,9 @@ jobs:
             --disallowedTools "Bash,WebFetch,WebSearch" \
             --max-turns 40 --output-format json > "$WORK/claude.json"
           jq -r '.result // ""' "$WORK/claude.json" > "$WORK/summary.txt"
+          echo "::group::Claude result ($(jq -r '"\(.subtype // "?") · \(.num_turns // "?") turns"' "$WORK/claude.json"))"
+          cat "$WORK/summary.txt"
+          echo "::endgroup::"
           if [ "$(jq -r '.is_error // false' "$WORK/claude.json")" = "true" ]; then
             echo "Claude Code reported an error:"; head -c 2000 "$WORK/summary.txt"; exit 1
           fi
