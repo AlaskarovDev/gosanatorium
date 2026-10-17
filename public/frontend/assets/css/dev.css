@@ -690,8 +690,8 @@ div.edc-searchbar-clickaway {
 
 /* Disease cards grid on /diseases page */
 .diseases-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  display: grid !important;
+  grid-template-columns: repeat(3, 1fr) !important;
   gap: 16px;
   max-width: 960px;
   margin: 24px auto;
@@ -705,12 +705,12 @@ div.edc-searchbar-clickaway {
   border-radius: 10px;
   overflow: hidden;
   text-decoration: none;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  background-color: #1a5c36;
+  transition: transform 0.25s ease;
 }
 
 .disease-card:hover {
   transform: scale(1.03);
-  box-shadow: 0 8px 24px rgba(0,0,0,0.25);
 }
 
 .card-img {
@@ -724,12 +724,7 @@ div.edc-searchbar-clickaway {
 .card-overlay {
   position: absolute;
   inset: 0;
-  background: linear-gradient(
-    to top,
-    rgba(0, 0, 0, 0.75) 0%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(0, 0, 0, 0) 100%
-  );
+  background: linear-gradient(to top, rgba(0,0,0,0.75) 0%, rgba(0,0,0,0) 60%);
 }
 
 .card-title {
@@ -744,22 +739,11 @@ div.edc-searchbar-clickaway {
   line-height: 1.3;
 }
 
-/* If no image uploaded - show solid color background */
-.disease-card.no-image {
-  background-color: #1a5c36;
-}
-
 @media (max-width: 1023px) {
-  .diseases-grid {
-    grid-template-columns: repeat(2, 1fr);
-  }
+  .diseases-grid { grid-template-columns: repeat(2, 1fr) !important; }
 }
 
 @media (max-width: 599px) {
-  .diseases-grid {
-    grid-template-columns: 1fr;
-  }
-  .disease-card {
-    height: 140px;
-  }
+  .diseases-grid { grid-template-columns: 1fr !important; }
+  .disease-card { height: 130px; }
 }
