@@ -125,7 +125,7 @@ class HomeController extends Controller
             }
         }
 
-        $blogs = Blog::with('author')->where('status', 1);
+        $blogs = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc');
 
         if ($request->category) {
             $blogs = $blogs->where('blog_category_id', $request->category);
@@ -146,7 +146,7 @@ class HomeController extends Controller
         // Axtarış nəticəsi boşdursa (məs. Google-dan gələn köhnə/yanlış URL),
         // boş səhifə əvəzinə bütün bloqları göstər
         if ($request->search && $blogs->isEmpty()) {
-            $fallbackQuery = Blog::with('author')->where('status', 1);
+            $fallbackQuery = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc');
             if ($request->category) {
                 $fallbackQuery->where('blog_category_id', $request->category);
             }
@@ -158,7 +158,7 @@ class HomeController extends Controller
 
         $breadcrumb_title = trans('translate.Our Blogs');
 
-        $latest_blogs = Blog::with('author')->where('status', 1)->take(5)->get();
+        $latest_blogs = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc')->take(5)->get();
 
         $blog_categories = BlogCategory::where('status', 1)->get();
 
