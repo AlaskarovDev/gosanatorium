@@ -611,23 +611,24 @@ div.edc-searchbar-clickaway {
 /* Disease cards (sanatoriums by treatment profile) */
 .gs-disease-grid {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 24px;
 }
 
 .gs-disease-card {
     position: relative;
     display: block;
+    min-height: 220px;
     aspect-ratio: 4 / 3;
-    border-radius: 16px;
+    border-radius: 12px;
     overflow: hidden;
-    background: #1e293b;
+    background: #2a6496;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    transition: transform 0.35s ease, box-shadow 0.35s ease;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .gs-disease-card:hover {
-    transform: translateY(-6px);
+    transform: scale(1.03);
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.18);
 }
 
@@ -640,9 +641,6 @@ div.edc-searchbar-clickaway {
     transition: transform 0.6s ease;
 }
 
-.gs-disease-card:hover img {
-    transform: scale(1.08);
-}
 
 .gs-disease-card::after {
     content: "";
@@ -677,14 +675,10 @@ div.edc-searchbar-clickaway {
     font-size: 20px;
 }
 
-@media (max-width: 1199px) {
-    .gs-disease-grid { grid-template-columns: repeat(3, 1fr); }
-}
-
-@media (max-width: 991px) {
+@media (max-width: 1023px) {
     .gs-disease-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
-@media (max-width: 575px) {
+@media (max-width: 599px) {
     .gs-disease-grid { grid-template-columns: 1fr; gap: 16px; }
 }
