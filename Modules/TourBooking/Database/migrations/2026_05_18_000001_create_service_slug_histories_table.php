@@ -8,6 +8,11 @@ return new class extends Migration
 {
     public function up(): void
     {
+        // The table already exists on production without a migrations record; just record it.
+        if (Schema::hasTable('service_slug_histories')) {
+            return;
+        }
+
         Schema::create('service_slug_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('service_id')->constrained('services')->onDelete('cascade');
