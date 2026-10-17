@@ -31,7 +31,7 @@
                             <div class="d-flex align-items-end h-100">
                                 <div class="booking-summary bg-white rounded p-2 w-100 text-center">
                                     <span class="nights-count fw-bold text-primary fs-5" id="popup_nights_count">0</span>
-                                    <span class="text-muted">{{ __('translate.Nights') }}</span>
+                                    <span class="text-muted" id="popup_nights_label">{{ __('translate.Nights') }}</span>
                                 </div>
                             </div>
                         </div>
@@ -709,7 +709,19 @@
 
     function updateNightsCount() {
         const nights = getNightsCount();
-        document.getElementById('popup_nights_count').textContent = nights > 0 ? nights : 0;
+        const nightsValue = nights > 0 ? nights : 0;
+        document.getElementById('popup_nights_count').textContent = nightsValue;
+        if ('{{ app()->getLocale() }}' === 'ru') {
+            const mod10 = nightsValue % 10;
+            const mod100 = nightsValue % 100;
+            let nightsWord = 'Ночей';
+            if (mod10 === 1 && mod100 !== 11) {
+                nightsWord = 'Ночь';
+            } else if (mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) {
+                nightsWord = 'Ночи';
+            }
+            document.getElementById('popup_nights_label').textContent = nightsWord;
+        }
         
         // Update all room totals
         if (roomsData.length > 0) {
