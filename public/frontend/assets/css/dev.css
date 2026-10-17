@@ -612,53 +612,57 @@ div.edc-searchbar-clickaway {
 .gs-disease-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
+    gap: 16px;
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 0 16px;
 }
 
 .gs-disease-card {
     position: relative;
     display: block;
-    min-height: 220px;
-    aspect-ratio: 4 / 3;
-    border-radius: 12px;
+    height: 160px;
+    border-radius: 10px;
     overflow: hidden;
+    cursor: pointer;
+    text-decoration: none;
     background: #2a6496;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .gs-disease-card:hover {
-    transform: scale(1.03);
-    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.18);
+    transform: scale(1.02);
+    transition: transform 0.25s ease;
 }
 
 .gs-disease-card img {
     position: absolute;
-    inset: 0;
+    top: 0;
+    left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
 }
-
 
 .gs-disease-card::after {
     content: "";
     position: absolute;
-    inset: 0;
-    background: linear-gradient(to top, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0) 60%);
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.75), transparent);
 }
 
 .gs-disease-card__title {
     position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 1;
+    bottom: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 2;
     margin: 0;
-    padding: 18px 20px;
     color: #fff;
-    font-size: 20px;
+    font-size: 14px;
     font-weight: 600;
     line-height: 1.3;
 }
@@ -680,5 +684,6 @@ div.edc-searchbar-clickaway {
 }
 
 @media (max-width: 599px) {
-    .gs-disease-grid { grid-template-columns: 1fr; gap: 16px; }
+    .gs-disease-grid { grid-template-columns: 1fr; }
+    .gs-disease-card { height: 140px; }
 }
