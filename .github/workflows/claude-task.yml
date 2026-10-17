@@ -64,6 +64,9 @@ jobs:
           WORK="$RUNNER_TEMP/taskdesk"
           mkdir -p "$WORK"
           echo "WORK=$WORK" >> "$GITHUB_ENV"
+          # Screenshots taken during the run (scripts/taskdesk-screenshot.mjs) land here and are attached to the run.
+          mkdir -p "$WORK/shots"
+          echo "TASKDESK_SHOTS=$WORK/shots" >> "$GITHUB_ENV"
 
       - name: Prepare callback helper
         run: |
@@ -214,7 +217,19 @@ jobs:
           if [ $code -eq 0 ] && [ "$BUILD_PASSED" = true ]; then echo "SECURITY_PASSED=true" >> "$GITHUB_ENV"; else echo "SECURITY_PASSED=false" >> "$GITHUB_ENV"; fi
           if [ "${NOTHING_ON_BRANCH:-}" != "true" ]; then git push -u origin "$BRANCH"; fi
 
+      - name: Attach screenshots
+        id: shots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: taskdesk-task-${{ inputs.task_id }}-screenshots-${{ github.run_attempt }}
+          path: ${{ env.TASKDESK_SHOTS }}
+          if-no-files-found: ignore
+          retention-days: 30
+
       - name: Open or update the pull request
+        env:
+          SHOTS_URL: ${{ steps.shots.outputs.artifact-url }}
         run: |
           set -euo pipefail
           SUMMARY="$(cat "$WORK/summary.txt")"
@@ -228,6 +243,7 @@ jobs:
             echo "## Client request"; echo; jq -r .description "$WORK/task.json"; echo
             echo "## Summary"; echo; echo "$SUMMARY"; echo
             echo "## $SEC"; echo; echo '```'; head -c 6000 "$WORK/security.txt"; echo '```'
+            if [ -n "${SHOTS_URL:-}" ]; then echo; echo "## Screenshots"; echo; echo "$(ls "$TASKDESK_SHOTS" | wc -l) image(s) taken during the run: [download]($SHOTS_URL)"; fi
             echo; echo "_TaskDesk task #$TASK_ID — run ${RUN_URL}_"
           } > "$WORK/pr-body.md"
           TITLE="$(jq -r '"Task #\(.id): \(.title)"' "$WORK/task.json")"
