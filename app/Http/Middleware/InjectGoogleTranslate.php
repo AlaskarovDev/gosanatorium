@@ -217,7 +217,7 @@ CSS;
 <div id="lang_modal_overlay">
   <div id="lang_modal">
     <div class="lm-top">
-      <h3>Select your language</h3>
+      <h3>Выберите язык</h3>
       <button id="lang_modal_close" type="button" aria-label="Close">&times;</button>
     </div>
     <div class="lm-grid">{$items}</div>
