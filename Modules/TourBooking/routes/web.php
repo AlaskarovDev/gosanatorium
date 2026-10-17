@@ -3,6 +3,8 @@
 use Illuminate\Support\Facades\Route;
 use Modules\TourBooking\App\Http\Controllers\Admin\AmenitiesController;
 use Modules\TourBooking\App\Http\Controllers\Admin\ServiceTypeController;
+use Modules\TourBooking\App\Http\Controllers\Admin\DiseaseController;
+use Modules\TourBooking\App\Http\Controllers\Front\FrontDiseaseController;
 use Modules\TourBooking\App\Http\Controllers\Admin\ServiceController;
 use Modules\TourBooking\App\Http\Controllers\Admin\BookingController;
 use Modules\TourBooking\App\Http\Controllers\Admin\DestinationController;
@@ -45,6 +47,9 @@ use Modules\TourBooking\App\Http\Controllers\Agency\DestinationController as Age
 Route::group(['as' => 'admin.tourbooking.', 'prefix' => 'admin/tourbooking', 'middleware' => ['auth:admin']], function () {
     // Service Types
     Route::resource('service-types', ServiceTypeController::class);
+
+    // Diseases
+    Route::resource('diseases', DiseaseController::class)->except(['show']);
 
 
 
@@ -350,6 +355,12 @@ Route::group(['as' => 'front.tourbooking.transfer.', 'prefix' => 'tour-booking/t
 | Main Tour Booking Front Routes
 |--------------------------------------------------------------------------
 */
+// Sanatoriums by treatment profile (/ru/diseases, /az/diseases, /en/diseases)
+Route::group(['middleware' => ['web']], function () {
+    Route::get('/diseases', [FrontDiseaseController::class, 'index'])->name('diseases.index');
+    Route::get('/diseases/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show');
+});
+
 Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middleware' => ['web']], function () {
     // Home/Search Page
     Route::get('/', [FrontServiceController::class, 'index'])->name('home');
