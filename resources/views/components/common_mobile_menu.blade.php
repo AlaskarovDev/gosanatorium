@@ -21,9 +21,8 @@
                 @if($phoneClean)
                 <li><a href="https://t.me/+{{ $phoneClean }}" target="_blank" class="mobile-social-telegram"><i class="fab fa-telegram-plane"></i></a></li>
                 @endif
-                @if($phoneClean)
-                <li><a href="viber://chat?number=%2B{{ $phoneClean }}" target="_blank" class="mobile-social-viber"><i class="fab fa-viber"></i></a></li>
-                @endif
+                <li><a href="https://vk.com/gosanatorium" target="_blank" rel="noopener" class="mobile-social-vk"><i class="fab fa-vk"></i></a></li>
+                <li><a href="https://ok.ru/gosanatorium" target="_blank" rel="noopener" class="mobile-social-ok"><i class="fab fa-odnoklassniki"></i></a></li>
                 @if($footer->email ?? false)
                 <li><a href="mailto:{{ $footer->email }}" class="mobile-social-email"><i class="fas fa-envelope"></i></a></li>
                 @endif
@@ -52,6 +51,7 @@
 }
 .mobile-social-whatsapp { background: #25D366 !important; }
 .mobile-social-telegram { background: #0088cc !important; }
-.mobile-social-viber { background: #665CAC !important; }
+.mobile-social-vk { background: #4C75A3 !important; }
+.mobile-social-ok { background: #EE8208 !important; }
 .mobile-social-email { background: #EA4335 !important; }
 </style>

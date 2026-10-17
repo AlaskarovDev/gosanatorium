@@ -99,9 +99,9 @@
     .tg-social-icon.tg-vk { background: #4C75A3 !important; }
     .tg-social-icon.tg-vk:hover { background: #3b6291 !important; }
 
-    /* Viber */
-    .tg-social-icon.tg-viber { background: #665CAC !important; }
-    .tg-social-icon.tg-viber:hover { background: #54489e !important; }
+    /* OK (Odnoklassniki) */
+    .tg-social-icon.tg-ok { background: #EE8208 !important; }
+    .tg-social-icon.tg-ok:hover { background: #d67205 !important; }
 
     /* Email */
     .tg-social-icon.tg-email { background: #EA4335 !important; }
@@ -445,11 +445,12 @@
                                     <i class="fab fa-telegram-plane"></i>
                                 </a>
                                 @endif
-                                @if($phoneClean)
-                                <a href="viber://chat?number=%2B{{ $phoneClean }}" class="tg-social-icon tg-viber" target="_blank" title="Viber">
-                                    <i class="fab fa-viber"></i>
+                                <a href="https://vk.com/gosanatorium" class="tg-social-icon tg-vk" target="_blank" rel="noopener" title="VK">
+                                    <i class="fab fa-vk"></i>
                                 </a>
-                                @endif
+                                <a href="https://ok.ru/gosanatorium" class="tg-social-icon tg-ok" target="_blank" rel="noopener" title="OK">
+                                    <i class="fab fa-odnoklassniki"></i>
+                                </a>
                                 @if($footer->email ?? false)
                                 <a href="mailto:{{ $footer->email }}" class="tg-social-icon tg-email" title="Email">
                                     <i class="fas fa-envelope"></i>

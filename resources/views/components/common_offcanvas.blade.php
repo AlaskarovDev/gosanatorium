@@ -39,11 +39,12 @@
             </a>
             @endif
 
-            @if($phoneClean)
-            <a href="viber://chat?number=%2B{{ $phoneClean }}" target="_blank" title="Viber" class="offcanvas-social-btn offcanvas-viber">
-                <i class="fab fa-viber"></i>
+            <a href="https://vk.com/gosanatorium" target="_blank" rel="noopener" title="VK" class="offcanvas-social-btn offcanvas-vk">
+                <i class="fab fa-vk"></i>
             </a>
-            @endif
+            <a href="https://ok.ru/gosanatorium" target="_blank" rel="noopener" title="OK" class="offcanvas-social-btn offcanvas-ok">
+                <i class="fab fa-odnoklassniki"></i>
+            </a>
 
             @if($footer->email ?? false)
             <a href="mailto:{{ $footer->email }}" title="Email" class="offcanvas-social-btn offcanvas-email">
@@ -82,8 +83,10 @@
     .offcanvas-whatsapp:hover { background: #1da851; }
     .offcanvas-telegram { background: #0088cc; }
     .offcanvas-telegram:hover { background: #006699; }
-    .offcanvas-viber { background: #665CAC; }
-    .offcanvas-viber:hover { background: #54489e; }
+    .offcanvas-vk { background: #4C75A3; }
+    .offcanvas-vk:hover { background: #3b6291; }
+    .offcanvas-ok { background: #EE8208; }
+    .offcanvas-ok:hover { background: #d67205; }
     .offcanvas-email { background: #EA4335; }
     .offcanvas-email:hover { background: #d33426; }
     </style>
