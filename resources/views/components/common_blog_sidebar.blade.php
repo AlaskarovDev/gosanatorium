@@ -73,9 +73,9 @@
   </div>
   <div class="tg-blog-sidebar-tag tg-blog-sidebar-box">
       <h5 class="tg-blog-sidebar-title mb-25">{{ __('translate.Tags') }}</h5>
-      <div class="tg-blog-sidebar-tag-list">
+      <div class="tg-blog-sidebar-tag-list tag-cloud">
           <ul>
-              @foreach ($tags_array as $tag_item)
+              @foreach (array_slice($tags_array, 0, 15) as $tag_item)
               <li><a href="{{ route('blogs', ['search' => $tag_item]) }}">{{ $tag_item }}</a></li>
               @endforeach
           </ul>

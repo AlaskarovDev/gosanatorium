@@ -16,7 +16,7 @@
             @else
                 @foreach ($element as $key => $el)
                     @if ($key == $paginator->currentPage())
-                        <li><a class="p-btn active" href="javascript::void()">{{ $key }}</a></li>
+                        <li><a class="p-btn active" href="{{ $el }}">{{ $key }}</a></li>
                     @else
                         <li><a class="p-btn" href="{{ $el }}">{{ $key }}</a></li>
                     @endif
