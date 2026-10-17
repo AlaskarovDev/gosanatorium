@@ -259,6 +259,15 @@ public function getMinRoomPriceAttribute(): ?float
     }
 
     /**
+     * Diseases this sanatorium treats.
+     */
+    public function diseases(): \Illuminate\Database\Eloquent\Relations\BelongsToMany
+    {
+        return $this->belongsToMany(Disease::class, 'disease_sanatorium', 'sanatorium_id', 'disease_id')
+            ->withTimestamps();
+    }
+
+    /**
      * Get the reviews for this service.
      */
     public function reviews(): HasMany

@@ -13,7 +13,7 @@
 <h4 class="admin-menu__title pt-2">{{ __('translate.Booking Services') }}</h4>
 
 {{-- Booking Services Menu --}}
-<li class="{{ Route::is('admin.tourbooking.services.index') || Route::is('admin.tourbooking.service-types.index') || Route::is('admin.tourbooking.services.by-type') || Route::is('admin.tourbooking.services.tours') || Route::is('admin.tourbooking.services.hotels') || Route::is('admin.tourbooking.services.restaurants') || Route::is('admin.tourbooking.services.rentals') || Route::is('admin.tourbooking.services.activities') || Route::is('admin.tourbooking.amenities.index') ? 'active' : '' }}">
+<li class="{{ Route::is('admin.tourbooking.services.index') || Route::is('admin.tourbooking.service-types.index') || Route::is('admin.tourbooking.services.by-type') || Route::is('admin.tourbooking.services.tours') || Route::is('admin.tourbooking.services.hotels') || Route::is('admin.tourbooking.services.restaurants') || Route::is('admin.tourbooking.services.rentals') || Route::is('admin.tourbooking.services.activities') || Route::is('admin.tourbooking.amenities.index') || Route::is('admin.tourbooking.diseases.*') ? 'active' : '' }}">
     <a href="#!" class="collapsed" data-bs-toggle="collapse" data-bs-target="#menu-item__booking_services_list">
         <span class="menu-bar__text">
             <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -26,7 +26,7 @@
         </span>
         <span class="crancy__toggle"></span>
     </a>
-    <div class="collapse crancy__dropdown {{ Route::is('admin.tourbooking.service-types.index') || Route::is('admin.tourbooking.amenities.index') ? 'show' : '' }}" id="menu-item__booking_services_list" data-bs-parent="#CrancyMenu">
+    <div class="collapse crancy__dropdown {{ Route::is('admin.tourbooking.service-types.index') || Route::is('admin.tourbooking.amenities.index') || Route::is('admin.tourbooking.diseases.*') ? 'show' : '' }}" id="menu-item__booking_services_list" data-bs-parent="#CrancyMenu">
         <ul class="menu-bar__one-dropdown">
             <li>
                 <a href="{{ route('admin.tourbooking.services.index') }}">
@@ -46,6 +46,13 @@
                 <a href="{{ route('admin.tourbooking.amenities.index') }}">
                     <span class="menu-bar__text">
                         <span class="menu-bar__name">{{ __('translate.Amenities') }}</span>
+                    </span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('admin.tourbooking.diseases.index') }}">
+                    <span class="menu-bar__text">
+                        <span class="menu-bar__name">{{ __('translate.Diseases') }}</span>
                     </span>
                 </a>
             </li>

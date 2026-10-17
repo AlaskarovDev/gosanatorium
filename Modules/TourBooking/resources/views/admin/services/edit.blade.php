@@ -1361,6 +1361,23 @@
                                         </div>
                                     </div>
 
+                                    {{-- Diseases assigned to this sanatorium (managed on the disease edit page) --}}
+                                    <div class="col-12 mg-top-30">
+                                        <div class="crancy-product-card">
+                                            <h4 class="crancy-product-card__title">{{ __('translate.Diseases') }}</h4>
+
+                                            <div class="mg-top-30">
+                                                @forelse ($service->diseases as $serviceDisease)
+                                                    <a href="{{ route('admin.tourbooking.diseases.edit', $serviceDisease->id) }}"
+                                                        class="crancy-badge crancy-badge-success">{{ $serviceDisease->name_ru }}</a>
+                                                @empty
+                                                    <span class="text-muted">{{ __('translate.No diseases assigned yet') }}</span>
+                                                @endforelse
+                                                <p class="text-muted mg-top-form-20">{{ __('translate.Assign sanatoriums on the disease edit page') }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
                                     {{-- ==================== ROOMS MANAGEMENT SECTION START ==================== --}}
                                     <div class="col-12 mg-top-30">
                                         <div class="crancy-product-card">

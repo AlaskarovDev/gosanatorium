@@ -17,6 +17,9 @@
 
 @include('components.room-booking-popup')
 
+    {{-- diseases section --}}
+    @include('components.diseases-section')
+
     {{-- about us section --}}
     @include('theme::components.about')
 
