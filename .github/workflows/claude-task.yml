@@ -106,6 +106,14 @@ jobs:
             printf '#!/usr/bin/env bash\necho "scripts/security-check.sh is missing on the base branch"\nexit 1\n' > "$WORK/security-check.sh"
           fi
           chmod +x "$WORK/security-check.sh"
+          # Optional per-project hooks (also taken from the base branch).
+          for hook in taskdesk-setup.sh taskdesk-build.sh; do
+            if git cat-file -e "origin/$BASE_BRANCH:scripts/$hook" 2>/dev/null; then
+              git show "origin/$BASE_BRANCH:scripts/$hook" > "$WORK/$hook"
+              chmod +x "$WORK/$hook"
+              echo "Hook found: scripts/$hook"
+            fi
+          done
 
       - name: Check out the task branch
         run: |
@@ -137,6 +145,20 @@ jobs:
         with:
           node-version: '22'
 
+      # Optional: scripts/taskdesk-setup.sh prepares a test environment (e.g. a database)
+      # so Claude can run migrations and commands. A failure is reported, not fatal.
+      - name: Prepare project environment
+        run: |
+          if [ -x "$WORK/taskdesk-setup.sh" ]; then
+            set +e
+            "$WORK/taskdesk-setup.sh" 2>&1 | tee "$WORK/setup.txt"
+            code=${PIPESTATUS[0]}
+            set -e
+            if [ "$code" -ne 0 ]; then echo "::warning::taskdesk-setup.sh failed ($code); the test environment may be incomplete"; fi
+          else
+            echo "No scripts/taskdesk-setup.sh — nothing to prepare."
+          fi
+
       - name: Run Claude Code
         env:
           CLAUDE_CODE_OAUTH_TOKEN: ${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}
@@ -163,6 +185,16 @@ jobs:
         run: |
           set -euo pipefail
           rm -rf .task-assets
+          # Optional: scripts/taskdesk-build.sh builds assets and verifies the change (e.g. migrations).
+          BUILD_PASSED=true
+          if [ -x "$WORK/taskdesk-build.sh" ]; then
+            set +e
+            "$WORK/taskdesk-build.sh" "origin/$BASE_BRANCH" > "$WORK/build.txt" 2>&1
+            bcode=$?
+            set -e
+            tail -n 80 "$WORK/build.txt"
+            [ "$bcode" -eq 0 ] || BUILD_PASSED=false
+          fi
           git add -A
           if git diff --cached --quiet; then
             echo "NO_CHANGES=true" >> "$GITHUB_ENV"
@@ -175,8 +207,11 @@ jobs:
           "$WORK/security-check.sh" "origin/$BASE_BRANCH" > "$WORK/security.txt" 2>&1
           code=$?
           set -e
+          if [ -f "$WORK/build.txt" ]; then
+            { echo; if [ "$BUILD_PASSED" = true ]; then echo "PASS  build & verification"; else echo "FAIL  build & verification:"; fi; tail -n 25 "$WORK/build.txt"; } >> "$WORK/security.txt"
+          fi
           cat "$WORK/security.txt"
-          if [ $code -eq 0 ]; then echo "SECURITY_PASSED=true" >> "$GITHUB_ENV"; else echo "SECURITY_PASSED=false" >> "$GITHUB_ENV"; fi
+          if [ $code -eq 0 ] && [ "$BUILD_PASSED" = true ]; then echo "SECURITY_PASSED=true" >> "$GITHUB_ENV"; else echo "SECURITY_PASSED=false" >> "$GITHUB_ENV"; fi
           if [ "${NOTHING_ON_BRANCH:-}" != "true" ]; then git push -u origin "$BRANCH"; fi
 
       - name: Open or update the pull request
