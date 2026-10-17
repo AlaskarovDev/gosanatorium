@@ -47,15 +47,23 @@
                                 </a>
                                 @endif
 
-                                {{-- Viber --}}
-                                @if($phoneClean)
-                                <a href="viber://chat?number=%2B{{ $phoneClean }}" 
-                                class="tg-social-icon tg-viber" 
+                                {{-- VK --}}
+                                <a href="https://vk.com/gosanatorium" 
+                                class="tg-social-icon tg-vk" 
                                 target="_blank" 
-                                title="Viber">
-                                    <i class="fab fa-viber"></i>
+                                rel="noopener" 
+                                title="VK">
+                                    <i class="fab fa-vk"></i>
                                 </a>
-                                @endif
+
+                                {{-- OK --}}
+                                <a href="https://ok.ru/gosanatorium" 
+                                class="tg-social-icon tg-ok" 
+                                target="_blank" 
+                                rel="noopener" 
+                                title="OK">
+                                    <i class="fab fa-odnoklassniki"></i>
+                                </a>
 
                                 {{-- Email --}}
                                 @if($footer->email ?? false)
@@ -261,13 +269,13 @@
         background: #3b6291 !important;
     }
 
-    /* Viber */
-    .tg-social-icon.tg-viber {
-        background: #665CAC !important;
+    /* OK (Odnoklassniki) */
+    .tg-social-icon.tg-ok {
+        background: #EE8208 !important;
         color: #fff !important;
     }
-    .tg-social-icon.tg-viber:hover {
-        background: #54489e !important;
+    .tg-social-icon.tg-ok:hover {
+        background: #d67205 !important;
     }
 
     /* Email */
