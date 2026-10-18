@@ -1,8 +1,8 @@
 <!-- WhatsApp Floating Button -->
 <style>
-.wa-float-btn{position:fixed;bottom:28px;right:24px;z-index:9999;display:flex;align-items:center;gap:10px;background:#25D366;color:#fff !important;text-decoration:none !important;font-size:15px;font-weight:700;padding:14px 20px 14px 16px;border-radius:50px;box-shadow:0 4px 20px rgba(37,211,102,.45);transition:transform .2s,box-shadow .2s}
+.wa-float-btn{position:fixed;bottom:100px;right:24px;z-index:9999;display:flex;align-items:center;gap:10px;background:#25D366;color:#fff !important;text-decoration:none !important;font-size:15px;font-weight:700;padding:14px 20px 14px 16px;border-radius:50px;box-shadow:0 4px 20px rgba(37,211,102,.45);transition:transform .2s,box-shadow .2s}
 .wa-float-btn:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(37,211,102,.55)}
-@media (max-width:768px){.wa-float-label{display:none}.wa-float-btn{padding:14px;border-radius:50%;bottom:20px;right:16px}}
+@media (max-width:768px){.wa-float-label{display:none}.wa-float-btn{padding:14px;border-radius:50%;bottom:90px;right:16px}}
 </style>
 <a href="https://wa.me/994519158894?text=%D0%97%D0%B4%D1%80%D0%B0%D0%B2%D1%81%D1%82%D0%B2%D1%83%D0%B9%D1%82%D0%B5!%20%D0%A5%D0%BE%D1%87%D1%83%20%D0%B7%D0%B0%D0%B1%D1%80%D0%BE%D0%BD%D0%B8%D1%80%D0%BE%D0%B2%D0%B0%D1%82%D1%8C%20%D1%81%D0%B0%D0%BD%D0%B0%D1%82%D0%BE%D1%80%D0%B8%D0%B9."
    class="wa-float-btn" target="_blank" rel="noopener" aria-label="WhatsApp">
