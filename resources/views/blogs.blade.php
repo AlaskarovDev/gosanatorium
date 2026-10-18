@@ -7,11 +7,21 @@
     {{-- noindex silindi (istifadəçi istəyi ilə). Canonical saxlanılır ki, search/filter
          səhifələri əsas /blogs-a yönəlsin. --}}
     @if (request()->filled('search') || request()->filled('category'))
-        <link rel="canonical" href="{{ url('blogs') }}" />
+        <link rel="canonical" href="{{ route('blogs') }}" />
+    @elseif(request()->has('page') && request()->page > 1)
+        <link rel="canonical" href="{{ route('blogs') }}?page={{ (int) request()->page }}" />
+    @else
+        <link rel="canonical" href="{{ route('blogs') }}" />
     @endif
 @endsection
 
 @section('front-content')
+    <div class="bl-hero">
+        <div class="bl-hero__inner">
+            <h1 class="bl-hero__title">Полезные статьи о лечении и санаториях</h1>
+            <p class="bl-hero__sub">Советы по выбору курорта, лечению нафталаном и бронированию</p>
+        </div>
+    </div>
     @include('breadcrumb')
     <div class="tg-blog-grid-area pt-130 pb-100">
         <div class="container">
@@ -32,6 +42,10 @@
                                                 <a
                                                     href="{{ route('blog', $blog->slug) }}">{{ $blog?->translate?->title }}</a>
                                             </h2>
+                                            @if ($blog->category?->name)
+                                                <span class="bl-badge">{{ $blog->category->name }}</span>
+                                            @endif
+                                            <span class="bl-readtime">{{ max(1, (int) round(str_word_count(strip_tags((string) ($blog->description ?? ''))) / 200)) }} мин чтения</span>
                                             <div class="tg-blog-standard-date mb-10">
                                                 <span>
                                                     <svg width="16" height="16" viewBox="0 0 16 16" fill="none"
@@ -97,6 +111,19 @@
                                         </div>
                                     </div>
                                 </div>
+                                @if ($loop->iteration == 4)
+                                    <div class="col-12">
+                                        <div class="bl-cta-banner">
+                                            <div class="bl-cta-banner__wrap">
+                                                <div class="bl-cta-banner__text">
+                                                    <strong>Нужна консультация?</strong>
+                                                    <span>Подберём санаторий под ваш диагноз — бесплатно</span>
+                                                </div>
+                                                <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20подобрать%20санаторий." class="bl-cta-banner__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                @endif
                             @empty
                                 <div class="col-12">
                                     <div class="courses_not_found_main">

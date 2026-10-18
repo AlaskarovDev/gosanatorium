@@ -65,20 +65,10 @@
                               stroke="#560CE3" stroke-width="0.977778" stroke-linecap="round"
                               stroke-linejoin="round" />
                       </svg>
-                      {{ $latest_blog->created_at->format('d-m-Y') }}
+                      {{ $latest_blog->created_at->format('d.m.Y') }}
                   </span>
               </div>
           </div>
       @endforeach
-  </div>
-  <div class="tg-blog-sidebar-tag tg-blog-sidebar-box">
-      <h5 class="tg-blog-sidebar-title mb-25">{{ __('translate.Tags') }}</h5>
-      <div class="tg-blog-sidebar-tag-list">
-          <ul>
-              @foreach ($tags_array as $tag_item)
-              <li><a href="{{ route('blogs', ['search' => $tag_item]) }}">{{ $tag_item }}</a></li>
-              @endforeach
-          </ul>
-      </div>
   </div>
 </div>
