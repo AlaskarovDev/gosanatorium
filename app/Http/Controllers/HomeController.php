@@ -25,14 +25,21 @@ use Modules\GlobalSetting\App\Models\GlobalSetting;
 use App\Facades\Theme;
 use Modules\Team\App\Models\Team;
 use Illuminate\Support\Facades\File;
+use App\Traits\UsesSeoMeta;
 
 class HomeController extends Controller
 {
+    use UsesSeoMeta;
 
     public function index(Request $request)
     {
         try {
             $seo_setting = SeoSetting::where('id', 1)->first();
+
+            $this->applySeo('home', [
+                'title'       => 'GoSanatorium — Санатории без предоплаты',
+                'description' => 'Бронируйте санатории в Нафталане, Боржоми, Цхалтубо без предоплаты. Консультация врача бесплатно.',
+            ]);
 
             $breadcrumb_title = trans('translate.Home');
 
@@ -108,11 +115,20 @@ class HomeController extends Controller
 
     public function bezPredoplaty($locale = null)
     {
+        $this->applySeo('bez-predoplaty', [
+            'title'       => 'Бронирование без предоплаты — санатории Нафталана и Грузии',
+            'description' => 'Забронируйте санаторий без предоплаты. Платите только по приезду. Гарантия официальных цен.',
+        ]);
+
         return view('bez-predoplaty');
     }
 
     public function blogs(Request $request)
     {
+        $this->applySeo('blogs', [
+            'title'       => 'Блог о санаториях — советы, цены, маршруты',
+            'description' => 'Полезные статьи о лечении в Нафталане, Боржоми и Цхалтубо. Как добраться, сколько стоит, что взять с собой.',
+        ]);
 
         $page_view = 'blogs';
         $paginate_qty = 9;
@@ -192,6 +208,14 @@ class HomeController extends Controller
 
         $blog->views = $blog->views + 1;
         $blog->save();
+
+        $blogTags = collect(json_decode($blog->tags ?? '[]') ?: [])->pluck('value')->filter()->implode(', ');
+        $this->applySeo('blog-' . $blog->slug, [
+            'title'       => $blog->seo_title ?: $blog->title,
+            'description' => $blog->seo_description ?: strip_tags((string) $blog->short_description),
+            'keywords'    => $blogTags,
+            'image'       => $blog->image ? asset($blog->image) : null,
+        ]);
 
         $blog_comments = BlogComment::where('blog_id', $blog->id)->where('status', 1)->latest()->get();
 

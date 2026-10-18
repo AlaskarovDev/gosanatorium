@@ -20,7 +20,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Site Title -->
-    @yield('title')
+    @include('partials.seo_head')
 
     <!-- Müasir Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
