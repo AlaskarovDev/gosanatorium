@@ -189,6 +189,27 @@
     </div>
     <!-- tg-blog-grid-area-end -->
 
+    @php
+        $articleSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Article',
+            'headline' => (string) ($blog->title ?? ''),
+            'description' => \Illuminate\Support\Str::limit(strip_tags((string) ($blog->description ?? '')), 160),
+            'datePublished' => $blog->created_at ? $blog->created_at->toIso8601String() : '',
+            'dateModified' => $blog->updated_at ? $blog->updated_at->toIso8601String() : '',
+            'author' => ['@type' => 'Organization', 'name' => 'GoSanatorium MMC', 'url' => 'https://gosanatorium.com'],
+            'publisher' => [
+                '@type' => 'Organization',
+                'name' => 'GoSanatorium MMC',
+                'logo' => ['@type' => 'ImageObject', 'url' => asset($general_setting->logo ?? 'images/logo.png')],
+            ],
+            'mainEntityOfPage' => ['@type' => 'WebPage', '@id' => url()->current()],
+        ];
+        if (!empty($blog->image)) {
+            $articleSchema['image'] = asset($blog->image);
+        }
+    @endphp
+    <script type="application/ld+json">{!! json_encode($articleSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
 @endsection
 
 @push('js_section')

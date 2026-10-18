@@ -172,4 +172,12 @@
             </div>
         </div>
     </div>
+    <script type="application/ld+json">{!! json_encode([
+        '@context' => 'https://schema.org',
+        '@type' => 'BreadcrumbList',
+        'itemListElement' => [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Главная', 'item' => route('home')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'Блоги', 'item' => route('blogs')],
+        ],
+    ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
 @endsection
