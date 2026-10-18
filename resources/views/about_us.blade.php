@@ -8,91 +8,79 @@
 
 @section('front-content')
 
-<section class="au-hero">
-  <div class="au-wrap">
-    <div class="au-hero__left">
-      <span class="au-badge">О компании</span>
-      <h1 class="au-h1">Подбираем санаторий<br>под ваш диагноз — бесплатно</h1>
-      <p class="au-p">С 2018 года помогаем жителям России, Казахстана, Узбекистана найти правильный санаторий в Азербайджане и Грузии. Без предоплаты, консультация врача бесплатно.</p>
-      <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20забронировать%20санаторий." class="au-btn-w" target="_blank" rel="noopener">Получить консультацию бесплатно</a>
-    </div>
-    <div class="au-stat-grid">
-      <div class="au-stat-box"><span class="au-stat-num">50+</span><span class="au-stat-lbl">партнёрских санаториев</span></div>
-      <div class="au-stat-box"><span class="au-stat-num">8</span><span class="au-stat-lbl">лет в медицинском туризме</span></div>
-      <div class="au-stat-box"><span class="au-stat-num">1900+</span><span class="au-stat-lbl">отзывов клиентов</span></div>
-      <div class="au-stat-box"><span class="au-stat-num">15+</span><span class="au-stat-lbl">специалистов в команде</span></div>
-    </div>
+{{-- HERO --}}
+<div class="ab-hero">
+  <div class="ab-hero__inner">
+    <h1 class="ab-hero__title">О нас</h1>
+    <p class="ab-hero__sub">GoSanatorium — бесплатный сервис подбора санаториев для жителей СНГ</p>
   </div>
-</section>
+</div>
 
-<section class="au-sec au-sec--white">
-  <div class="au-wrap">
-    <div class="au-sec-head">
-      <span class="au-tag">Почему нам доверяют</span>
-      <h2 class="au-h2">Три причины выбрать GoSanatorium</h2>
-    </div>
-    <div class="au-cards3">
-      <div class="au-win">
-        <div class="au-win__icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a9e87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-        </div>
-        <h3 class="au-win__title">Каждый санаторий проверен лично</h3>
-        <p class="au-win__text">Мы посещаем каждый объект и работаем только с партнёрами, которым доверяем сами.</p>
+{{-- MIDDLE: boxes left + center text + boxes right --}}
+<div class="ab-mid">
+  <div class="ab-mid__wrap">
+
+    {{-- LEFT BOXES --}}
+    <div class="ab-col ab-col--left">
+      <div class="ab-box">
+        <div class="ab-box__icon">🕐</div>
+        <h3 class="ab-box__title">Работаем 24/7</h3>
+        <p class="ab-box__text">На связи до, во время и после поездки. Ответим за 15 минут в любое время.</p>
       </div>
-      <div class="au-win">
-        <div class="au-win__icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a9e87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-        </div>
-        <h3 class="au-win__title">Врач помогает с выбором</h3>
-        <p class="au-win__text">Консультирующий врач подбирает санаторий под ваш диагноз — бесплатно, около 15 минут.</p>
+      <div class="ab-box">
+        <div class="ab-box__icon">🩺</div>
+        <h3 class="ab-box__title">Врач бесплатно</h3>
+        <p class="ab-box__text">Консультирующий врач подбирает санаторий точно под ваш диагноз.</p>
       </div>
-      <div class="au-win">
-        <div class="au-win__icon">
-          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#1a9e87" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-        </div>
-        <h3 class="au-win__title">Поддержка 24/7</h3>
-        <p class="au-win__text">На связи до, во время и после поездки. Ответим в течение 15 минут.</p>
+      <div class="ab-box">
+        <div class="ab-box__icon">✅</div>
+        <h3 class="ab-box__title">Без предоплаты</h3>
+        <p class="ab-box__text">Бронируете бесплатно — платите только по прибытии в санаторий.</p>
       </div>
     </div>
-  </div>
-</section>
 
-<section class="au-sec au-sec--gray">
-  <div class="au-wrap">
-    <div class="au-sec-head">
-      <span class="au-tag">Наша история</span>
-      <h2 class="au-h2">Как появился GoSanatorium</h2>
+    {{-- CENTER TEXT --}}
+    <div class="ab-col ab-col--center">
+      <span class="ab-tag">Кто мы</span>
+      <h2 class="ab-center__title">Помогаем найти<br>правильный санаторий</h2>
+      <p class="ab-center__text">GoSanatorium появился в 2018 году после того, как наши основатели сами прошли лечение в Нафталане. Мы увидели, как сложно людям без медицинских знаний выбрать подходящий санаторий — и решили это изменить.</p>
+      <p class="ab-center__text">Сегодня мы помогаем клиентам из России, Казахстана, Узбекистана и других стран СНГ находить санаторий под их диагноз — бесплатно и с поддержкой на каждом шагу.</p>
+      <div class="ab-stats">
+        <div class="ab-stat"><span class="ab-stat__n">50+</span><span class="ab-stat__l">санаториев</span></div>
+        <div class="ab-stat"><span class="ab-stat__n">8 лет</span><span class="ab-stat__l">на рынке</span></div>
+        <div class="ab-stat"><span class="ab-stat__n">1900+</span><span class="ab-stat__l">отзывов</span></div>
+      </div>
     </div>
-    <div class="au-story-win">
-      <p>GoSanatorium появился в 2018 году — после того, как наши основатели сами прошли лечение в Нафталане. Увидев, как сложно людям без медицинских знаний выбрать правильный санаторий, мы решили это изменить.</p>
-      <p>Сегодня мы помогаем клиентам из России, Казахстана, Узбекистана и других стран СНГ находить санаторий точно под их диагноз — бесплатно, без предоплаты и с поддержкой на каждом шагу.</p>
-    </div>
-  </div>
-</section>
 
-<section class="au-sec au-sec--white">
-  <div class="au-wrap">
-    <div class="au-sec-head">
-      <span class="au-tag">Что мы делаем</span>
-      <h2 class="au-h2">Всё для правильного лечения — в одном месте</h2>
+    {{-- RIGHT BOXES --}}
+    <div class="ab-col ab-col--right">
+      <div class="ab-box">
+        <div class="ab-box__icon">🌍</div>
+        <h3 class="ab-box__title">Страны</h3>
+        <p class="ab-box__text">Работаем с Россией, Казахстаном, Узбекистаном, Беларусью и другими странами СНГ.</p>
+      </div>
+      <div class="ab-box">
+        <div class="ab-box__icon">🏥</div>
+        <h3 class="ab-box__title">Наши курорты</h3>
+        <p class="ab-box__text">Нафталан (Азербайджан), Боржоми, Цхалтубо, Саирме (Грузия).</p>
+      </div>
+      <div class="ab-box">
+        <div class="ab-box__icon">🚗</div>
+        <h3 class="ab-box__title">Трансфер</h3>
+        <p class="ab-box__text">Организуем трансфер от аэропорта до санатория — удобно и без хлопот.</p>
+      </div>
     </div>
-    <div class="au-cards4">
-      <div class="au-win"><span class="au-win__num">01</span><h3 class="au-win__title">Подбор под диагноз</h3><p class="au-win__text">Рассказываете о диагнозе — предлагаем подходящие санатории. Бесплатно, ~15 минут.</p></div>
-      <div class="au-win"><span class="au-win__num">02</span><h3 class="au-win__title">Без предоплаты</h3><p class="au-win__text">Бронируете место — платите по приезду. Без данных карты и скрытых комиссий.</p></div>
-      <div class="au-win"><span class="au-win__num">03</span><h3 class="au-win__title">Трансфер</h3><p class="au-win__text">Поможем организовать трансфер от аэропорта прямо до санатория.</p></div>
-      <div class="au-win"><span class="au-win__num">04</span><h3 class="au-win__title">Без визы для СНГ</h3><p class="au-win__text">Гражданам России, Казахстана, Узбекистана виза в Азербайджан и Грузию не нужна.</p></div>
-    </div>
-  </div>
-</section>
 
-<section class="au-cta-sec">
-  <div class="au-wrap au-cta-flex">
-    <div>
-      <h2 class="au-cta-h2">Готовы подобрать санаторий под ваш диагноз?</h2>
-      <p class="au-cta-p">Ответим в течение 15 минут и подберём варианты бесплатно.</p>
-    </div>
-    <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20забронировать%20санаторий." class="au-btn-w" target="_blank" rel="noopener">Написать в WhatsApp</a>
   </div>
-</section>
+</div>
+
+{{-- CTA --}}
+<div class="ab-cta">
+  <div class="ab-cta__wrap">
+    <h2 class="ab-cta__title">Готовы подобрать санаторий под ваш диагноз?</h2>
+    <p class="ab-cta__sub">Ответим в течение 15 минут — бесплатно.</p>
+    <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20забронировать%20санаторий." class="ab-cta__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
+  </div>
+</div>
 
 @endsection
