@@ -175,8 +175,14 @@ jobs:
           # All tools allowed (shell, web). The one project rule — never expose source code —
           # is in CLAUDE.md and checked afterwards by scripts/security-check.sh.
           claude -p "$PROMPT" --permission-mode bypassPermissions \
-            --max-turns 150 --output-format json > "$WORK/claude.json"
-          jq -r '.result // ""' "$WORK/claude.json" > "$WORK/summary.txt"
+            --max-turns 150 --output-format stream-json --verbose > "$WORK/claude.jsonl"
+          jq -c 'select(.type == "result")' "$WORK/claude.jsonl" | tail -n 1 > "$WORK/claude.json"
+          [ -s "$WORK/claude.json" ] || echo '{"is_error": true, "result": "Claude Code ended without a result."}' > "$WORK/claude.json"
+          # The report is the last message with "## Summary": a late follow-up (e.g. after a background
+          # command finished) must not replace it.
+          jq -rs '[.[] | select(.type == "assistant") | .message.content[]? | select(.type == "text") | .text
+                   | select(test("## Summary"))] | last // empty' "$WORK/claude.jsonl" > "$WORK/summary.txt"
+          [ -s "$WORK/summary.txt" ] || jq -r '.result // ""' "$WORK/claude.json" > "$WORK/summary.txt"
           echo "::group::Claude result ($(jq -r '"\(.subtype // "?") · \(.num_turns // "?") turns"' "$WORK/claude.json"))"
           cat "$WORK/summary.txt"
           echo "::endgroup::"
