@@ -9,9 +9,6 @@
     {{-- köhnə slider-ə qayıtmaq üçün: @include('theme::components.slider') + @include('theme::components.booking-form') --}}
     @include('theme::components.hero-search')
 
-    {{-- trust bar --}}
-    @include('theme::components.trust-bar')
-
     @include('components.features')
     @include('theme::components.statistics')
 
