@@ -31,7 +31,7 @@
 @push('style_section')
 <style>
 .bp-hero,.bp-cta{background:#1a5c36;color:#fff;padding:60px 20px;text-align:center;width:100%}
-.bp-hero{padding:120px 16px 48px 16px}
+.bp-hero{padding:120px 16px 48px 16px;background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 50%,#17b09a 100%) !important}
 .bp-hero h1{font-size:32px}
 .bp-hero h1,.bp-cta h2{color:#fff;margin-bottom:12px}
 .bp-hero p,.bp-cta p{color:#fff;font-size:18px;margin-bottom:24px}
