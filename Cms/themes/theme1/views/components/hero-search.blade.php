@@ -18,24 +18,9 @@
         <div class="tg-hero-static-overlay"></div>
 
         @php $hero_ru = app()->getLocale() === 'ru'; @endphp
-        <div class="hero-headline p-relative z-index-1">
-            <div class="hero-badge">{{ $hero_ru ? '🏥 Санатории Нафталана и Грузии' : '🏥 Sanatoriums of Naftalan and Georgia' }}</div>
-            <h1 class="hero-title">{{ $hero_ru ? 'Лечение и отдых в лучших санаториях' : 'Treatment and rest in the best sanatoriums' }}</h1>
-            <p class="hero-subtitle">
-                @if ($hero_ru)
-                    Нафталан · Саирме · Боржоми · Цхалтубо — бронируйте без предоплаты,<br>
-                    оплачивайте по прибытии. Более 500 довольных гостей.
-                @else
-                    Naftalan · Sairme · Borjomi · Tskaltubo — book with no prepayment,<br>
-                    pay on arrival. Over 500 happy guests.
-                @endif
-            </p>
-            <div class="hero-trust">
-                <span>✓ {{ $hero_ru ? 'Без предоплаты' : 'No prepayment' }}</span>
-                <span>✓ {{ $hero_ru ? 'Бесплатная отмена' : 'Free cancellation' }}</span>
-                <span>✓ {{ $hero_ru ? 'Официальные договоры' : 'Official contracts' }}</span>
-                <span>✓ {{ $hero_ru ? 'Поддержка 9:00–21:00' : 'Support 9:00–21:00' }}</span>
-            </div>
+        <div class="hero-headline hero-text-block p-relative z-index-1">
+            <h1 class="hero-title">{{ $hero_ru ? 'Забронируйте санаторий — оплатите по прибытии' : 'Book a sanatorium — pay on arrival' }}</h1>
+            <p class="hero-subtitle">{{ $hero_ru ? 'Нафталан · Боржоми · Цхалтубо · Саирме — бронирование бесплатно, консультация врача бесплатно' : 'Naftalan · Borjomi · Tskaltubo · Sairme — free booking, free doctor consultation' }}</p>
         </div>
 
         {{-- Axtarış forması (bütün seçimlər) — minimalist pill görünüşündə --}}
@@ -61,7 +46,7 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background: linear-gradient(135deg, #0d3d24 0%, #1a5c36 50%, #2d8a55 100%);
+        background: linear-gradient(135deg, #0d6e5e 0%, #1a9e87 50%, #0f8c74 100%);
         padding-top: 165px;    /* header + formanı bir az aşağı sal */
         padding-bottom: 60px;
         overflow: visible;
@@ -69,8 +54,8 @@
     .tg-hero-static-form { width: 100%; }
     .tg-hero-static .hero-headline { text-align: center; color: #fff; margin-bottom: 32px; max-width: 780px; padding: 0 16px; }
     .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 13px; padding: 6px 16px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.5px; }
-    .tg-hero-static .hero-title { font-size: 42px !important; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
-    .tg-hero-static .hero-subtitle { font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.88); margin-bottom: 20px; }
+    .tg-hero-static .hero-title { font-size: 38px !important; font-weight: 800; line-height: 1.2; margin-bottom: 10px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.25); }
+    .tg-hero-static .hero-subtitle { font-size: 18px; line-height: 1.5; color: rgba(255,255,255,0.92); margin-bottom: 0; }
     .hero-trust { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
     .hero-trust span { font-size: 14px; color: rgba(255,255,255,0.9); font-weight: 500; }
     @media (max-width: 768px) {
