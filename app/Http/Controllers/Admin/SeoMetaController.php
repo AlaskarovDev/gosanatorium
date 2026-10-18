@@ -5,11 +5,33 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\SeoMeta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\Validation\Rule;
 
 class SeoMetaController extends Controller
 {
     private const ROBOTS = ['index,follow', 'noindex,nofollow', 'index,nofollow'];
+
+    public function __construct()
+    {
+        // The server does not run migrations automatically: create the table on first use
+        // so the SEO section never fails with "Table seo_meta doesn't exist".
+        if (!Schema::hasTable('seo_meta')) {
+            Schema::create('seo_meta', function ($table) {
+                $table->id();
+                $table->string('page_key')->unique();
+                $table->string('seo_title')->nullable();
+                $table->string('seo_description', 500)->nullable();
+                $table->string('seo_keywords')->nullable();
+                $table->string('og_title')->nullable();
+                $table->string('og_description', 500)->nullable();
+                $table->string('og_image')->nullable();
+                $table->string('canonical_url')->nullable();
+                $table->enum('robots', ['index,follow', 'noindex,nofollow', 'index,nofollow'])->default('index,follow');
+                $table->timestamps();
+            });
+        }
+    }
 
     public function index()
     {
@@ -51,6 +73,13 @@ class SeoMetaController extends Controller
         $seo->update($data);
 
         return redirect()->route('admin.seo.index')->with(['message' => __('translate.Updated successfully'), 'alert-type' => 'success']);
+    }
+
+    public function destroy($id)
+    {
+        SeoMeta::findOrFail($id)->delete();
+
+        return redirect()->route('admin.seo.index')->with(['message' => __('translate.Deleted successfully'), 'alert-type' => 'success']);
     }
 
     private function rules(): array

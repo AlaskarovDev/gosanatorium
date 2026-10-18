@@ -50,6 +50,11 @@
                                                         </td>
                                                         <td class="crancy-table__column-3 crancy-table__data-3">
                                                             <a href="{{ route('admin.seo.edit', $item->id) }}" class="crancy-btn crancy-btn__success"><i class="fas fa-edit"></i> Edit</a>
+                                                            <form action="{{ route('admin.seo.destroy', $item->id) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete?')">
+                                                                @csrf
+                                                                @method('DELETE')
+                                                                <button type="submit" class="crancy-btn crancy-btn__danger"><i class="fas fa-trash"></i> Delete</button>
+                                                            </form>
                                                         </td>
                                                     </tr>
                                                 @endforeach
