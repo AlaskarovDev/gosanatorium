@@ -31,6 +31,7 @@
 @push('style_section')
 <style>
 .bp-hero,.bp-cta{background:#1a5c36;color:#fff;padding:60px 20px;text-align:center;width:100%}
+.bp-hero{padding-top:80px}
 .bp-hero h1,.bp-cta h2{color:#fff;margin-bottom:12px}
 .bp-hero p,.bp-cta p{color:#fff;font-size:18px;margin-bottom:24px}
 .bp-btn{display:inline-block;background:#2ea35f;color:#fff;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none}
