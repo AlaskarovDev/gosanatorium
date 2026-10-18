@@ -36,9 +36,9 @@
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/odometer.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/default.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/main.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/css/dev.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/dev.css') }}?v={{ @filemtime(public_path('frontend/assets/css/dev.css')) }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/cookie_consent.css') }}">
-    <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom.css') }}">
+    <link rel="stylesheet" href="{{ asset('frontend/assets/css/custom.css') }}?v={{ @filemtime(public_path('frontend/assets/css/custom.css')) }}">
 
     <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
 
