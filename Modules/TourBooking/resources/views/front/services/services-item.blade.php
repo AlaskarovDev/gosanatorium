@@ -87,8 +87,6 @@
                                     </a>
                                 </div>
                             </div>
-                            <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}"
-                                class="card-book-btn">{{ app()->getLocale() === 'ru' ? 'Забронировать' : 'Book now' }}</a>
                         </div>
                     </div>
                 </div>

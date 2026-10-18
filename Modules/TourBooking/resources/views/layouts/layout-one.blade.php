@@ -338,7 +338,6 @@
     </footer>
     <!-- footer-area-end -->
 
-    @include('components.front.tawk-status')
 
     @include('components.front.cookie-consent')
 
