@@ -46,7 +46,7 @@
                                                     stroke="#560CE3" stroke-width="0.977778" stroke-linecap="round"
                                                     stroke-linejoin="round" />
                                             </svg>
-                                            {{ $blog->created_at->format('d M, Y') }}
+                                            {{ $blog->created_at->format('d.m.Y') }}
                                         </span>
                                         <span>
                                             <svg width="18" height="14" xmlns="http://www.w3.org/2000/svg"

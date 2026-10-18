@@ -157,7 +157,7 @@ class HomeController extends Controller
             });
         }
 
-        $blogs = $blogs->paginate($paginate_qty);
+        $blogs = $blogs->with('category')->paginate($paginate_qty)->withPath(route('blogs'));
 
         // Axtarış nəticəsi boşdursa (məs. Google-dan gələn köhnə/yanlış URL),
         // boş səhifə əvəzinə bütün bloqları göstər
@@ -166,7 +166,7 @@ class HomeController extends Controller
             if ($request->category) {
                 $fallbackQuery->where('blog_category_id', $request->category);
             }
-            $blogs = $fallbackQuery->paginate($paginate_qty);
+            $blogs = $fallbackQuery->with('category')->paginate($paginate_qty)->withPath(route('blogs'));
             session()->flash('search_no_results', $request->search);
         }
 
