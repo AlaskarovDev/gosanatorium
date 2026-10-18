@@ -871,3 +871,25 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 @media(max-width:991px){.au-cards4{grid-template-columns:1fr 1fr}}
 @media(max-width:900px){.au-hero .au-wrap,.au-two-col{grid-template-columns:1fr;gap:32px}.au-hero__h1{font-size:30px}.au-cta-inner{flex-direction:column;text-align:center;padding:32px 20px}}
 @media(max-width:600px){section.au-hero{padding:56px 16px}.au-hero__h1{font-size:25px}.au-sec{padding:48px 16px}.au-h2,.au-cta-h2{font-size:23px}.au-cards4{grid-template-columns:1fr}.au-stat-num{font-size:30px}.au-btn-white{width:100%}}
+
+/* About us page v3 (task #71) — card/window layout */
+.au-h1{font-size:38px;font-weight:800;line-height:1.2;color:#fff;margin:0 0 16px}
+.au-hero .au-p{font-size:17px;color:rgba(255,255,255,.9);margin:0 0 28px}
+.au-btn-w{display:inline-block;background:#fff;color:#14706a!important;font-size:16px;font-weight:700;padding:14px 30px;border-radius:50px;text-decoration:none!important;box-shadow:0 4px 16px rgba(0,0,0,.15);transition:transform .2s;text-align:center}
+.au-btn-w:hover{transform:translateY(-2px)}
+.au-tag{display:inline-block;font-size:12px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1a9e87;background:#e8f5f2;border:1px solid #bfe5dc;padding:5px 14px;border-radius:50px;margin-bottom:16px}
+.au-cards3{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.au-win{background:#fff;border:1px solid #cfe6e1;border-radius:18px;padding:28px 24px;box-shadow:0 4px 16px rgba(26,158,135,.08);transition:box-shadow .2s,transform .2s}
+.au-win:hover{box-shadow:0 8px 24px rgba(26,158,135,.16);transform:translateY(-3px)}
+.au-win__icon{width:52px;height:52px;border-radius:14px;background:#e8f5f2;display:flex;align-items:center;justify-content:center;margin-bottom:16px}
+.au-win__num{display:block;font-size:30px;font-weight:800;color:#1a9e87;opacity:.4;line-height:1;margin-bottom:14px}
+.au-win__title{font-size:17px;font-weight:700;color:#1a1a2e;margin:0 0 8px}
+.au-win__text{font-size:14px;line-height:1.6;color:#6b7280;margin:0}
+.au-story-win{max-width:820px;margin:0 auto;background:#fff;border:1px solid #cfe6e1;border-left:4px solid #1a9e87;border-radius:18px;padding:32px 36px;box-shadow:0 4px 16px rgba(26,158,135,.08)}
+.au-story-win p{font-size:16px;line-height:1.75;color:#4b5563;margin:0 0 16px}
+.au-story-win p:last-child{margin-bottom:0}
+.au-cta-flex{display:flex;align-items:center;justify-content:space-between;gap:32px;border:1px solid rgba(255,255,255,.25);border-radius:20px;padding:40px;background:rgba(255,255,255,.06)}
+.au-cta-flex .au-btn-w{flex-shrink:0}
+@media(max-width:991px){.au-cards3{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){.au-h1{font-size:30px}.au-cta-flex{flex-direction:column;text-align:center;padding:32px 20px}}
+@media(max-width:600px){.au-h1{font-size:25px}.au-cards3{grid-template-columns:1fr}.au-btn-w{width:100%}.au-story-win{padding:24px 20px}}
