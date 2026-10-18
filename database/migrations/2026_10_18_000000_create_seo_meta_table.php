@@ -8,6 +8,10 @@ return new class extends Migration
 {
     public function up(): void
     {
+        if (Schema::hasTable('seo_meta')) {
+            return;
+        }
+
         Schema::create('seo_meta', function (Blueprint $table) {
             $table->id();
             $table->string('page_key')->unique();

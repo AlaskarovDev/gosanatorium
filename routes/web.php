@@ -198,7 +198,7 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
         });
 
         // SEO management (title, description, Open Graph, robots per page)
-        Route::resource('seo', App\Http\Controllers\Admin\SeoMetaController::class)->except(['show', 'destroy']);
+        Route::resource('seo', App\Http\Controllers\Admin\SeoMetaController::class)->except(['show']);
 
         // Menu Management System
         Route::controller(App\Http\Controllers\Admin\MenuController::class)->group(function () {
