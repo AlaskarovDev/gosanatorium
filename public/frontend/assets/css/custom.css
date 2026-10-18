@@ -800,3 +800,59 @@ ul.tourex-tabs-menu li {
   .ab-cta__title{font-size:22px}
 }
 /* === END ABOUT US v3 === */
+
+/* ===== Contact page (ct-) ===== */
+.ct-hero{background:linear-gradient(135deg,#0d6e6e,#14a3a3);color:#fff;padding:70px 20px;text-align:center}
+.ct-hero__title{color:#fff;font-size:40px;margin-bottom:12px}
+.ct-hero__sub{font-size:18px;max-width:640px;margin:0 auto;opacity:.95}
+.ct-channels{padding:50px 20px 20px}
+.ct-channels__wrap,.ct-consultant__wrap,.ct-offices__wrap,.ct-form-section__wrap,.ct-cta__wrap{max-width:1200px;margin:0 auto}
+.ct-channels__wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.ct-card{background:#fff;border:1px solid #e6ecec;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.05)}
+.ct-card__icon{font-size:36px;margin-bottom:10px}
+.ct-card__title{font-size:18px;margin-bottom:6px}
+.ct-card__text{color:#667;margin-bottom:16px}
+.ct-card__btn{display:inline-block;padding:10px 24px;border-radius:30px;color:#fff;font-weight:600}
+.ct-card__btn--green{background:#25d366}.ct-card__btn--blue{background:#229ed9}.ct-card__btn--teal{background:#0d8a8a}
+.ct-card__btn:hover{color:#fff;opacity:.9}
+.ct-consultant{padding:20px}
+.ct-consultant__wrap{display:flex;align-items:center;gap:24px;background:#eef8f8;border-radius:16px;padding:28px 32px}
+.ct-consultant__avatar{font-size:48px;width:84px;height:84px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.ct-consultant__text{flex:1}
+.ct-consultant__name{font-weight:700;font-size:18px;margin-bottom:4px}
+.ct-consultant__desc{margin:0;color:#556}
+.ct-consultant__btn{background:#0d8a8a;color:#fff;padding:12px 28px;border-radius:30px;font-weight:600;white-space:nowrap}
+.ct-consultant__btn:hover{color:#fff;opacity:.9}
+.ct-offices{padding:40px 20px}
+.ct-offices__wrap{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+.ct-offices__title{font-size:28px;margin-bottom:20px}
+.ct-office{display:flex;gap:16px;align-items:flex-start}
+.ct-office--mt{margin-top:22px}
+.ct-office__flag{font-size:36px}
+.ct-office__city{margin-bottom:6px}
+.ct-office__detail{margin:0 0 4px;color:#556}
+.ct-social{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.ct-social__label{margin:0;font-weight:600}
+.ct-social__link{padding:6px 16px;border:1px solid #0d8a8a;border-radius:20px;color:#0d8a8a}
+.ct-offices__map{min-height:340px;border-radius:16px;overflow:hidden;border:1px solid #e6ecec}
+.ct-offices__map iframe{display:block;width:100%;height:100%;min-height:340px}
+.ct-form-section{background:#f5f9f9;padding:60px 20px}
+.ct-form-section__wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
+.ct-form-section__title{font-size:30px;margin-bottom:12px}
+.ct-form-section__sub{color:#556;margin-bottom:18px}
+.ct-form-section__list{list-style:none;padding:0;margin:0}
+.ct-form-section__list li{margin-bottom:8px;font-weight:500}
+.ct-form{background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 18px rgba(0,0,0,.06)}
+.ct-form__row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.ct-form__field{margin-bottom:16px}
+.ct-form__label{display:block;font-weight:600;margin-bottom:6px;font-size:14px}
+.ct-form__input,.ct-form__textarea{width:100%;padding:12px 14px;border:1px solid #d5dede;border-radius:10px;font-size:15px}
+.ct-form__input:focus,.ct-form__textarea:focus{outline:none;border-color:#0d8a8a}
+.ct-form__submit{width:100%;background:#0d8a8a;color:#fff;border:0;border-radius:30px;padding:14px;font-weight:700;font-size:16px;cursor:pointer}
+.ct-form__submit:disabled{opacity:.6}
+.ct-cta{background:#25d366;color:#fff;padding:55px 20px;text-align:center}
+.ct-cta__title{color:#fff;margin-bottom:8px}
+.ct-cta__sub{margin-bottom:20px}
+.ct-cta__btn{display:inline-block;background:#fff;color:#128c4a;padding:13px 32px;border-radius:30px;font-weight:700}
+@media(max-width:991px){.ct-channels__wrap{grid-template-columns:repeat(2,1fr)}.ct-offices__wrap,.ct-form-section__wrap{grid-template-columns:1fr}.ct-consultant__wrap{flex-direction:column;text-align:center}}
+@media(max-width:575px){.ct-channels__wrap,.ct-form__row{grid-template-columns:1fr}.ct-hero__title{font-size:30px}}
