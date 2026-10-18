@@ -801,58 +801,90 @@ ul.tourex-tabs-menu li {
 }
 /* === END ABOUT US v3 === */
 
-/* ===== Contact page (ct-) ===== */
-.ct-hero{background:linear-gradient(135deg,#0d6e6e,#14a3a3);color:#fff;padding:70px 20px;text-align:center}
-.ct-hero__title{color:#fff;font-size:40px;margin-bottom:12px}
-.ct-hero__sub{font-size:18px;max-width:640px;margin:0 auto;opacity:.95}
-.ct-channels{padding:50px 20px 20px}
-.ct-channels__wrap,.ct-consultant__wrap,.ct-offices__wrap,.ct-form-section__wrap,.ct-cta__wrap{max-width:1200px;margin:0 auto}
-.ct-channels__wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.ct-card{background:#fff;border:1px solid #e6ecec;border-radius:16px;padding:28px 20px;text-align:center;box-shadow:0 4px 18px rgba(0,0,0,.05)}
-.ct-card__icon{font-size:36px;margin-bottom:10px}
-.ct-card__title{font-size:18px;margin-bottom:6px}
-.ct-card__text{color:#667;margin-bottom:16px}
-.ct-card__btn{display:inline-block;padding:10px 24px;border-radius:30px;color:#fff;font-weight:600}
-.ct-card__btn--green{background:#25d366}.ct-card__btn--blue{background:#229ed9}.ct-card__btn--teal{background:#0d8a8a}
-.ct-card__btn:hover{color:#fff;opacity:.9}
-.ct-consultant{padding:20px}
-.ct-consultant__wrap{display:flex;align-items:center;gap:24px;background:#eef8f8;border-radius:16px;padding:28px 32px}
-.ct-consultant__avatar{font-size:48px;width:84px;height:84px;border-radius:50%;background:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.ct-consultant__text{flex:1}
-.ct-consultant__name{font-weight:700;font-size:18px;margin-bottom:4px}
-.ct-consultant__desc{margin:0;color:#556}
-.ct-consultant__btn{background:#0d8a8a;color:#fff;padding:12px 28px;border-radius:30px;font-weight:600;white-space:nowrap}
-.ct-consultant__btn:hover{color:#fff;opacity:.9}
-.ct-offices{padding:40px 20px}
-.ct-offices__wrap{display:grid;grid-template-columns:1fr 1fr;gap:30px}
-.ct-offices__title{font-size:28px;margin-bottom:20px}
+/* === CONTACT US PAGE === */
+.ct-hero{background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 50%,#17b09a 100%);padding:100px 24px 80px;text-align:center}
+.ct-hero__inner{max-width:680px;margin:0 auto}
+.ct-hero__title{font-size:48px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:14px;letter-spacing:-1px}
+.ct-hero__sub{font-size:18px;color:rgba(255,255,255,.88);line-height:1.6;margin:0}
+
+.ct-channels{background:#f4faf9;padding:56px 24px}
+.ct-channels__wrap{max-width:1060px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.ct-card{background:#fff;border:1px solid #d8ede8;border-radius:20px;padding:28px 20px;text-align:center;box-shadow:0 2px 12px rgba(26,158,135,.07);display:flex;flex-direction:column;align-items:center;gap:10px}
+.ct-card__icon{font-size:34px}
+.ct-card__title{font-size:15px;font-weight:700;color:#1a1a2e;margin:0}
+.ct-card__text{font-size:13px;color:#6b7280;margin:0;line-height:1.5}
+.ct-card__btn{display:inline-block;padding:10px 24px;border-radius:50px;font-size:13px;font-weight:700;text-decoration:none!important;margin-top:6px;transition:transform .2s,box-shadow .2s}
+.ct-card__btn:hover{transform:translateY(-2px);box-shadow:0 4px 14px rgba(0,0,0,.12)}
+.ct-card__btn--green{background:#25D366;color:#fff!important}
+.ct-card__btn--blue{background:#229ED9;color:#fff!important}
+.ct-card__btn--teal{background:linear-gradient(135deg,#1a9e87,#2ec4a9);color:#fff!important}
+
+.ct-consultant{background:#e8f7f2;padding:32px 24px;border-top:1px solid #c5e8de;border-bottom:1px solid #c5e8de}
+.ct-consultant__wrap{max-width:900px;margin:0 auto;display:flex;align-items:center;gap:24px;flex-wrap:wrap}
+.ct-consultant__avatar{font-size:52px;flex-shrink:0}
+.ct-consultant__text{flex:1;min-width:200px}
+.ct-consultant__name{font-size:16px;font-weight:700;color:#1a1a2e;margin-bottom:4px}
+.ct-consultant__desc{font-size:14px;color:#4b5563;line-height:1.6;margin:0}
+.ct-consultant__btn{display:inline-block;background:linear-gradient(135deg,#1a9e87,#2ec4a9);color:#fff!important;font-size:14px;font-weight:700;padding:12px 28px;border-radius:50px;text-decoration:none!important;white-space:nowrap;transition:transform .2s}
+.ct-consultant__btn:hover{transform:translateY(-2px)}
+
+.ct-offices{background:#fff;padding:64px 24px}
+.ct-offices__wrap{max-width:1100px;margin:0 auto;display:grid;grid-template-columns:1fr 1.2fr;gap:48px;align-items:start}
+.ct-offices__title{font-size:24px;font-weight:800;color:#1a1a2e;margin-bottom:28px}
 .ct-office{display:flex;gap:16px;align-items:flex-start}
-.ct-office--mt{margin-top:22px}
-.ct-office__flag{font-size:36px}
-.ct-office__city{margin-bottom:6px}
-.ct-office__detail{margin:0 0 4px;color:#556}
-.ct-social{margin-top:24px;display:flex;flex-wrap:wrap;gap:10px;align-items:center}
-.ct-social__label{margin:0;font-weight:600}
-.ct-social__link{padding:6px 16px;border:1px solid #0d8a8a;border-radius:20px;color:#0d8a8a}
-.ct-offices__map{min-height:340px;border-radius:16px;overflow:hidden;border:1px solid #e6ecec}
-.ct-offices__map iframe{display:block;width:100%;height:100%;min-height:340px}
-.ct-form-section{background:#f5f9f9;padding:60px 20px}
-.ct-form-section__wrap{display:grid;grid-template-columns:1fr 1.2fr;gap:40px;align-items:start}
-.ct-form-section__title{font-size:30px;margin-bottom:12px}
-.ct-form-section__sub{color:#556;margin-bottom:18px}
-.ct-form-section__list{list-style:none;padding:0;margin:0}
-.ct-form-section__list li{margin-bottom:8px;font-weight:500}
-.ct-form{background:#fff;border-radius:16px;padding:30px;box-shadow:0 4px 18px rgba(0,0,0,.06)}
+.ct-office--mt{margin-top:28px;padding-top:28px;border-top:1px solid #e8f5f1}
+.ct-office__flag{font-size:30px;flex-shrink:0}
+.ct-office__city{font-size:15px;font-weight:700;color:#1a1a2e;margin:0 0 6px}
+.ct-office__detail{font-size:13px;color:#4b5563;margin:0 0 4px;line-height:1.5}
+.ct-office__detail a{color:#1a9e87;text-decoration:none;font-weight:600}
+.ct-social{margin-top:24px;padding-top:20px;border-top:1px solid #e8f5f1}
+.ct-social__label{font-size:12px;color:#6b7280;margin-bottom:10px;font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+.ct-social__link{display:inline-block;margin-right:8px;padding:6px 16px;border-radius:50px;background:#f0faf6;color:#1a9e87!important;font-size:13px;font-weight:700;text-decoration:none!important;border:1px solid #c5e8de;transition:background .2s}
+.ct-social__link:hover{background:#d4f0e8}
+.ct-offices__map{height:360px;border-radius:20px;overflow:hidden;box-shadow:0 4px 20px rgba(0,0,0,.08)}
+.ct-offices__map iframe{display:block;width:100%;height:100%}
+
+.ct-form-section{background:#f4faf9;padding:64px 24px}
+.ct-form-section__wrap{max-width:1000px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:48px;align-items:start}
+.ct-form-section__title{font-size:24px;font-weight:800;color:#1a1a2e;margin-bottom:12px}
+.ct-form-section__sub{font-size:15px;color:#4b5563;line-height:1.7;margin-bottom:20px}
+.ct-form-section__list{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:10px}
+.ct-form-section__list li{font-size:14px;color:#1a9e87;font-weight:600}
+.ct-form{background:#fff;border-radius:20px;padding:32px;box-shadow:0 4px 20px rgba(26,158,135,.08)}
 .ct-form__row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-.ct-form__field{margin-bottom:16px}
-.ct-form__label{display:block;font-weight:600;margin-bottom:6px;font-size:14px}
-.ct-form__input,.ct-form__textarea{width:100%;padding:12px 14px;border:1px solid #d5dede;border-radius:10px;font-size:15px}
-.ct-form__input:focus,.ct-form__textarea:focus{outline:none;border-color:#0d8a8a}
-.ct-form__submit{width:100%;background:#0d8a8a;color:#fff;border:0;border-radius:30px;padding:14px;font-weight:700;font-size:16px;cursor:pointer}
-.ct-form__submit:disabled{opacity:.6}
-.ct-cta{background:#25d366;color:#fff;padding:55px 20px;text-align:center}
-.ct-cta__title{color:#fff;margin-bottom:8px}
-.ct-cta__sub{margin-bottom:20px}
-.ct-cta__btn{display:inline-block;background:#fff;color:#128c4a;padding:13px 32px;border-radius:30px;font-weight:700}
-@media(max-width:991px){.ct-channels__wrap{grid-template-columns:repeat(2,1fr)}.ct-offices__wrap,.ct-form-section__wrap{grid-template-columns:1fr}.ct-consultant__wrap{flex-direction:column;text-align:center}}
-@media(max-width:575px){.ct-channels__wrap,.ct-form__row{grid-template-columns:1fr}.ct-hero__title{font-size:30px}}
+.ct-form__field{display:flex;flex-direction:column;gap:6px;margin-bottom:16px}
+.ct-form__label{font-size:13px;font-weight:600;color:#374151}
+.ct-form__input,.ct-form__textarea{padding:11px 14px;border:1.5px solid #d1e9e3;border-radius:10px;font-size:14px;color:#1a1a2e;outline:none;transition:border-color .2s;font-family:inherit;background:#fff}
+.ct-form__input:focus,.ct-form__textarea:focus{border-color:#1a9e87;box-shadow:0 0 0 3px rgba(26,158,135,.08)}
+.ct-form__textarea{resize:vertical}
+.ct-form__submit{width:100%;padding:14px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);color:#fff;border:none;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;letter-spacing:.3px;transition:transform .2s,box-shadow .2s}
+.ct-form__submit:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(26,158,135,.3)}
+.ct-form__submit:disabled{opacity:.6;transform:none;box-shadow:none}
+
+.ct-cta{background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 100%);padding:64px 24px;text-align:center}
+.ct-cta__wrap{max-width:560px;margin:0 auto}
+.ct-cta__title{font-size:26px;font-weight:800;color:#fff;margin-bottom:10px}
+.ct-cta__sub{font-size:16px;color:rgba(255,255,255,.88);margin-bottom:28px}
+.ct-cta__btn{display:inline-block;background:#fff;color:#1a9e87!important;font-size:15px;font-weight:700;padding:14px 36px;border-radius:50px;text-decoration:none!important;box-shadow:0 4px 16px rgba(0,0,0,.12);transition:transform .2s}
+.ct-cta__btn:hover{transform:translateY(-2px)}
+
+@media(max-width:960px){
+  .ct-channels__wrap{grid-template-columns:1fr 1fr}
+  .ct-offices__wrap{grid-template-columns:1fr}
+  .ct-offices__map{height:280px}
+  .ct-form-section__wrap{grid-template-columns:1fr}
+  .ct-hero__title{font-size:36px}
+  .ct-consultant__wrap{flex-direction:column;text-align:center}
+}
+@media(max-width:600px){
+  .ct-channels__wrap{grid-template-columns:1fr}
+  .ct-hero{padding:72px 20px 56px}
+  .ct-hero__title{font-size:28px}
+  .ct-hero__sub{font-size:15px}
+  .ct-form__row{grid-template-columns:1fr}
+  .ct-form{padding:22px 16px}
+  .ct-offices{padding:40px 16px}
+  .ct-form-section{padding:40px 16px}
+  .ct-cta__title{font-size:22px}
+}
+/* === END CONTACT US PAGE === */
