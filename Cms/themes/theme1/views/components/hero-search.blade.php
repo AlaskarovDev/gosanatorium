@@ -9,29 +9,34 @@
     $translatedSlides = getTranslatedSlides($home1_hero_section, 'slides');
     $hero_bg = count($translatedSlides) > 0 ? ($translatedSlides[0]['background_image'] ?? null) : null;
 
-    // Fon videosu — MP4 faylını bu yola yüklə: public/frontend/assets/video/hero-bg.mp4
-    // Fayl varsa video (səssiz) oynayır, yoxdursa avtomatik olaraq şəkil fona qayıdır.
-    $hero_video_path = 'frontend/assets/video/hero-bg.mp4';
-    // Versiya (fayl dəyişmə vaxtı) — köhnə/böyük video brauzer keşindən gəlməsin
-    $hero_video = file_exists(public_path($hero_video_path))
-        ? asset($hero_video_path) . '?v=' . filemtime(public_path($hero_video_path))
-        : null;
 @endphp
 
 @if ($home1_hero_section)
     <!-- tg-hero-static-area-start -->
-    {{-- Fon şəkli qəsdən YOXDUR: yalnız video. Yüklənənə qədər tünd fon görünür, şəkil deyil. --}}
+    {{-- Fon şəkli qəsdən YOXDUR: yalnız yaşıl gradient fon. --}}
     <div class="tg-hero-static p-relative">
-        {{-- Video hazır olanda görünür --}}
-        @if ($hero_video)
-            <video class="tg-hero-video" autoplay muted loop playsinline preload="auto"
-                onloadeddata="this.classList.add('is-ready')">
-                <source src="{{ $hero_video }}" type="video/mp4">
-            </video>
-        @endif
         <div class="tg-hero-static-overlay"></div>
 
-        {{-- Başlıq/qiymət istəyə görə gizlədildi — yalnız axtarış paneli göstərilir. --}}
+        @php $hero_ru = app()->getLocale() === 'ru'; @endphp
+        <div class="hero-headline p-relative z-index-1">
+            <div class="hero-badge">{{ $hero_ru ? '🏥 Санатории Нафталана и Грузии' : '🏥 Sanatoriums of Naftalan and Georgia' }}</div>
+            <h1 class="hero-title">{{ $hero_ru ? 'Лечение и отдых в лучших санаториях' : 'Treatment and rest in the best sanatoriums' }}</h1>
+            <p class="hero-subtitle">
+                @if ($hero_ru)
+                    Нафталан · Саирме · Боржоми · Цхалтубо — бронируйте без предоплаты,<br>
+                    оплачивайте по прибытии. Более 500 довольных гостей.
+                @else
+                    Naftalan · Sairme · Borjomi · Tskaltubo — book with no prepayment,<br>
+                    pay on arrival. Over 500 happy guests.
+                @endif
+            </p>
+            <div class="hero-trust">
+                <span>✓ {{ $hero_ru ? 'Без предоплаты' : 'No prepayment' }}</span>
+                <span>✓ {{ $hero_ru ? 'Бесплатная отмена' : 'Free cancellation' }}</span>
+                <span>✓ {{ $hero_ru ? 'Официальные договоры' : 'Official contracts' }}</span>
+                <span>✓ {{ $hero_ru ? 'Поддержка 9:00–21:00' : 'Support 9:00–21:00' }}</span>
+            </div>
+        </div>
 
         {{-- Axtarış forması (bütün seçimlər) — minimalist pill görünüşündə --}}
         <div class="tg-hero-static-form p-relative z-index-1">
@@ -42,10 +47,6 @@
 @endif
 
 @push('style_section')
-@if ($hero_video)
-    {{-- Video ən yüksək prioritetlə öncədən yüklənsin ki, tez oynasın --}}
-    <link rel="preload" as="video" href="{{ $hero_video }}" type="video/mp4" fetchpriority="high">
-@endif
 <style>
     /* ============================================================
        STATİK HERO (slider əvəzinə)
@@ -53,33 +54,38 @@
     .tg-hero-static {
         position: relative;
         display: flex;
-        align-items: center;   /* forma şaquli mərkəzdə */
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         min-height: 680px;     /* hero sahəsi kiçilməsin — aşağıdakı bölmələr yuxarı qalxmasın */
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background-color: #1b2f2f;
+        background: linear-gradient(135deg, #0d3d24 0%, #1a5c36 50%, #2d8a55 100%);
         padding-top: 165px;    /* header + formanı bir az aşağı sal */
         padding-bottom: 60px;
         overflow: visible;
     }
     .tg-hero-static-form { width: 100%; }
-    /* Fon videosu (şəkil poster kimi qalır → dərhal açılır) */
-    .tg-hero-video {
-        position: absolute;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        z-index: 0;
-        opacity: 0;                       /* başda fon şəkli görünür */
-        transition: opacity 0.4s ease;    /* video hazır olan kimi tez görünsün */
+    .tg-hero-static .hero-headline { text-align: center; color: #fff; margin-bottom: 32px; max-width: 780px; padding: 0 16px; }
+    .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 13px; padding: 6px 16px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.5px; }
+    .tg-hero-static .hero-title { font-size: 42px !important; font-weight: 800; line-height: 1.2; margin-bottom: 16px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.3); }
+    .tg-hero-static .hero-subtitle { font-size: 18px; line-height: 1.6; color: rgba(255,255,255,0.88); margin-bottom: 20px; }
+    .hero-trust { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
+    .hero-trust span { font-size: 14px; color: rgba(255,255,255,0.9); font-weight: 500; }
+    @media (max-width: 768px) {
+        .tg-hero-static .hero-title { font-size: 28px !important; }
+        .tg-hero-static .hero-subtitle { font-size: 15px; }
+        .hero-trust { gap: 12px; }
     }
-    .tg-hero-video.is-ready { opacity: 1; }
+    @media (max-width: 480px) {
+        .tg-hero-static .hero-title { font-size: 22px !important; }
+        .hero-trust span { font-size: 12px; }
+    }
     .tg-hero-static-overlay {
         position: absolute;
         inset: 0;
-        background: rgba(0, 0, 0, 0.45);
+        background: transparent;
         z-index: 1;
     }
     .tg-hero-static .z-index-1 { z-index: 2; }
