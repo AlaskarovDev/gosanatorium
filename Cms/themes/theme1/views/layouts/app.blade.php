@@ -20,7 +20,7 @@
 <meta name="google-site-verification" content="yes3uk7pra_WQiN8EZ4HCLLh-Vry5c-hv3Y_U44oLHs" />
 
     <!-- Site Title -->
-    @yield('title')
+    @include('partials.seo_head')
 
     {{-- Performance: preconnect / dns-prefetch external origins --}}
     <link rel="dns-prefetch" href="https://widget.yourgood.app">

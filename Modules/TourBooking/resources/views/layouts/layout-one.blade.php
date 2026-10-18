@@ -12,7 +12,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <!-- Site Title -->
-    @yield('title')
+    @include('partials.seo_head')
 
     @include('components.front.css')
 

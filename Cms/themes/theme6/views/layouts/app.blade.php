@@ -10,7 +10,7 @@
     <!-- Favicon Icon -->
     <link rel="shortcut icon" href="{{ asset($general_setting->favicon) }}" type="image/x-icon">
     <!-- Site Title -->
-    @yield('title')
+    @include('partials.seo_head')
 
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('frontend/assets/css/animate.min.css') }}">
