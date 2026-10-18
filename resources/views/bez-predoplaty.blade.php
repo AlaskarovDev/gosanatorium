@@ -68,7 +68,7 @@
 <section class="bp-hero">
     <h1>Бронирование без предоплаты</h1>
     <p>Приедете — понравится — оплатите. Никакого риска, никаких скрытых платежей. Более 500 довольных гостей выбрали именно этот способ.</p>
-    <a class="bp-btn" href="{{ url('/') }}">Выбрать санаторий</a>
+    <a class="bp-btn" href="/ru/tour-booking/services">Выбрать санаторий</a>
 </section>
 
 <section class="bp-cards">
@@ -123,7 +123,7 @@
 <section class="bp-cta">
     <h2>Готовы забронировать?</h2>
     <p>Выберите санаторий — оплатите по приезду. Без предоплаты, без риска, без лишних вопросов.</p>
-    <a class="bp-btn" href="{{ url('/ru') }}">Забронировать без предоплаты</a>
+    <a class="bp-btn" href="/ru/custom-page/consultant">Забронировать без предоплаты</a>
 </section>
 
 <script type="application/ld+json">{!! json_encode($bpSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
