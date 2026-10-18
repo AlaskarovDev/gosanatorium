@@ -7,203 +7,72 @@
 @endsection
 
 @section('front-content')
-    @include('breadcrumb')
 
-    <!-- tg-about-us-area-start -->
-    <div class="tg-about-area p-relative z-index-1 pt-140 pb-105">
-        <img class="tg-about-details-shape p-absolute d-none d-lg-block"
-            src="{{ asset('frontend/assets/img/shape/hill.png') }}" alt="shape">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-lg-6">
-                    <div class="tg-about-details-left p-relative mb-15">
-                        <img class="tg-about-details-map p-absolute"
-                            src="{{ asset('frontend/assets/img/shape/map-shape.png') }}" alt="map">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="tg-about-details-thumb p-relative z-index-9">
-                                    <img class="main-thumb tg-round-15 w-100 mb-20"
-                                        src="{{ asset(getSingleImage($about_us, 'about_image_one')) }}" alt="thumb">
-                                    <img class="main-thumb tg-round-15 w-100 mb-20"
-                                        src="{{ asset(getSingleImage($about_us, 'about_image_two')) }}" alt="thumb">
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="tg-about-details-thumb-2 p-relative">
-                                    <div class="tg-chose-3-rounded p-relative mb-30">
-                                        <img class="rotate-infinite-2"
-                                            src="{{ asset('frontend/assets/img/shape/circle-text.png') }}" alt="">
-                                        <img class="tg-chose-3-star" src="{{ asset('frontend/assets/img/shape/star.png') }}"
-                                            alt="">
-                                    </div>
-                                    <img class="w-100 tg-round-15"
-                                        src="{{ asset(getSingleImage($about_us, 'about_image_three')) }}" alt="chose">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6">
-                    <div class="tg-chose-content mb-35 ml-60">
-                        <div class="tg-chose-section-title mb-30">
-                            <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".1s">
-                                {{ getTranslatedValue($about_us, 'section_subtitle') }}
-                            </h5>
-                            <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                                {!! strip_tags(getTranslatedValue($about_us, 'section_title')) !!}
-                            </h2>
-                            <p class="text-capitalize wow fadeInUp mb-35" data-wow-delay=".5s" data-wow-duration=".9s">
-                                {!! strip_tags(getTranslatedValue($about_us, 'section_description')) !!}
-                            </p>
-                            <div class="tg-chose-btn wow fadeInUp" data-wow-delay=".8s" data-wow-duration=".9s">
-                                <a href="{{ getTranslatedValue($about_us, 'section_button_link') }}"
-                                    class="tg-btn tg-btn-switch-animation">
-                                    <span class="d-flex align-items-center justify-content-center">
-                                        <span
-                                            class="btn-text">{{ getTranslatedValue($about_us, 'section_button_text') }}</span>
-                                        <span class="btn-icon ml-5">
-                                            <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
-                                                    stroke="white" stroke-width="1.77778" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </span>
-                                        <span class="btn-icon ml-5">
-                                            <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
-                                                    stroke="white" stroke-width="1.77778" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </span>
-                                    </span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+<section class="au-hero">
+  <div class="au-hero__inner">
+    <div class="au-hero__text">
+      <p class="au-hero__label">О нас</p>
+      <h1 class="au-hero__title">Подбираем санаторий<br>под ваш диагноз — бесплатно</h1>
+      <p class="au-hero__desc">С 2018 года помогаем жителям России, Казахстана, Узбекистана и других стран СНГ найти правильный санаторий в Азербайджане и Грузии. Бронирование без предоплаты, консультация врача бесплатно.</p>
+      <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20забронировать%20санаторий." class="au-hero__btn" target="_blank" rel="noopener">Получить бесплатную консультацию</a>
     </div>
-    <!-- tg-about-us-area-end -->
-
-    <!-- why-chose-us-area-start -->
-    <div class="tg-chose-area tg-grey-bg pt-140 pb-70 p-relative z-index-1">
-        <img class="tg-chose-6-shape d-none d-md-block" src="{{ asset('frontend/assets/img/shape/tree.png') }}"
-            alt="">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-xl-6 col-lg-7 col-md-9">
-                    <div class="tg-chose-section-title text-center mb-35">
-                        <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".1s">
-                            {{ getTranslatedValue($what_we_do, 'section_subtitle') }}
-                        </h5>
-                        <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                            {!! strip_tags(getTranslatedValue($what_we_do, 'section_title')) !!}
-                        </h2>
-                        <p class="text-capitalize wow fadeInUp mb-35" data-wow-delay=".5s" data-wow-duration=".9s">
-                            {!! strip_tags(getTranslatedValue($what_we_do, 'section_description')) !!}
-                        </p>
-                    </div>
-                </div>
-            </div>
-            @if ($what_we_do?->data_values['slides'] && count($what_we_do->data_values['slides']) > 0)
-                <div class="row">
-                    @foreach ($what_we_do?->data_values['slides'] as $key => $slide)
-                        <div class="col-lg-4 col-md-6">
-                            <div class="tg-chose-6-wrap mb-30">
-                                <span class="icon mb-20">
-                                    @if (!isset($slide['image']))
-                                        <svg width="36" height="26" viewBox="0 0 36 26" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M28.4378 11.0439H26.3551C26.008 11.0439 25.724 11.3279 25.724 11.675C25.724 12.0221 26.008 12.3061 26.3551 12.3061H28.4378C28.7218 12.3061 28.9553 12.5396 28.9553 12.8236V21.8864C28.9553 22.1704 28.7218 22.4039 28.4378 22.4039H26.3551C26.008 22.4039 25.724 22.6879 25.724 23.035C25.724 23.3821 26.008 23.6661 26.3551 23.6661H28.4378C29.416 23.6661 30.2175 22.8709 30.2175 21.8864V12.8236C30.2175 11.8454 29.4223 11.0439 28.4378 11.0439Z"
-                                                fill="#560CE3" />
-                                            <path
-                                                d="M4.42403 12.3061H6.50669C6.8538 12.3061 7.1378 12.0221 7.1378 11.675C7.1378 11.3279 6.8538 11.0439 6.50669 11.0439H4.42403C3.44581 11.0439 2.6443 11.8391 2.6443 12.8236V21.8864C2.6443 22.8646 3.4395 23.6661 4.42403 23.6661H6.50669C6.8538 23.6661 7.1378 23.3821 7.1378 23.035C7.1378 22.6879 6.8538 22.4039 6.50669 22.4039H4.42403C4.14003 22.4039 3.90652 22.1704 3.90652 21.8864V12.8236C3.90652 12.5396 4.14003 12.3061 4.42403 12.3061Z"
-                                                fill="#560CE3" />
-                                            <path
-                                                d="M17.0589 12.1294V11.6624C17.0589 11.3153 16.7749 11.0313 16.4277 11.0313C16.0806 11.0313 15.7966 11.3153 15.7966 11.6624V12.161C14.1431 12.445 12.9061 13.6252 12.9061 15.0325C12.9061 16.4399 14.1368 17.6075 15.7966 17.8915V21.2742C14.7301 21.1038 13.9096 20.4285 13.9096 19.6396C13.9096 19.2925 13.6256 19.0085 13.2785 19.0085C12.9314 19.0085 12.6474 19.2925 12.6474 19.6396C12.6474 21.1227 14.0232 22.3471 15.7966 22.5427V23.0098C15.7966 23.3569 16.0806 23.6409 16.4277 23.6409C16.7749 23.6409 17.0589 23.3569 17.0589 23.0098V22.5112C18.7124 22.2272 19.9556 21.047 19.9556 19.6396C19.9556 18.2323 18.7376 17.0584 17.0589 16.7807V13.398C18.1254 13.562 18.9459 14.2436 18.9459 15.0325C18.9459 15.3796 19.2299 15.6636 19.577 15.6636C19.9241 15.6636 20.2081 15.3796 20.2081 15.0325C20.2081 13.5494 18.8323 12.3251 17.0589 12.1294ZM14.1684 15.0325C14.1684 14.3131 14.8626 13.682 15.7966 13.4548V16.6103C14.8563 16.3831 14.1684 15.752 14.1684 15.0325ZM18.6934 19.6459C18.6934 20.3654 17.9992 20.9902 17.0589 21.2237V18.0682C18.0055 18.2954 18.6934 18.9265 18.6934 19.6523V19.6459Z"
-                                                fill="#560CE3" />
-                                            <path
-                                                d="M35.5882 14.332L31.3914 1.23646C31.0947 0.302419 30.085 -0.215091 29.1572 0.0878422L2.65692 8.68987H2.10786C1.12963 8.68987 0.328125 9.48507 0.328125 10.4696V24.2215C0.328125 25.1997 1.12332 26.0012 2.10786 26.0012H30.7539C31.7322 26.0012 32.5337 25.206 32.5337 24.2215V17.1531C32.5779 17.1531 32.622 17.1467 32.6662 17.1341L34.4333 16.5661C35.3674 16.2695 35.8786 15.266 35.5819 14.332H35.5882ZM31.2715 24.2215C31.2715 24.5055 31.0379 24.739 30.7539 24.739H2.10786C1.82386 24.739 1.59035 24.5055 1.59035 24.2215V10.4696C1.59035 10.1856 1.82386 9.95209 2.10786 9.95209H15.2097C15.2097 9.95209 15.216 9.95209 15.2223 9.95209H17.4754C17.4754 9.95209 17.4817 9.95209 17.488 9.95209C17.4943 9.95209 17.4943 9.95209 17.5006 9.95209H30.7539C31.0379 9.95209 31.2715 10.1856 31.2715 10.4696V24.2215ZM34.0546 15.367L32.5337 15.853V10.4696C32.5337 9.68071 32.0162 9.01805 31.303 8.78454L29.9019 4.17744C29.7568 3.72304 29.4475 3.35699 29.0247 3.1361C28.6019 2.92153 28.1222 2.87735 27.6678 3.0225L25.6861 3.65993C25.3516 3.76721 25.1686 4.12064 25.2759 4.45512C25.3832 4.78961 25.7366 4.96632 26.0711 4.86535L28.0528 4.22792C28.1853 4.18375 28.3242 4.19637 28.4441 4.25948C28.564 4.32259 28.6587 4.42988 28.6965 4.54979L29.9524 8.68356H20.713C20.0819 7.78739 18.8701 7.33299 17.5637 7.47814L17.4186 7.03005C17.3113 6.70188 16.9579 6.51885 16.6234 6.61983C16.2889 6.72712 16.1059 7.08054 16.2132 7.41503L16.3331 7.78739C15.8093 8.00196 15.3422 8.3049 14.9636 8.68356H6.7402L29.5359 1.28695C29.6684 1.24277 29.8073 1.2554 29.9272 1.31851C30.0471 1.38162 30.1418 1.48891 30.1796 1.62144L34.3765 14.717C34.4649 14.9884 34.3134 15.2787 34.042 15.367H34.0546Z"
-                                                fill="#560CE3" />
-                                        </svg>
-                                    @else
-                                        <img src="{{ asset($slide['image']) }}">
-                                    @endif
-                                </span>
-
-                                <h4 class="tg-chose-6-title mb-15">{{ $slide['title'] }}</h4>
-                                <p>{{ $slide['description'] }}</p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-        </div>
+    <div class="au-hero__stats">
+      <div class="au-stat"><span class="au-stat__num">50+</span><span class="au-stat__label">партнёрских санаториев</span></div>
+      <div class="au-stat"><span class="au-stat__num">8</span><span class="au-stat__label">лет в медицинском туризме</span></div>
+      <div class="au-stat"><span class="au-stat__num">1900+</span><span class="au-stat__label">отзывов клиентов</span></div>
+      <div class="au-stat"><span class="au-stat__num">15+</span><span class="au-stat__label">специалистов в команде</span></div>
     </div>
-    <!-- why-chose-us-area-end -->
+  </div>
+</section>
 
-    <!-- tg-banner-area-start -->
-    <div class="tg-banner-area tg-grey-bg tg-banner-4-spacing"
-        data-background="{{ asset(getSingleImage($about_cta, 'section_bg_image')) }}">
-        <div class="container">
-            <div class="col-lg-12">
-                <div class="tg-banner-2-content tg-banner-4-content tg-banner-6-content text-center">
-                    <div class="tg-about-section-title mb-25">
-                        <h5 class="tg-section-subtitle mb-20 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                            {{ getTranslatedValue($about_cta, 'section_subtitle') }}
-                        </h5>
-                        <h2 class="tg-section-title-white mb-30 wow fadeInUp" data-wow-delay=".5s"
-                            data-wow-duration=".9s">
-                            {!! strip_tags(getTranslatedValue($about_cta, 'section_title')) !!}
-                        </h2>
-                    </div>
-                    <div class="tp-banner-btn-wrap wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
-                        <a href="{{ getTranslatedValue($about_cta, 'section_button_link') }}"
-                            class="tg-btn tg-btn-transparent tg-btn-switch-animation">
-                            <span class="d-flex align-items-center justify-content-center">
-                                <span class="btn-text">{{ getTranslatedValue($about_cta, 'section_button_text') }}</span>
-                                <span class="btn-icon ml-5">
-                                    <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
-                                            stroke="currentColor" stroke-width="1.77778" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                </span>
-                                <span class="btn-icon ml-5">
-                                    <svg width="21" height="16" viewBox="0 0 21 16" fill="none"
-                                        xmlns="http://www.w3.org/2000/svg">
-                                        <path
-                                            d="M1.0017 8.00001H19.9514M19.9514 8.00001L12.9766 1.02515M19.9514 8.00001L12.9766 14.9749"
-                                            stroke="currentColor" stroke-width="1.77778" stroke-linecap="round"
-                                            stroke-linejoin="round" />
-                                    </svg>
-                                </span>
-                            </span>
-                        </a>
-                    </div>
-                </div>
-            </div>
+<section class="au-section">
+  <div class="au-container">
+    <div class="au-who">
+      <div class="au-who__content">
+        <span class="au-section__tag">Наша история</span>
+        <h2 class="au-section__title">Как мы появились</h2>
+        <p class="au-who__text">GoSanatorium появился в 2018 году — после того, как наши основатели сами прошли лечение в Нафталане. Увидев, как сложно людям выбрать правильный санаторий без медицинских знаний, мы решили это изменить.</p>
+        <p class="au-who__text">Сегодня мы помогаем клиентам из России, Казахстана, Узбекистана и других стран СНГ находить санаторий точно под их диагноз — бесплатно, без предоплаты и с поддержкой на каждом шагу.</p>
+      </div>
+      <div class="au-who__cards">
+        <div class="au-value-card">
+          <div class="au-value-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+          <div><h3 class="au-value-card__title">Каждый санаторий проверен лично</h3><p class="au-value-card__text">Мы посещаем объекты лично и работаем только с теми, кому доверяем.</p></div>
         </div>
-        <div class="tg-banner-bottom pb-190">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-lg-12">
-                        <div class="tg-banner-2-big-title text-center wow fadeInUp" data-wow-delay=".5s"
-                            data-wow-duration=".9s">
-                            <h2>{{ getTranslatedValue($about_cta, 'section_big_title') }}</h2>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        <div class="au-value-card">
+          <div class="au-value-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg></div>
+          <div><h3 class="au-value-card__title">Врач помогает с выбором</h3><p class="au-value-card__text">Консультирующий врач подбирает санаторий под ваш диагноз — бесплатно.</p></div>
         </div>
+        <div class="au-value-card">
+          <div class="au-value-card__icon"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+          <div><h3 class="au-value-card__title">Поддержка 24/7</h3><p class="au-value-card__text">На связи до, во время и после поездки. Ответим в течение 15 минут.</p></div>
+        </div>
+      </div>
     </div>
-    <!-- tg-banner-area-end -->
+  </div>
+</section>
+
+<section class="au-section au-section--gray">
+  <div class="au-container">
+    <span class="au-section__tag">Что мы делаем</span>
+    <h2 class="au-section__title">Всё для правильного лечения — в одном месте</h2>
+    <div class="au-services">
+      <div class="au-service"><div class="au-service__num">01</div><div class="au-service__body"><h3 class="au-service__title">Подбор санатория под диагноз</h3><p class="au-service__text">Рассказываете о своём диагнозе — мы предлагаем подходящие санатории. Бесплатно, около 15 минут.</p></div></div>
+      <div class="au-service"><div class="au-service__num">02</div><div class="au-service__body"><h3 class="au-service__title">Бронирование без предоплаты</h3><p class="au-service__text">Бронируете место — платите только по приезду. Никаких данных карты, никаких скрытых комиссий.</p></div></div>
+      <div class="au-service"><div class="au-service__num">03</div><div class="au-service__body"><h3 class="au-service__title">Организация трансфера</h3><p class="au-service__text">Поможем организовать трансфер от аэропорта до санатория — удобно и без лишних хлопот.</p></div></div>
+      <div class="au-service"><div class="au-service__num">04</div><div class="au-service__body"><h3 class="au-service__title">Без визы для граждан СНГ</h3><p class="au-service__text">Гражданам России, Казахстана, Узбекистана виза в Азербайджан и Грузию не нужна.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="au-cta">
+  <div class="au-container">
+    <div class="au-cta__inner">
+      <h2 class="au-cta__title">Готовы подобрать санаторий под ваш диагноз?</h2>
+      <p class="au-cta__sub">Напишите нам — ответим в течение 15 минут и подберём варианты бесплатно.</p>
+      <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20забронировать%20санаторий." class="au-cta__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
+    </div>
+  </div>
+</section>
+
 @endsection
