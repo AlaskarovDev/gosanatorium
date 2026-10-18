@@ -46,21 +46,22 @@
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
-        background: linear-gradient(135deg, #0d6e5e 0%, #1a9e87 50%, #0f8c74 100%);
+        background: linear-gradient(135deg, #1a9e87 0%, #2ec4a9 50%, #17b09a 100%) !important;
         padding-top: 165px;    /* header + formanı bir az aşağı sal */
         padding-bottom: 60px;
         overflow: visible;
     }
     .tg-hero-static-form { width: 100%; }
-    .tg-hero-static .hero-headline { text-align: center; color: #fff; margin-bottom: 32px; max-width: 780px; padding: 0 16px; }
+    .tg-hero-static .hero-headline { text-align: center; color: #fff; margin: 0 auto; max-width: 720px; padding: 48px 16px 28px 16px; }
     .hero-badge { display: inline-block; background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); color: #fff; font-size: 13px; padding: 6px 16px; border-radius: 20px; margin-bottom: 16px; letter-spacing: 0.5px; }
-    .tg-hero-static .hero-title { font-size: 38px !important; font-weight: 800; line-height: 1.2; margin-bottom: 10px; color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,0.25); }
-    .tg-hero-static .hero-subtitle { font-size: 18px; line-height: 1.5; color: rgba(255,255,255,0.92); margin-bottom: 0; }
+    .tg-hero-static .hero-title { display: block; font-size: 36px !important; font-weight: 800; line-height: 1.25; margin-bottom: 14px; color: #ffffff; text-shadow: 0 2px 10px rgba(0,0,0,0.18); }
+    .tg-hero-static .hero-subtitle { display: block; font-size: 17px; font-weight: 700; line-height: 1.6; color: #ffffff; margin-bottom: 0; text-shadow: 0 1px 6px rgba(0,0,0,0.15); }
     .hero-trust { display: flex; gap: 24px; justify-content: center; flex-wrap: wrap; }
     .hero-trust span { font-size: 14px; color: rgba(255,255,255,0.9); font-weight: 500; }
     @media (max-width: 768px) {
-        .tg-hero-static .hero-title { font-size: 28px !important; }
+        .tg-hero-static .hero-title { font-size: 24px !important; }
         .tg-hero-static .hero-subtitle { font-size: 15px; }
+        .tg-hero-static .hero-headline { padding: 36px 16px 20px 16px; }
         .hero-trust { gap: 12px; }
     }
     @media (max-width: 480px) {
