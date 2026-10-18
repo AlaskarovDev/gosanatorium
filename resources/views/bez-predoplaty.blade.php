@@ -31,9 +31,11 @@
 @push('style_section')
 <style>
 .bp-hero,.bp-cta{background:#1a5c36;color:#fff;padding:60px 20px;text-align:center;width:100%}
-.bp-hero{padding-top:80px}
+.bp-hero{padding:120px 16px 48px 16px}
+.bp-hero h1{font-size:32px}
 .bp-hero h1,.bp-cta h2{color:#fff;margin-bottom:12px}
 .bp-hero p,.bp-cta p{color:#fff;font-size:18px;margin-bottom:24px}
+.bp-hero p{font-size:16px}
 .bp-btn{display:inline-block;background:#2ea35f;color:#fff;font-weight:600;padding:14px 32px;border-radius:8px;text-decoration:none}
 .bp-btn:hover{background:#23844c;color:#fff}
 .bp-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;max-width:1100px;margin:40px auto;padding:0 20px}
@@ -60,7 +62,7 @@
 .bp-faq summary::after{content:'+';float:right;font-size:22px;line-height:1;color:#1a5c36}
 .bp-faq details[open] summary::after{content:'−'}
 .bp-faq details p{margin:12px 0 0}
-@media(max-width:768px){.bp-cards{grid-template-columns:repeat(2,1fr)}.bp-article{grid-template-columns:1fr}.bp-sidebar{position:static}}
+@media(max-width:768px){.bp-hero{padding:100px 16px 36px 16px}.bp-hero h1{font-size:24px}.bp-cards{grid-template-columns:repeat(2,1fr)}.bp-article{grid-template-columns:1fr}.bp-sidebar{position:static}}
 </style>
 @endpush
 
