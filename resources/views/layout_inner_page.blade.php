@@ -1028,6 +1028,7 @@
 
 })();
 </script>
+@include('partials.whatsapp-float')
 </body>
 
 </html>

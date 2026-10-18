@@ -234,6 +234,7 @@
     @stack('js_section')
 
 
+@include('partials.whatsapp-float')
 </body>
 
 </html>
