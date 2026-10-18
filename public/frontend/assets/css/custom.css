@@ -674,3 +674,72 @@ ul.tourex-tabs-menu li {
         margin-left: 0;
     }
 }
+
+/* === ABOUT US === */
+.au-wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.au-badge{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;padding:4px 14px;border-radius:50px;margin-bottom:14px}
+.au-badge--teal{color:#1a9e87;background:#e8f5f2}
+.au-h2{font-size:26px;font-weight:800;color:#1a1a2e;line-height:1.3;margin-bottom:20px}
+.au-p{font-size:15px;color:#4b5563;line-height:1.75;margin-bottom:14px}
+
+/* Hero */
+.au-hero{background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 50%,#17b09a 100%);padding:80px 0 60px}
+.au-wrap.au-two-col,.au-hero .au-wrap{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.au-badge:not(.au-badge--teal){color:rgba(255,255,255,.8);background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.3)}
+.au-hero__h1{font-size:34px;font-weight:800;color:#fff;line-height:1.25;margin-bottom:16px}
+.au-hero__p{font-size:16px;color:rgba(255,255,255,.9);line-height:1.7;margin-bottom:28px}
+.au-btn-white{display:inline-block;background:#fff;font-size:15px;font-weight:700;padding:13px 28px;border-radius:50px;text-decoration:none!important;box-shadow:0 4px 16px rgba(0,0,0,.12);transition:transform .2s,box-shadow .2s;white-space:nowrap}
+.au-hero .au-btn-white,.au-cta-sec .au-btn-white{color:#1a9e87!important}
+.au-btn-white:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,0,0,.16)}
+
+/* Stats */
+.au-stat-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.au-stat-box{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.25);border-radius:16px;padding:24px 16px;text-align:center}
+.au-stat-num{display:block;font-size:34px;font-weight:800;color:#fff;line-height:1;margin-bottom:6px}
+.au-stat-lbl{font-size:12px;color:rgba(255,255,255,.85);line-height:1.4}
+
+/* Sections */
+.au-sec{padding:64px 0}
+.au-sec--white{background:#fff}
+.au-sec--gray{background:#f4faf9}
+.au-two-col{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start}
+.au-sec-head{text-align:center;margin-bottom:40px}
+
+/* Trust list */
+.au-trust-list{display:flex;flex-direction:column;gap:20px}
+.au-trust-item{display:flex;gap:16px;align-items:flex-start;background:#f9fffe;border:1px solid #d1f0e8;border-radius:14px;padding:20px}
+.au-trust-item p{font-size:13px;color:#6b7280;margin:4px 0 0;line-height:1.5}
+.au-trust-item strong{font-size:14px;color:#1a1a2e;display:block}
+.au-trust-icon{width:42px;height:42px;background:#e8f5f2;border-radius:10px;display:flex;align-items:center;justify-content:center;color:#1a9e87;flex-shrink:0}
+
+/* Cards */
+.au-cards4{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.au-card{background:#fff;border:1px solid #e5e7eb;border-radius:16px;padding:28px 22px;transition:box-shadow .2s,transform .2s}
+.au-card:hover{box-shadow:0 6px 24px rgba(26,158,135,.12);transform:translateY(-3px)}
+.au-card-num{display:block;font-size:30px;font-weight:800;color:#1a9e87;opacity:.25;line-height:1;margin-bottom:12px}
+.au-card h3{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:8px}
+.au-card p{font-size:13px;color:#6b7280;line-height:1.6;margin:0}
+
+/* CTA */
+.au-cta-sec{background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 100%);padding:60px 0}
+.au-cta-inner{display:flex;align-items:center;justify-content:space-between;gap:32px}
+.au-cta-h2{font-size:24px;font-weight:800;color:#fff;margin-bottom:8px;line-height:1.3}
+.au-cta-p{font-size:15px;color:rgba(255,255,255,.88);margin:0;line-height:1.6}
+
+/* Responsive */
+@media(max-width:960px){
+  .au-hero .au-wrap,.au-two-col{grid-template-columns:1fr;gap:32px}
+  .au-hero__h1{font-size:26px}
+  .au-cards4{grid-template-columns:1fr 1fr}
+  .au-cta-inner{flex-direction:column;text-align:center}
+}
+@media(max-width:600px){
+  .au-hero{padding:56px 0 40px}
+  .au-hero__h1{font-size:22px}
+  .au-stat-num{font-size:28px}
+  .au-sec{padding:44px 0}
+  .au-h2{font-size:22px}
+  .au-cards4{grid-template-columns:1fr}
+  .au-stat-grid{grid-template-columns:1fr 1fr}
+}
+/* === END ABOUT US === */
