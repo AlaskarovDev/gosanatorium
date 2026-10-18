@@ -747,3 +747,14 @@ div.edc-searchbar-clickaway {
   .diseases-grid { grid-template-columns: 1fr !important; }
   .disease-card { height: 130px; }
 }
+
+/* WhatsApp CTA in hero */
+.wa-cta-block { text-align: center; margin: 16px auto 0 auto; max-width: 420px; }
+.wa-cta-btn { display: inline-flex; align-items: center; gap: 10px; background: #25D366; color: #ffffff !important; font-size: 16px; font-weight: 700; padding: 14px 28px; border-radius: 50px; text-decoration: none !important; box-shadow: 0 4px 16px rgba(37,211,102,0.35); transition: background 0.2s, transform 0.15s; }
+.wa-cta-btn:hover { background: #1ebe5d; transform: translateY(-2px); }
+.wa-cta-note { font-size: 13px; color: rgba(255,255,255,0.85); margin-top: 8px; margin-bottom: 0; }
+@media (max-width: 768px) { .wa-cta-btn { font-size: 14px; padding: 12px 20px; } }
+
+/* "Book" button on listing cards */
+.card-book-btn { display: block; width: 100%; text-align: center; background: #1a9e87; color: #ffffff !important; font-size: 14px; font-weight: 600; padding: 10px 16px; border-radius: 8px; text-decoration: none !important; margin-top: 10px; transition: background 0.2s; }
+.card-book-btn:hover { background: #0f8c74; }
