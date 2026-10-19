@@ -18,11 +18,10 @@
 @section('front-content')
     <div class="bl-hero">
         <div class="bl-hero__inner">
-            <h1 class="bl-hero__title">Полезные статьи о лечении и санаториях</h1>
-            <p class="bl-hero__sub">Советы по выбору курорта, лечению нафталаном и бронированию</p>
+            <h1 class="bl-hero__title">Блог GoSanatorium</h1>
+            <p class="bl-hero__sub">Полезные статьи о лечении, выборе санатория и курортах СНГ</p>
         </div>
     </div>
-    @include('breadcrumb')
     <div class="tg-blog-grid-area pt-130 pb-100">
         <div class="container">
             <div class="row">
