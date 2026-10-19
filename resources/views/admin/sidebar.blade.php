@@ -797,6 +797,22 @@
                     </a>
                 </li>
 
+                <li class="{{ Route::is('admin.akcii.*') ? 'active' : '' }}"><a class="collapsed"
+                        href="{{ route('admin.akcii.index') }}">
+                        <span class="menu-bar__text">
+                            <span class="crancy-menu-icon crancy-svg-icon__v1">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
+                                    xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M4 12L12 4H20V12L12 20L4 12Z" stroke="currentColor" stroke-width="1.5"
+                                        stroke-linecap="round" stroke-linejoin="round" />
+                                    <circle cx="16" cy="8" r="1" fill="currentColor" />
+                                </svg>
+                            </span>
+                            <span class="menu-bar__name">Акции</span>
+                        </span>
+                    </a>
+                </li>
+
                 <li class="{{ Route::is('admin.seo.*') ? 'active' : '' }}"><a class="collapsed"
                         href="{{ route('admin.seo.index') }}">
                         <span class="menu-bar__text">
