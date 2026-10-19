@@ -1,4 +1,29 @@
 {{-- FAQ SECTION --}}
+<style>
+.hfaq-wrap{background:#ffffff;padding:60px 0;width:100%;display:block!important}
+.hfaq-container{max-width:860px;margin:0 auto;padding:0 32px!important;box-sizing:border-box;display:block!important}
+.hfaq-head{text-align:center;margin-bottom:40px}
+.hfaq-subtitle{font-size:14px;color:#6a4fc8;font-style:italic;margin:0 0 8px;font-weight:500;display:block}
+.hfaq-title{font-size:30px;font-weight:800;color:#1a1a2e;margin:0 0 0 0;display:block}
+.hfaq-list{display:flex!important;flex-direction:column;gap:12px;padding:0;margin:0;list-style:none}
+.hfaq-item{background:#ffffff;border:1px solid #e5e7eb!important;border-radius:10px!important;overflow:hidden;box-shadow:0 1px 4px rgba(0,0,0,.06)!important;display:block!important}
+.hfaq-question{width:100%!important;display:flex!important;justify-content:space-between!important;align-items:center!important;padding:18px 22px!important;background:#ffffff!important;border:none!important;border-radius:0!important;cursor:pointer;font-size:15px!important;font-weight:600!important;color:#1a1a2e!important;text-align:left!important;gap:12px;box-sizing:border-box;outline:none!important;box-shadow:none!important}
+.hfaq-question:hover{background:#f9fafb!important}
+.hfaq-icon{width:20px!important;height:20px!important;min-width:20px!important;max-width:20px!important;color:#6b7280!important;transition:transform .3s;flex-shrink:0;display:inline-block!important}
+.hfaq-answer{max-height:0!important;overflow:hidden!important;transition:max-height .35s ease;display:block!important}
+.hfaq-answer p{padding:12px 22px 18px!important;font-size:14px!important;color:#4b5563!important;line-height:1.75!important;margin:0!important;border-top:1px solid #f3f4f6!important;display:block!important}
+.hfaq-item--open .hfaq-answer{max-height:400px!important}
+.hfaq-item--open .hfaq-icon{transform:rotate(180deg)!important}
+.hfaq-item--open .hfaq-question{color:#1a9e87!important}
+@media(max-width:768px){
+  .hfaq-wrap{padding:36px 0!important}
+  .hfaq-container{padding:0 16px!important}
+  .hfaq-title{font-size:22px!important}
+  .hfaq-question{font-size:14px!important;padding:14px 16px!important}
+  .hfaq-icon{width:18px!important;height:18px!important;min-width:18px!important;max-width:18px!important}
+  .hfaq-answer p{padding:10px 16px 14px!important;font-size:13px!important}
+}
+</style>
 <div class="hfaq-wrap">
   <div class="hfaq-container">
     <div class="hfaq-head">
