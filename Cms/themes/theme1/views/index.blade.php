@@ -20,9 +20,6 @@
     {{-- diseases section --}}
     @include('components.diseases-section')
 
-    {{-- about us section --}}
-    @include('theme::components.about')
-
     {{-- why choose section (hidden) --}}
     {{-- @include('theme::components.why-choose') --}}
 
