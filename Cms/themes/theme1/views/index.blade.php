@@ -23,8 +23,8 @@
     {{-- about us section --}}
     @include('theme::components.about')
 
-    {{-- why choose section --}}
-    @include('theme::components.why-choose')
+    {{-- why choose section (hidden) --}}
+    {{-- @include('theme::components.why-choose') --}}
 
     {{-- destination section --}}
     @include('theme::components.destination')
