@@ -41,6 +41,9 @@
     {{-- blog section --}}
     @include('theme::components.blog')
 
+    {{-- How to book section --}}
+    @include('components.how-to-book-section')
+
     {{-- FAQ section --}}
     @include('components.faq-section')
 
