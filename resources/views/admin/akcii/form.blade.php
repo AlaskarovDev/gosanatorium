@@ -16,7 +16,7 @@
                 <div class="col-12">
                     <div class="crancy-body">
                         <div class="crancy-dsinner">
-                            <form action="{{ $isEdit ? route('admin.akcii.update', $akcii->id) : route('admin.akcii.store') }}" method="POST">
+                            <form action="{{ $isEdit ? route('admin.akcii.update', $akcii->id) : route('admin.akcii.store') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 @if ($isEdit)
                                     @method('PUT')
@@ -60,8 +60,11 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">Image (URL or path)</label>
-                                                        <input class="crancy__item-input" type="text" name="image" value="{{ old('image', $akcii->image) }}">
+                                                        <label class="crancy__item-label">Image</label>
+                                                        @if ($akcii->image)
+                                                            <div class="mb-2"><img src="{{ asset($akcii->image) }}" alt="" style="max-height:80px"></div>
+                                                        @endif
+                                                        <input class="crancy__item-input" type="file" name="image" accept="image/*">
                                                         @error('image') <span class="text-danger">{{ $message }}</span> @enderror
                                                     </div>
                                                 </div>

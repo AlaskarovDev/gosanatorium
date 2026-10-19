@@ -64,7 +64,7 @@ class AkciiController extends Controller
             'slug' => 'required|string|unique:akcii,slug' . ($id ? ',' . $id : ''),
             'description' => 'nullable|string',
             'content' => 'nullable|string',
-            'image' => 'nullable|string|max:255',
+            'image' => 'nullable|image|max:4096',
             'discount_percent' => 'nullable|integer|min:0|max:100',
             'valid_until' => 'nullable|date',
             'sanatorium_name' => 'nullable|string|max:255',
@@ -76,6 +76,15 @@ class AkciiController extends Controller
 
     private function prepare(Request $request, array $data): array
     {
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $name = 'akcii-' . time() . '-' . Str::random(6) . '.' . $image->getClientOriginalExtension();
+            $image->move(public_path('uploads/website-images'), $name);
+            $data['image'] = 'uploads/website-images/' . $name;
+        } else {
+            unset($data['image']);
+        }
+
         $data['is_active'] = $request->boolean('is_active');
         $data['sort_order'] = (int) ($data['sort_order'] ?? 0);
         $data['lang'] = $data['lang'] ?? 'ru';

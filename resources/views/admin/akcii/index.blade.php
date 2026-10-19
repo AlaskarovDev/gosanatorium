@@ -31,10 +31,11 @@
                                             <thead class="crancy-table__head">
                                                 <tr>
                                                     <th class="crancy-table__column-1 crancy-table__h1">Title</th>
+                                                    <th class="crancy-table__column-2 crancy-table__h2">Sanatorium</th>
                                                     <th class="crancy-table__column-2 crancy-table__h2">Discount</th>
                                                     <th class="crancy-table__column-2 crancy-table__h2">Valid until</th>
                                                     <th class="crancy-table__column-2 crancy-table__h2">Order</th>
-                                                    <th class="crancy-table__column-2 crancy-table__h2">Status</th>
+                                                    <th class="crancy-table__column-2 crancy-table__h2">Active</th>
                                                     <th class="crancy-table__column-3 crancy-table__h3">Actions</th>
                                                 </tr>
                                             </thead>
@@ -43,6 +44,9 @@
                                                     <tr>
                                                         <td class="crancy-table__column-1 crancy-table__data-1">
                                                             <h4 class="crancy-table__product-title">{{ $item->title }}</h4>
+                                                        </td>
+                                                        <td class="crancy-table__column-2 crancy-table__data-2">
+                                                            <h4 class="crancy-table__product-title">{{ $item->sanatorium_name ?: '—' }}</h4>
                                                         </td>
                                                         <td class="crancy-table__column-2 crancy-table__data-2">
                                                             <h4 class="crancy-table__product-title">{{ $item->discount_percent !== null ? $item->discount_percent . '%' : '—' }}</h4>
@@ -54,7 +58,7 @@
                                                             <h4 class="crancy-table__product-title">{{ $item->sort_order }}</h4>
                                                         </td>
                                                         <td class="crancy-table__column-2 crancy-table__data-2">
-                                                            <h4 class="crancy-table__product-title">{{ $item->is_active ? 'Active' : 'Inactive' }}</h4>
+                                                            <h4 class="crancy-table__product-title">{{ $item->is_active ? 'Yes' : 'No' }}</h4>
                                                         </td>
                                                         <td class="crancy-table__column-3 crancy-table__data-3">
                                                             <a href="{{ route('admin.akcii.edit', $item->id) }}" class="crancy-btn crancy-btn__success"><i class="fas fa-edit"></i> Edit</a>
