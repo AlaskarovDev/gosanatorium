@@ -62,10 +62,12 @@
     <div>
       <p class="gsfooter-col-title">Направления</p>
       <ul class="gsfooter-links">
-        <li><a href="{{ url('/ru/hotels/naftalan') }}">Нафталан</a></li>
-        <li><a href="{{ url('/ru/hotels/borjomi') }}">Боржоми</a></li>
-        <li><a href="{{ url('/ru/hotels/tskaltubo') }}">Цхалтубо</a></li>
-        <li><a href="{{ url('/ru/hotels/sairme') }}">Саирме</a></li>
+        <li><a href="{{ url('/ru/hotels/naftalan-azerbaydzhan/') }}">Нафталан</a></li>
+        <li><a href="{{ url('/ru/hotels/borjomi-gruziya/') }}">Боржоми</a></li>
+        <li><a href="{{ url('/ru/hotels/tskaltubo-gruziya/') }}">Цхалтубо</a></li>
+        <li><a href="{{ url('/ru/hotels/sairme-gruziya/') }}">Саирме</a></li>
+        <li><a href="{{ url('/ru/hotels/lankaran-azerbaydzhan/') }}">Лянкяран</a></li>
+        <li><a href="{{ url('/ru/hotels/baku-azerbaydzhan/') }}">Баку</a></li>
       </ul>
     </div>
 
