@@ -184,6 +184,18 @@
         text-transform: capitalize;
     }
 
+    /* Larger menu text and spacing on wide screens (smaller screens keep the compact rules below) */
+    @media (min-width: 1700px) {
+        .tgmenu__main-menu li a,
+        .tgmenu__navbar-wrap li a {
+            font-size: 16px !important;
+            font-weight: 600 !important;
+            letter-spacing: 0.3px !important;
+            padding-left: 18px !important;
+            padding-right: 18px !important;
+        }
+    }
+
     /* Social Contact Icons Container */
     .tg-header-social-contacts {
         display: flex;
