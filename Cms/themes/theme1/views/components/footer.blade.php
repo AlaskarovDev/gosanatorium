@@ -1,140 +1,100 @@
-<footer>
-    <div class="tg-footer-area tg-footer-space include-bg" data-background="{{ asset('frontend/assets/img/shape/home-1-footer-bg.jpeg') }}">
-        <div class="container">
-            <div class="tg-footer-top mb-40">
-                <div class="row">
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                        <div class="tg-footer-widget mb-40">
-                            <div class="tg-footer-logo mb-20">
-                                <a href="{{ route('home') }}"><img src="{{ asset($general_setting->footer_logo) }}" alt=""></a>
-                            </div>
-                            <p class="mb-20">{{ $footer->about_us }}</p>
-                            <div class="tg-footer-form mb-30">
-                                <form action="{{ route('store-newsletter') }}" method="POST">
-                                    @csrf
-                                    <input type="email" placeholder="Enter your mail" name="email">
-                                    <button class="tg-footer-form-btn" type="submit">
-                                        <svg width="22" height="17" viewBox="0 0 22 17" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M1.52514 8.47486H20.4749M20.4749 8.47486L13.5 1.5M20.4749 8.47486L13.5 15.4497"
-                                                stroke="white" stroke-width="1.77778" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </button>
-                                </form>
-                            </div>
-                            <div class="tg-footer-social">
-                                @if ($footer->facebook)
-                                    <a href="{{ $footer->facebook }}"><i class="fa-brands fa-facebook-f"></i></a>
-                                @endif
-                                @if ($footer->twitter)
-                                    <a href="{{ $footer->twitter }}"><i class="fa-brands fa-twitter"></i></a>
-                                @endif
-                                @if ($footer->instagram)
-                                    <a href="{{ $footer->instagram }}"><i class="fa-brands fa-instagram"></i></a>
-                                @endif
-                                @if ($footer->linkedin)
-                                    <a href="{{ $footer->linkedin }}"><i class="fa-brands fa-linkedin-in"></i></a>
-                                @endif
-                                @if ($footer->youtube)
-                                    <a href="{{ $footer->youtube }}"><i class="fa-brands fa-youtube"></i></a>
-                                @endif
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                        <div class="tg-footer-widget tg-footer-link ml-80 mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Quick Links') }}</h3>
-                            {!! wp_nav_menu([
-                                'theme_location' => 'footer_menu_1',
-                                'menu_class' => '',
-                                'container' => false,
-                                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                                'menu_id' => 'main-nav',
-                                'before' => '',
-                                'after' => '',
-                                'link_before' => '',
-                                'link_after' => '',
-                            ]) !!}
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                        <div class="tg-footer-widget tg-footer-info mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Information') }}</h3>
-                            <ul>
-                                @if ($footer->address || $footer->address_url)
-                                <li>
-                                    <a class="d-flex"
-                                        href="{{ $footer->address_url }}">
-                                        <span class="mr-15">
-                                            <svg width="20" height="24" viewBox="0 0 20 24" fill="none"
-                                                xmlns="http://www.w3.org/2000/svg">
-                                                <path
-                                                    d="M19.0013 10.0608C19.0013 16.8486 10.3346 22.6668 10.3346 22.6668C10.3346 22.6668 1.66797 16.8486 1.66797 10.0608C1.66797 7.74615 2.58106 5.52634 4.20638 3.88965C5.83169 2.25297 8.03609 1.3335 10.3346 1.3335C12.6332 1.3335 14.8376 2.25297 16.4629 3.88965C18.0882 5.52634 19.0013 7.74615 19.0013 10.0608Z"
-                                                    stroke="white" stroke-width="1.73333" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                                <path
-                                                    d="M10.3346 12.9699C11.9301 12.9699 13.2235 11.6674 13.2235 10.0608C13.2235 8.45412 11.9301 7.15168 10.3346 7.15168C8.73915 7.15168 7.44575 8.45412 7.44575 10.0608C7.44575 11.6674 8.73915 12.9699 10.3346 12.9699Z"
-                                                    stroke="white" stroke-width="1.73333" stroke-linecap="round"
-                                                    stroke-linejoin="round" />
-                                            </svg>
-                                        </span>
-                                        {{ $footer->address }}
-                                    </a>
-                                </li>
-                                @endif
-                                @if ($footer->phone)
-                                <li>
-                                    <a class="d-flex" href="tel:{{ $footer->phone }}">
-                                        <span class="mr-15">
-                                            <i class="fa-sharp text-white fa-solid fa-phone"></i>
-                                        </span>
-                                        {{ $footer->phone }}
-                                    </a>
-                                </li>
-                                @endif
-                                @if ($footer->working_days)
-                                <li class="d-flex">
-                                    <span class="mr-15">
-                                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none"
-                                            xmlns="http://www.w3.org/2000/svg">
-                                            <path
-                                                d="M11.9987 5.60006V12.0001L16.2654 14.1334M22.6654 12.0002C22.6654 17.8912 17.8897 22.6668 11.9987 22.6668C6.10766 22.6668 1.33203 17.8912 1.33203 12.0002C1.33203 6.10912 6.10766 1.3335 11.9987 1.3335C17.8897 1.3335 22.6654 6.10912 22.6654 12.0002Z"
-                                                stroke="white" stroke-width="1.6" stroke-linecap="round"
-                                                stroke-linejoin="round" />
-                                        </svg>
-                                    </span>
-                                    <p class="mb-0">
-                                        {{ $footer->working_days }}
-                                        {{-- Mon – Sat: 8 am – 5 pm,<br>
-                                        Sunday: <span class="text-white d-inline-block">CLOSED</span> --}}
-                                    </p>
-                                </li>
-                                @endif
-                            </ul>
-                        </div>
-                    </div>
-                    <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                        <div class="tg-footer-widget tg-footer-link mb-40">
-                            <h3 class="tg-footer-widget-title mb-25">{{ __('translate.Utility Pages') }}</h3>
-                            {!! wp_nav_menu([
-                                'theme_location' => 'footer_menu_2',
-                                'menu_class' => '',
-                                'container' => false,
-                                'items_wrap' => '<ul id="%1$s" class="%2$s">%3$s</ul>',
-                                'menu_id' => 'main-nav',
-                            ]) !!}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tg-footer-copyright text-center">
-            <span>
-                {{ $footer->copyright }}
-            </span>
-        </div>
+<style>
+.gsfooter{background:#0f1923!important;color:#fff!important;padding:60px 0 0!important;font-family:inherit!important}
+.gsfooter-inner{max-width:1200px!important;margin:0 auto!important;padding:0 32px!important;display:grid!important;grid-template-columns:2fr 1fr 1fr 1fr!important;gap:48px!important}
+.gsfooter-brand-logo{height:48px!important;width:auto!important;margin-bottom:20px!important;display:block!important}
+.gsfooter-brand-text{font-size:14px!important;color:rgba(255,255,255,0.6)!important;line-height:1.7!important;margin:0 0 24px!important}
+.gsfooter-socials{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
+.gsfooter-social{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:40px!important;height:40px!important;border-radius:50%!important;background:rgba(255,255,255,0.08)!important;color:#fff!important;font-size:18px!important;text-decoration:none!important;transition:background 0.2s!important}
+.gsfooter-social:hover{background:#1a9e87!important}
+.gsfooter-col-title{font-size:13px!important;font-weight:700!important;letter-spacing:2px!important;text-transform:uppercase!important;color:rgba(255,255,255,0.4)!important;margin:0 0 20px!important}
+.gsfooter-links{list-style:none!important;margin:0!important;padding:0!important}
+.gsfooter-links li{margin-bottom:12px!important}
+.gsfooter-links a{color:rgba(255,255,255,0.75)!important;text-decoration:none!important;font-size:15px!important;transition:color 0.2s!important}
+.gsfooter-links a:hover{color:#2ec4a9!important}
+.gsfooter-contact-item{display:flex!important;align-items:flex-start!important;gap:10px!important;margin-bottom:14px!important;color:rgba(255,255,255,0.75)!important;font-size:15px!important}
+.gsfooter-contact-icon{font-size:16px!important;margin-top:2px!important;flex-shrink:0!important}
+.gsfooter-bottom{margin-top:48px!important;border-top:1px solid rgba(255,255,255,0.08)!important;padding:20px 32px!important;max-width:1200px!important;margin-left:auto!important;margin-right:auto!important;display:flex!important;justify-content:space-between!important;align-items:center!important;flex-wrap:wrap!important;gap:12px!important}
+.gsfooter-copy{font-size:13px!important;color:rgba(255,255,255,0.35)!important}
+.gsfooter-bottom-links{display:flex!important;gap:20px!important}
+.gsfooter-bottom-links a{font-size:13px!important;color:rgba(255,255,255,0.35)!important;text-decoration:none!important}
+.gsfooter-bottom-links a:hover{color:#2ec4a9!important}
+@media(max-width:900px){.gsfooter-inner{grid-template-columns:1fr 1fr!important;gap:32px!important}}
+@media(max-width:600px){.gsfooter-inner{grid-template-columns:1fr!important}}
+</style>
+
+<footer class="gsfooter">
+  <div class="gsfooter-inner">
+
+    <!-- Brand column -->
+    <div>
+      <a href="{{ route('home') }}"><img src="{{ asset($general_setting->footer_logo) }}" alt="GoSanatorium" class="gsfooter-brand-logo"></a>
+      <p class="gsfooter-brand-text">Бесплатный подбор санатория под ваш диагноз. Нафталан, Боржоми, Цхалтубо, Саирме — бронирование без предоплаты.</p>
+      <div class="gsfooter-socials">
+        <a href="https://wa.me/994519158894" class="gsfooter-social" target="_blank" rel="noopener" title="WhatsApp">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </a>
+        <a href="https://t.me/gosanatorium" class="gsfooter-social" target="_blank" rel="noopener" title="Telegram">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.417-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </a>
+        <a href="https://vk.com/gosanatorium" class="gsfooter-social" target="_blank" rel="noopener" title="VKontakte">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.779.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg>
+        </a>
+      </div>
     </div>
+
+    <!-- Quick links -->
+    <div>
+      <p class="gsfooter-col-title">Навигация</p>
+      <ul class="gsfooter-links">
+        <li><a href="{{ route('home') }}">Главная</a></li>
+        <li><a href="{{ route('about-us') }}">О компании</a></li>
+        <li><a href="{{ route('akcii.frontend.index') }}">Акции</a></li>
+        <li><a href="{{ route('blogs') }}">Блоги</a></li>
+        <li><a href="{{ route('faq') }}">FAQ</a></li>
+        <li><a href="{{ route('contact-us') }}">Контакты</a></li>
+      </ul>
+    </div>
+
+    <!-- Directions -->
+    <div>
+      <p class="gsfooter-col-title">Направления</p>
+      <ul class="gsfooter-links">
+        <li><a href="{{ url('/hotels/naftalan') }}">Нафталан</a></li>
+        <li><a href="{{ url('/hotels/borjomi') }}">Боржоми</a></li>
+        <li><a href="{{ url('/hotels/tskaltubo') }}">Цхалтубо</a></li>
+        <li><a href="{{ url('/hotels/sairme') }}">Саирме</a></li>
+      </ul>
+    </div>
+
+    <!-- Contacts -->
+    <div>
+      <p class="gsfooter-col-title">Контакты</p>
+      <div class="gsfooter-contact-item">
+        <span class="gsfooter-contact-icon">📍</span>
+        <span>Баку, Азербайджан</span>
+      </div>
+      <div class="gsfooter-contact-item">
+        <span class="gsfooter-contact-icon">📞</span>
+        <span>+994 51 915 88 94</span>
+      </div>
+      <div class="gsfooter-contact-item">
+        <span class="gsfooter-contact-icon">📞</span>
+        <span>+995 568 10 27 44 (Тбилиси)</span>
+      </div>
+      <div class="gsfooter-contact-item">
+        <span class="gsfooter-contact-icon">💬</span>
+        <span>WhatsApp / Telegram</span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="gsfooter-bottom">
+    <span class="gsfooter-copy">© 2026 GoSanatorium MMC. Все права защищены.</span>
+    <div class="gsfooter-bottom-links">
+      <a href="{{ route('custom-page', 'consultant') }}">Бесплатная консультация</a>
+      <a href="{{ route('contact-us') }}">Связаться с нами</a>
+    </div>
+  </div>
 </footer>
 <!-- End Footer Section -->
