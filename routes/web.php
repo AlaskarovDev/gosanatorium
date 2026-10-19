@@ -40,7 +40,9 @@ Route::get('0605409069bcef72.html', function () {
 Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function () {
 
     Route::get('migrate', function () {
-        Artisan::call('migrate');
+        $output = new \Symfony\Component\Console\Output\BufferedOutput;
+        \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true], $output);
+        return '<pre>' . e($output->fetch()) . '</pre>';
     });
 
     Route::get('clear', function () {
