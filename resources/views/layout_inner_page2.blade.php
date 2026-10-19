@@ -237,9 +237,6 @@
                                 <div class="tg-header-top-info d-flex align-items-center">
                                     <a href="{{ $footer->address_url }}"><i
                                             class="mr-5 fa-regular fa-location-dot"></i> {{ $footer->address }}</a>
-                                    <span class="tg-header-dvdr mr-20 ml-20"></span>
-                                    <a href="mailto:{{ $footer->email }}"><i class="mr-5 fa-regular fa-envelope"></i>
-                                        {{ $footer->email }}</a>
                                 </div>
                             @endif
                         </div>
@@ -247,11 +244,7 @@
                             <div class="tg-header-top-info d-flex align-items-center justify-content-end">
                                 <a href="tel:{{ $footer->phone }}"><i class="fa-sharp fa-regular fa-phone"></i>
                                     {{ $footer->phone }}</a>
-                                <span class="tg-header-dvdr mr-10 ml-10"></span>
-                                @guest('web')
-                                    <a href="{{ route('user.login') }}"><i class="fa-regular fa-user"></i>
-                                        {{ __('translate.Login') }}</a>
-                                @else
+                                @auth('web')
                                     <a
                                         href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
                                         <span>
@@ -263,7 +256,7 @@
                                             </svg>
                                         </span> {{ __('translate.Dashboard') }}
                                     </a>
-                                @endguest
+                                @endauth
                             </div>
                         </div>
                     </div>

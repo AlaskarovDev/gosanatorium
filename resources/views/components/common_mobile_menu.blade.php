@@ -22,10 +22,6 @@
                 <li><a href="https://t.me/+{{ $phoneClean }}" target="_blank" class="mobile-social-telegram"><i class="fab fa-telegram-plane"></i></a></li>
                 @endif
                 <li><a href="https://vk.com/gosanatorium" target="_blank" rel="noopener" class="mobile-social-vk"><i class="fab fa-vk"></i></a></li>
-                <li><a href="https://ok.ru/gosanatorium" target="_blank" rel="noopener" class="mobile-social-ok"><i class="fab fa-odnoklassniki"></i></a></li>
-                @if($footer->email ?? false)
-                <li><a href="mailto:{{ $footer->email }}" class="mobile-social-email"><i class="fas fa-envelope"></i></a></li>
-                @endif
             </ul>
         </div>
     </nav>

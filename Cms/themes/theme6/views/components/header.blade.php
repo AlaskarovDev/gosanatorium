@@ -58,11 +58,7 @@
                                             {{ $footer->address }}</a>
                                     @endif
 
-                                    @if ($footer->email)
-                                        <span class="tg-header-dvdr mr-10 ml-10"></span>
-                                        <a href="mailto:{{ $footer->email }}"><i
-                                                class="mr-5 fa-regular fa-envelope"></i> {{ $footer->email }}</a>
-                                    @endif
+                                    
 
                                 </div>
                             </div>
@@ -73,9 +69,6 @@
                                     <a href="tel:{{ $footer->phone }}"><i class="fa-sharp fa-regular fa-phone"></i>
                                         {{ $footer->phone }}</a>
                                 @endif
-                                <span class="tg-header-dvdr mr-10 ml-10"></span>
-                                <a href="{{ route('user.login') }}"><i class="fa-regular fa-user"></i>
-                                    {{ __('translate.Login') }}</a>
                             </div>
                         </div>
                     </div>
