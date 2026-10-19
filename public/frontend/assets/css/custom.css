@@ -904,3 +904,10 @@ ul.tourex-tabs-menu li {
 .bl-cta-banner__btn:hover{background:#1ebe5b;color:#fff}
 @media(max-width:768px){.bl-hero{padding:60px 20px 48px}.bl-hero__title{font-size:28px}.bl-hero__sub{font-size:15px}.bl-cta-banner__wrap{flex-direction:column;text-align:center}}
 /* === END BLOG LISTING === */
+
+/* === HOMEPAGE BACKGROUND COLORS === */
+body{background-color:#f8fffe}
+.tg-features-section,.features-section,.home-features,.services-section,.trust-section,.why-us{background:#f4faf9 !important}
+.sanatoriums-section,.cards-section,.home-cards{background-color:#fff}
+.section-alt{background-color:#f4faf9}
+/* === END HOMEPAGE BACKGROUND COLORS === */
