@@ -184,15 +184,41 @@
         text-transform: capitalize;
     }
 
-    /* Larger menu text and spacing on wide screens (smaller screens keep the compact rules below) */
-    @media (min-width: 1700px) {
-        .tgmenu__main-menu li a,
-        .tgmenu__navbar-wrap li a {
-            font-size: 16px !important;
-            font-weight: 600 !important;
-            letter-spacing: 0.3px !important;
-            padding-left: 18px !important;
-            padding-right: 18px !important;
+    /* Responsive menu font size and spacing */
+    .header-nav-link, nav ul li a, .navbar-nav li a, header nav a,
+    .tgmenu__main-menu li a, .tgmenu__navbar-wrap li a {
+        font-size: 16px !important;
+        font-weight: 600 !important;
+        letter-spacing: 0.3px !important;
+        padding-left: 18px !important;
+        padding-right: 18px !important;
+    }
+
+    @media (max-width: 1400px) {
+        .header-nav-link, nav ul li a, .navbar-nav li a, header nav a,
+        .tgmenu__main-menu li a, .tgmenu__navbar-wrap li a {
+            font-size: 14px !important;
+            padding-left: 12px !important;
+            padding-right: 12px !important;
+        }
+    }
+
+    @media (max-width: 1200px) {
+        .header-nav-link, nav ul li a, .navbar-nav li a, header nav a,
+        .tgmenu__main-menu li a, .tgmenu__navbar-wrap li a {
+            font-size: 13px !important;
+            padding-left: 8px !important;
+            padding-right: 8px !important;
+        }
+    }
+
+    @media (max-width: 992px) {
+        .header-nav-link, nav ul li a, .navbar-nav li a, header nav a,
+        .tgmenu__main-menu li a, .tgmenu__navbar-wrap li a {
+            font-size: 13px !important;
+            letter-spacing: 0 !important;
+            padding-left: 6px !important;
+            padding-right: 6px !important;
         }
     }
 
