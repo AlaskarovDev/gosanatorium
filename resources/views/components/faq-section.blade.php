@@ -1,6 +1,6 @@
 {{-- FAQ SECTION --}}
 <style>
-.hfaq-wrap{background:#ffffff;padding:60px 0 80px!important;width:100%;display:block!important}
+.hfaq-wrap{background:#ffffff;padding:60px 0 100px!important;width:100%;display:block!important}
 .hfaq-container{max-width:860px;margin:0 auto;padding:0 32px!important;box-sizing:border-box;display:block!important}
 .hfaq-head{text-align:center;margin-bottom:40px}
 .hfaq-subtitle{font-size:14px;color:#6a4fc8;font-style:italic;margin:0 0 8px;font-weight:500;display:block}
@@ -93,6 +93,7 @@
       </div>
 
     </div>
+    <div style="height:40px"></div>
   </div>
 </div>
 <script>
