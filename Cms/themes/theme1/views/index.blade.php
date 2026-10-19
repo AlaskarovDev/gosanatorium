@@ -29,11 +29,11 @@
     {{-- destination section --}}
     @include('theme::components.destination')
 
-    {{-- banner section --}}
-    @include('theme::components.banner')
+    {{-- banner section (video + arrow box) — hidden on request --}}
+    {{-- @include('theme::components.banner') --}}
 
-    {{-- banner two section --}}
-    @include('theme::components.banner-two')
+    {{-- banner two section (Начните Путь К Здоровью) — hidden on request --}}
+    {{-- @include('theme::components.banner-two') --}}
 
     {{-- testimonial section --}}
     @include('theme::components.testimonial')
