@@ -77,6 +77,8 @@ class HomeController extends Controller
                 $query->take(20);
             }])->take(3)->get();
 
+            $data['latestAkcii'] = \App\Models\Akcii::active()->take(3)->get();
+
             // Add theme information
             $data['theme_info'] = theme()->loadThemeInfo($selectedTheme);
             $data['current_theme'] = $selectedTheme;
