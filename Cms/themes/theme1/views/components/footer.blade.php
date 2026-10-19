@@ -1,7 +1,7 @@
 <style>
 .gsfooter{background:#0f1923!important;color:#fff!important;padding:60px 0 0!important;font-family:inherit!important}
 .gsfooter-inner{max-width:1200px!important;margin:0 auto!important;padding:0 32px!important;display:grid!important;grid-template-columns:2fr 1fr 1fr 1fr!important;gap:48px!important}
-.gsfooter-brand-logo{height:48px!important;width:auto!important;margin-bottom:20px!important;display:block!important}
+.gsfooter-brand-logo{height:72px!important;width:auto!important;margin-bottom:20px!important;display:block!important}
 .gsfooter-brand-text{font-size:14px!important;color:rgba(255,255,255,0.6)!important;line-height:1.7!important;margin:0 0 24px!important}
 .gsfooter-socials{display:flex!important;gap:10px!important;flex-wrap:wrap!important}
 .gsfooter-social{display:inline-flex!important;align-items:center!important;justify-content:center!important;width:40px!important;height:40px!important;border-radius:50%!important;background:rgba(255,255,255,0.08)!important;color:#fff!important;font-size:18px!important;text-decoration:none!important;transition:background 0.2s!important}
@@ -39,6 +39,9 @@
         <a href="https://vk.com/gosanatorium" class="gsfooter-social" target="_blank" rel="noopener" title="VKontakte">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M15.684 0H8.316C1.592 0 0 1.592 0 8.316v7.368C0 22.408 1.592 24 8.316 24h7.368C22.408 24 24 22.408 24 15.684V8.316C24 1.592 22.408 0 15.684 0zm3.692 17.123h-1.744c-.66 0-.864-.525-2.05-1.727-1.033-1-1.49-1.135-1.744-1.135-.356 0-.458.102-.458.593v1.575c0 .424-.135.678-1.253.678-1.846 0-3.896-1.118-5.335-3.202C4.624 10.857 4.03 8.57 4.03 8.096c0-.254.102-.491.593-.491h1.744c.44 0 .61.203.779.677.863 2.49 2.303 4.675 2.896 4.675.22 0 .322-.102.322-.66V9.721c-.068-1.186-.695-1.287-.695-1.71 0-.203.17-.407.44-.407h2.744c.373 0 .508.203.508.643v3.473c0 .372.17.508.271.508.22 0 .407-.136.813-.542 1.253-1.406 2.151-3.574 2.151-3.574.119-.254.322-.491.763-.491h1.744c.525 0 .644.27.525.643-.22 1.017-2.354 4.031-2.354 4.031-.186.305-.254.44 0 .78.186.254.796.779 1.203 1.253.745.847 1.32 1.558 1.473 2.05.17.49-.085.744-.576.744z"/></svg>
         </a>
+        <a href="https://facebook.com/gosanatorium" class="gsfooter-social" target="_blank" title="Facebook">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
       </div>
     </div>
 
@@ -59,10 +62,10 @@
     <div>
       <p class="gsfooter-col-title">Направления</p>
       <ul class="gsfooter-links">
-        <li><a href="{{ url('/hotels/naftalan') }}">Нафталан</a></li>
-        <li><a href="{{ url('/hotels/borjomi') }}">Боржоми</a></li>
-        <li><a href="{{ url('/hotels/tskaltubo') }}">Цхалтубо</a></li>
-        <li><a href="{{ url('/hotels/sairme') }}">Саирме</a></li>
+        <li><a href="{{ url('/ru/hotels/naftalan') }}">Нафталан</a></li>
+        <li><a href="{{ url('/ru/hotels/borjomi') }}">Боржоми</a></li>
+        <li><a href="{{ url('/ru/hotels/tskaltubo') }}">Цхалтубо</a></li>
+        <li><a href="{{ url('/ru/hotels/sairme') }}">Саирме</a></li>
       </ul>
     </div>
 
