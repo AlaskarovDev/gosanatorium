@@ -895,39 +895,27 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 @media(max-width:600px){.au-h1{font-size:25px}.au-cards3{grid-template-columns:1fr}.au-btn-w{width:100%}.au-story-win{padding:24px 20px}}
 
 
-/* ===== GS FAQ ===== */
-.gs-faq{background:#f4faf9;padding:80px 0;width:100%}
-.gs-faq__inner{max-width:900px;margin:0 auto;padding:0 32px;box-sizing:border-box}
-.gs-faq__header{text-align:center;margin-bottom:48px}
+/* GS-FAQ */
+.gs-faq{background:#f4faf9;padding:72px 0;width:100%;display:block}
+.gs-faq__inner{max-width:860px;margin:0 auto;padding:0 40px;box-sizing:border-box;display:block}
+.gs-faq__header{text-align:center;margin-bottom:44px}
 .gs-faq__label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a9e87;background:rgba(26,158,135,.12);padding:5px 16px;border-radius:50px;margin-bottom:14px}
-.gs-faq__title{font-size:34px;font-weight:900;color:#0d1b2a;margin:0 0 12px;line-height:1.2}
-.gs-faq__desc{font-size:16px;color:#6b7280;margin:0}
-.gs-faq__grid{display:flex;flex-direction:column;gap:0}
-.gs-faq__item{border-bottom:1px solid #d8ede8}
+.gs-faq__title{font-size:32px;font-weight:900;color:#0d1b2a;margin:0 0 10px;line-height:1.2;display:block}
+.gs-faq__desc{font-size:16px;color:#6b7280;margin:0;display:block}
+.gs-faq__grid{display:block;width:100%}
+.gs-faq__item{display:block;border-bottom:1px solid #d8ede8;width:100%;box-sizing:border-box}
 .gs-faq__item:first-child{border-top:1px solid #d8ede8}
-.gs-faq__btn{width:100%;display:flex;align-items:center;gap:16px;padding:22px 8px;background:none;border:none;cursor:pointer;text-align:left;transition:background .2s;box-sizing:border-box}
-.gs-faq__btn:hover{background:rgba(26,158,135,.04)}
-.gs-faq__num{font-size:13px;font-weight:700;color:#1a9e87;min-width:28px;font-family:monospace}
+.gs-faq__btn{width:100%;display:flex!important;align-items:center!important;gap:14px;padding:20px 0;background:none!important;border:none!important;cursor:pointer;text-align:left;box-sizing:border-box;outline:none}
+.gs-faq__num{font-size:13px;font-weight:700;color:#1a9e87;min-width:26px;flex-shrink:0}
 .gs-faq__q{flex:1;font-size:16px;font-weight:600;color:#0d1b2a;line-height:1.45}
-.gs-faq__arrow{width:20px;height:20px;color:#1a9e87;flex-shrink:0;transition:transform .3s ease}
-.gs-faq__answer{max-height:0;overflow:hidden;transition:max-height .35s ease}
-.gs-faq__answer p{padding:0 8px 22px 44px;font-size:15px;color:#4b5563;line-height:1.8;margin:0}
+.gs-faq__arrow{width:18px!important;height:18px!important;min-width:18px;color:#1a9e87;flex-shrink:0;transition:transform .3s;display:block}
+.gs-faq__answer{display:block;max-height:0;overflow:hidden;transition:max-height .35s ease}
+.gs-faq__answer p{padding:4px 0 20px 40px;font-size:15px;color:#4b5563;line-height:1.8;margin:0}
 .gs-faq__item--open .gs-faq__answer{max-height:400px}
 .gs-faq__item--open .gs-faq__arrow{transform:rotate(180deg)}
-.gs-faq__item--open .gs-faq__btn{background:rgba(26,158,135,.04)}
-.gs-faq__footer{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:40px;padding:28px 32px;background:#fff;border-radius:16px;border:1px solid #d8ede8}
+.gs-faq__footer{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-top:36px;padding:24px 28px;background:#fff;border-radius:14px;border:1px solid #d8ede8;box-sizing:border-box}
 .gs-faq__footer p{font-size:15px;color:#4b5563;margin:0;line-height:1.5}
-.gs-faq__wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff!important;font-size:14px;font-weight:700;padding:12px 24px;border-radius:50px;text-decoration:none!important;white-space:nowrap;transition:transform .2s,box-shadow .2s;flex-shrink:0}
-.gs-faq__wa:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(37,211,102,.35)}
-@media(max-width:768px){
-.gs-faq{padding:56px 0}
-.gs-faq__inner{padding:0 20px}
-.gs-faq__title{font-size:26px}
-.gs-faq__btn{padding:18px 4px;gap:12px}
-.gs-faq__num{min-width:22px;font-size:12px}
-.gs-faq__q{font-size:15px}
-.gs-faq__answer p{padding:0 4px 18px 34px;font-size:14px}
-.gs-faq__footer{flex-direction:column;align-items:flex-start;padding:20px}
-.gs-faq__wa{width:100%;justify-content:center}
-}
-/* ===== END GS FAQ ===== */
+.gs-faq__wa{display:inline-flex!important;align-items:center;gap:8px;background:#25D366!important;color:#fff!important;font-size:14px;font-weight:700;padding:12px 22px;border-radius:50px;text-decoration:none!important;white-space:nowrap;transition:transform .2s,box-shadow .2s;flex-shrink:0}
+.gs-faq__wa:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,211,102,.3)}
+@media(max-width:768px){.gs-faq{padding:48px 0}.gs-faq__inner{padding:0 20px}.gs-faq__title{font-size:24px}.gs-faq__q{font-size:15px}.gs-faq__arrow{width:16px!important;height:16px!important;min-width:16px}.gs-faq__answer p{padding:4px 0 16px 28px;font-size:14px}.gs-faq__footer{flex-direction:column;padding:18px}.gs-faq__wa{width:100%;justify-content:center}}
+/* END GS-FAQ */
