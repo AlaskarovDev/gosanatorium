@@ -20,6 +20,9 @@
     {{-- diseases section --}}
     @include('components.diseases-section')
 
+    {{-- Consultation section --}}
+    @include('components.home-consultation-section')
+
     {{-- why choose section (hidden) --}}
     {{-- @include('theme::components.why-choose') --}}
 
@@ -43,9 +46,6 @@
 
     {{-- FAQ section --}}
     @include('components.faq-section')
-
-    {{-- Consultation section --}}
-    @include('components.home-consultation-section')
 
     {{-- Akcii section --}}
     @include('components.home-akcii-section')
