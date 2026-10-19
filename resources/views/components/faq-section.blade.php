@@ -1,82 +1,70 @@
 {{-- FAQ SECTION --}}
-<div class="faq-section">
-  <div class="faq-section__wrap">
-    <div class="faq-section__head">
-      <span class="faq-section__tag">Часто задают</span>
-      <h2 class="faq-section__title">Ответы на ваши вопросы</h2>
-      <p class="faq-section__sub">Всё, что нужно знать перед бронированием санатория</p>
+<section class="gs-faq">
+  <div class="gs-faq__inner">
+    <div class="gs-faq__header">
+      <span class="gs-faq__label">Часто задают</span>
+      <h2 class="gs-faq__title">Ответы на ваши вопросы</h2>
+      <p class="gs-faq__desc">Всё, что нужно знать перед бронированием санатория</p>
     </div>
-    <div class="faq-list">
-
-      <div class="faq-item">
-        <button type="button" class="faq-item__q" onclick="this.parentElement.classList.toggle('faq-item--open')">
-          Нужно ли платить заранее при бронировании?
-          <span class="faq-item__icon">+</span>
+    <div class="gs-faq__grid">
+      <div class="gs-faq__item" id="faq1">
+        <button class="gs-faq__btn" type="button" onclick="gsFaqToggle('faq1')">
+          <span class="gs-faq__num">01</span>
+          <span class="gs-faq__q">Нужно ли платить заранее при бронировании?</span>
+          <svg class="gs-faq__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-item__a">
-          <p>Нет. Мы работаем по принципу <strong>«Бронируй сейчас — плати по прибытии»</strong>. Вы подтверждаете бронирование бесплатно, а оплачиваете уже в санатории при заселении. Никаких предоплат и скрытых комиссий.</p>
-        </div>
+        <div class="gs-faq__answer"><p>Нет. Мы работаем по принципу <strong>«Бронируй сейчас — плати по прибытии»</strong>. Вы подтверждаете бронирование бесплатно, а оплачиваете уже в санатории при заселении. Никаких предоплат и скрытых комиссий.</p></div>
       </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-item__q" onclick="this.parentElement.classList.toggle('faq-item--open')">
-          Как подобрать санаторий под мой диагноз?
-          <span class="faq-item__icon">+</span>
+      <div class="gs-faq__item" id="faq2">
+        <button class="gs-faq__btn" type="button" onclick="gsFaqToggle('faq2')">
+          <span class="gs-faq__num">02</span>
+          <span class="gs-faq__q">Как подобрать санаторий под мой диагноз?</span>
+          <svg class="gs-faq__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-item__a">
-          <p>Напишите нам в WhatsApp или оставьте заявку — наш специалист <strong>бесплатно</strong> подберёт санаторий именно под ваш диагноз. Мы работаем 24/7 и ответим в течение 15 минут.</p>
-        </div>
+        <div class="gs-faq__answer"><p>Напишите нам в WhatsApp или оставьте заявку — наш специалист <strong>бесплатно</strong> подберёт санаторий именно под ваш диагноз. Работаем 24/7, ответим за 15 минут.</p></div>
       </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-item__q" onclick="this.parentElement.classList.toggle('faq-item--open')">
-          Что входит в стоимость путёвки?
-          <span class="faq-item__icon">+</span>
+      <div class="gs-faq__item" id="faq3">
+        <button class="gs-faq__btn" type="button" onclick="gsFaqToggle('faq3')">
+          <span class="gs-faq__num">03</span>
+          <span class="gs-faq__q">Что входит в стоимость путёвки?</span>
+          <svg class="gs-faq__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-item__a">
-          <p>В зависимости от выбранного пакета в стоимость входят: <strong>проживание, питание (завтрак или 3-разовое), лечебные процедуры и нафталановые ванны</strong>. Трансфер и авиабилеты оплачиваются отдельно — но мы поможем их организовать.</p>
-        </div>
+        <div class="gs-faq__answer"><p>Проживание, питание (завтрак или 3-разовое), <strong>лечебные процедуры и нафталановые ванны</strong>. Трансфер и авиабилеты — по запросу.</p></div>
       </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-item__q" onclick="this.parentElement.classList.toggle('faq-item--open')">
-          Можно ли получить консультацию врача до поездки?
-          <span class="faq-item__icon">+</span>
+      <div class="gs-faq__item" id="faq4">
+        <button class="gs-faq__btn" type="button" onclick="gsFaqToggle('faq4')">
+          <span class="gs-faq__num">04</span>
+          <span class="gs-faq__q">Можно ли получить консультацию врача до поездки?</span>
+          <svg class="gs-faq__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-item__a">
-          <p>Да. Наш консультирующий врач <strong>бесплатно</strong> изучит ваши диагнозы и подберёт оптимальную программу лечения ещё до приезда. Просто напишите нам — мы свяжем вас с врачом.</p>
-        </div>
+        <div class="gs-faq__answer"><p>Да. Наш консультирующий врач <strong>бесплатно</strong> изучит ваши диагнозы и подберёт программу лечения до приезда. Напишите нам — свяжем с врачом.</p></div>
       </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-item__q" onclick="this.parentElement.classList.toggle('faq-item--open')">
-          Вы организуете трансфер из аэропорта?
-          <span class="faq-item__icon">+</span>
+      <div class="gs-faq__item" id="faq5">
+        <button class="gs-faq__btn" type="button" onclick="gsFaqToggle('faq5')">
+          <span class="gs-faq__num">05</span>
+          <span class="gs-faq__q">Вы организуете трансфер из аэропорта?</span>
+          <svg class="gs-faq__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-item__a">
-          <p>Да. Мы организуем <strong>трансфер из аэропорта Баку или Гянджи</strong> до санатория в Нафталане. Также помогаем с поиском авиабилетов по выгодным ценам. Уточните детали при бронировании.</p>
-        </div>
+        <div class="gs-faq__answer"><p>Да. Организуем <strong>трансфер из аэропорта Баку или Гянджи</strong> до санатория в Нафталане. Также помогаем с авиабилетами.</p></div>
       </div>
-
-      <div class="faq-item">
-        <button type="button" class="faq-item__q" onclick="this.parentElement.classList.toggle('faq-item--open')">
-          Какой минимальный срок лечения?
-          <span class="faq-item__icon">+</span>
+      <div class="gs-faq__item" id="faq6">
+        <button class="gs-faq__btn" type="button" onclick="gsFaqToggle('faq6')">
+          <span class="gs-faq__num">06</span>
+          <span class="gs-faq__q">Какой минимальный срок лечения?</span>
+          <svg class="gs-faq__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
-        <div class="faq-item__a">
-          <p>Минимальный срок — <strong>7 ночей</strong>. Для получения стойкого лечебного эффекта врачи рекомендуют курс от <strong>10 до 14 дней</strong>. При артрозе, псориазе и грыжах — не менее 10 дней.</p>
-        </div>
+        <div class="gs-faq__answer"><p>Минимальный срок — <strong>7 ночей</strong>. Для стойкого эффекта врачи рекомендуют <strong>10–14 дней</strong>. При артрозе, псориазе и грыжах — не менее 10 дней.</p></div>
       </div>
-
     </div>
-
-    <div class="faq-section__cta">
-      <p>Остались вопросы? Ответим за 15 минут</p>
-      <a href="https://wa.me/994519158894?text=Здравствуйте!%20У%20меня%20есть%20вопрос." class="faq-section__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
+    <div class="gs-faq__footer">
+      <p>Остались вопросы? Пишите — ответим за 15 минут</p>
+      <a href="https://wa.me/994519158894?text=Здравствуйте!%20У%20меня%20есть%20вопрос." class="gs-faq__wa" target="_blank" rel="noopener">Написать в WhatsApp</a>
     </div>
-
   </div>
-</div>
+</section>
+<script>
+function gsFaqToggle(id){var item=document.getElementById(id);var isOpen=item.classList.contains('gs-faq__item--open');document.querySelectorAll('.gs-faq__item').forEach(function(el){el.classList.remove('gs-faq__item--open');});if(!isOpen){item.classList.add('gs-faq__item--open');}}
+</script>
 
 <script type="application/ld+json">
 {
