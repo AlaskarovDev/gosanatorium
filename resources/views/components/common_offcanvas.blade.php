@@ -42,15 +42,6 @@
             <a href="https://vk.com/gosanatorium" target="_blank" rel="noopener" title="VK" class="offcanvas-social-btn offcanvas-vk">
                 <i class="fab fa-vk"></i>
             </a>
-            <a href="https://ok.ru/gosanatorium" target="_blank" rel="noopener" title="OK" class="offcanvas-social-btn offcanvas-ok">
-                <i class="fab fa-odnoklassniki"></i>
-            </a>
-
-            @if($footer->email ?? false)
-            <a href="mailto:{{ $footer->email }}" title="Email" class="offcanvas-social-btn offcanvas-email">
-                <i class="fas fa-envelope"></i>
-            </a>
-            @endif
         </div>
     </div>
     <div class="offCanvas__overly"></div>
