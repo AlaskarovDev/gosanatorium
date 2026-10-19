@@ -41,4 +41,7 @@
     {{-- blog section --}}
     @include('theme::components.blog')
 
+    {{-- FAQ section --}}
+    @include('components.faq-section')
+
 @endsection
