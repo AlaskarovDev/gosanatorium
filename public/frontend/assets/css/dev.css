@@ -895,18 +895,18 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 @media(max-width:600px){.au-h1{font-size:25px}.au-cards3{grid-template-columns:1fr}.au-btn-w{width:100%}.au-story-win{padding:24px 20px}}
 
 /* === FAQ SECTION === */
-.faq-section{background:#f4faf9;padding:72px 24px}
-.faq-section__wrap{max-width:860px;margin:0 auto}
+.faq-section{background:#f4faf9;padding:72px 0;width:100%;box-sizing:border-box}
+.faq-section__wrap{max-width:860px;margin:0 auto;padding:0 40px;box-sizing:border-box}
 .faq-section__head{text-align:center;margin-bottom:40px}
 .faq-section__tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1a9e87;background:#e0f5ef;padding:4px 14px;border-radius:50px;margin-bottom:12px}
-.faq-section__title{font-size:32px;font-weight:900;color:#1a1a2e;margin-bottom:10px;line-height:1.2}
+.faq-section__title{font-size:32px;font-weight:900;color:#1a1a2e;margin:0 0 10px 0;line-height:1.2}
 .faq-section__sub{font-size:16px;color:#6b7280;margin:0}
-.faq-list{display:flex;flex-direction:column;gap:12px}
-.faq-item{background:#fff;border:1px solid #d8ede8;border-radius:14px;overflow:hidden;transition:box-shadow .2s}
+.faq-list{display:flex;flex-direction:column;gap:12px;width:100%}
+.faq-item{background:#fff;border:1px solid #d8ede8;border-radius:14px;overflow:hidden;transition:box-shadow .2s;width:100%;box-sizing:border-box}
 .faq-item:hover{box-shadow:0 4px 16px rgba(26,158,135,.1)}
-.faq-item__q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:none;border:none;cursor:pointer;font-size:16px;font-weight:600;color:#1a1a2e;text-align:left;gap:12px;line-height:1.4}
-.faq-item__icon{font-size:22px;font-weight:300;color:#1a9e87;flex-shrink:0;transition:transform .25s}
-.faq-item__a{max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease}
+.faq-item__q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:none;border:none;cursor:pointer;font-size:16px;font-weight:600;color:#1a1a2e;text-align:left;gap:12px;line-height:1.4;box-sizing:border-box}
+.faq-item__icon{font-size:22px;font-weight:300;color:#1a9e87;flex-shrink:0;transition:transform .25s;min-width:24px;text-align:center}
+.faq-item__a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease}
 .faq-item__a p{padding:0 24px 20px;font-size:15px;color:#4b5563;line-height:1.75;margin:0}
 .faq-item--open .faq-item__a{max-height:300px}
 .faq-item--open .faq-item__icon{transform:rotate(45deg)}
@@ -914,5 +914,5 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 .faq-section__cta p{font-size:16px;color:#4b5563;margin:0;font-weight:500}
 .faq-section__btn{display:inline-block;background:#25D366;color:#fff!important;font-size:15px;font-weight:700;padding:13px 32px;border-radius:50px;text-decoration:none!important;transition:transform .2s,box-shadow .2s}
 .faq-section__btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,211,102,.3)}
-@media(max-width:768px){.faq-section{padding:48px 16px}.faq-section__title{font-size:24px}.faq-item__q{font-size:15px;padding:16px 18px}.faq-item__a p{padding:0 18px 16px;font-size:14px}.faq-section__cta{flex-direction:column;gap:12px}}
+@media(max-width:768px){.faq-section{padding:48px 0}.faq-section__wrap{padding:0 20px}.faq-section__title{font-size:24px}.faq-item__q{font-size:15px;padding:16px 18px}.faq-item__a p{padding:0 18px 16px;font-size:14px}.faq-section__cta{flex-direction:column;gap:12px}}
 /* === END FAQ SECTION === */
