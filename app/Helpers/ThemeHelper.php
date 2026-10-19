@@ -172,8 +172,21 @@ if (!function_exists('wp_nav_menu')) {
         // Generate menu HTML
         $items_output = '';
 
+        // "Акции" link: added automatically unless the menu already has it
+        $add_akcii = $args['theme_location'] === 'primary_menu'
+            && !$menu_items->contains(fn ($i) => stripos((string) $i->url, 'akcii') !== false);
+        $akcii_added = false;
+
         foreach ($menu_items as $item) {
             $items_output .= render_menu_item($item, $args);
+            if ($add_akcii && !$akcii_added
+                && preg_match('#/blogs?$#i', rtrim((string) parse_url((string) $item->url, PHP_URL_PATH), '/'))) {
+                $items_output .= render_akcii_menu_item($args);
+                $akcii_added = true;
+            }
+        }
+        if ($add_akcii && !$akcii_added) {
+            $items_output .= render_akcii_menu_item($args);
         }
         
         // Wrap the menu items
@@ -269,6 +282,20 @@ if (!function_exists('localize_front_url')) {
         $prefixed = '/' . $lang . ($cleanPath === '/' ? '' : $cleanPath);
 
         return $prefixed . $query . $fragment;
+    }
+}
+
+/**
+ * Render the built-in "Акции" (promotions) menu item
+ */
+if (!function_exists('render_akcii_menu_item')) {
+    function render_akcii_menu_item($args) {
+        $item = new MenuItem([
+            'title' => (request()->attributes->get('display_lang') ?: app()->getLocale()) === 'ru' ? 'Акции' : 'Promotions',
+            'url' => '/akcii',
+        ]);
+
+        return render_menu_item($item, $args);
     }
 }
 
