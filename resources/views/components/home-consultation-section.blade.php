@@ -4,8 +4,8 @@
 .hcons-label{display:inline-block!important;font-size:12px!important;font-weight:700!important;letter-spacing:3px!important;text-transform:uppercase!important;color:rgba(255,255,255,0.85)!important;margin-bottom:16px!important}
 .hcons-title{font-size:40px!important;font-weight:900!important;color:#ffffff!important;margin:0 0 16px!important;line-height:1.2!important}
 .hcons-subtitle{font-size:18px!important;color:rgba(255,255,255,0.92)!important;margin:0 0 52px!important;line-height:1.7!important;max-width:660px!important;margin-left:auto!important;margin-right:auto!important}
-.hcons-features{display:flex!important;justify-content:center!important;gap:28px!important;flex-wrap:wrap!important;margin-bottom:52px!important}
-.hcons-feature{background:rgba(255,255,255,0.15)!important;border-radius:16px!important;padding:28px 24px!important;width:210px!important;text-align:center!important;backdrop-filter:blur(4px)!important}
+.hcons-features{display:flex!important;justify-content:center!important;gap:28px!important;flex-wrap:wrap!important;margin-bottom:52px!important;align-items:stretch!important}
+.hcons-feature{background:rgba(255,255,255,0.15)!important;border-radius:16px!important;padding:28px 24px!important;width:210px!important;text-align:center!important;backdrop-filter:blur(4px)!important;display:flex!important;flex-direction:column!important;justify-content:center!important}
 .hcons-feature-icon{font-size:38px!important;margin-bottom:12px!important;display:block!important}
 .hcons-feature-title{font-size:17px!important;font-weight:700!important;color:#ffffff!important;margin:0 0 8px!important}
 .hcons-feature-text{font-size:15px!important;color:rgba(255,255,255,0.85)!important;margin:0!important;line-height:1.6!important}
