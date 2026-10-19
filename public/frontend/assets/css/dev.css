@@ -894,25 +894,40 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 @media(max-width:900px){.au-h1{font-size:30px}.au-cta-flex{flex-direction:column;text-align:center;padding:32px 20px}}
 @media(max-width:600px){.au-h1{font-size:25px}.au-cards3{grid-template-columns:1fr}.au-btn-w{width:100%}.au-story-win{padding:24px 20px}}
 
-/* === FAQ SECTION === */
-.faq-section{background:#f4faf9;padding:72px 0;width:100%;box-sizing:border-box}
-.faq-section__wrap{max-width:860px;margin:0 auto;padding:0 40px;box-sizing:border-box}
-.faq-section__head{text-align:center;margin-bottom:40px}
-.faq-section__tag{display:inline-block;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:#1a9e87;background:#e0f5ef;padding:4px 14px;border-radius:50px;margin-bottom:12px}
-.faq-section__title{font-size:32px;font-weight:900;color:#1a1a2e;margin:0 0 10px 0;line-height:1.2}
-.faq-section__sub{font-size:16px;color:#6b7280;margin:0}
-.faq-list{display:flex;flex-direction:column;gap:12px;width:100%}
-.faq-item{background:#fff;border:1px solid #d8ede8;border-radius:14px;overflow:hidden;transition:box-shadow .2s;width:100%;box-sizing:border-box}
-.faq-item:hover{box-shadow:0 4px 16px rgba(26,158,135,.1)}
-.faq-item__q{width:100%;display:flex;justify-content:space-between;align-items:center;padding:20px 24px;background:none;border:none;cursor:pointer;font-size:16px;font-weight:600;color:#1a1a2e;text-align:left;gap:12px;line-height:1.4;box-sizing:border-box}
-.faq-item__icon{font-size:22px;font-weight:300;color:#1a9e87;flex-shrink:0;transition:transform .25s;min-width:24px;text-align:center}
-.faq-item__a{max-height:0;overflow:hidden;transition:max-height .35s ease,padding .3s ease}
-.faq-item__a p{padding:0 24px 20px;font-size:15px;color:#4b5563;line-height:1.75;margin:0}
-.faq-item--open .faq-item__a{max-height:300px}
-.faq-item--open .faq-item__icon{transform:rotate(45deg)}
-.faq-section__cta{text-align:center;margin-top:40px;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap}
-.faq-section__cta p{font-size:16px;color:#4b5563;margin:0;font-weight:500}
-.faq-section__btn{display:inline-block;background:#25D366;color:#fff!important;font-size:15px;font-weight:700;padding:13px 32px;border-radius:50px;text-decoration:none!important;transition:transform .2s,box-shadow .2s}
-.faq-section__btn:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(37,211,102,.3)}
-@media(max-width:768px){.faq-section{padding:48px 0}.faq-section__wrap{padding:0 20px}.faq-section__title{font-size:24px}.faq-item__q{font-size:15px;padding:16px 18px}.faq-item__a p{padding:0 18px 16px;font-size:14px}.faq-section__cta{flex-direction:column;gap:12px}}
-/* === END FAQ SECTION === */
+
+/* ===== GS FAQ ===== */
+.gs-faq{background:#f4faf9;padding:80px 0;width:100%}
+.gs-faq__inner{max-width:900px;margin:0 auto;padding:0 32px;box-sizing:border-box}
+.gs-faq__header{text-align:center;margin-bottom:48px}
+.gs-faq__label{display:inline-block;font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1a9e87;background:rgba(26,158,135,.12);padding:5px 16px;border-radius:50px;margin-bottom:14px}
+.gs-faq__title{font-size:34px;font-weight:900;color:#0d1b2a;margin:0 0 12px;line-height:1.2}
+.gs-faq__desc{font-size:16px;color:#6b7280;margin:0}
+.gs-faq__grid{display:flex;flex-direction:column;gap:0}
+.gs-faq__item{border-bottom:1px solid #d8ede8}
+.gs-faq__item:first-child{border-top:1px solid #d8ede8}
+.gs-faq__btn{width:100%;display:flex;align-items:center;gap:16px;padding:22px 8px;background:none;border:none;cursor:pointer;text-align:left;transition:background .2s;box-sizing:border-box}
+.gs-faq__btn:hover{background:rgba(26,158,135,.04)}
+.gs-faq__num{font-size:13px;font-weight:700;color:#1a9e87;min-width:28px;font-family:monospace}
+.gs-faq__q{flex:1;font-size:16px;font-weight:600;color:#0d1b2a;line-height:1.45}
+.gs-faq__arrow{width:20px;height:20px;color:#1a9e87;flex-shrink:0;transition:transform .3s ease}
+.gs-faq__answer{max-height:0;overflow:hidden;transition:max-height .35s ease}
+.gs-faq__answer p{padding:0 8px 22px 44px;font-size:15px;color:#4b5563;line-height:1.8;margin:0}
+.gs-faq__item--open .gs-faq__answer{max-height:400px}
+.gs-faq__item--open .gs-faq__arrow{transform:rotate(180deg)}
+.gs-faq__item--open .gs-faq__btn{background:rgba(26,158,135,.04)}
+.gs-faq__footer{display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap;margin-top:40px;padding:28px 32px;background:#fff;border-radius:16px;border:1px solid #d8ede8}
+.gs-faq__footer p{font-size:15px;color:#4b5563;margin:0;line-height:1.5}
+.gs-faq__wa{display:inline-flex;align-items:center;gap:8px;background:#25D366;color:#fff!important;font-size:14px;font-weight:700;padding:12px 24px;border-radius:50px;text-decoration:none!important;white-space:nowrap;transition:transform .2s,box-shadow .2s;flex-shrink:0}
+.gs-faq__wa:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(37,211,102,.35)}
+@media(max-width:768px){
+.gs-faq{padding:56px 0}
+.gs-faq__inner{padding:0 20px}
+.gs-faq__title{font-size:26px}
+.gs-faq__btn{padding:18px 4px;gap:12px}
+.gs-faq__num{min-width:22px;font-size:12px}
+.gs-faq__q{font-size:15px}
+.gs-faq__answer p{padding:0 4px 18px 34px;font-size:14px}
+.gs-faq__footer{flex-direction:column;align-items:flex-start;padding:20px}
+.gs-faq__wa{width:100%;justify-content:center}
+}
+/* ===== END GS FAQ ===== */
