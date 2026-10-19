@@ -47,6 +47,9 @@
     {{-- FAQ section --}}
     @include('components.faq-section')
 
+    {{-- Consultation section --}}
+    @include('components.home-consultation-section')
+
     {{-- Akcii section --}}
     @include('components.home-akcii-section')
 
