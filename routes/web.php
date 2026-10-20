@@ -204,6 +204,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
         // SEO management (title, description, Open Graph, robots per page)
         Route::resource('seo', App\Http\Controllers\Admin\SeoMetaController::class)->except(['show']);
 
+        // Homepage consultant block
+        Route::get('consultant', [App\Http\Controllers\Admin\ConsultantController::class, 'index'])->name('consultant.index');
+        Route::get('consultant/edit', [App\Http\Controllers\Admin\ConsultantController::class, 'edit'])->name('consultant.edit');
+        Route::post('consultant/update', [App\Http\Controllers\Admin\ConsultantController::class, 'update'])->name('consultant.update');
+
         // Akcii (promotions)
         Route::resource('akcii', App\Http\Controllers\Admin\AkciiController::class);
 
