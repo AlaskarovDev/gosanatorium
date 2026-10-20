@@ -8,9 +8,17 @@
         <i class="fa-solid fa-hospital"></i>
         <span>Санатории</span>
     </a>
+    <a href="{{ url('faq') }}" class="tg-mbn-item">
+        <i class="fa-solid fa-circle-question"></i>
+        <span>FAQ</span>
+    </a>
     <a href="{{ $__mbnServices }}" class="tg-mbn-item tg-mbn-center">
         <span class="tg-mbn-center-btn"><i class="fa-solid fa-calendar-check"></i></span>
         <span>Забронировать</span>
+    </a>
+    <a href="{{ url('akcii') }}" class="tg-mbn-item">
+        <i class="fa-solid fa-tag"></i>
+        <span>Акции</span>
     </a>
     <a href="{{ $__mbnConsult }}" class="tg-mbn-item">
         <i class="fa-solid fa-headset"></i>
