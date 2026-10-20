@@ -93,6 +93,7 @@
                 <div class="col-lg-4 col-7">
                     <div
                         class="tg-menu-right-action tg-menu-right-action-2 tg-menu-4-right-action d-flex align-items-center justify-content-end">
+@include('partials.gsdark-toggle')
                         <div class="tg-header-contact-info ml-20 d-flex align-items-center">
                             <span class="tg-header-contact-icon mr-5 d-none d-xl-block">
                                 <svg width="21" height="21" viewBox="0 0 21 21" fill="none"
