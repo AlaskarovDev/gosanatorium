@@ -55,7 +55,7 @@
 
     {{-- Sticky side navigation --}}
 <style>
-.gssticky-nav{position:fixed!important;right:16px!important;top:50%!important;transform:translateY(-50%)!important;z-index:999!important;display:flex!important;flex-direction:column!important;gap:6px!important;background:#fff!important;border-radius:12px!important;box-shadow:0 4px 24px rgba(0,0,0,0.12)!important;padding:10px 8px!important}
+.gssticky-nav{position:fixed!important;right:16px!important;top:50%!important;transform:translateY(-50%)!important;z-index:99999!important;display:flex!important;flex-direction:column!important;gap:6px!important;background:#fff!important;border-radius:12px!important;box-shadow:0 4px 24px rgba(0,0,0,0.12)!important;padding:10px 8px!important}
 .gssticky-item{display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important;cursor:pointer!important;padding:8px 6px!important;border-radius:8px!important;text-decoration:none!important;transition:background 0.2s!important;width:64px!important}
 .gssticky-item:hover{background:#f0faf8!important}
 .gssticky-item.active{background:linear-gradient(135deg,#1a9e87,#2ec4a9)!important}
