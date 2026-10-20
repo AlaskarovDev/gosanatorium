@@ -42,7 +42,7 @@
     }
 @endphp
 @if($consultant)
-<section class="gscons2-wrap">
+<section id="section-consultant" class="gscons2-wrap">
   <div class="gscons2-inner">
     <h2 class="gscons2-heading">Бесплатная консультация эксперта</h2>
     <p class="gscons2-sub">Помогу подобрать санаторий под ваш запрос и бюджет</p>

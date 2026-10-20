@@ -24,7 +24,7 @@
   .hfaq-answer p{padding:10px 16px 14px!important;font-size:13px!important}
 }
 </style>
-<div class="hfaq-wrap">
+<div id="section-faq" class="hfaq-wrap">
   <div class="hfaq-container">
     <div class="hfaq-head">
       <p class="hfaq-subtitle">У Вас Есть Вопросы? Мы Собрали Ответы</p>

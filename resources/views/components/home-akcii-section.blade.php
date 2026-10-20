@@ -21,7 +21,7 @@
 .hakcii-more{text-align:center !important;margin-top:40px !important}
 .hakcii-more a{color:#1a9e87 !important;font-size:16px !important;font-weight:600 !important;text-decoration:none !important}
 </style>
-<section class="hakcii-section">
+<section id="section-akcii" class="hakcii-section">
     <div class="hakcii-container">
         <div class="hakcii-head">
             <span class="hakcii-label">Акции и спецпредложения</span>

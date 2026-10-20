@@ -23,7 +23,7 @@
         @media (max-width: 480px) { .home-diseases-grid { grid-template-columns: 1fr !important; } .home-dg-card { height: 130px; } }
     </style>
 
-    <section class="home-diseases-section">
+    <section id="section-diseases" class="home-diseases-section">
         <div class="home-diseases-inner">
             <h2 class="home-diseases-title">{{ \Modules\TourBooking\App\Models\Disease::t('Find a Sanatorium for Your Condition') }}</h2>
 
