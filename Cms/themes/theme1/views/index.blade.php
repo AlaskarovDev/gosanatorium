@@ -15,6 +15,9 @@
     {{-- package section --}}
     @include('theme::components.package')
 
+    {{-- consultant card --}}
+    @include('components.home-consultant-card')
+
 @include('components.room-booking-popup')
 
     {{-- diseases section --}}
