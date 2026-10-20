@@ -58,6 +58,45 @@ body.gsdark-mode .gsfooter{background:#080d12!important}
 body.gsdark-mode .dropdown-menu{background:#1a2636!important;border-color:#253545!important}
 body.gsdark-mode .dropdown-item{color:#d0d8e0!important}
 body.gsdark-mode .dropdown-item:hover{background:#253545!important}
+
+body.gsdark-mode main,
+body.gsdark-mode .main,
+body.gsdark-mode #main,
+body.gsdark-mode [id*="main"],
+body.gsdark-mode .container,
+body.gsdark-mode .container-fluid,
+body.gsdark-mode .wrapper,
+body.gsdark-mode #wrapper,
+body.gsdark-mode .page-wrapper,
+body.gsdark-mode .content-wrapper,
+body.gsdark-mode .site-content,
+body.gsdark-mode #content{background:#0f1923!important;color:#d0d8e0!important}
+
+body.gsdark-mode section{background:#0f1923!important}
+
+body.gsdark-mode .row > div,
+body.gsdark-mode .col,
+body.gsdark-mode [class*="col-"]{background:transparent!important}
+
+body.gsdark-mode .feature-box,
+body.gsdark-mode .feature-item,
+body.gsdark-mode .service-box,
+body.gsdark-mode .info-box,
+body.gsdark-mode .icon-box{background:#1a2636!important;color:#d0d8e0!important}
+
+body.gsdark-mode .feature-box p,
+body.gsdark-mode .feature-item p,
+body.gsdark-mode .icon-box p,
+body.gsdark-mode .info-box p{color:#a0b0bc!important}
+
+body.gsdark-mode .feature-box h3,
+body.gsdark-mode .feature-item h3,
+body.gsdark-mode .icon-box h3{color:#eef2f5!important}
+
+body.gsdark-mode .feature-box .icon,
+body.gsdark-mode .feature-item .icon,
+body.gsdark-mode [class*="icon-wrap"],
+body.gsdark-mode [class*="icon-bg"]{background:#1e3a4a!important}
 </style>
 <script>
 function gsToggleDark(){
