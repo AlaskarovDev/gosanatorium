@@ -21,6 +21,7 @@
                     </div>
                     <div class="col-lg-5 col-7">
                         <div class="tg-menu-right-action d-flex align-items-center justify-content-end">
+@include('partials.gsdark-toggle')
                             
                             {{-- ========== SOCIAL CONTACT ICONS ========== --}}
                             @php

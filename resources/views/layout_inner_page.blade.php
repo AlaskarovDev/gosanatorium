@@ -429,6 +429,7 @@
                     </div>
                     <div class="col-lg-5 col-7">
                         <div class="tg-menu-right-action d-flex align-items-center justify-content-end">
+@include('partials.gsdark-toggle')
                             
                             {{-- ========== SOCIAL CONTACT ICONS ========== --}}
                             @php
@@ -1008,6 +1009,7 @@
 
 })();
 </script>
+@include('partials.gsdark-assets')
 @include('partials.whatsapp-float')
 </body>
 

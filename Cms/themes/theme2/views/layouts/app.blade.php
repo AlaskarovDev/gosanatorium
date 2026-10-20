@@ -234,6 +234,7 @@
     @stack('js_section')
 
 
+@include('partials.gsdark-assets')
 @include('partials.whatsapp-float')
 </body>
 
