@@ -4,7 +4,7 @@
 @endphp
 
 <!-- tg-location-area-start -->
-<div class="tg-location-area p-relative pb-100 tg-grey-bg pt-140">
+<div id="section-directions" class="tg-location-area p-relative pb-100 tg-grey-bg pt-140">
     <img class="tg-location-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/tower.png') }}"
         alt="shape">
     <div class="container">

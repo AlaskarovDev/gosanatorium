@@ -15,7 +15,7 @@
 @media(max-width:767px){.hcons-title{font-size:26px!important}.hcons-feature{width:100%!important}.hcons-btn{font-size:15px!important;padding:16px 32px!important}}
 </style>
 
-<div class="hcons-wrap">
+<div id="section-doctor" class="hcons-wrap">
   <div class="hcons-container">
     <span class="hcons-label">Бесплатная консультация</span>
     <h2 class="hcons-title">Не знаете, какой санаторий<br>подойдёт именно вам?</h2>

@@ -26,7 +26,7 @@
   .hbook-step{padding:24px 20px}
 }
 </style>
-<div class="hbook-wrap">
+<div id="section-howtobook" class="hbook-wrap">
   <div class="hbook-container">
     <div class="hbook-head">
       <span class="hbook-label">Просто и быстро</span>

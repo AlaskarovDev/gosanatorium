@@ -7,7 +7,7 @@
 @endphp
 
 <!-- tg-listing-area-start -->
-<div class="tg-listing-area tg-grey-bg pt-140 pb-110 p-relative z-index-9">
+<div id="section-sanatoria" class="tg-listing-area tg-grey-bg pt-140 pb-110 p-relative z-index-9">
     <img class="tg-listing-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/air-plane.png') }}"
         alt="air-plane">
     <img class="tg-listing-shape-2 d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/pyramid.png') }}"
