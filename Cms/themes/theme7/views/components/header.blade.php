@@ -20,7 +20,6 @@
                 </div>
                 <div class="col-lg-4 col-7">
                     <div class="tg-menu-right-action d-flex align-items-center justify-content-end">
-@include('partials.gsdark-toggle')
                         <div class="tg-header-cart p-relative d-none d-xl-block">
                             @include('components.cart')
                         </div>

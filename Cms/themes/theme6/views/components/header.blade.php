@@ -94,7 +94,6 @@
                         <div class="col-lg-4 col-7">
                             <div
                                 class="tg-menu-right-action tg-menu-right-action-3 tg-menu-4-right-action d-flex align-items-center justify-content-end">
-@include('partials.gsdark-toggle')
                                 <button class="search-button search-open-btn">
                                     <svg width="19" height="18" viewBox="0 0 19 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
