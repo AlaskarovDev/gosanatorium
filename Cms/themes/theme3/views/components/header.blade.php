@@ -25,7 +25,6 @@
                     </div>
                     <div class="col-xxl-3 col-xl-4 col-lg-4 col-7">
                         <div class="tg-menu-right-action d-flex align-items-center justify-content-end">
-@include('partials.gsdark-toggle')
                             <div class="tg-header-contact-info d-flex align-items-center">
                                 <span class="tg-header-contact-icon mr-10 d-none d-xl-block">
                                     <svg width="21" height="21" viewBox="0 0 21 21" fill="none"

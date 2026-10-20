@@ -22,7 +22,6 @@
                     <div class="col-xl-5 col-8">
                         <div
                             class="tg-menu-right-action tg-menu-right-action-2 d-flex align-items-center justify-content-end">
-@include('partials.gsdark-toggle')
                             <div class="tg-header-cart p-relative d-none d-xl-block">
                                 @include('components.cart')
                             </div>
