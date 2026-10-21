@@ -46,10 +46,10 @@
 .gscontra-cta p{color:rgba(255,255,255,0.9)!important;font-size:16px!important;margin:0 0 24px!important}
 .gscontra-btn{display:inline-block!important;background:#fff!important;color:#1a9e87!important;padding:14px 28px!important;border-radius:8px!important;font-weight:700!important;text-decoration:none!important;margin:6px!important;font-size:15px!important}
 .gscontra-btn:hover{background:#f0f0f0!important;color:#1a9e87!important;text-decoration:none!important}
-.gscontra-hero{background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 50%,#17b09a 100%)!important;padding:80px 20px!important;text-align:center!important}
-.gscontra-hero-title{color:#fff!important;font-size:36px!important;font-weight:700!important;margin:0 0 12px!important}
+.gscontra-hero{background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 50%,#17b09a 100%)!important;padding:80px 20px!important;padding-top:170px!important;text-align:center!important}
+.gscontra-hero-title{color:#fff!important;position:relative!important;z-index:1!important;font-size:36px!important;font-weight:700!important;margin:0 0 12px!important}
 .gscontra-hero-sub{color:rgba(255,255,255,0.9)!important;font-size:18px!important;margin:0!important}
-@media(max-width:768px){.gscontra-hero-title{font-size:26px!important}.gscontra-hero{padding:50px 16px!important}}
+@media(max-width:768px){.gscontra-hero-title{font-size:26px!important}.gscontra-hero{padding:50px 16px!important;padding-top:130px!important}}
 .gscontra-wrap h2,.gscontra-wrap h3{margin:0 0 12px!important}
 .gscontra-wrap p.gscontra-sub{margin:0 0 16px!important}
 </style>
