@@ -53,6 +53,9 @@
     {{-- Akcii section --}}
     @include('components.home-akcii-section')
 
+    {{-- Naftalan products preview --}}
+    @include('components.home-products-section')
+
     {{-- Live currency rates section --}}
     @include('components.home-currency-section')
 
