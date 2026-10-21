@@ -27,9 +27,6 @@
 
 @push('style_section')
 <style>
-#header-sticky,#header-sticky.tg-transparent{background-color:#1a2a2a!important}
-#header-sticky .tg-header-contact-number,#header-sticky .tg-header-contact-number span,#header-sticky a,#header-sticky .tg-header-menu-bar,#header-sticky .tg-header-menu-bar span{color:#fff!important}
-#header-sticky .tg-header-border{background-color:#fff!important}
 .gscontra-wrap{max-width:860px!important;margin:0 auto!important;padding:40px 20px!important}
 .gscontra-section{margin-bottom:48px!important}
 .gscontra-list{list-style:none!important;padding:0!important;margin:0!important}
@@ -46,20 +43,16 @@
 .gscontra-cta p{color:rgba(255,255,255,0.9)!important;font-size:16px!important;margin:0 0 24px!important}
 .gscontra-btn{display:inline-block!important;background:#fff!important;color:#1a9e87!important;padding:14px 28px!important;border-radius:8px!important;font-weight:700!important;text-decoration:none!important;margin:6px!important;font-size:15px!important}
 .gscontra-btn:hover{background:#f0f0f0!important;color:#1a9e87!important;text-decoration:none!important}
-.gscontra-hero{background:linear-gradient(135deg,#1a9e87 0%,#2ec4a9 50%,#17b09a 100%)!important;padding:80px 20px!important;padding-top:170px!important;text-align:center!important}
-.gscontra-hero-title{color:#fff!important;position:relative!important;z-index:1!important;font-size:36px!important;font-weight:700!important;margin:0 0 12px!important}
-.gscontra-hero-sub{color:rgba(255,255,255,0.9)!important;font-size:18px!important;margin:0!important}
-@media(max-width:768px){.gscontra-hero-title{font-size:26px!important}.gscontra-hero{padding:50px 16px!important;padding-top:130px!important}}
 .gscontra-wrap h2,.gscontra-wrap h3{margin:0 0 12px!important}
 .gscontra-wrap p.gscontra-sub{margin:0 0 16px!important}
 </style>
 @endpush
 
 @section('front-content')
-<div class="gscontra-hero">
-    <div class="container">
-        <h1 class="gscontra-hero-title">Противопоказания к лечению нафталаном</h1>
-        <p class="gscontra-hero-sub">Узнайте, подходит ли вам нафталановое лечение — до поездки</p>
+<div class="ct-hero">
+    <div class="ct-hero__inner">
+        <h1 class="ct-hero__title">Противопоказания к лечению нафталаном</h1>
+        <p class="ct-hero__sub">Узнайте, подходит ли вам нафталановое лечение — до поездки</p>
     </div>
 </div>
 <div class="gscontra-wrap">
