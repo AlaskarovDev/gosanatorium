@@ -53,6 +53,9 @@
     {{-- Akcii section --}}
     @include('components.home-akcii-section')
 
+    {{-- Currency exchange section --}}
+    @include('components.home-currency-section')
+
     {{-- Sticky side navigation --}}
 <style>
 .gssticky-nav{position:fixed!important;right:16px!important;top:50%!important;transform:translateY(-50%)!important;z-index:99999!important;display:flex!important;flex-direction:column!important;gap:6px!important;background:#fff!important;border-radius:12px!important;box-shadow:0 4px 24px rgba(0,0,0,0.12)!important;padding:10px 8px!important}
