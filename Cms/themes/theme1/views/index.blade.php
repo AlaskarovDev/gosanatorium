@@ -53,7 +53,7 @@
     {{-- Akcii section --}}
     @include('components.home-akcii-section')
 
-    {{-- Currency exchange section --}}
+    {{-- Live currency rates section --}}
     @include('components.home-currency-section')
 
     {{-- Sticky side navigation --}}
