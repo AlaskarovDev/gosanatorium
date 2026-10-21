@@ -65,7 +65,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
     Route::get('/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->name('bez-predoplaty');
     Route::get('/{locale}/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->where('locale', 'ru|az|en')->name('bez-predoplaty.locale');
-    Route::get('/{locale}/naftalan-protivopokazaniya', [HomeController::class, 'contraindications'])->where('locale', 'ru|az|en')->name('contraindications');
+    Route::get('/naftalan-protivopokazaniya', [HomeController::class, 'contraindications'])->name('contraindications');
+    Route::get('/{locale}/naftalan-protivopokazaniya', [HomeController::class, 'contraindications'])->where('locale', 'ru|az|en')->name('contraindications.locale');
     Route::get('/akcii', [App\Http\Controllers\AkciiController::class, 'index'])->name('akcii.frontend.index');
     Route::get('/{locale}/akcii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('akcii.frontend.index.locale');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
