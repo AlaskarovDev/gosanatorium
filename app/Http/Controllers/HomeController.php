@@ -125,6 +125,16 @@ class HomeController extends Controller
         return view('bez-predoplaty');
     }
 
+    public function contraindications($locale = 'ru')
+    {
+        $this->applySeo('contraindications', [
+            'title'       => 'Противопоказания к нафталановому лечению 2026 — полный список | GoSanatorium',
+            'description' => 'Полный список противопоказаний к нафталановому лечению. Кому нельзя принимать нафталановые ванны, абсолютные и относительные противопоказания. Консультация бесплатно.',
+        ]);
+
+        return view('pages.contraindications');
+    }
+
     public function blogs(Request $request)
     {
         $this->applySeo('blogs', [
