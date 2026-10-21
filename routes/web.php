@@ -211,6 +211,13 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
         Route::get('consultant/edit', [App\Http\Controllers\Admin\ConsultantController::class, 'edit'])->name('consultant.edit');
         Route::post('consultant/update', [App\Http\Controllers\Admin\ConsultantController::class, 'update'])->name('consultant.update');
 
+        // Naftalan Products admin
+        Route::resource('naftalan-products', App\Http\Controllers\Admin\NaftalanProductController::class)
+            ->except(['show'])
+            ->parameters(['naftalan-products' => 'naftalanProduct']);
+        Route::post('naftalan-products/{naftalanProduct}/toggle', [App\Http\Controllers\Admin\NaftalanProductController::class, 'toggleActive'])
+            ->name('naftalan-products.toggle');
+
         // Akcii (promotions)
         Route::resource('akcii', App\Http\Controllers\Admin\AkciiController::class);
 
