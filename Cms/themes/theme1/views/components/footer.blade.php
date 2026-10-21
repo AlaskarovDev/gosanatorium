@@ -54,6 +54,7 @@
         <li><a href="{{ route('akcii.frontend.index') }}">Акции</a></li>
         <li><a href="{{ route('blogs') }}">Блоги</a></li>
         <li><a href="{{ route('faq') }}">FAQ</a></li>
+        <li><a href="{{ url('/ru/naftalan-protivopokazaniya') }}">Противопоказания</a></li>
         <li><a href="{{ route('contact-us') }}">Контакты</a></li>
       </ul>
     </div>
