@@ -8,6 +8,9 @@
 
 @push('style_section')
 <style>
+    .gsspecials-hero { background: linear-gradient(135deg, #1a9e87 0%, #2ec4a9 50%, #17b09a 100%) !important; padding: 80px 20px !important; text-align: center !important; color: #ffffff !important; }
+    .gsspecials-hero h1 { color: #ffffff !important; font-size: 36px !important; font-weight: 700 !important; margin: 0 0 12px !important; }
+    .gsspecials-hero p { color: #ffffff !important; opacity: 0.9 !important; font-size: 18px !important; margin: 0 !important; }
     .fakcii-header { background: #f4faf9 !important; padding: 48px 0 !important; text-align: center !important; }
     .fakcii-label { display: block !important; color: #1a9e87 !important; font-size: 14px !important; font-weight: 600 !important; text-transform: uppercase !important; letter-spacing: 1px !important; margin-bottom: 8px !important; }
     .fakcii-title { font-size: 34px !important; font-weight: 700 !important; color: #1f2d3d !important; margin: 0 0 12px !important; }
@@ -34,13 +37,10 @@
 @endpush
 
 @section('front-content')
-    <section class="fakcii-header">
-        <div class="container">
-            <span class="fakcii-label">Специальные предложения</span>
-            <h1 class="fakcii-title">Акции и скидки в санаториях</h1>
-            <p class="fakcii-subtitle">Выгодные предложения для вашего отдыха и лечения</p>
-        </div>
-    </section>
+    <div class="gsspecials-hero">
+        <h1>Акции и скидки в санаториях</h1>
+        <p>Выгодные предложения для вашего отдыха и лечения</p>
+    </div>
 
     <section class="fakcii-section">
         <div class="container">
