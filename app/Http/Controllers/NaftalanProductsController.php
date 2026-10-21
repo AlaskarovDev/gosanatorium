@@ -8,7 +8,11 @@ class NaftalanProductsController extends Controller
 {
     public function index($locale = 'ru')
     {
-        $products = NaftalanProduct::active()->get();
+        try {
+            $products = NaftalanProduct::active()->get();
+        } catch (\Throwable $e) {
+            $products = collect();
+        }
 
         return view('pages.naftalan-products', compact('products'));
     }
