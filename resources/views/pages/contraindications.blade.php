@@ -27,6 +27,9 @@
 
 @push('style_section')
 <style>
+#header-sticky,#header-sticky.tg-transparent{background-color:#1a2a2a!important}
+#header-sticky .tg-header-contact-number,#header-sticky .tg-header-contact-number span,#header-sticky a,#header-sticky .tg-header-menu-bar,#header-sticky .tg-header-menu-bar span{color:#fff!important}
+#header-sticky .tg-header-border{background-color:#fff!important}
 .gscontra-wrap{max-width:860px!important;margin:0 auto!important;padding:40px 20px!important}
 .gscontra-section{margin-bottom:48px!important}
 .gscontra-list{list-style:none!important;padding:0!important;margin:0!important}
