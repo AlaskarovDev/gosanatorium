@@ -111,6 +111,13 @@
     <span class="gssticky-label">Как забронировать</span>
   </a>
 
+  <a href="#" class="gssticky-item" id="gssticky-curr-btn" onclick="gsCurrToggle(event);return false;">
+    <div class="gssticky-icon">
+      <svg viewBox="0 0 24 24"><path d="M7.5 21 3 16.5 7.5 12v3H15v3H7.5v3zM16.5 12v-3H9V6h7.5V3L21 7.5 16.5 12z" transform="translate(0 1)"/></svg>
+    </div>
+    <span class="gssticky-label">Валюта</span>
+  </a>
+
   <a href="#section-faq" class="gssticky-item" onclick="gsScrollTo('section-faq');return false;">
     <div class="gssticky-icon">
       <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 17h-2v-2h2v2zm2.07-7.75l-.9.92C13.45 12.9 13 13.5 13 15h-2v-.5c0-1.1.45-2.1 1.17-2.83l1.24-1.26c.37-.36.59-.86.59-1.41 0-1.1-.9-2-2-2s-2 .9-2 2H8c0-2.21 1.79-4 4-4s4 1.79 4 4c0 .88-.36 1.68-.93 2.25z"/></svg>
@@ -142,10 +149,94 @@ function gsScrollTo(id){
       if(el&&el.getBoundingClientRect().top<=200)current=id;
     });
     items.forEach(function(item){
-      var href=item.getAttribute('href').replace('#','');
-      item.classList.toggle('active',href===current);
+      var href=(item.getAttribute('href')||'').replace('#','');
+      if(href)item.classList.toggle('active',href===current);
     });
   });
+})();
+</script>
+
+<style>
+.gssticky-curr-popup{display:none!important;position:fixed!important;right:120px!important;top:50%!important;transform:translateY(-50%)!important;width:320px!important;max-height:90vh!important;overflow-y:auto!important;box-sizing:border-box!important;background:#1a2340!important;border-radius:12px!important;padding:20px!important;box-shadow:0 8px 32px rgba(0,0,0,0.3)!important;z-index:99999!important}
+.gssticky-curr-popup.gssticky-curr-open{display:block!important}
+.gssticky-curr-close{position:absolute!important;top:8px!important;right:12px!important;background:none!important;border:none!important;color:#fff!important;font-size:24px!important;line-height:1!important;cursor:pointer!important;padding:0!important}
+.gssticky-curr-title{color:#fff!important;font-weight:700!important;font-size:17px!important;margin:0 24px 16px 0!important}
+.gssticky-curr-inputrow{display:flex!important;gap:8px!important;margin-bottom:12px!important}
+.gssticky-curr-amount{flex:1!important;min-width:0!important;background:#fff!important;border:none!important;border-radius:8px!important;padding:10px 12px!important;font-size:16px!important;font-weight:700!important;color:#1a2340!important}
+.gssticky-curr-select{background:#fff!important;border:none!important;border-radius:8px!important;padding:10px 8px!important;font-size:14px!important;font-weight:600!important;color:#1a2340!important;cursor:pointer!important}
+.gssticky-curr-row{display:flex!important;align-items:center!important;gap:8px!important;padding:8px 0!important;border-bottom:1px solid rgba(255,255,255,0.08)!important}
+.gssticky-curr-flag{font-size:18px!important;width:24px!important}
+.gssticky-curr-code{color:#fff!important;font-weight:700!important;font-size:14px!important;width:40px!important}
+.gssticky-curr-name{color:rgba(255,255,255,0.6)!important;font-size:12px!important;flex:1!important;text-align:left!important}
+.gssticky-curr-val{color:#2ec4a9!important;font-size:15px!important;font-weight:700!important;text-align:right!important}
+.gssticky-curr-msg{color:rgba(255,255,255,0.5)!important;padding:16px 0!important;text-align:center!important}
+.gssticky-curr-updated{color:rgba(255,255,255,0.3)!important;font-size:11px!important;margin-top:10px!important;text-align:center!important}
+</style>
+
+<div class="gssticky-curr-popup" id="gssticky-curr-popup">
+  <button type="button" class="gssticky-curr-close" id="gssticky-curr-close" aria-label="Закрыть">&times;</button>
+  <h3 class="gssticky-curr-title">Конвертер валют</h3>
+  <div class="gssticky-curr-inputrow">
+    <input type="number" class="gssticky-curr-amount" id="gssticky-curr-amount" value="1" min="0">
+    <select class="gssticky-curr-select" id="gssticky-curr-from">
+      <option value="AZN">AZN</option><option value="RUB">RUB</option><option value="USD">USD</option><option value="EUR">EUR</option><option value="TRY">TRY</option><option value="KZT">KZT</option><option value="GEL">GEL</option>
+    </select>
+  </div>
+  <div id="gssticky-curr-table"></div>
+  <div class="gssticky-curr-updated" id="gssticky-curr-updated"></div>
+</div>
+
+<script>
+(function(){
+  var list=[
+    {code:'AZN',flag:'🇦🇿',name:'Азербайджанский манат'},
+    {code:'RUB',flag:'🇷🇺',name:'Российский рубль'},
+    {code:'USD',flag:'🇺🇸',name:'Доллар США'},
+    {code:'EUR',flag:'🇪🇺',name:'Евро'},
+    {code:'TRY',flag:'🇹🇷',name:'Турецкая лира'},
+    {code:'KZT',flag:'🇰🇿',name:'Казахстанский тенге'},
+    {code:'GEL',flag:'🇬🇪',name:'Грузинский лари'}
+  ];
+  var popup=document.getElementById('gssticky-curr-popup');
+  var btn=document.getElementById('gssticky-curr-btn');
+  var table=document.getElementById('gssticky-curr-table');
+  var failed=false,fetching=false;
+  function rates(){return (typeof gcRates!=='undefined'&&gcRates&&gcRates.AZN)?gcRates:null;}
+  function calc(){
+    var r=rates();
+    var amount=parseFloat(document.getElementById('gssticky-curr-amount').value)||0;
+    var from=document.getElementById('gssticky-curr-from').value;
+    if(!r||!r[from]){table.innerHTML='<div class="gssticky-curr-msg">'+(failed?'Не удалось загрузить курсы':'Загрузка...')+'</div>';return;}
+    table.innerHTML=list.filter(function(c){return c.code!==from;}).map(function(c){
+      var v=r[c.code]?(amount/r[from]*r[c.code]).toFixed(2):'—';
+      return '<div class="gssticky-curr-row"><span class="gssticky-curr-flag">'+c.flag+'</span><span class="gssticky-curr-code">'+c.code+'</span><span class="gssticky-curr-name">'+c.name+'</span><span class="gssticky-curr-val">'+v+'</span></div>';
+    }).join('');
+  }
+  function load(){
+    if(rates()){calc();return;}
+    calc();
+    if(fetching)return;
+    fetching=true;failed=false;
+    fetch('https://open.er-api.com/v6/latest/AZN')
+      .then(function(r){return r.json();})
+      .then(function(d){
+        if(!rates()){window.gcRates=d.rates;window.gcRates.AZN=1;}
+        document.getElementById('gssticky-curr-updated').textContent='Обновлено: '+new Date().toLocaleString('ru-RU');
+        fetching=false;calc();
+      })
+      .catch(function(){fetching=false;failed=true;calc();});
+  }
+  function close(){popup.classList.remove('gssticky-curr-open');}
+  window.gsCurrToggle=function(e){
+    if(e)e.stopPropagation();
+    if(popup.classList.toggle('gssticky-curr-open'))load();
+  };
+  document.getElementById('gssticky-curr-close').addEventListener('click',close);
+  popup.addEventListener('click',function(e){e.stopPropagation();});
+  document.addEventListener('click',function(e){if(!btn.contains(e.target))close();});
+  document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+  document.getElementById('gssticky-curr-amount').addEventListener('input',calc);
+  document.getElementById('gssticky-curr-from').addEventListener('change',calc);
 })();
 </script>
 
