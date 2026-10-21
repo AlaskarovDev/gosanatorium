@@ -548,7 +548,7 @@
 
 
     <!-- footer-area-start -->
-    @include('theme::components.footer')
+    @include('partials.site_footer')
     <!-- footer-area-end -->
 
     {{-- Mobil alt menyu --}}
