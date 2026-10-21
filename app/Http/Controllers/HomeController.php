@@ -79,6 +79,12 @@ class HomeController extends Controller
 
             $data['latestAkcii'] = \App\Models\Akcii::active()->take(3)->get();
 
+            try {
+                $data['featuredProducts'] = \App\Models\NaftalanProduct::active()->take(4)->get();
+            } catch (\Throwable $e) {
+                $data['featuredProducts'] = collect();
+            }
+
             // Add theme information
             $data['theme_info'] = theme()->loadThemeInfo($selectedTheme);
             $data['current_theme'] = $selectedTheme;
