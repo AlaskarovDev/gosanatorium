@@ -161,10 +161,8 @@ function gsScrollTo(id){
 <script>
 document.getElementById('gsStickyValuta').addEventListener('click', function(e) {
     e.preventDefault();
-    var section = document.querySelector('.gscurrate-section');
-    if (section) {
-        section.scrollIntoView({ behavior: 'smooth', block: 'center' });
-    }
+    var el = document.querySelector('.gscurrate-section');
+    if (el) { el.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
 });
 </script>
 
