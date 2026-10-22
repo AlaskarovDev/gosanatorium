@@ -59,6 +59,13 @@
     {{-- Live currency rates section --}}
     @include('components.home-currency-section')
 
+    {{-- Sanatorium map banner --}}
+    <div style="text-align:center; padding: 32px 16px;">
+      <a href="/ru/karta-sanatoriev" style="display:inline-flex; align-items:center; gap:10px; background:linear-gradient(135deg,#1a9e87,#2ec4a9); color:#fff; font-family:'Manrope',sans-serif; font-weight:700; font-size:15px; padding:14px 28px; border-radius:12px; text-decoration:none;">
+        🗺 Карта санаториев Азербайджана и Грузии
+      </a>
+    </div>
+
     {{-- Sticky side navigation --}}
 <style>
 .gssticky-nav{position:fixed!important;right:16px!important;top:50%!important;transform:translateY(-50%)!important;z-index:99999!important;display:flex!important;flex-direction:column!important;gap:6px!important;background:#fff!important;border-radius:12px!important;box-shadow:0 4px 24px rgba(0,0,0,0.12)!important;padding:10px 8px!important;max-height:94vh!important;overflow-y:auto!important;scrollbar-width:none!important}
@@ -118,6 +125,13 @@
       <svg viewBox="0 0 24 24"><path d="M7.5 21 3 16.5 7.5 12v3H15v3H7.5v3zM16.5 12v-3H9V6h7.5V3L21 7.5 16.5 12z" transform="translate(0 1)"/></svg>
     </div>
     <span class="gssticky-label">Валюта</span>
+  </a>
+
+  <a href="/ru/karta-sanatoriev" class="gssticky-item" onclick="window.location.href='/ru/karta-sanatoriev';return false;">
+    <div class="gssticky-icon">
+      <svg viewBox="0 0 24 24"><path d="M20.5 3l-.16.03L15 5.1 9 3 3.36 4.9c-.21.07-.36.25-.36.48V20.5c0 .28.22.5.5.5l.16-.03L9 18.9l6 2.1 5.64-1.9c.21-.07.36-.25.36-.48V3.5c0-.28-.22-.5-.5-.5zM15 19l-6-2.11V5l6 2.11V19z"/></svg>
+    </div>
+    <span class="gssticky-label">Карта</span>
   </a>
 
   <a href="#section-faq" class="gssticky-item" onclick="gsScrollTo('section-faq');return false;">
