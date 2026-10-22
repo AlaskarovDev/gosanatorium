@@ -117,9 +117,9 @@ function gsmapDraw(canvasId, data, country) {
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
   var color = COUNTRIES[country].color, st = state[country];
 
-  ctx.fillStyle = '#f0f4f8';
+  ctx.fillStyle = '#1a3a2a';
   ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = 'rgba(0,0,0,0.06)';
+  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
   ctx.lineWidth = 1;
   for (var i = 1; i < 10; i++) {
     ctx.beginPath(); ctx.moveTo(w * i / 10, 0); ctx.lineTo(w * i / 10, h); ctx.stroke();
@@ -146,7 +146,7 @@ function gsmapDraw(canvasId, data, country) {
     g.forEach(function (p) { cx += p.x; cy += p.y; });
     cx /= g.length; cy /= g.length;
     g.forEach(function (p) { r = Math.max(r, Math.hypot(p.x - cx, p.y - cy) + 34); });
-    ctx.globalAlpha = 0.09;
+    ctx.globalAlpha = 0.15;
     ctx.fillStyle = color;
     ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
     ctx.globalAlpha = 1;
@@ -159,8 +159,8 @@ function gsmapDraw(canvasId, data, country) {
     var g = groups[city];
     var minY = Math.min.apply(null, g.map(function (p) { return p.y; }));
     ctx.font = '700 11px Manrope, system-ui, sans-serif';
-    ctx.globalAlpha = 0.75;
-    ctx.fillStyle = '#1a2a2a';
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = 'rgba(255,255,255,0.7)';
     ctx.fillText(city.toUpperCase(), g._cx, Math.max(12, minY - 30));
     ctx.globalAlpha = 1;
   });
