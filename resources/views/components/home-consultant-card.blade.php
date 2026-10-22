@@ -31,12 +31,12 @@
     } catch (\Throwable $e) {
         // table not created yet: keep showing the original card
         $consultant = new \App\Models\Consultant([
-            'name' => 'Муртузаев Рамил',
+            'name' => 'Муртузаев Рамиль',
             'role' => 'Эксперт по санаториям Азербайджана и Грузии',
             'phone' => '+994 51 915 88 94',
             'email' => 'info@gosanatorium.com',
             'whatsapp' => '994519158894',
-            'button_text' => 'Написать в WhatsApp →',
+            'button_text' => 'Получить консультацию →',
             'button_url' => 'https://wa.me/994519158894',
         ]);
     }
