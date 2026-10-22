@@ -37,12 +37,14 @@
 </div>
 <div class="gsmapblock-panel gsmapblock-active" id="gsmapblock-panel-az">
   <div class="gsmapblock-list" id="gsmapblock-list-az"></div>
-  <div class="gsmapblock-canvaswrap"><div id="gsmapblock-map-az" style="width:100%; height:500px; border-radius:12px; overflow:hidden;"></div></div>
+  <div class="gsmapblock-canvaswrap"><div id="gsmapblock-map-az" style="width:100%; height:500px; border-radius:12px; overflow:hidden; z-index:1;"></div></div>
 </div>
 <div class="gsmapblock-panel" id="gsmapblock-panel-ge">
   <div class="gsmapblock-list" id="gsmapblock-list-ge"></div>
-  <div class="gsmapblock-canvaswrap"><div id="gsmapblock-map-ge" style="width:100%; height:500px; border-radius:12px; overflow:hidden;"></div></div>
+  <div class="gsmapblock-canvaswrap"><div id="gsmapblock-map-ge" style="width:100%; height:500px; border-radius:12px; overflow:hidden; z-index:1;"></div></div>
 </div>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
 <script>
 (function () {
 const AZ_SANATORIUMS = [
@@ -75,8 +77,6 @@ const GE_SANATORIUMS = [
 var COUNTRIES = { az: { data: AZ_SANATORIUMS, color: '#1a9e87' }, ge: { data: GE_SANATORIUMS, color: '#d4580a' } };
 var maps = { az: null, ge: null };
 var markers = { az: {}, ge: {} };
-var infoWindow = null;
-var current = 'az';
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, function (c) {
@@ -99,38 +99,36 @@ function buildList(country) {
   });
 }
 
+function popupHtml(s) {
+  return '<div style="font-family:Manrope,sans-serif;min-width:160px"><b style="font-size:13px">' + esc(s.name) + '</b><br><span style="font-size:11px;color:#666">' + esc(s.addr) + '</span></div>';
+}
+
 function createMarker(country, sanatorium) {
   var color = COUNTRIES[country].color;
   var pinSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">' +
     '<circle cx="18" cy="18" r="16" fill="' + color + '" stroke="white" stroke-width="2.5"/>' +
     '<text x="18" y="23" text-anchor="middle" font-family="Manrope,Arial,sans-serif" font-size="13" font-weight="bold" fill="white">' + sanatorium.id + '</text>' +
     '</svg>';
-  var marker = new google.maps.Marker({
-    position: { lat: sanatorium.lat, lng: sanatorium.lng },
-    map: maps[country],
-    icon: { url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(pinSvg), scaledSize: new google.maps.Size(36, 36), anchor: new google.maps.Point(18, 18) },
-    title: sanatorium.name
-  });
-  marker.addListener('click', function () { select(country, sanatorium.id); });
+  var icon = L.divIcon({ html: pinSvg, className: '', iconSize: [36, 36], iconAnchor: [18, 18], popupAnchor: [0, -20] });
+  var marker = L.marker([sanatorium.lat, sanatorium.lng], { icon: icon, title: sanatorium.name })
+    .addTo(maps[country])
+    .bindPopup(popupHtml(sanatorium));
+  marker.on('click', function () { select(country, sanatorium.id, true); });
   markers[country][sanatorium.id] = marker;
 }
 
 function initMap(country) {
-  if (maps[country] || !window.google || !google.maps) return;
-  var cfg = country === 'az' ? { zoom: 7, center: { lat: 40.5, lng: 48.5 } } : { zoom: 8, center: { lat: 42.0, lng: 43.0 } };
-  maps[country] = new google.maps.Map(document.getElementById('gsmapblock-map-' + country), {
-    zoom: cfg.zoom,
-    center: cfg.center,
-    mapTypeId: 'satellite',
-    mapTypeControl: false,
-    streetViewControl: false,
-    fullscreenControl: true
-  });
-  infoWindow = infoWindow || new google.maps.InfoWindow();
+  if (maps[country] || !window.L) return;
+  var cfg = country === 'az' ? { zoom: 7, center: [40.5, 48.2] } : { zoom: 8, center: [42.0, 43.0] };
+  maps[country] = L.map('gsmapblock-map-' + country, { zoomControl: true }).setView(cfg.center, cfg.zoom);
+  L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: 'Tiles &copy; Esri &mdash; Source: Esri, USGS, NOAA',
+    maxZoom: 18
+  }).addTo(maps[country]);
   COUNTRIES[country].data.forEach(function (s) { createMarker(country, s); });
 }
 
-function select(country, id) {
+function select(country, id, fromMarker) {
   var list = document.getElementById('gsmapblock-list-' + country);
   list.querySelectorAll('.gsmapblock-card').forEach(function (c) { c.classList.remove('gsmapblock-selected'); });
   var card = document.getElementById('gsmapblock-card-' + country + '-' + id);
@@ -141,29 +139,23 @@ function select(country, id) {
     }
   }
   var marker = markers[country][id];
-  var s = COUNTRIES[country].data.filter(function (x) { return x.id === id; })[0];
-  if (marker && s && infoWindow) {
-    infoWindow.setContent('<div style="font-family:Manrope,sans-serif;padding:4px 6px;min-width:160px"><div style="font-weight:700;font-size:13px;margin-bottom:3px">' + esc(s.name) + '</div><div style="font-size:11px;color:#666">' + esc(s.addr) + '</div></div>');
-    infoWindow.open(maps[country], marker);
-    maps[country].panTo(marker.getPosition());
+  if (marker && !fromMarker) {
+    maps[country].panTo(marker.getLatLng());
+    marker.openPopup();
   }
 }
 
 function gsmapSwitch(country) {
-  current = country;
   Object.keys(COUNTRIES).forEach(function (k) {
     document.getElementById('gsmapblock-tab-' + k).classList.toggle('gsmapblock-active', k === country);
     document.getElementById('gsmapblock-panel-' + k).classList.toggle('gsmapblock-active', k === country);
   });
-  setTimeout(function () { initMap(country); }, 10);
+  setTimeout(function () { initMap(country); if (maps[country]) maps[country].invalidateSize(); }, 50);
 }
 window.gsmapSwitch = gsmapSwitch;
-
-window.gsmapInit = function () { initMap(current); };
 
 Object.keys(COUNTRIES).forEach(function (k) { buildList(k); });
 gsmapSwitch('az');
 })();
 </script>
-<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&callback=gsmapInit" async defer></script>
 </section>
