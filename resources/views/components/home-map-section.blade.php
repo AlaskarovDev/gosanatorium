@@ -24,9 +24,6 @@
 .gsmapblock-addr{font-size:12px!important;font-weight:400!important;color:#64748b!important;margin:0 0 7px!important;line-height:1.35!important}
 .gsmapblock-type{display:inline-block!important;font-family:'Manrope',system-ui,sans-serif!important;font-weight:700!important;font-size:10.5px!important;padding:2px 9px!important;border-radius:999px!important}
 .gsmapblock-canvaswrap{width:100%!important;height:500px!important;border-radius:14px!important;overflow:hidden!important;border:1.5px solid #e2e8f0!important;background:#f0f4f8!important}
-.gsmapblock-canvas{display:block!important;width:100%!important;height:500px!important}
-.gsmapblock-tooltip{position:fixed!important;z-index:99999!important;pointer-events:none!important;display:none!important;max-width:260px!important;background:#1a2a2a!important;color:#fff!important;border-radius:10px!important;padding:8px 12px!important;font-size:12px!important;line-height:1.4!important;box-shadow:0 6px 20px rgba(0,0,0,.25)!important}
-.gsmapblock-tooltip b{display:block!important;font-weight:700!important;font-size:13px!important}
 @media (max-width:768px){
 .gsmapblock-title{font-size:26px!important}
 .gsmapblock-panel.gsmapblock-active{grid-template-columns:1fr!important}
@@ -40,11 +37,11 @@
 </div>
 <div class="gsmapblock-panel gsmapblock-active" id="gsmapblock-panel-az">
   <div class="gsmapblock-list" id="gsmapblock-list-az"></div>
-  <div class="gsmapblock-canvaswrap"><canvas class="gsmapblock-canvas" id="gsmapblock-canvas-az"></canvas></div>
+  <div class="gsmapblock-canvaswrap"><div id="gsmapblock-map-az" style="width:100%; height:500px; border-radius:12px; overflow:hidden;"></div></div>
 </div>
 <div class="gsmapblock-panel" id="gsmapblock-panel-ge">
   <div class="gsmapblock-list" id="gsmapblock-list-ge"></div>
-  <div class="gsmapblock-canvaswrap"><canvas class="gsmapblock-canvas" id="gsmapblock-canvas-ge"></canvas></div>
+  <div class="gsmapblock-canvaswrap"><div id="gsmapblock-map-ge" style="width:100%; height:500px; border-radius:12px; overflow:hidden;"></div></div>
 </div>
 <script>
 (function () {
@@ -76,19 +73,16 @@ const GE_SANATORIUMS = [
 ];
 
 var COUNTRIES = { az: { data: AZ_SANATORIUMS, color: '#1a9e87' }, ge: { data: GE_SANATORIUMS, color: '#d4580a' } };
-var state = { az: { selected: null, hover: null }, ge: { selected: null, hover: null } };
+var maps = { az: null, ge: null };
+var markers = { az: {}, ge: {} };
+var infoWindow = null;
 var current = 'az';
-var H = 500;
 
 function esc(s) {
   return String(s).replace(/[&<>"']/g, function (c) {
     return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
   });
 }
-
-var tip = document.createElement('div');
-tip.className = 'gsmapblock-tooltip';
-document.body.appendChild(tip);
 
 function buildList(country) {
   var el = document.getElementById('gsmapblock-list-' + country);
@@ -105,106 +99,38 @@ function buildList(country) {
   });
 }
 
-function gsmapDraw(canvasId, data, country) {
-  var canvas = document.getElementById(canvasId);
-  var w = canvas.parentNode.clientWidth;
-  if (!w) return;
-  var h = H, dpr = window.devicePixelRatio || 1;
-  canvas.width = Math.round(w * dpr);
-  canvas.height = Math.round(h * dpr);
-  canvas.style.setProperty('height', h + 'px', 'important');
-  var ctx = canvas.getContext('2d');
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-  var color = COUNTRIES[country].color, st = state[country];
-
-  ctx.fillStyle = '#1a3a2a';
-  ctx.fillRect(0, 0, w, h);
-  ctx.strokeStyle = 'rgba(255,255,255,0.07)';
-  ctx.lineWidth = 1;
-  for (var i = 1; i < 10; i++) {
-    ctx.beginPath(); ctx.moveTo(w * i / 10, 0); ctx.lineTo(w * i / 10, h); ctx.stroke();
-    ctx.beginPath(); ctx.moveTo(0, h * i / 10); ctx.lineTo(w, h * i / 10); ctx.stroke();
-  }
-
-  var minLat = Infinity, maxLat = -Infinity, minLng = Infinity, maxLng = -Infinity;
-  data.forEach(function (s) {
-    minLat = Math.min(minLat, s.lat); maxLat = Math.max(maxLat, s.lat);
-    minLng = Math.min(minLng, s.lng); maxLng = Math.max(maxLng, s.lng);
+function createMarker(country, sanatorium) {
+  var color = COUNTRIES[country].color;
+  var pinSvg = '<svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" viewBox="0 0 36 36">' +
+    '<circle cx="18" cy="18" r="16" fill="' + color + '" stroke="white" stroke-width="2.5"/>' +
+    '<text x="18" y="23" text-anchor="middle" font-family="Manrope,Arial,sans-serif" font-size="13" font-weight="bold" fill="white">' + sanatorium.id + '</text>' +
+    '</svg>';
+  var marker = new google.maps.Marker({
+    position: { lat: sanatorium.lat, lng: sanatorium.lng },
+    map: maps[country],
+    icon: { url: 'data:image/svg+xml;charset=UTF-8,' + encodeURIComponent(pinSvg), scaledSize: new google.maps.Size(36, 36), anchor: new google.maps.Point(18, 18) },
+    title: sanatorium.name
   });
-  var dLat = (maxLat - minLat) || 0.01, dLng = (maxLng - minLng) || 0.01;
-  minLat -= dLat * 0.15; maxLat += dLat * 0.15; minLng -= dLng * 0.15; maxLng += dLng * 0.15;
-  dLat = maxLat - minLat; dLng = maxLng - minLng;
-
-  var pins = data.map(function (s) {
-    return { id: s.id, s: s, x: (s.lng - minLng) / dLng * w, y: (1 - (s.lat - minLat) / dLat) * h };
-  });
-  var groups = {};
-  pins.forEach(function (p) { (groups[p.s.city] = groups[p.s.city] || []).push(p); });
-
-  Object.keys(groups).forEach(function (city) {
-    var g = groups[city], cx = 0, cy = 0, r = 40;
-    g.forEach(function (p) { cx += p.x; cy += p.y; });
-    cx /= g.length; cy /= g.length;
-    g.forEach(function (p) { r = Math.max(r, Math.hypot(p.x - cx, p.y - cy) + 34); });
-    ctx.globalAlpha = 0.15;
-    ctx.fillStyle = color;
-    ctx.beginPath(); ctx.arc(cx, cy, r, 0, Math.PI * 2); ctx.fill();
-    ctx.globalAlpha = 1;
-    g._cx = cx; g._cy = cy;
-  });
-
-  ctx.textAlign = 'center';
-  ctx.textBaseline = 'middle';
-  Object.keys(groups).forEach(function (city) {
-    var g = groups[city];
-    var minY = Math.min.apply(null, g.map(function (p) { return p.y; }));
-    ctx.font = '700 11px Manrope, system-ui, sans-serif';
-    ctx.globalAlpha = 1;
-    ctx.fillStyle = 'rgba(255,255,255,0.7)';
-    ctx.fillText(city.toUpperCase(), g._cx, Math.max(12, minY - 30));
-    ctx.globalAlpha = 1;
-  });
-
-  pins.forEach(function (p) {
-    var hovered = st.hover === p.id, selected = st.selected === p.id;
-    ctx.beginPath(); ctx.arc(p.x, p.y, hovered ? 18 : 15, 0, Math.PI * 2);
-    ctx.fillStyle = selected ? '#ffffff' : color;
-    ctx.fill();
-    ctx.lineWidth = 2;
-    ctx.strokeStyle = selected ? color : '#ffffff';
-    ctx.stroke();
-    ctx.fillStyle = selected ? color : '#ffffff';
-    ctx.font = '800 ' + (hovered ? 13 : 12) + 'px Manrope, system-ui, sans-serif';
-    ctx.fillText(String(p.id), p.x, p.y + 0.5);
-  });
-  canvas._pins = pins;
-}
-window.gsmapDraw = gsmapDraw;
-
-function redraw(country) {
-  gsmapDraw('gsmapblock-canvas-' + country, COUNTRIES[country].data, country);
+  marker.addListener('click', function () { select(country, sanatorium.id); });
+  markers[country][sanatorium.id] = marker;
 }
 
-function hitPin(canvas, e) {
-  var rect = canvas.getBoundingClientRect();
-  var x = e.clientX - rect.left, y = e.clientY - rect.top, found = null;
-  (canvas._pins || []).forEach(function (p) { if (Math.hypot(p.x - x, p.y - y) <= 19) found = p; });
-  return found;
+function initMap(country) {
+  if (maps[country] || !window.google || !google.maps) return;
+  var cfg = country === 'az' ? { zoom: 7, center: { lat: 40.5, lng: 48.5 } } : { zoom: 8, center: { lat: 42.0, lng: 43.0 } };
+  maps[country] = new google.maps.Map(document.getElementById('gsmapblock-map-' + country), {
+    zoom: cfg.zoom,
+    center: cfg.center,
+    mapTypeId: 'satellite',
+    mapTypeControl: false,
+    streetViewControl: false,
+    fullscreenControl: true
+  });
+  infoWindow = infoWindow || new google.maps.InfoWindow();
+  COUNTRIES[country].data.forEach(function (s) { createMarker(country, s); });
 }
-
-function showTip(p, e) {
-  tip.innerHTML = '<b>' + esc(p.s.name) + '</b>' + esc(p.s.addr);
-  tip.style.setProperty('display', 'block', 'important');
-  var left = e.clientX + 14, top = e.clientY + 14;
-  if (left + tip.offsetWidth > window.innerWidth - 8) left = e.clientX - tip.offsetWidth - 14;
-  if (top + tip.offsetHeight > window.innerHeight - 8) top = e.clientY - tip.offsetHeight - 14;
-  tip.style.setProperty('left', Math.max(4, left) + 'px', 'important');
-  tip.style.setProperty('top', Math.max(4, top) + 'px', 'important');
-}
-function hideTip() { tip.style.setProperty('display', 'none', 'important'); }
 
 function select(country, id) {
-  state[country].selected = id;
   var list = document.getElementById('gsmapblock-list-' + country);
   list.querySelectorAll('.gsmapblock-card').forEach(function (c) { c.classList.remove('gsmapblock-selected'); });
   var card = document.getElementById('gsmapblock-card-' + country + '-' + id);
@@ -214,25 +140,13 @@ function select(country, id) {
       list.scrollTo({ top: card.offsetTop - list.offsetTop - (list.clientHeight - card.offsetHeight) / 2, behavior: 'smooth' });
     }
   }
-  redraw(country);
-}
-
-function bindCanvas(country) {
-  var canvas = document.getElementById('gsmapblock-canvas-' + country);
-  canvas.addEventListener('mousemove', function (e) {
-    var p = hitPin(canvas, e), id = p ? p.id : null;
-    canvas.style.cursor = p ? 'pointer' : 'default';
-    if (p) showTip(p, e); else hideTip();
-    if (state[country].hover !== id) { state[country].hover = id; redraw(country); }
-  });
-  canvas.addEventListener('click', function (e) {
-    var p = hitPin(canvas, e);
-    if (p) select(country, p.id);
-  });
-  canvas.addEventListener('mouseleave', function () {
-    hideTip();
-    if (state[country].hover !== null) { state[country].hover = null; redraw(country); }
-  });
+  var marker = markers[country][id];
+  var s = COUNTRIES[country].data.filter(function (x) { return x.id === id; })[0];
+  if (marker && s && infoWindow) {
+    infoWindow.setContent('<div style="font-family:Manrope,sans-serif;padding:4px 6px;min-width:160px"><div style="font-weight:700;font-size:13px;margin-bottom:3px">' + esc(s.name) + '</div><div style="font-size:11px;color:#666">' + esc(s.addr) + '</div></div>');
+    infoWindow.open(maps[country], marker);
+    maps[country].panTo(marker.getPosition());
+  }
 }
 
 function gsmapSwitch(country) {
@@ -241,15 +155,15 @@ function gsmapSwitch(country) {
     document.getElementById('gsmapblock-tab-' + k).classList.toggle('gsmapblock-active', k === country);
     document.getElementById('gsmapblock-panel-' + k).classList.toggle('gsmapblock-active', k === country);
   });
-  hideTip();
-  setTimeout(function () { redraw(country); }, 10);
+  setTimeout(function () { initMap(country); }, 10);
 }
 window.gsmapSwitch = gsmapSwitch;
 
-Object.keys(COUNTRIES).forEach(function (k) { buildList(k); bindCanvas(k); });
+window.gsmapInit = function () { initMap(current); };
+
+Object.keys(COUNTRIES).forEach(function (k) { buildList(k); });
 gsmapSwitch('az');
-var rt;
-window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { redraw(current); }, 100); });
 })();
 </script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{ config('services.google_maps.key') }}&callback=gsmapInit" async defer></script>
 </section>
