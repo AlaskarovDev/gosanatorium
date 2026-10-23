@@ -96,7 +96,7 @@
                                         <span class="gsreview-name">{{ $name }}</span>
                                         <span class="gsreview-meta">
                                             @if (isset($gsreviewCountries[$cKey]))
-                                                {{ $gsreviewCountries[$cKey][0] }} {{ $gsreviewCountries[$cKey][1] }}
+                                                {{ $gsreviewCountries[$cKey][0] }} {{ $gsreviewCountries[$cKey][1] }}@if ($designation) · {{ $designation }}@endif
                                             @else
                                                 {{ $designation }}
                                             @endif

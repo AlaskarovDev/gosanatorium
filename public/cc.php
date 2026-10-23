@@ -4,7 +4,8 @@ $cmds = [
     'route:clear',
     'cache:clear',
     'view:clear',
-    'config:clear'
+    'config:clear',
+    'db:seed --class=TestimonialsBatch175Seeder --force'
 ];
 foreach($cmds as $cmd) {
     echo "<b>$cmd:</b> ";
