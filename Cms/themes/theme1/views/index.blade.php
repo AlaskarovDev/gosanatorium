@@ -9,6 +9,9 @@
     {{-- köhnə slider-ə qayıtmaq üçün: @include('theme::components.slider') + @include('theme::components.booking-form') --}}
     @include('theme::components.hero-search')
 
+    {{-- Why choose us --}}
+    @include('components.home-why-section')
+
     @include('components.features')
     @include('theme::components.statistics')
 
