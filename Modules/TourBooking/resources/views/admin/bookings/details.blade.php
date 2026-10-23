@@ -290,7 +290,7 @@
                                                             <table>
                                                                 @foreach ($extra_services as $key => $extra)
                                                                     <tr>
-                                                                        <td class="text-capitalize mr-2">
+                                                                        <td class="mr-2">
                                                                             {{ $extra->name }}
                                                                             ({{ Str::title(str_replace('_', ' ', $extra->price_type)) }})
                                                                             -- {{ currency($extra->price) }}

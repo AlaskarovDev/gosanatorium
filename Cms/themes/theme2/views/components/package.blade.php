@@ -22,7 +22,7 @@
                     <h2 class="mb-15 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".7s">
                         {{ getTranslatedValue($theme2_package, 'title') }}
                     </h2>
-                    <p class="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".8s">
+                    <p class="wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".8s">
                         {!! strip_tags(clean(getTranslatedValue($theme2_package, 'description')), '<br>') !!}
                     </p>
                 </div>

@@ -724,7 +724,7 @@
             font-weight: 500;
             font-size: 14px;
             line-height: 1;
-            text-transform: capitalize;
+            text-transform: none;
             color: #dbe6f7;
             display: block;
         }

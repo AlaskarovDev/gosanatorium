@@ -17,10 +17,10 @@
                     <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                         {{ getTranslatedValue($theme5_testimonial, 'sub_title') }}
                     </h5>
-                    <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
+                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
                         {!! strip_tags(clean(getTranslatedValue($theme5_testimonial, 'title')), '<br>') !!}
                     </h2>
-                    <p class="text-capitalize wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
+                    <p class="wow fadeInUp" data-wow-delay=".6s" data-wow-duration=".9s">
                         {!! strip_tags(clean(getTranslatedValue($theme5_testimonial, 'description')), '<br>') !!}
                     </p>
                 </div>

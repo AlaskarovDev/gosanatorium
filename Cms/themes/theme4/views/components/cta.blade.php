@@ -12,7 +12,7 @@
                     <div class="tg-cta-3-content tg-process-content pt-50 pb-50">
                         <h5 class="tg-section-su-subtitle su-subtitle-2 mb-15">
                             {{ getTranslatedValue($theme4_cta, 'sub_title') }}</h5>
-                        <h2 class="tg-section-su-title text-capitalize mb-25">
+                        <h2 class="tg-section-su-title mb-25">
                             {!! strip_tags(clean(getTranslatedValue($theme4_cta, 'title')), '<br>') !!}
                         </h2>
                         <div class="tg-cta-3-apps d-flex align-items-center">

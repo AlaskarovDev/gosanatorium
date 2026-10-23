@@ -284,7 +284,7 @@
                             <div class="tg-tour-about-content tg-tour-about-2-content">
                                 <div class="tg-tour-about-inner tg-tour-about-2-inner mb-30">
                                     <h4 class="tg-tour-about-title mb-15">{{ __('translate.About This Tour') }}</h4>
-                                    <div class="text-capitalize lh-28 mb-35">
+                                    <div class="lh-28 mb-35">
                                         {!! $service?->translation?->short_description !!}
                                     </div>
 
@@ -297,7 +297,7 @@
                                 </div>
                                 <div class="tg-tour-about-inner  tg-tour-about-2-inner mb-30">
                                     <h4 class="tg-tour-about-title mb-10">{{ __('translate.Amenities') }}</h4>
-                                    <p class="text-capitalize lh-28 mb-15">
+                                    <p class="lh-28 mb-15">
                                         {{ __('translate.Amenities Short Description') }}</p>
 
                                     <div class="tg-tour-about-list  tg-tour-about-list-2">
@@ -318,7 +318,7 @@
                                     <h4 class="tg-tour-about-title mb-15">{{ __('translate.Location') }}</h4>
 
                                     @if ($service?->google_map_sub_title)
-                                        <p class="text-capitalize lh-28">
+                                        <p class="lh-28">
                                             {{ $service?->google_map_sub_title }}
                                         </p>
                                     @endif
@@ -403,7 +403,7 @@
 
                                                             </span>
                                                         </div>
-                                                        <p class="text-capitalize lh-28 mb-10">
+                                                        <p class="lh-28 mb-10">
                                                             {{ $review->review }}
                                                         </p>
                                                     </div>

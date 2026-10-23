@@ -55,7 +55,7 @@
         font-family: 'Poppins', sans-serif !important;
         font-weight: 600 !important;
         letter-spacing: 0.3px;
-        text-transform: capitalize;
+        text-transform: none;
     }
 
     /* Social Contact Icons Container */

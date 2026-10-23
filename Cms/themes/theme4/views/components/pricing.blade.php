@@ -29,7 +29,7 @@
                     <div class="tg-pricing-section-title-wrap text-center mb-40">
                         <h5 class="tg-section-su-subtitle su-subtitle-2 mb-15 wow fadeInUp" data-wow-delay=".4s"
                             data-wow-duration=".9s">{{ getTranslatedValue($pricing_heading_section, 'sub_title') }}</h5>
-                        <h2 class="tg-section-su-title text-capitalize wow fadeInUp mb-15" data-wow-delay=".5s"
+                        <h2 class="tg-section-su-title wow fadeInUp mb-15" data-wow-delay=".5s"
                             data-wow-duration=".9s">
                             {!! strip_tags(clean(getTranslatedValue($pricing_heading_section, 'title')), '<br>') !!}
                         </h2>

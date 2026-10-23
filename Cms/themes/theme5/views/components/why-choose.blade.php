@@ -42,10 +42,10 @@
                                 data-wow-duration=".1s">
                                 {{ getTranslatedValue($theme5_why_choose, 'sub_title') }}
                             </h5>
-                            <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                            <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                                 {!! strip_tags(clean(getTranslatedValue($theme5_why_choose, 'title')), '<br>') !!}
                             </h2>
-                            <p class="text-capitalize wow fadeInUp mb-10" data-wow-delay=".5s" data-wow-duration=".9s">
+                            <p class="wow fadeInUp mb-10" data-wow-delay=".5s" data-wow-duration=".9s">
                                 {!! strip_tags(clean(getTranslatedValue($theme5_why_choose, 'description')), '<br>') !!}
                             </p>
                         </div>

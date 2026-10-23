@@ -9,7 +9,7 @@
                     <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                         {{ __('translate.Most Popular Tour Packages') }}
                     </h5>
-                    <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
+                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
                         {{ __('translate.Our Popular Tours') }}
                     </h2>
                 </div>

@@ -19,7 +19,7 @@
                             <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">
                                 {{ getTranslatedValue($faq, 'section_subtitle') }}
                             </h5>
-                            <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                            <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                                 {{ getTranslatedValue($faq, 'section_title') }}
                             </h2>
                         </div>
@@ -79,7 +79,7 @@
                                 <div class="tg-cta-content">
                                     <h5 class="tg-section-subtitle text-white mb-10">
                                         {{ getTranslatedValue($footer_cta, 'subtitle') }}</h5>
-                                    <h2 class="mb-15 tg-cta-title text-white text-capitalize">
+                                    <h2 class="mb-15 tg-cta-title text-white">
                                         {!! strip_tags(clean(getTranslatedValue($footer_cta, 'title'))) !!}
                                     </h2>
                                 </div>

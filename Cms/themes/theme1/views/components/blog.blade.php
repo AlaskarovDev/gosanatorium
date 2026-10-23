@@ -19,13 +19,13 @@
             <!-- Section Title -->
             <div class="col-lg-12">
                 <div class="tg-location-section-title text-center mb-30">
-                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">
+                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" style="color:#1a9e87;" data-wow-delay=".3s" data-wow-duration=".9s">
                         {{ getTranslatedValue($home1_blog, 'sub_title') }}
                     </h5>
-                    <h2 class="mb-15 text-capitalize wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                         {{ getTranslatedValue($home1_blog, 'title') }}
                     </h2>
-                    <p class="text-capitalize wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
+                    <p class="wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
                         {!! strip_tags(clean(getTranslatedValue($home1_blog, 'description')), '<br>') !!}
                     </p>
                 </div>
@@ -55,7 +55,7 @@
                             </h3>
                             <div class="tg-blog-date">
                                 <span class="mr-20"><i class="fa-light fa-calendar"></i>
-                                    {{ $firstBlog->created_at->format('jS M, Y') }}</span>
+                                    {{ app()->getLocale() === 'ru' ? $firstBlog->created_at->locale('ru')->isoFormat('D MMMM YYYY') . ' г.' : $firstBlog->created_at->format('jS M, Y') }}</span>
                                 @if ($firstBlog?->translate?->reading_time)
                                     <span><i class="fa-regular fa-clock"></i>
                                         {{ $firstBlog?->translate?->reading_time }} </span>
@@ -90,7 +90,7 @@
                                                 </h3>
                                                 <div class="tg-blog-date">
                                                     <span class="mr-20"><i class="fa-light fa-calendar"></i>
-                                                        {{ $blog->created_at->format('jS M, Y') }}</span>
+                                                        {{ app()->getLocale() === 'ru' ? $blog->created_at->locale('ru')->isoFormat('D MMMM YYYY') . ' г.' : $blog->created_at->format('jS M, Y') }}</span>
                                                     @if ($blog?->translate?->reading_time)
                                                         <span><i class="fa-regular fa-clock"></i>
                                                             {{ $blog?->translate?->reading_time }} </span>
