@@ -447,7 +447,7 @@ function popularServices($count = 16, $isPagination = false)
         ->with([
             'thumbnail:id,service_id,caption,file_path',
             'translation:id,service_id,locale,title,short_description',
-            'destination:id,name',
+            'destination:id,name,country',
         ])
         ->withCount('activeReviews')
         ->withAvg('activeReviews', 'rating')
@@ -487,5 +487,75 @@ if (!function_exists('cleanLocation')) {
         $s = preg_replace('/\s{2,}/', ' ', $s);        // çoxlu boşluq → tək
         $s = preg_replace('/^[\s,]+|[\s,]+$/', '', $s); // baş/son boşluq və vergül
         return trim($s);
+    }
+}
+if (!function_exists('gscardReviewsLabel')) {
+    function gscardReviewsLabel($n)
+    {
+        $n = (int) $n;
+        if (app()->getLocale() !== 'ru') {
+            return $n . ' ' . ($n === 1 ? 'review' : 'reviews');
+        }
+        $m10 = $n % 10;
+        $m100 = $n % 100;
+        if ($m10 === 1 && $m100 !== 11) {
+            $w = 'отзыв';
+        } elseif ($m10 >= 2 && $m10 <= 4 && ($m100 < 12 || $m100 > 14)) {
+            $w = 'отзыва';
+        } else {
+            $w = 'отзывов';
+        }
+        return $n . ' ' . $w;
+    }
+}
+
+if (!function_exists('gscardAddress')) {
+    // "City, Country" without Google Plus Codes
+    function gscardAddress($service)
+    {
+        $city = trim((string) ($service?->destination?->name ?? ''));
+        $country = trim((string) ($service?->destination?->country ?? ''));
+        if ($city !== '') {
+            return $country !== '' ? $city . ', ' . $country : $city;
+        }
+        $s = preg_replace('/^\s*[A-Z0-9]{4,8}\+[A-Z0-9]{2,}\s*,?\s*/u', '', (string) $service?->location);
+        $parts = array_values(array_filter(array_map('trim', explode(',', $s))));
+        return implode(', ', array_slice($parts, -2));
+    }
+}
+
+if (!function_exists('gscardBadges')) {
+    // At most 2 badges: one primary + one feature
+    function gscardBadges($service)
+    {
+        $list = [];
+        foreach ((is_array($service?->badges) ? $service->badges : []) as $b) {
+            $t = trim($b['text'] ?? '');
+            if ($t !== '') {
+                $list[] = $t;
+            }
+        }
+        if (empty($list) && $service?->is_featured == 1) {
+            $list[] = 'Популярное';
+        }
+        $primary = null;
+        $feature = null;
+        foreach ($list as $t) {
+            $l = mb_strtolower($t);
+            if (preg_match('/рекоменду|лучшая цена|популярн|recommend|best price|popular/u', $l)) {
+                $primary ??= $t;
+            } elseif (!preg_match('/трансфер|transfer/u', $l)) {
+                $feature ??= $t;
+            }
+        }
+        if (!$feature) {
+            foreach ($list as $t) {
+                if ($t !== $primary) {
+                    $feature = $t;
+                    break;
+                }
+            }
+        }
+        return array_values(array_filter([$primary, $feature]));
     }
 }
