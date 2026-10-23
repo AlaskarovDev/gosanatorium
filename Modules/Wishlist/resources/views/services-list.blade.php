@@ -35,7 +35,7 @@
 
         .tg-listing-2-price {
             font-weight: 600;
-            text-transform: capitalize;
+            text-transform: none;
             color: #efefef;
             border: 1px solid #3c4fc9;
             border-radius: 100px;

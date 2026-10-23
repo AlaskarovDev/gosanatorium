@@ -18,7 +18,7 @@
                                     data-wow-duration=".9s">
                                     {{ getTranslatedValue($theme4_why_choose, 'sub_title') }}
                                 </h5>
-                                <h2 class="tg-section-su-title text-capitalize wow fadeInUp mb-15" data-wow-delay=".5s"
+                                <h2 class="tg-section-su-title wow fadeInUp mb-15" data-wow-delay=".5s"
                                     data-wow-duration=".9s">
                                     {{ getTranslatedValue($theme4_why_choose, 'title') }}
                                 </h2>

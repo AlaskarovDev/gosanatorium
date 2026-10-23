@@ -28,7 +28,7 @@
                             <h5 class="tg-section-su-subtitle mb-15">
                                 {{ getTranslatedValue($theme3_about, 'sub_title') }}
                             </h5>
-                            <h2 class="tg-section-su-title text-capitalize mb-15">
+                            <h2 class="tg-section-su-title mb-15">
                                 {{ getTranslatedValue($theme3_about, 'title') }}
                             </h2>
                             <p class="tg-section-su-para mb-10">

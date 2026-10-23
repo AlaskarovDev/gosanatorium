@@ -20,7 +20,7 @@
                                     <h5 class="tg-section-subtitle text-white mb-10">
                                         {{ getTranslatedValue($theme7_cta, 'sub_title') }}
                                     </h5>
-                                    <h2 class="mb-15 tg-cta-title text-white text-capitalize">
+                                    <h2 class="mb-15 tg-cta-title text-white">
                                         {!! strip_tags(clean(getTranslatedValue($theme7_cta, 'title')), '<br>') !!}
                                     </h2>
                                 </div>

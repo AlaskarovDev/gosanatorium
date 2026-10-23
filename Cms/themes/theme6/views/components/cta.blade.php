@@ -21,7 +21,7 @@
                             </div>
                             <div class="col-lg-6 col-md-6">
                                 <div class="tg-cta-4-content mb-20 pt-15">
-                                    <h2 class="mb-15 tg-cta-title text-white text-capitalize mb-15">
+                                    <h2 class="mb-15 tg-cta-title text-white mb-15">
                                         {!! strip_tags(clean(getTranslatedValue($theme6_cta, 'title')), '<br>') !!}
                                     </h2>
                                     <p class="text-white">

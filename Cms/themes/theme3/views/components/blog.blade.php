@@ -20,7 +20,7 @@
                         data-wow-duration=".9s">
                         {{ getTranslatedValue($theme3_blog, 'sub_title') }}
                     </h5>
-                    <h2 class="tg-section-su-title text-capitalize wow fadeInUp mb-15" data-wow-delay=".5s"
+                    <h2 class="tg-section-su-title wow fadeInUp mb-15" data-wow-delay=".5s"
                         data-wow-duration=".9s">
                         {{ getTranslatedValue($theme3_blog, 'title') }}
                     </h2>
@@ -50,7 +50,7 @@
                                 </h3>
                                 <div class="tg-blog-date">
                                     <span class="mr-20"><i class="fa-light fa-calendar"></i>
-                                        {{ $blog->created_at->format('jS M, Y') }}</span>
+                                        {{ app()->getLocale() === 'ru' ? $blog->created_at->locale('ru')->isoFormat('D MMMM YYYY') . ' г.' : $blog->created_at->format('jS M, Y') }}</span>
                                     @if ($blog?->translate?->reading_time)
                                         <span><i class="fa-regular fa-clock"></i>
                                             {{ $blog?->translate?->reading_time }}</span>

@@ -116,7 +116,7 @@
                                                 <span>{{ __('translate.Author') }}</span>
                                                 <h6>{{ $blog?->author?->name }}</h6>
                                             </div>
-                                            <p class="text-capitalize lh-28 mb-10">{{ $blog?->author?->about_me }}</p>
+                                            <p class="lh-28 mb-10">{{ $blog?->author?->about_me }}</p>
                                         </div>
                                     </div>
                                 </li>

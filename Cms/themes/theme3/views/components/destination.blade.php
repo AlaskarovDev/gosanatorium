@@ -15,7 +15,7 @@
                     <h5 class="tg-section-su-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                         {{ getTranslatedValue($theme3_destination, 'sub_title') }}
                     </h5>
-                    <h2 class="tg-section-su-title text-capitalize wow fadeInUp" data-wow-delay=".5s"
+                    <h2 class="tg-section-su-title wow fadeInUp" data-wow-delay=".5s"
                         data-wow-duration=".9s">
                         {{ getTranslatedValue($theme3_destination, 'title') }}
                     </h2>

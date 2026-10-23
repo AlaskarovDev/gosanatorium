@@ -248,7 +248,7 @@
                                                 <div class="tg-tour-about-review-wrap mb-45">
                                                     <h4 class="tg-tour-about-title mb-15">
                                                         {{ __('translate.Customer Reviews') }}</h4>
-                                                    <p class="text-capitalize lh-28 mb-20">
+                                                    <p class="lh-28 mb-20">
                                                         {{ __('translate.Review_short_description') }} </p>
                                                 </div>
                                                 <div class="tg-tour-about-border mb-35"></div>
@@ -285,7 +285,7 @@
                                                                                 @endforeach
                                                                             </span>
                                                                         </div>
-                                                                        <p class="text-capitalize lh-28 mb-10">
+                                                                        <p class="lh-28 mb-10">
                                                                             {!! clean($review->reviews) !!}
                                                                         </p>
                                                                     </div>
