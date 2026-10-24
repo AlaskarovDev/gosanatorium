@@ -113,4 +113,54 @@
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">15</div><div class="gsfaq-qtext">Подходит ли санаторий только для лечения?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет, отлично подходит для профилактики, восстановления, реабилитации и оздоровления.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">16</div><div class="gsfaq-qtext">Безопасно ли санаторное лечение?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да. Все процедуры назначаются врачом после осмотра и проводятся под медицинским контролем.</div></div>
 </div></div>
+
+<div class="gsfaq-group" data-cat="transfer">
+<div class="gsfaq-group-header"><div class="gsfaq-group-icon"><i class="fas fa-car"></i></div><h2 class="gsfaq-group-title">Трансфер и поддержка</h2></div>
+<div class="gsfaq-accordion">
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">17</div><div class="gsfaq-qtext">Организуете трансфер из аэропорта?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да. Водитель встретит с табличкой. Доступно из Тбилиси, Баку, Праги, Карловых Вар и других городов.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">18</div><div class="gsfaq-qtext">Что делать при задержке рейса?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Сообщите по телефону поддержки, и время встречи изменят. Рейсы отслеживаем автоматически.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">19</div><div class="gsfaq-qtext">К кому обращаться во время пребывания?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">В нашу круглосуточную службу поддержки. Решаем любые вопросы — от замены номера до изменения программы.</div></div>
+</div></div>
+
+<div class="gsfaq-group" data-cat="payment">
+<div class="gsfaq-group-header"><div class="gsfaq-group-icon"><i class="fas fa-credit-card"></i></div><h2 class="gsfaq-group-title">Оплата и документы</h2></div>
+<div class="gsfaq-accordion">
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">20</div><div class="gsfaq-qtext">В какой валюте платить в санатории?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Чехия: EUR или CZK. Грузия: USD или GEL. Азербайджан: AZN или USD.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">21</div><div class="gsfaq-qtext">Можно платить в манатах?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, в Азербайджане при заезде в AZN. На сайте цены отображаются в USD, EUR, RUB и AZN.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">22</div><div class="gsfaq-qtext">Помогаете с визой?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Для Чехии выдаём ваучер бронирования для шенгенской визы. Биометрию подают лично в визовом центре.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">23</div><div class="gsfaq-qtext">Какие документы взять в санаторий?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Загранпаспорт и подтверждение брони. Рекомендуются анализы и список постоянно принимаемых препаратов.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">24</div><div class="gsfaq-qtext">Главное преимущество GoSanatorium?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Берём на себя всё: подбор, бронирование, трансфер и консультацию — вам остаётся только приехать.</div></div>
+</div></div>
+
+<div class="gsfaq-group" data-cat="children">
+<div class="gsfaq-group-header"><div class="gsfaq-group-icon"><i class="fas fa-child"></i></div><h2 class="gsfaq-group-title">Дети</h2></div>
+<div class="gsfaq-accordion">
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">25</div><div class="gsfaq-qtext">Можно приехать с детьми?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, большинство санаториев принимают детей. Подбор ведётся с учётом возраста.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">26</div><div class="gsfaq-qtext">С какого возраста принимают?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Обычно с 4 лет, процедуры — с 6 лет. Нужны согласие родителей и консультация врача.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">27</div><div class="gsfaq-qtext">Есть ли скидки для детей?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">До 4 лет часто бесплатно при двух взрослых. Для детей 4–12 лет действует детский тариф.</div></div>
+</div></div>
+
+<div class="gsfaq-group" data-cat="treatment">
+<div class="gsfaq-group-header"><div class="gsfaq-group-icon"><i class="fas fa-pills"></i></div><h2 class="gsfaq-group-title">Виды лечения</h2></div>
+<div class="gsfaq-accordion">
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">28</div><div class="gsfaq-qtext">Какие заболевания лечат?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Суставы, почки, дыхание, пищеварение, сердце, нервная система, диабет, онкореабилитация, гинекология, кожа, психоэмоциональные расстройства.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">29</div><div class="gsfaq-qtext">Что такое нафталановое лечение?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Ванны с нафталаном — нефтепродуктом, добываемым только в Нафталане (Азербайджан). Уникальный метод лечения суставов и кожных заболеваний.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">30</div><div class="gsfaq-qtext">Что такое газовые инъекции CO₂?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Подкожное введение углекислого газа в области суставов и позвоночника. Проводится в санаториях Ensana в Марианских Лазнях.</div></div>
+</div></div>
+
+</div></div></div></section>
+
+<section class="gsfaq-cta"><div class="container"><div class="gsfaq-cta-inner">
+<h2 class="gsfaq-cta-title">Не нашли ответ на свой вопрос?</h2>
+<p class="gsfaq-cta-sub">Наши специалисты готовы ответить бесплатно</p>
+<div class="gsfaq-cta-btns">
+<a href="https://wa.me/994519158894" class="gsfaq-btn-white"><i class="fab fa-whatsapp"></i> Написать в WhatsApp</a>
+<a href="tel:+994519158894" class="gsfaq-btn-outline"><i class="fas fa-phone"></i> +994 51 915 88 94</a>
+</div>
+</div></div></section>
+<script>
+function gsfaqToggle(el){var o=el.classList.contains('open');document.querySelectorAll('.gsfaq-item.open').forEach(function(i){i.classList.remove('open')});if(!o)el.classList.add('open');}
+function gsfaqCat(cat,btn){document.querySelectorAll('.gsfaq-cat-btn').forEach(function(b){b.classList.remove('active')});btn.classList.add('active');document.querySelectorAll('.gsfaq-group').forEach(function(g){g.style.display=(cat==='all'||g.dataset.cat===cat)?'block':'none'});}
+function gsfaqFilter(v){v=v.toLowerCase().trim();document.querySelectorAll('.gsfaq-item').forEach(function(i){var t=i.querySelector('.gsfaq-qtext').textContent.toLowerCase();var a=i.querySelector('.gsfaq-ans').textContent.toLowerCase();i.style.display=(v===''||t.includes(v)||a.includes(v))?'':'none'});document.querySelectorAll('.gsfaq-group').forEach(function(g){var s=Array.from(g.querySelectorAll('.gsfaq-item')).some(function(i){return i.style.display!=='none'});g.style.display=s?'block':'none'});}
+</script>
 @endsection
