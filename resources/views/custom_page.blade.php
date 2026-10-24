@@ -1374,7 +1374,7 @@
         <style>
         *{box-sizing:border-box}
         .gstr-hero{position:relative;height:500px;overflow:hidden;display:flex;align-items:center}
-        .gstr-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1400&q=80');background-size:cover;background-position:center}
+        .gstr-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1563720223185-11003d516935?w=1400&q=80');background-size:cover;background-position:center}
         .gstr-hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,60,52,0.88) 0%,rgba(26,158,135,0.72) 100%)}
         .gstr-hero-content{position:relative;z-index:2;width:100%}
         .gstr-hero-badge{display:inline-block;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:50px;padding:7px 18px;font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
