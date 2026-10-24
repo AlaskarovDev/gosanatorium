@@ -1295,6 +1295,63 @@
 
 @push('style_section')
 <style>
+*{box-sizing:border-box}
+.gstr-hero{background:linear-gradient(135deg,#0d7a68 0%,#1a9e87 50%,#2ec4a9 100%) !important;padding:80px 0 100px !important;position:relative !important;overflow:hidden !important}
+.gstr-hero::before{content:'' !important;position:absolute !important;top:-80px !important;right:-80px !important;width:400px !important;height:400px !important;background:rgba(255,255,255,0.06) !important;border-radius:50% !important}
+.gstr-hero-label{font-size:13px !important;font-weight:700 !important;color:rgba(255,255,255,0.8) !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:16px !important}
+.gstr-hero-title{font-size:46px !important;font-weight:900 !important;color:#fff !important;line-height:1.1 !important;margin-bottom:20px !important;text-transform:none !important;letter-spacing:-1px !important}
+.gstr-hero-sub{font-size:18px !important;color:rgba(255,255,255,0.85) !important;margin-bottom:40px !important;line-height:1.6 !important;text-transform:none !important}
+.gstr-trust-row{display:flex !important;flex-wrap:wrap !important;gap:12px !important}
+.gstr-trust-pill{display:flex !important;align-items:center !important;gap:8px !important;background:rgba(255,255,255,0.15) !important;border:1px solid rgba(255,255,255,0.25) !important;border-radius:50px !important;padding:10px 20px !important;color:#fff !important;font-size:14px !important;font-weight:600 !important}
+.gstr-routes-section{padding:70px 0 !important;background:#f8fafb !important}
+.gstr-underline{width:60px !important;height:4px !important;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important;border-radius:2px !important;margin-bottom:16px !important}
+.gstr-section-label{font-size:13px !important;font-weight:700 !important;color:#1a9e87 !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:8px !important}
+.gstr-section-title{font-size:34px !important;font-weight:800 !important;color:#1a1a2e !important;margin-bottom:40px !important;text-transform:none !important}
+.gstr-routes-grid{display:grid !important;grid-template-columns:repeat(2,1fr) !important;gap:20px !important}
+.gstr-route-card{background:#fff !important;border-radius:18px !important;padding:28px !important;display:flex !important;align-items:center !important;gap:20px !important;box-shadow:0 2px 16px rgba(0,0,0,0.07) !important;border:2px solid transparent !important;transition:all 0.3s !important;cursor:pointer !important}
+.gstr-route-card:hover{border-color:#1a9e87 !important;box-shadow:0 8px 32px rgba(26,158,135,0.15) !important;transform:translateY(-3px) !important}
+.gstr-route-icon{width:56px !important;height:56px !important;border-radius:14px !important;background:linear-gradient(135deg,#e8f7f5,#d0f0eb) !important;display:flex !important;align-items:center !important;justify-content:center !important;flex-shrink:0 !important;font-size:22px !important}
+.gstr-route-from{font-size:13px !important;color:#9ca3af !important;margin-bottom:4px !important;text-transform:none !important}
+.gstr-route-arrow{font-size:13px !important;color:#1a9e87 !important;margin:2px 0 !important}
+.gstr-route-to{font-size:16px !important;font-weight:700 !important;color:#1a1a2e !important;text-transform:none !important}
+.gstr-route-price{margin-left:auto !important;text-align:right !important}
+.gstr-price-val{font-size:24px !important;font-weight:900 !important;color:#1a9e87 !important;line-height:1 !important}
+.gstr-price-note{font-size:11px !important;color:#9ca3af !important;text-transform:none !important}
+.gstr-features-section{padding:70px 0 !important;background:#fff !important}
+.gstr-feat-grid{display:grid !important;grid-template-columns:repeat(4,1fr) !important;gap:24px !important}
+.gstr-feat-card{background:#f8fafb !important;border-radius:18px !important;padding:32px 24px !important;text-align:center !important;border:1px solid #eef1f4 !important;transition:all 0.3s !important}
+.gstr-feat-card:hover{border-color:#1a9e87 !important;box-shadow:0 8px 28px rgba(26,158,135,0.12) !important;transform:translateY(-4px) !important}
+.gstr-feat-icon{width:64px !important;height:64px !important;border-radius:50% !important;background:linear-gradient(135deg,#e8f7f5,#d0f0eb) !important;display:flex !important;align-items:center !important;justify-content:center !important;margin:0 auto 18px !important;font-size:26px !important;transition:all 0.3s !important}
+.gstr-feat-card:hover .gstr-feat-icon{background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important}
+.gstr-feat-card:hover .gstr-feat-icon i{color:#fff !important}
+.gstr-feat-icon i{color:#1a9e87 !important;font-size:24px !important;transition:color 0.3s !important}
+.gstr-feat-title{font-size:16px !important;font-weight:700 !important;color:#1a1a2e !important;margin-bottom:8px !important;text-transform:none !important}
+.gstr-feat-desc{font-size:14px !important;color:#6b7280 !important;line-height:1.6 !important;text-transform:none !important}
+.gstr-form-section{padding:80px 0 !important;background:linear-gradient(135deg,#f0fdf9,#e8f7f5) !important}
+.gstr-form-wrap{background:#fff !important;border-radius:24px !important;padding:52px !important;box-shadow:0 8px 40px rgba(0,0,0,0.08) !important;max-width:820px !important;margin:0 auto !important}
+.gstr-form-grid{display:grid !important;grid-template-columns:1fr 1fr !important;gap:20px !important}
+.gstr-form-group{display:flex !important;flex-direction:column !important;gap:6px !important}
+.gstr-form-group.full{grid-column:1/-1 !important}
+.gstr-label{font-size:13px !important;font-weight:600 !important;color:#374151 !important}
+.gstr-input,.gstr-select,.gstr-textarea{width:100% !important;padding:14px 16px !important;border:1.5px solid #e5e7eb !important;border-radius:12px !important;font-size:15px !important;color:#1a1a2e !important;background:#f9fafb !important;transition:all 0.2s !important;outline:none !important;font-family:inherit !important}
+.gstr-input:focus,.gstr-select:focus,.gstr-textarea:focus{border-color:#1a9e87 !important;background:#fff !important;box-shadow:0 0 0 3px rgba(26,158,135,0.12) !important}
+.gstr-price-box{background:linear-gradient(135deg,#f0fdf9,#e8f7f5) !important;border:2px solid #1a9e87 !important;border-radius:16px !important;padding:24px !important;margin:24px 0 !important}
+.gstr-price-row{display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;font-size:15px !important;color:#4b5563 !important;border-bottom:1px solid rgba(26,158,135,0.15) !important}
+.gstr-price-row:last-child{border-bottom:none !important;font-weight:800 !important;font-size:20px !important;color:#1a1a2e !important;padding-top:14px !important}
+.gstr-price-row span:last-child{color:#1a9e87 !important;font-weight:700 !important}
+.gstr-submit{width:100% !important;padding:18px !important;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important;color:#fff !important;font-size:18px !important;font-weight:700 !important;border:none !important;border-radius:14px !important;cursor:pointer !important;box-shadow:0 6px 20px rgba(26,158,135,0.35) !important;transition:all 0.3s !important;font-family:inherit !important}
+.gstr-submit:hover{transform:translateY(-2px) !important;box-shadow:0 10px 30px rgba(26,158,135,0.45) !important}
+.gstr-guarantee-row{display:flex !important;justify-content:center !important;gap:24px !important;margin-top:20px !important;flex-wrap:wrap !important}
+.gstr-guarantee-item{display:flex !important;align-items:center !important;gap:6px !important;font-size:13px !important;color:#6b7280 !important}
+.gstr-guarantee-item i{color:#1a9e87 !important}
+@media(max-width:992px){.gstr-feat-grid{grid-template-columns:repeat(2,1fr) !important}}
+@media(max-width:768px){.gstr-hero-title{font-size:30px !important}.gstr-routes-grid{grid-template-columns:1fr !important}.gstr-form-wrap{padding:32px 20px !important}}
+@media(max-width:576px){.gstr-feat-grid{grid-template-columns:1fr !important}.gstr-form-grid{grid-template-columns:1fr !important}}
+</style>
+@endpush
+
+@push('style_section')
+<style>
 .gscon-hero{background:linear-gradient(135deg,#0d7a68 0%,#1a9e87 50%,#2ec4a9 100%) !important;padding:80px 0 100px !important;position:relative !important;overflow:hidden !important}
 .gscon-hero::before{content:'' !important;position:absolute !important;top:-80px !important;right:-80px !important;width:400px !important;height:400px !important;background:rgba(255,255,255,0.06) !important;border-radius:50% !important}
 .gscon-hero-label{font-size:13px !important;font-weight:700 !important;color:rgba(255,255,255,0.8) !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:16px !important}
