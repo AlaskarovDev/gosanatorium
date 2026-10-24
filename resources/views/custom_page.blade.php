@@ -1296,57 +1296,30 @@
 @push('style_section')
 <style>
 *{box-sizing:border-box}
-.gstr-hero{background:linear-gradient(135deg,#0d7a68 0%,#1a9e87 50%,#2ec4a9 100%) !important;padding:80px 0 100px !important;position:relative !important;overflow:hidden !important}
-.gstr-hero::before{content:'' !important;position:absolute !important;top:-80px !important;right:-80px !important;width:400px !important;height:400px !important;background:rgba(255,255,255,0.06) !important;border-radius:50% !important}
-.gstr-hero-label{font-size:13px !important;font-weight:700 !important;color:rgba(255,255,255,0.8) !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:16px !important}
-.gstr-hero-title{font-size:46px !important;font-weight:900 !important;color:#fff !important;line-height:1.1 !important;margin-bottom:20px !important;text-transform:none !important;letter-spacing:-1px !important}
-.gstr-hero-sub{font-size:18px !important;color:rgba(255,255,255,0.85) !important;margin-bottom:40px !important;line-height:1.6 !important;text-transform:none !important}
-.gstr-trust-row{display:flex !important;flex-wrap:wrap !important;gap:12px !important}
-.gstr-trust-pill{display:flex !important;align-items:center !important;gap:8px !important;background:rgba(255,255,255,0.15) !important;border:1px solid rgba(255,255,255,0.25) !important;border-radius:50px !important;padding:10px 20px !important;color:#fff !important;font-size:14px !important;font-weight:600 !important}
-.gstr-routes-section{padding:70px 0 !important;background:#f8fafb !important}
-.gstr-underline{width:60px !important;height:4px !important;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important;border-radius:2px !important;margin-bottom:16px !important}
-.gstr-section-label{font-size:13px !important;font-weight:700 !important;color:#1a9e87 !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:8px !important}
-.gstr-section-title{font-size:34px !important;font-weight:800 !important;color:#1a1a2e !important;margin-bottom:40px !important;text-transform:none !important}
-.gstr-routes-grid{display:grid !important;grid-template-columns:repeat(2,1fr) !important;gap:20px !important}
-.gstr-route-card{background:#fff !important;border-radius:18px !important;padding:28px !important;display:flex !important;align-items:center !important;gap:20px !important;box-shadow:0 2px 16px rgba(0,0,0,0.07) !important;border:2px solid transparent !important;transition:all 0.3s !important;cursor:pointer !important}
-.gstr-route-card:hover{border-color:#1a9e87 !important;box-shadow:0 8px 32px rgba(26,158,135,0.15) !important;transform:translateY(-3px) !important}
-.gstr-route-icon{width:56px !important;height:56px !important;border-radius:14px !important;background:linear-gradient(135deg,#e8f7f5,#d0f0eb) !important;display:flex !important;align-items:center !important;justify-content:center !important;flex-shrink:0 !important;font-size:22px !important}
-.gstr-route-from{font-size:13px !important;color:#9ca3af !important;margin-bottom:4px !important;text-transform:none !important}
-.gstr-route-arrow{font-size:13px !important;color:#1a9e87 !important;margin:2px 0 !important}
-.gstr-route-to{font-size:16px !important;font-weight:700 !important;color:#1a1a2e !important;text-transform:none !important}
-.gstr-route-price{margin-left:auto !important;text-align:right !important}
-.gstr-price-val{font-size:24px !important;font-weight:900 !important;color:#1a9e87 !important;line-height:1 !important}
-.gstr-price-note{font-size:11px !important;color:#9ca3af !important;text-transform:none !important}
-.gstr-features-section{padding:70px 0 !important;background:#fff !important}
-.gstr-feat-grid{display:grid !important;grid-template-columns:repeat(4,1fr) !important;gap:24px !important}
-.gstr-feat-card{background:#f8fafb !important;border-radius:18px !important;padding:32px 24px !important;text-align:center !important;border:1px solid #eef1f4 !important;transition:all 0.3s !important}
-.gstr-feat-card:hover{border-color:#1a9e87 !important;box-shadow:0 8px 28px rgba(26,158,135,0.12) !important;transform:translateY(-4px) !important}
-.gstr-feat-icon{width:64px !important;height:64px !important;border-radius:50% !important;background:linear-gradient(135deg,#e8f7f5,#d0f0eb) !important;display:flex !important;align-items:center !important;justify-content:center !important;margin:0 auto 18px !important;font-size:26px !important;transition:all 0.3s !important}
-.gstr-feat-card:hover .gstr-feat-icon{background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important}
-.gstr-feat-card:hover .gstr-feat-icon i{color:#fff !important}
-.gstr-feat-icon i{color:#1a9e87 !important;font-size:24px !important;transition:color 0.3s !important}
-.gstr-feat-title{font-size:16px !important;font-weight:700 !important;color:#1a1a2e !important;margin-bottom:8px !important;text-transform:none !important}
-.gstr-feat-desc{font-size:14px !important;color:#6b7280 !important;line-height:1.6 !important;text-transform:none !important}
-.gstr-form-section{padding:80px 0 !important;background:linear-gradient(135deg,#f0fdf9,#e8f7f5) !important}
-.gstr-form-wrap{background:#fff !important;border-radius:24px !important;padding:52px !important;box-shadow:0 8px 40px rgba(0,0,0,0.08) !important;max-width:820px !important;margin:0 auto !important}
-.gstr-form-grid{display:grid !important;grid-template-columns:1fr 1fr !important;gap:20px !important}
-.gstr-form-group{display:flex !important;flex-direction:column !important;gap:6px !important}
-.gstr-form-group.full{grid-column:1/-1 !important}
-.gstr-label{font-size:13px !important;font-weight:600 !important;color:#374151 !important}
-.gstr-input,.gstr-select,.gstr-textarea{width:100% !important;padding:14px 16px !important;border:1.5px solid #e5e7eb !important;border-radius:12px !important;font-size:15px !important;color:#1a1a2e !important;background:#f9fafb !important;transition:all 0.2s !important;outline:none !important;font-family:inherit !important}
-.gstr-input:focus,.gstr-select:focus,.gstr-textarea:focus{border-color:#1a9e87 !important;background:#fff !important;box-shadow:0 0 0 3px rgba(26,158,135,0.12) !important}
-.gstr-price-box{background:linear-gradient(135deg,#f0fdf9,#e8f7f5) !important;border:2px solid #1a9e87 !important;border-radius:16px !important;padding:24px !important;margin:24px 0 !important}
-.gstr-price-row{display:flex !important;justify-content:space-between !important;align-items:center !important;padding:8px 0 !important;font-size:15px !important;color:#4b5563 !important;border-bottom:1px solid rgba(26,158,135,0.15) !important}
-.gstr-price-row:last-child{border-bottom:none !important;font-weight:800 !important;font-size:20px !important;color:#1a1a2e !important;padding-top:14px !important}
-.gstr-price-row span:last-child{color:#1a9e87 !important;font-weight:700 !important}
-.gstr-submit{width:100% !important;padding:18px !important;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important;color:#fff !important;font-size:18px !important;font-weight:700 !important;border:none !important;border-radius:14px !important;cursor:pointer !important;box-shadow:0 6px 20px rgba(26,158,135,0.35) !important;transition:all 0.3s !important;font-family:inherit !important}
-.gstr-submit:hover{transform:translateY(-2px) !important;box-shadow:0 10px 30px rgba(26,158,135,0.45) !important}
-.gstr-guarantee-row{display:flex !important;justify-content:center !important;gap:24px !important;margin-top:20px !important;flex-wrap:wrap !important}
-.gstr-guarantee-item{display:flex !important;align-items:center !important;gap:6px !important;font-size:13px !important;color:#6b7280 !important}
-.gstr-guarantee-item i{color:#1a9e87 !important}
-@media(max-width:992px){.gstr-feat-grid{grid-template-columns:repeat(2,1fr) !important}}
-@media(max-width:768px){.gstr-hero-title{font-size:30px !important}.gstr-routes-grid{grid-template-columns:1fr !important}.gstr-form-wrap{padding:32px 20px !important}}
-@media(max-width:576px){.gstr-feat-grid{grid-template-columns:1fr !important}.gstr-form-grid{grid-template-columns:1fr !important}}
+.gstr-page{background:#f8fafb;min-height:100vh;padding:48px 0 80px}
+.gstr-card{background:#fff;border-radius:24px;box-shadow:0 4px 32px rgba(0,0,0,0.09);max-width:680px;margin:0 auto;overflow:hidden}
+.gstr-top{background:linear-gradient(135deg,#1a9e87,#2ec4a9);padding:40px 48px 36px;text-align:center}
+.gstr-top h1{font-size:32px;font-weight:900;color:#fff;margin:0 0 10px;text-transform:none;letter-spacing:-0.5px}
+.gstr-top p{font-size:16px;color:rgba(255,255,255,0.88);margin:0}
+.gstr-pills{display:flex;justify-content:center;flex-wrap:wrap;gap:10px;margin-top:24px}
+.gstr-pill{background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.3);border-radius:50px;padding:7px 16px;color:#fff;font-size:13px;font-weight:600}
+.gstr-body{padding:40px 48px}
+.gstr-routes{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:36px}
+.gstr-route{background:#f0fdf9;border:2px solid transparent;border-radius:14px;padding:16px 18px;cursor:pointer;transition:all 0.2s}
+.gstr-route:hover,.gstr-route.active{border-color:#1a9e87;background:#e8f7f5}
+.gstr-route-name{font-size:14px;font-weight:700;color:#1a1a2e;text-transform:none}
+.gstr-route-price{font-size:20px;font-weight:900;color:#1a9e87;margin-top:4px}
+.gstr-divider{font-size:13px;font-weight:700;color:#9ca3af;text-transform:uppercase;letter-spacing:1px;margin-bottom:20px;padding-bottom:12px;border-bottom:1px solid #f0f0f0}
+.gstr-label{font-size:13px;font-weight:600;color:#374151;display:block;margin-bottom:6px}
+.gstr-input,.gstr-select,.gstr-textarea{width:100%;padding:13px 16px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:15px;color:#1a1a2e;background:#f9fafb;outline:none;font-family:inherit;margin-bottom:16px;transition:all 0.2s}
+.gstr-input:focus,.gstr-select:focus,.gstr-textarea:focus{border-color:#1a9e87;background:#fff;box-shadow:0 0 0 3px rgba(26,158,135,0.1)}
+.gstr-row{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.gstr-btn{width:100%;padding:17px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);color:#fff;font-size:17px;font-weight:700;border:none;border-radius:14px;cursor:pointer;box-shadow:0 6px 20px rgba(26,158,135,0.35);transition:all 0.3s;font-family:inherit;margin-top:8px}
+.gstr-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(26,158,135,0.42)}
+.gstr-footer-note{text-align:center;margin-top:16px;display:flex;justify-content:center;gap:20px;flex-wrap:wrap}
+.gstr-note-item{font-size:13px;color:#9ca3af;display:flex;align-items:center;gap:5px}
+.gstr-note-item i{color:#1a9e87}
+@media(max-width:640px){.gstr-top{padding:32px 24px}.gstr-body{padding:28px 24px}.gstr-routes{grid-template-columns:1fr}.gstr-row{grid-template-columns:1fr}}
 </style>
 @endpush
 
@@ -1436,218 +1409,122 @@
                 ->orderBy('display_order', 'asc')->get();
         @endphp
 
-        {{-- ========== HERO ========== --}}
-        <section class="gstr-hero">
-            <div class="container" style="position:relative;z-index:1">
-                <div class="row"><div class="col-lg-7">
-                    <div class="gstr-hero-label">🚗 Трансфер к санаторию</div>
-                    <h1 class="gstr-hero-title">Трансфер без<br>лишних забот</h1>
-                    <p class="gstr-hero-sub">Встретим в аэропорту с табличкой, поможем с багажом и доставим прямо до санатория — пунктуально и комфортно</p>
-                    <div class="gstr-trust-row">
-                        <div class="gstr-trust-pill"><i class="fas fa-clock"></i> Без предоплаты</div>
-                        <div class="gstr-trust-pill"><i class="fas fa-user-tie"></i> Профессиональные водители</div>
-                        <div class="gstr-trust-pill"><i class="fas fa-plane-arrival"></i> Мониторинг рейса</div>
-                        <div class="gstr-trust-pill"><i class="fas fa-shield-alt"></i> Бизнес-класс авто</div>
-                    </div>
-                </div></div>
-            </div>
-        </section>
+        <div class="gstr-page">
+         <div class="container">
+          <div class="gstr-card">
 
-        {{-- ========== ROUTES ========== --}}
-        <section class="gstr-routes-section">
-            <div class="container">
-                <div class="gstr-underline"></div>
-                <div class="gstr-section-label">Популярные маршруты</div>
-                <h2 class="gstr-section-title">Цены на трансфер</h2>
-                <div class="gstr-routes-grid">
-                    @foreach($transferRoutes as $route)
-                    <div class="gstr-route-card">
-                        <div class="gstr-route-icon">✈️</div>
-                        <div>
-                            <div class="gstr-route-from">{{ $route->from_location }}</div>
-                            <div class="gstr-route-arrow">↓</div>
-                            <div class="gstr-route-to">{{ $route->to_location }}</div>
-                        </div>
-                        <div class="gstr-route-price">
-                            @if($route->base_price > 0)
-                                <div class="gstr-price-val">{{ rtrim(rtrim(number_format($route->base_price, 2, '.', ''), '0'), '.') }} ₼</div>
-                                <div class="gstr-price-note">за авто</div>
-                            @else
-                                <div class="gstr-price-val" style="font-size:16px;color:#1a9e87">По запросу</div>
-                                <div class="gstr-price-note">уточните у нас</div>
-                            @endif
-                        </div>
-                    </div>
-                    @endforeach
-                </div>
+           <div class="gstr-top">
+            <h1>🚗 Заказать трансфер</h1>
+            <p>Встретим в аэропорту и доставим до санатория</p>
+            <div class="gstr-pills">
+             <span class="gstr-pill">✓ Без предоплаты</span>
+             <span class="gstr-pill">✓ Мониторинг рейса</span>
+             <span class="gstr-pill">✓ Ответ за 15 мин</span>
             </div>
-        </section>
+           </div>
 
-        {{-- ========== FEATURES ========== --}}
-        <section class="gstr-features-section">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <div class="gstr-underline" style="margin:0 auto 16px"></div>
-                    <h2 class="gstr-section-title" style="margin-bottom:0">Почему выбирают наш трансфер</h2>
-                </div>
-                <div class="gstr-feat-grid">
-                    <div class="gstr-feat-card">
-                        <div class="gstr-feat-icon"><i class="fas fa-clock"></i></div>
-                        <div class="gstr-feat-title">Пунктуальность</div>
-                        <div class="gstr-feat-desc">Круглосуточный мониторинг рейсов — встретим точно по прилёту, без ожидания</div>
-                    </div>
-                    <div class="gstr-feat-card">
-                        <div class="gstr-feat-icon"><i class="fas fa-user-tie"></i></div>
-                        <div class="gstr-feat-title">Профессиональные водители</div>
-                        <div class="gstr-feat-desc">Опытные водители с лицензией, отлично знают все маршруты</div>
-                    </div>
-                    <div class="gstr-feat-card">
-                        <div class="gstr-feat-icon"><i class="fas fa-car"></i></div>
-                        <div class="gstr-feat-title">Комфорт и безопасность</div>
-                        <div class="gstr-feat-desc">Автомобили бизнес-класса в чистоте. Кондиционер, вода, зарядка</div>
-                    </div>
-                    <div class="gstr-feat-card">
-                        <div class="gstr-feat-icon"><i class="fas fa-id-card"></i></div>
-                        <div class="gstr-feat-title">Встреча с табличкой</div>
-                        <div class="gstr-feat-desc">Водитель встретит с табличкой на имя, поможет с багажом и проводит до авто</div>
-                    </div>
-                </div>
-            </div>
-        </section>
+           <div class="gstr-body">
 
-        {{-- ========== DESCRIPTION CONTENT ========== --}}
-        @if($custom_page->description)
-        <section class="tf-content">
-            <div class="container">
-                <div class="row justify-content-center">
-                    <div class="col-lg-10">
-                        <div class="tf-content__body">{!! clean($custom_page->description) !!}</div>
-                    </div>
+            @if($errors->any())
+                <div class="alert alert-danger mb-4">
+                    <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
                 </div>
-            </div>
-        </section>
-        @endif
+            @endif
 
-        {{-- ========== BOOKING FORM ========== --}}
-        <section class="gstr-form-section" id="transfer-form">
-            <div class="container">
-                <div class="text-center mb-5">
-                    <div class="gstr-underline" style="margin:0 auto 16px"></div>
-                    <h2 class="gstr-section-title" style="margin-bottom:8px">Забронировать трансфер</h2>
-                    <p style="color:#6b7280;font-size:16px">Заполните форму — ответим в течение 15 минут</p>
-                </div>
-                <div class="gstr-form-wrap">
-                    @if($errors->any())
-                        <div class="alert alert-danger mb-4">
-                            <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
-                        </div>
-                    @endif
-                    <form method="POST" action="{{ route('front.tourbooking.transfer.process') }}" id="transferForm">
-                        @csrf
-                        <div class="gstr-form-grid">
-                            <div class="gstr-form-group full">
-                                <label class="gstr-label">Маршрут *</label>
-                                <select name="route_id" id="gstrRoute" class="gstr-select" required>
-                                    <option value="">— Выберите маршрут —</option>
-                                    @foreach($transferRoutes as $route)
-                                        <option value="{{ $route->id }}" data-price="{{ (float) $route->base_price }}" @selected(old('route_id') == $route->id)>
-                                            {{ $route->from_location }} → {{ $route->to_location }} ({{ $route->base_price > 0 ? rtrim(rtrim(number_format($route->base_price, 2, '.', ''), '0'), '.') . ' ₼' : 'по запросу' }})
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="gstr-form-group full">
-                                <label class="gstr-label">Автомобиль *</label>
-                                <select name="vehicle_id" id="gstrVehicle" class="gstr-select" required>
-                                    <option value="">— Выберите автомобиль —</option>
-                                    @foreach($transferVehicles as $vehicle)
-                                        <option value="{{ $vehicle->id }}" data-price="{{ (float) $vehicle->base_price }}" @selected(old('vehicle_id') == $vehicle->id)>
-                                            {{ $vehicle->name }} ({{ $vehicle->passenger_capacity }} пасс.@if($vehicle->base_price > 0), +{{ rtrim(rtrim(number_format($vehicle->base_price, 2, '.', ''), '0'), '.') }} ₼@endif)
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Дата трансфера *</label>
-                                <input type="date" name="transfer_date" class="gstr-input" min="{{ date('Y-m-d') }}" value="{{ old('transfer_date') }}" required>
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Время прилёта</label>
-                                <input type="time" name="transfer_time" class="gstr-input" value="{{ old('transfer_time') }}">
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Номер рейса</label>
-                                <input type="text" name="flight_number" class="gstr-input" placeholder="Например: J2 123" value="{{ old('flight_number') }}">
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Количество пассажиров *</label>
-                                <input type="number" name="passengers" class="gstr-input" min="1" max="50" value="{{ old('passengers', 2) }}" required>
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Ваше имя *</label>
-                                <input type="text" name="guest_name" class="gstr-input" placeholder="Имя и фамилия" value="{{ old('guest_name', auth()->user()->name ?? '') }}" required>
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Телефон *</label>
-                                <input type="tel" name="guest_phone" class="gstr-input" placeholder="+994 55 123 45 67" value="{{ old('guest_phone', auth()->user()->phone ?? '') }}" required>
-                            </div>
-                            <div class="gstr-form-group full">
-                                <label class="gstr-label">Email *</label>
-                                <input type="email" name="guest_email" class="gstr-input" placeholder="your@email.com" value="{{ old('guest_email', auth()->user()->email ?? '') }}" required>
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Адрес подачи</label>
-                                <input type="text" name="pickup_address" class="gstr-input" placeholder="Укажите точный адрес" value="{{ old('pickup_address') }}">
-                            </div>
-                            <div class="gstr-form-group">
-                                <label class="gstr-label">Адрес высадки</label>
-                                <input type="text" name="dropoff_address" class="gstr-input" placeholder="Укажите точный адрес" value="{{ old('dropoff_address') }}">
-                            </div>
-                            <div class="gstr-form-group full">
-                                <label class="gstr-label">Особые пожелания</label>
-                                <textarea name="special_requests" class="gstr-textarea" rows="3" placeholder="Детское кресло, помощь с багажом, количество пассажиров...">{{ old('special_requests') }}</textarea>
-                            </div>
-                            @guest
-                            <div class="gstr-form-group full">
-                                <label style="font-size:14px;color:#374151">
-                                    <input type="checkbox" name="create_account" id="gstrCreateAccount" value="1"> <strong>Создать аккаунт</strong> — чтобы отслеживать свои бронирования
-                                </label>
-                                <div id="gstrPasswordField" style="display:none">
-                                    <input type="password" name="password" class="gstr-input" minlength="6" placeholder="Пароль (минимум 6 символов)">
-                                </div>
-                            </div>
-                            @endguest
-                        </div>
-                        <div class="gstr-price-box">
-                            <div class="gstr-price-row"><span>Стоимость маршрута</span><span id="routePrice">— ₼</span></div>
-                            <div class="gstr-price-row"><span>Автомобиль</span><span id="vehiclePrice">— ₼</span></div>
-                            <div class="gstr-price-row"><span><strong>Итого к оплате</strong></span><span id="totalPrice">— ₼</span></div>
-                        </div>
-                        <button type="submit" class="gstr-submit">Забронировать трансфер</button>
-                        <div class="gstr-guarantee-row">
-                            <div class="gstr-guarantee-item"><i class="fas fa-ban"></i> Без предоплаты</div>
-                            <div class="gstr-guarantee-item"><i class="fas fa-clock"></i> Ответ за 15 минут</div>
-                            <div class="gstr-guarantee-item"><i class="fas fa-shield-alt"></i> Бесплатная отмена</div>
-                        </div>
-                    </form>
-                </div>
+            <div class="gstr-divider">Выберите маршрут</div>
+            <div class="gstr-routes" id="routeCards">
+             @foreach($transferRoutes as $route)
+             <div class="gstr-route @if(old('route_id') == $route->id) active @endif" data-route-id="{{ $route->id }}" onclick="selectRoute(this,'{{ $route->id }}')">
+              <div class="gstr-route-name">✈️ {{ $route->from_location }} → {{ $route->to_location }}</div>
+              @if($route->base_price > 0)
+                  <div class="gstr-route-price">{{ rtrim(rtrim(number_format($route->base_price, 2, '.', ''), '0'), '.') }} ₼</div>
+              @else
+                  <div class="gstr-route-price" style="font-size:15px">По запросу</div>
+              @endif
+             </div>
+             @endforeach
             </div>
-        </section>
+
+            <form method="POST" action="{{ route('front.tourbooking.transfer.process') }}" id="transferForm">
+             @csrf
+             <input type="hidden" name="route_id" id="routeInput" value="{{ old('route_id') }}">
+
+             <div class="gstr-divider">Детали поездки</div>
+             <label class="gstr-label">Автомобиль *</label>
+             <select name="vehicle_id" class="gstr-select" required>
+              @foreach($transferVehicles as $vehicle)
+                  <option value="{{ $vehicle->id }}" @selected(old('vehicle_id', $transferVehicles->first()->id ?? null) == $vehicle->id)>
+                      {{ $vehicle->name }} ({{ $vehicle->passenger_capacity }} пасс.@if($vehicle->base_price > 0), +{{ rtrim(rtrim(number_format($vehicle->base_price, 2, '.', ''), '0'), '.') }} ₼@endif)
+                  </option>
+              @endforeach
+             </select>
+             <div class="gstr-row">
+              <div>
+               <label class="gstr-label">Дата *</label>
+               <input type="date" name="transfer_date" class="gstr-input" min="{{ date('Y-m-d') }}" value="{{ old('transfer_date') }}" required>
+              </div>
+              <div>
+               <label class="gstr-label">Время прилёта</label>
+               <input type="time" name="transfer_time" class="gstr-input" value="{{ old('transfer_time') }}">
+              </div>
+             </div>
+             <div class="gstr-row">
+              <div>
+               <label class="gstr-label">Номер рейса</label>
+               <input type="text" name="flight_number" class="gstr-input" placeholder="Например: J2 123" value="{{ old('flight_number') }}">
+              </div>
+              <div>
+               <label class="gstr-label">Пассажиров *</label>
+               <input type="number" name="passengers" class="gstr-input" min="1" max="50" value="{{ old('passengers', 2) }}" required>
+              </div>
+             </div>
+
+             <div class="gstr-divider">Ваши данные</div>
+             <label class="gstr-label">Имя и фамилия *</label>
+             <input type="text" name="guest_name" class="gstr-input" placeholder="Как вас зовут" value="{{ old('guest_name', auth()->user()->name ?? '') }}" required>
+             <div class="gstr-row">
+              <div>
+               <label class="gstr-label">Телефон *</label>
+               <input type="tel" name="guest_phone" class="gstr-input" placeholder="+994 55 ..." value="{{ old('guest_phone', auth()->user()->phone ?? '') }}" required>
+              </div>
+              <div>
+               <label class="gstr-label">Email *</label>
+               <input type="email" name="guest_email" class="gstr-input" placeholder="your@email.com" value="{{ old('guest_email', auth()->user()->email ?? '') }}" required>
+              </div>
+             </div>
+             <label class="gstr-label">Пожелания</label>
+             <textarea name="special_requests" class="gstr-textarea" rows="3" placeholder="Детское кресло, количество пассажиров...">{{ old('special_requests') }}</textarea>
+
+             <button type="submit" class="gstr-btn" id="submitBtn">Забронировать трансфер →</button>
+            </form>
+
+            <div class="gstr-footer-note">
+             <span class="gstr-note-item"><i class="fas fa-ban"></i> Без предоплаты</span>
+             <span class="gstr-note-item"><i class="fas fa-shield-alt"></i> Бесплатная отмена</span>
+             <span class="gstr-note-item"><i class="fas fa-lock"></i> Данные защищены</span>
+            </div>
+
+           </div>
+          </div>
+         </div>
+        </div>
+
         <script>
-        (function(){
-            var r=document.getElementById('gstrRoute'),v=document.getElementById('gstrVehicle');
-            function p(s){var o=s.options[s.selectedIndex];return o&&o.value?(parseFloat(o.getAttribute('data-price'))||0):null;}
-            function fmt(n){return n===null?'— ₼':(Math.round(n*100)/100)+' ₼';}
-            function upd(){
-                var a=p(r),b=p(v);
-                document.getElementById('routePrice').textContent=a===null?'— ₼':(a>0?fmt(a):'По запросу');
-                document.getElementById('vehiclePrice').textContent=fmt(b);
-                document.getElementById('totalPrice').textContent=(a===null||a===0)&&a!==null?'По запросу':(a===null?'— ₼':fmt(a+(b||0)));
-            }
-            r.addEventListener('change',upd);v.addEventListener('change',upd);upd();
-            var c=document.getElementById('gstrCreateAccount'),f=document.getElementById('gstrPasswordField');
-            if(c&&f)c.addEventListener('change',function(){f.style.display=this.checked?'block':'none';f.querySelector('input').required=this.checked;});
-        })();
+        function selectRoute(el, val) {
+         document.querySelectorAll('.gstr-route').forEach(function(r){ r.classList.remove('active'); });
+         el.classList.add('active');
+         document.getElementById('routeInput').value = val;
+        }
+        document.getElementById('transferForm').addEventListener('submit', function(e) {
+         if (!document.getElementById('routeInput').value) {
+          e.preventDefault();
+          alert('Пожалуйста, выберите маршрут');
+          document.getElementById('routeCards').scrollIntoView({behavior:'smooth'});
+          return;
+         }
+         var b = document.getElementById('submitBtn');
+         b.textContent = 'Отправка...'; b.disabled = true;
+        });
         </script>
 
         {{-- Video Modal --}}
