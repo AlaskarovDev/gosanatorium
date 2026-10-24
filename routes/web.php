@@ -78,6 +78,7 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/custom-page/{slug}', [HomeController::class, 'custom_page'])->name('custom-page');
 
     Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
+    Route::post('/transfer-inquiry', [\App\Http\Controllers\TransferInquiryController::class, 'send'])->name('transfer-inquiry');
 
     Route::get('/language-switcher', [HomeController::class,  'language_switcher'])->name('language-switcher');
     Route::get('/currency-switcher', [HomeController::class, 'currency_switcher'])->name('currency-switcher');
