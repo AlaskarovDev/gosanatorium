@@ -1426,142 +1426,36 @@
         </style>
 
 
-        @php
-            $transferRoutes = \Modules\TourBooking\App\Models\TransferRoute::where('status', true)
-                ->orderBy('display_order', 'asc')->get();
-            $transferVehicles = \Modules\TourBooking\App\Models\TransferVehicle::where('status', true)
-                ->orderBy('display_order', 'asc')->get();
-        @endphp
-
-        <div class="gstr-page">
-         <div class="container">
-          <div class="gstr-card">
-
-           <div class="gstr-top">
-            <h1>🚗 Заказать трансфер</h1>
-            <p>Встретим в аэропорту и доставим до санатория</p>
-            <div class="gstr-pills">
-             <span class="gstr-pill">✓ Без предоплаты</span>
-             <span class="gstr-pill">✓ Мониторинг рейса</span>
-             <span class="gstr-pill">✓ Ответ за 15 мин</span>
-            </div>
-           </div>
-
-           <div class="gstr-body">
-
-            @if($errors->any())
-                <div class="alert alert-danger mb-4">
-                    <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+        <section class="gstr-hero">
+            <div class="gstr-hero-bg"></div>
+            <div class="gstr-hero-overlay"></div>
+            <div class="gstr-hero-content"><div class="container"><div class="row"><div class="col-lg-7">
+                <div class="gstr-hero-badge">🚗 Трансфер GoSanatorium</div>
+                <h1 class="gstr-hero-title">Комфортный трансфер<br>до санатория</h1>
+                <p class="gstr-hero-sub">Встретим в аэропорту с табличкой и доставим до санатория — пунктуально и в комфорте</p>
+                <div class="gstr-hero-pills">
+                    <span class="gstr-hero-pill">✓ Без предоплаты</span>
+                    <span class="gstr-hero-pill">✓ Мониторинг рейса</span>
+                    <span class="gstr-hero-pill">✓ Ответ за 15 мин</span>
+                    <span class="gstr-hero-pill">✓ Бесплатная отмена</span>
                 </div>
-            @endif
+            </div></div></div></div>
+        </section>
 
-            <div class="gstr-divider">Выберите маршрут</div>
-            <div class="gstr-routes" id="routeCards">
-             @foreach($transferRoutes as $route)
-             <div class="gstr-route @if(old('route_id') == $route->id) active @endif" data-route-id="{{ $route->id }}" onclick="selectRoute(this,'{{ $route->id }}')">
-              <div class="gstr-route-name">✈️ {{ $route->from_location }} → {{ $route->to_location }}</div>
-              @if($route->base_price > 0)
-                  <div class="gstr-route-price">{{ rtrim(rtrim(number_format($route->base_price, 2, '.', ''), '0'), '.') }} ₼</div>
-              @else
-                  <div class="gstr-route-price" style="font-size:15px">По запросу</div>
-              @endif
-             </div>
-             @endforeach
-            </div>
-
-            <form method="POST" action="{{ route('front.tourbooking.transfer.process') }}" id="transferForm">
-             @csrf
-             <input type="hidden" name="route_id" id="routeInput" value="{{ old('route_id') }}">
-
-             <div class="gstr-divider">Детали поездки</div>
-             <label class="gstr-label">Автомобиль *</label>
-             <select name="vehicle_id" class="gstr-select" required>
-              @foreach($transferVehicles as $vehicle)
-                  <option value="{{ $vehicle->id }}" @selected(old('vehicle_id', $transferVehicles->first()->id ?? null) == $vehicle->id)>
-                      {{ $vehicle->name }} ({{ $vehicle->passenger_capacity }} пасс.@if($vehicle->base_price > 0), +{{ rtrim(rtrim(number_format($vehicle->base_price, 2, '.', ''), '0'), '.') }} ₼@endif)
-                  </option>
-              @endforeach
-             </select>
-             <div class="gstr-row">
-              <div>
-               <label class="gstr-label">Дата *</label>
-               <input type="date" name="transfer_date" class="gstr-input" min="{{ date('Y-m-d') }}" value="{{ old('transfer_date') }}" required>
-              </div>
-              <div>
-               <label class="gstr-label">Время прилёта</label>
-               <input type="time" name="transfer_time" class="gstr-input" value="{{ old('transfer_time') }}">
-              </div>
-             </div>
-             <div class="gstr-row">
-              <div>
-               <label class="gstr-label">Номер рейса</label>
-               <input type="text" name="flight_number" class="gstr-input" placeholder="Например: J2 123" value="{{ old('flight_number') }}">
-              </div>
-              <div>
-               <label class="gstr-label">Пассажиров *</label>
-               <input type="number" name="passengers" class="gstr-input" min="1" max="50" value="{{ old('passengers', 2) }}" required>
-              </div>
-             </div>
-
-             <div class="gstr-divider">Ваши данные</div>
-             <label class="gstr-label">Имя и фамилия *</label>
-             <input type="text" name="guest_name" class="gstr-input" placeholder="Как вас зовут" value="{{ old('guest_name', auth()->user()->name ?? '') }}" required>
-             <div class="gstr-row">
-              <div>
-               <label class="gstr-label">Телефон *</label>
-               <input type="tel" name="guest_phone" class="gstr-input" placeholder="+994 55 ..." value="{{ old('guest_phone', auth()->user()->phone ?? '') }}" required>
-              </div>
-              <div>
-               <label class="gstr-label">Email *</label>
-               <input type="email" name="guest_email" class="gstr-input" placeholder="your@email.com" value="{{ old('guest_email', auth()->user()->email ?? '') }}" required>
-              </div>
-             </div>
-             <label class="gstr-label">Пожелания</label>
-             <textarea name="special_requests" class="gstr-textarea" rows="3" placeholder="Детское кресло, количество пассажиров...">{{ old('special_requests') }}</textarea>
-
-             <button type="submit" class="gstr-btn" id="submitBtn">Забронировать трансфер →</button>
-            </form>
-
-            <div class="gstr-footer-note">
-             <span class="gstr-note-item"><i class="fas fa-ban"></i> Без предоплаты</span>
-             <span class="gstr-note-item"><i class="fas fa-shield-alt"></i> Бесплатная отмена</span>
-             <span class="gstr-note-item"><i class="fas fa-lock"></i> Данные защищены</span>
-            </div>
-
-           </div>
-          </div>
-         </div>
-        </div>
-
-        <script>
-        function selectRoute(el, val) {
-         document.querySelectorAll('.gstr-route').forEach(function(r){ r.classList.remove('active'); });
-         el.classList.add('active');
-         document.getElementById('routeInput').value = val;
-        }
-        document.getElementById('transferForm').addEventListener('submit', function(e) {
-         if (!document.getElementById('routeInput').value) {
-          e.preventDefault();
-          alert('Пожалуйста, выберите маршрут');
-          document.getElementById('routeCards').scrollIntoView({behavior:'smooth'});
-          return;
-         }
-         var b = document.getElementById('submitBtn');
-         b.textContent = 'Отправка...'; b.disabled = true;
-        });
-        </script>
-
-        {{-- Video Modal --}}
-        @if($custom_page->video_url)
-        <div class="modal fade cp-modal" id="videoModal" tabindex="-1">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content">
-                    <button type="button" class="cp-modal__close" data-bs-dismiss="modal"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-                    <div class="modal-body p-0"><div class="cp-video-wrap"><iframe id="videoIframe" src="" frameborder="0" allowfullscreen></iframe></div></div>
+        <section class="gstr-routes-sec">
+            <div class="container">
+                <div class="gstr-uline"></div>
+                <div class="gstr-slabel">Популярные маршруты</div>
+                <h2 class="gstr-stitle">Цены на трансфер</h2>
+                <div class="gstr-rgrid">
+                    <div class="gstr-rcard"><div class="gstr-ricon">✈️</div><div class="gstr-rfrom">Аэропорт Гейдар Алиев</div><div class="gstr-rto">→ Нафталан</div><div class="gstr-rprice">49 ₼</div><div class="gstr-rper">за автомобиль</div></div>
+                    <div class="gstr-rcard"><div class="gstr-ricon">✈️</div><div class="gstr-rfrom">Аэропорт Гейдар Алиев</div><div class="gstr-rto">→ Ленкорань</div><div class="gstr-rprice">49 ₼</div><div class="gstr-rper">за автомобиль</div></div>
+                    <div class="gstr-rcard"><div class="gstr-ricon">🏙️</div><div class="gstr-rfrom">Аэропорт Гейдар Алиев</div><div class="gstr-rto">→ Баку (город)</div><div class="gstr-rprice">15 ₼</div><div class="gstr-rper">за автомобиль</div></div>
+                    <div class="gstr-rcard"><div class="gstr-ricon">✈️</div><div class="gstr-rfrom">Аэропорт Гянджа</div><div class="gstr-rto">→ Нафталан</div><div class="gstr-rprice" style="font-size:18px">По запросу</div><div class="gstr-rper">уточните у менеджера</div></div>
                 </div>
             </div>
-        </div>
-        @endif
+        </section>
+
 
     {{-- ================================================================ --}}
     {{-- VIDEO GALLERY PAGE --}}
