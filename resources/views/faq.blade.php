@@ -68,100 +68,49 @@
 @media(max-width:576px){.gsfaq-stats{gap:20px!important}.gsfaq-cta-title{font-size:24px!important}}
 </style>
 
-    @include('breadcrumb')
+<section class="gsfaq-hero"><div class="gsfaq-hero-inner"><div class="container">
+<div class="gsfaq-badge">💬 Часто задаваемые вопросы</div>
+<h1 class="gsfaq-hero-title">Ответы на ваши вопросы</h1>
+<p class="gsfaq-hero-sub">Всё что нужно знать о бронировании, лечении, трансфере и оплате</p>
+<div class="gsfaq-search-wrap"><input type="text" class="gsfaq-search" id="gsfaqSearch" placeholder="Поиск по вопросам..." oninput="gsfaqFilter(this.value)"><span class="gsfaq-search-icon"><i class="fas fa-search"></i></span></div>
+<div class="gsfaq-stats"><div class="gsfaq-stat"><div class="gsfaq-stat-num">30+</div><div class="gsfaq-stat-lbl">Ответов</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">50+</div><div class="gsfaq-stat-lbl">Санаториев</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">24/7</div><div class="gsfaq-stat-lbl">Поддержка</div></div></div>
+</div></div></section>
 
-    <!-- tg-faq-area-start -->
-    <div class="tg-pricing-area pb-120 pt-125 p-relative">
-        <div class="container">
-            <div class="row justify-content-center">
-                <div class="col-lg-10">
-                    <div class="tg-faq-content-wrap">
-                        <div class="tg-faq-section-title text-center mb-40">
-                            <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".9s">
-                                {{ getTranslatedValue($faq, 'section_subtitle') }}
-                            </h5>
-                            <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                                {{ getTranslatedValue($faq, 'section_title') }}
-                            </h2>
-                        </div>
-                        @if (!empty($faq?->data_values['slides']) && count($faq->data_values['slides']) > 0)
-                            <div class="tg-faq-content">
-                                <div class="accordion tg-custom-accordion" id="accordionExample">
-                                    @foreach ($faq->data_values['slides'] as $key => $slide)
-                                        <div @class([
-                                            'accordion-item mb-10 wow fadeInUp',
-                                            'tg-faq-active' => $key == 0,
-                                        ]) data-wow-delay=".3s" data-wow-duration=".9s">
-                                            <h2 class="accordion-header">
-                                                <button class="accordion-button {{ $key != 0 ? 'collapsed' : '' }}"
-                                                    type="button" data-bs-toggle="collapse"
-                                                    data-bs-target="#collapse_{{ $key }}"
-                                                    aria-expanded="{{ $key == 0 ? 'true' : 'false' }}"
-                                                    aria-controls="collapse_{{ $key }}">
-                                                    {{ $slide['title'] ?? 'No question provided' }}
-                                                </button>
-                                            </h2>
-                                            <div id="collapse_{{ $key }}" @class(['accordion-collapse collapse', 'show' => $key == 0])
-                                                data-bs-parent="#accordionExample">
-                                                <div class="accordion-body">
-                                                    <p class="mb-0">
-                                                        {!! strip_tags(clean($slide['description'] ?? 'No answer provided')) !!}
-                                                    </p>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    @endforeach
-                                </div>
-                            </div>
-                        @endif
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- tg-faq-area-end -->
+<section class="gsfaq-main"><div class="container"><div class="gsfaq-layout">
+<div class="gsfaq-sidebar"><div class="gsfaq-cat-list">
+<button class="gsfaq-cat-btn active" onclick="gsfaqCat('all',this)"><span class="gsfaq-cat-icon">📋</span><span class="gsfaq-cat-text">Все вопросы</span><span class="gsfaq-cat-count">30</span></button>
+<button class="gsfaq-cat-btn" onclick="gsfaqCat('booking',this)"><span class="gsfaq-cat-icon">📅</span><span class="gsfaq-cat-text">Бронирование</span><span class="gsfaq-cat-count">11</span></button>
+<button class="gsfaq-cat-btn" onclick="gsfaqCat('medical',this)"><span class="gsfaq-cat-icon">🏥</span><span class="gsfaq-cat-text">Медицина</span><span class="gsfaq-cat-count">5</span></button>
+<button class="gsfaq-cat-btn" onclick="gsfaqCat('transfer',this)"><span class="gsfaq-cat-icon">🚗</span><span class="gsfaq-cat-text">Трансфер</span><span class="gsfaq-cat-count">3</span></button>
+<button class="gsfaq-cat-btn" onclick="gsfaqCat('payment',this)"><span class="gsfaq-cat-icon">💳</span><span class="gsfaq-cat-text">Оплата и документы</span><span class="gsfaq-cat-count">5</span></button>
+<button class="gsfaq-cat-btn" onclick="gsfaqCat('children',this)"><span class="gsfaq-cat-icon">👶</span><span class="gsfaq-cat-text">Дети</span><span class="gsfaq-cat-count">3</span></button>
+<button class="gsfaq-cat-btn" onclick="gsfaqCat('treatment',this)"><span class="gsfaq-cat-icon">💊</span><span class="gsfaq-cat-text">Лечение</span><span class="gsfaq-cat-count">3</span></button>
+</div></div>
+<div class="gsfaq-content-area" id="gsfaqContent">
 
-    <!-- tg-cta-area-start -->
-    <div class="tg-cta-area-area tg-cta-space pt-125 z-index-9 p-relative">
-        <img class="tg-cta-price-shape d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/hill.png') }}" alt="">
-        <img class="tg-cta-price-shape-2 d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/tree.png') }}" alt="">
-        <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <div class="tg-cta-wrap include-bg"
-                        data-background="{{ asset('frontend/assets/img/shape/cta-banner.jpg') }}">
-                        <div class="row align-items-end">
-                            <div class="col-lg-3 d-none d-lg-block">
-                                <div class="tg-cta-thumb pt-50 ml-60">
-                                    <img src="{{ asset(getSingleImage($footer_cta, 'image')) }}" alt="">
-                                </div>
-                            </div>
-                            <div class="col-lg-5 col-md-6">
-                                <div class="tg-cta-content">
-                                    <h5 class="tg-section-subtitle text-white mb-10">
-                                        {{ getTranslatedValue($footer_cta, 'subtitle') }}</h5>
-                                    <h2 class="mb-15 tg-cta-title text-white">
-                                        {!! strip_tags(clean(getTranslatedValue($footer_cta, 'title'))) !!}
-                                    </h2>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-md-6">
-                                <div class="tg-cta-apps">
-                                    <a class="mb-20 d-inline-block mr-5"
-                                        href="{{ getTranslatedValue($footer_cta, 'apple_store_link') }}">
-                                        <img src="{{ asset('frontend/assets/img/shape/google.png') }}" alt="">
-                                    </a>
-                                    <a class="mb-20 d-inline-block"
-                                        href="{{ getTranslatedValue($footer_cta, 'google_play_link') }}">
-                                        <img src="{{ asset('frontend/assets/img/shape/app.png') }}" alt="">
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- tg-cta-area-end -->
+<div class="gsfaq-group" data-cat="booking">
+<div class="gsfaq-group-header"><div class="gsfaq-group-icon"><i class="fas fa-calendar-check"></i></div><h2 class="gsfaq-group-title">Бронирование и компания</h2></div>
+<div class="gsfaq-accordion">
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">1</div><div class="gsfaq-qtext">Чем GoSanatorium отличается от других сайтов?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Мы подбираем санаторий под ваш диагноз, организуем трансфер и консультацию врача, и поддерживаем клиента 24/7.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">2</div><div class="gsfaq-qtext">Сколько санаториев в каталоге?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Более 50 в Чехии, Грузии и Азербайджане. Каталог регулярно пополняется.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">3</div><div class="gsfaq-qtext">Работаете только с жителями Азербайджана?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет, работаем с клиентами из любой страны: России, Казахстана, Узбекистана и других.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">4</div><div class="gsfaq-qtext">Как забронировать санаторий?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Онлайн через сайт или по телефону. После подтверждения придёт письмо с деталями бронирования.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">5</div><div class="gsfaq-qtext">Нужна ли предоплата?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет. Оплата производится в санатории при заезде. Карта нужна только как гарантия.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">6</div><div class="gsfaq-qtext">Можно забронировать санаторий вне каталога?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да. Позвоните нам, и мы проверим возможность бронирования.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">7</div><div class="gsfaq-qtext">Есть ли скидки для групп?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, условия обсуждаются индивидуально. Свяжитесь с нами для специального предложения.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">8</div><div class="gsfaq-qtext">Что происходит после заявки?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Связываемся с санаторием и присылаем подтверждение, обычно в течение нескольких часов.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">9</div><div class="gsfaq-qtext">Можно ли отменить бронирование?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, без финансовых потерь при соблюдении сроков. Уведомить нужно письменно.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">10</div><div class="gsfaq-qtext">Есть ли программа лояльности?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, для повторных гостей действуют особые условия и привилегии.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">11</div><div class="gsfaq-qtext">Нужно ли платить GoSanatorium за услуги?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет. Подбор, консультация и помощь с бронированием абсолютно бесплатны.</div></div>
+</div></div>
+
+<div class="gsfaq-group" data-cat="medical">
+<div class="gsfaq-group-header"><div class="gsfaq-group-icon"><i class="fas fa-stethoscope"></i></div><h2 class="gsfaq-group-title">Подбор и медицина</h2></div>
+<div class="gsfaq-accordion">
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">12</div><div class="gsfaq-qtext">Как помогают с выбором санатория?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Специалист выясняет диагноз, цели, бюджет и предпочтения. Консультация бесплатная.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">13</div><div class="gsfaq-qtext">Кто проводит медицинскую консультацию?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Врач-партнёр, специалист по курортологии. Консультация организуется бесплатно.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">14</div><div class="gsfaq-qtext">Нужно ли направление от врача?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет. Курортный врач осмотрит на месте. Рекомендуется взять анализы и список препаратов.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">15</div><div class="gsfaq-qtext">Подходит ли санаторий только для лечения?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет, отлично подходит для профилактики, восстановления, реабилитации и оздоровления.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">16</div><div class="gsfaq-qtext">Безопасно ли санаторное лечение?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да. Все процедуры назначаются врачом после осмотра и проводятся под медицинским контролем.</div></div>
+</div></div>
 @endsection
