@@ -1787,6 +1787,72 @@
     {{-- DEFAULT PAGE --}}
     {{-- ================================================================ --}}
     @else
+        @if($custom_page->show_video_banner)
+        <section class="gscon-hero">
+            <div class="container" style="position:relative;z-index:1">
+                <div class="row"><div class="col-lg-8">
+                    <div class="gscon-hero-label">🩺 Бесплатная консультация</div>
+                    <h1 class="gscon-hero-title">Какой санаторий<br>подойдёт именно вам?</h1>
+                    <p class="gscon-hero-subtitle">Наш врач изучит ваш диагноз и подберёт лучшее лечение — бесплатно, без обязательств, за 15 минут</p>
+                    <div class="gscon-trust-row">
+                        <div class="gscon-trust-pill"><i class="fas fa-check-circle"></i> Бесплатно</div>
+                        <div class="gscon-trust-pill"><i class="fas fa-clock"></i> Ответ за 15 минут</div>
+                        <div class="gscon-trust-pill"><i class="fas fa-shield-alt"></i> Без обязательств</div>
+                    </div>
+                    <div class="gscon-examples">
+                        <span class="gscon-example-tag">🫧 Псориаз → Нафталан</span>
+                        <span class="gscon-example-tag">🫀 ЖКТ → Боржоми</span>
+                        <span class="gscon-example-tag">🦴 Суставы → Цхалтубо</span>
+                        <span class="gscon-example-tag">💧 Почки → Карловы Вары</span>
+                    </div>
+                </div></div>
+            </div>
+        </section>
+
+        <section class="gscon-doctor">
+            <div class="container">
+                <div class="gscon-section-underline"></div>
+                <div class="gscon-section-label">Ваш врач-консультант</div>
+                <h2 class="gscon-section-title">Знакомьтесь с доктором</h2>
+                <div class="gscon-doctor-card">
+                    <div><img src="{{ $custom_page->doctor_image ? asset($custom_page->doctor_image) : asset('images/doctor-rena.jpg') }}" alt="Рена Кенгерли" class="gscon-doctor-photo"></div>
+                    <div>
+                        <div class="gscon-doctor-name">Рена Кенгерли</div>
+                        <div class="gscon-doctor-role">Главный врач · Дерматовенеролог</div>
+                        <div class="gscon-doctor-edu">Азербайджанский Медицинский Университет, 2006</div>
+                        <div class="gscon-doctor-stats">
+                            <div class="gscon-stat-box"><div class="gscon-stat-num">15+</div><div class="gscon-stat-lbl">лет опыта</div></div>
+                            <div class="gscon-stat-box"><div class="gscon-stat-num">5 000+</div><div class="gscon-stat-lbl">пациентов</div></div>
+                            <div class="gscon-stat-box"><div class="gscon-stat-num">98%</div><div class="gscon-stat-lbl">успешных случаев</div></div>
+                        </div>
+                        <p class="gscon-doctor-desc">Специализируется на подборе санаторного лечения для пациентов с кожными заболеваниями — псориаз, экзема, атопический дерматит. Помогает найти оптимальный курорт с учётом диагноза, бюджета и предпочтений.</p>
+                        <div class="gscon-spec-list">
+                            <span class="gscon-spec-tag">Псориаз</span>
+                            <span class="gscon-spec-tag">Экзема</span>
+                            <span class="gscon-spec-tag">Атопический дерматит</span>
+                            <span class="gscon-spec-tag">Нафталанотерапия</span>
+                            <span class="gscon-spec-tag">Бальнеология</span>
+                        </div>
+                        @if($custom_page->video_url)
+                        <a href="#" class="gscon-video-btn" data-bs-toggle="modal" data-bs-target="#videoModal"><i class="fas fa-play-circle"></i> Посмотреть видео</a>
+                        @else
+                        <a href="#" class="gscon-video-btn"><i class="fas fa-play-circle"></i> Посмотреть видео</a>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        </section>
+        @if($custom_page->video_url)
+        <div class="modal fade cp-modal" id="videoModal" tabindex="-1">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <button type="button" class="cp-modal__close" data-bs-dismiss="modal"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+                    <div class="modal-body p-0"><div class="cp-video-wrap"><iframe id="videoIframe" src="" frameborder="0" allowfullscreen></iframe></div></div>
+                </div>
+            </div>
+        </div>
+        @endif
+        @else
 
         <section class="def-content">
             <div class="td_height_100"></div>
@@ -1856,12 +1922,81 @@
         </div>
         @endif
 
+        @endif
     @endif
 
     {{-- ================================================================ --}}
     {{-- CONSULTATION FORM --}}
     {{-- ================================================================ --}}
     @if($custom_page->show_consultation_form)
+    @if($custom_page->show_video_banner)
+    <section class="gscon-form-section" id="consultation-form">
+        <div class="container">
+            <div class="text-center mb-4">
+                <div class="gscon-section-underline" style="margin:0 auto 16px"></div>
+                <h2 class="gscon-section-title" style="margin-bottom:8px">Задайте вопрос врачу</h2>
+                <p style="color:#6b7280;font-size:16px">Ответим за 15 минут — бесплатно и без обязательств</p>
+            </div>
+            <div class="gscon-form-wrap">
+                <form action="{{ route('consultation.store') }}" method="POST" id="consultForm">
+                    @csrf
+                    <input type="hidden" name="custom_page_id" value="{{ $custom_page->id }}">
+                    <div class="gscon-form-grid">
+                        <div class="gscon-form-group">
+                            <label class="gscon-label">Имя *</label>
+                            <input type="text" name="first_name" class="gscon-input" placeholder="Ваше имя" required>
+                        </div>
+                        <div class="gscon-form-group">
+                            <label class="gscon-label">Фамилия *</label>
+                            <input type="text" name="last_name" class="gscon-input" placeholder="Ваша фамилия" required>
+                        </div>
+                        <div class="gscon-form-group">
+                            <label class="gscon-label">Email *</label>
+                            <input type="email" name="email" class="gscon-input" placeholder="your@email.com" required>
+                        </div>
+                        <div class="gscon-form-group">
+                            <label class="gscon-label">Телефон *</label>
+                            <div class="gscon-phone-row">
+                                <select name="country" class="gscon-select gscon-phone-select">
+                                    <option value="AZ">🇦🇿 +994</option>
+                                    <option value="RU">🇷🇺 +7</option>
+                                    <option value="UZ">🇺🇿 +998</option>
+                                    <option value="KZ">🇰🇿 +7</option>
+                                    <option value="GE">🇬🇪 +995</option>
+                                    <option value="BY">🇧🇾 +375</option>
+                                    <option value="UA">🇺🇦 +380</option>
+                                    <option value="IL">🇮🇱 +972</option>
+                                    <option value="DE">🇩🇪 +49</option>
+                                </select>
+                                <input type="tel" name="phone" class="gscon-input gscon-phone-input" placeholder="555 12 34 56" required>
+                            </div>
+                        </div>
+                        <div class="gscon-form-group full">
+                            <label class="gscon-label">Ваш вопрос / диагноз *</label>
+                            <textarea name="message" class="gscon-textarea" placeholder="Опишите ваш диагноз или вопрос..." required></textarea>
+                        </div>
+                    </div>
+                    <label class="gscon-consent">
+                        <input type="checkbox" name="marketing_consent" value="1" required>
+                        <span>Я согласен(а) на обработку персональных данных</span>
+                    </label>
+                    <button type="submit" class="gscon-submit" id="gsconSubmitBtn">Отправить вопрос доктору</button>
+                    <div class="gscon-guarantee-row">
+                        <div class="gscon-guarantee-item"><i class="fas fa-lock"></i> Данные защищены</div>
+                        <div class="gscon-guarantee-item"><i class="fas fa-clock"></i> Ответ за 15 минут</div>
+                        <div class="gscon-guarantee-item"><i class="fas fa-ban"></i> Без спама</div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </section>
+    <script>
+    document.getElementById('consultForm').addEventListener('submit',function(){
+        var b=document.getElementById('gsconSubmitBtn');
+        b.textContent='Отправка...';b.disabled=true;
+    });
+    </script>
+    @else
     <section class="cp-form-section">
         <div class="container">
             <div class="row justify-content-center">
@@ -1941,6 +2076,7 @@
             </div>
         </div>
     </section>
+    @endif
     @endif
 </div>
 @endsection
