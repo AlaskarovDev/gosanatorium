@@ -159,10 +159,10 @@
         .gscard-tab svg path { fill: currentColor !important; }
         .gscard-tab:hover { border-color: #1a9e87 !important; color: #1a9e87 !important; }
         .gscard-tab.active, .gscard-tab.active:hover { background: linear-gradient(135deg, #1a9e87, #2ec4a9) !important; color: #fff !important; border-color: transparent !important; box-shadow: 0 4px 12px rgba(26,158,135,0.3) !important; }
-        .gscard-grid { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 24px !important; }
-        .gscard-item { display: flex !important; min-width: 0 !important; }
+        .gscard-grid { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 24px !important; width: 100% !important; }
+        .gscard-item { display: flex !important; min-width: 0 !important; width: 100% !important; }
         .gscard-item.gscard-hidden { display: none !important; }
-        .gscard-card { display: flex !important; flex-direction: column !important; width: 100% !important; background: #fff !important; border-radius: 16px !important; box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important; border: 1px solid #f0f4f8 !important; overflow: hidden !important; padding: 0 !important; transition: all .25s ease !important; }
+        .gscard-card { height: 100% !important; display: flex !important; flex-direction: column !important; width: 100% !important; background: #fff !important; border-radius: 16px !important; box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important; border: 1px solid #f0f4f8 !important; overflow: hidden !important; padding: 0 !important; transition: all .25s ease !important; }
         .gscard-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.14) !important; transform: translateY(-4px) !important; }
         .gscard-media { position: relative !important; height: 220px !important; width: 100% !important; overflow: hidden !important; }
         .gscard-media > a { display: block !important; height: 100% !important; }

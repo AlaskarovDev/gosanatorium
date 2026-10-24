@@ -513,13 +513,16 @@ if (!function_exists('gscardAddress')) {
     // "City, Country" without Google Plus Codes
     function gscardAddress($service)
     {
-        $city = trim((string) ($service?->destination?->name ?? ''));
-        $country = trim((string) ($service?->destination?->country ?? ''));
-        if ($city !== '') {
-            return $country !== '' ? $city . ', ' . $country : $city;
+        $split = fn($v) => array_values(array_filter(array_map('trim', preg_split('/\s*,\s*|\s+[\x{2013}\x{2014}-]\s+/u', (string) $v))));
+        $cityParts = $split($service?->destination?->name ?? '');
+        $countryParts = $split($service?->destination?->country ?? '');
+        if (!empty($cityParts)) {
+            $city = $cityParts[0];
+            $country = $countryParts[0] ?? ($cityParts[1] ?? '');
+            return ($country !== '' && mb_strtolower($country) !== mb_strtolower($city)) ? $city . ', ' . $country : $city;
         }
         $s = preg_replace('/^\s*[A-Z0-9]{4,8}\+[A-Z0-9]{2,}\s*,?\s*/u', '', (string) $service?->location);
-        $parts = array_values(array_filter(array_map('trim', explode(',', $s))));
+        $parts = array_values(array_unique(array_filter(array_map('trim', explode(',', $s)))));
         return implode(', ', array_slice($parts, -2));
     }
 }
