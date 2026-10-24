@@ -1293,6 +1293,56 @@
 </style>
 @endpush
 
+@push('style_section')
+<style>
+.gscon-hero{background:linear-gradient(135deg,#0d7a68 0%,#1a9e87 50%,#2ec4a9 100%) !important;padding:80px 0 100px !important;position:relative !important;overflow:hidden !important}
+.gscon-hero::before{content:'' !important;position:absolute !important;top:-80px !important;right:-80px !important;width:400px !important;height:400px !important;background:rgba(255,255,255,0.06) !important;border-radius:50% !important}
+.gscon-hero-label{font-size:13px !important;font-weight:700 !important;color:rgba(255,255,255,0.8) !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:16px !important}
+.gscon-hero-title{font-size:44px !important;font-weight:900 !important;color:#ffffff !important;line-height:1.15 !important;margin-bottom:20px !important;text-transform:none !important;letter-spacing:-1px !important}
+.gscon-hero-subtitle{font-size:18px !important;color:rgba(255,255,255,0.85) !important;margin-bottom:40px !important;line-height:1.6 !important;text-transform:none !important}
+.gscon-trust-row{display:flex !important;flex-wrap:wrap !important;gap:16px !important}
+.gscon-trust-pill{display:flex !important;align-items:center !important;gap:8px !important;background:rgba(255,255,255,0.15) !important;border:1px solid rgba(255,255,255,0.25) !important;border-radius:50px !important;padding:10px 20px !important;color:#ffffff !important;font-size:14px !important;font-weight:600 !important}
+.gscon-examples{margin-top:32px !important;display:flex !important;flex-wrap:wrap !important;gap:10px !important}
+.gscon-example-tag{background:rgba(255,255,255,0.12) !important;border:1px solid rgba(255,255,255,0.2) !important;border-radius:8px !important;padding:8px 16px !important;color:rgba(255,255,255,0.9) !important;font-size:13px !important;text-transform:none !important}
+.gscon-doctor{padding:80px 0 !important;background:#ffffff !important}
+.gscon-section-underline{width:60px !important;height:4px !important;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important;border-radius:2px !important;margin-bottom:16px !important}
+.gscon-section-label{font-size:13px !important;font-weight:700 !important;color:#1a9e87 !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:8px !important}
+.gscon-section-title{font-size:34px !important;font-weight:800 !important;color:#1a1a2e !important;margin-bottom:40px !important;text-transform:none !important;letter-spacing:-0.5px !important}
+.gscon-doctor-card{background:#f8fafb !important;border-radius:24px !important;padding:48px !important;display:grid !important;grid-template-columns:280px 1fr !important;gap:48px !important;align-items:start !important}
+.gscon-doctor-photo{width:100% !important;border-radius:18px !important;object-fit:cover !important;aspect-ratio:3/4 !important;box-shadow:0 8px 32px rgba(0,0,0,0.12) !important}
+.gscon-doctor-name{font-size:26px !important;font-weight:800 !important;color:#1a1a2e !important;margin-bottom:6px !important;text-transform:none !important}
+.gscon-doctor-role{font-size:15px !important;color:#1a9e87 !important;font-weight:600 !important;margin-bottom:4px !important;text-transform:none !important}
+.gscon-doctor-edu{font-size:14px !important;color:#6b7280 !important;margin-bottom:24px !important}
+.gscon-doctor-stats{display:grid !important;grid-template-columns:repeat(3,1fr) !important;gap:16px !important;margin-bottom:28px !important}
+.gscon-stat-box{background:#ffffff !important;border-radius:14px !important;padding:18px 14px !important;text-align:center !important;border:1px solid #eef1f4 !important}
+.gscon-stat-num{font-size:28px !important;font-weight:900 !important;color:#1a9e87 !important;line-height:1 !important;margin-bottom:4px !important}
+.gscon-stat-lbl{font-size:12px !important;color:#6b7280 !important;line-height:1.4 !important;text-transform:none !important}
+.gscon-doctor-desc{font-size:15px !important;color:#4b5563 !important;line-height:1.7 !important;margin-bottom:24px !important;text-transform:none !important}
+.gscon-spec-list{display:flex !important;flex-wrap:wrap !important;gap:8px !important;margin-bottom:28px !important}
+.gscon-spec-tag{background:rgba(26,158,135,0.1) !important;border:1px solid rgba(26,158,135,0.25) !important;border-radius:8px !important;padding:6px 14px !important;font-size:13px !important;font-weight:600 !important;color:#1a9e87 !important;text-transform:none !important}
+.gscon-video-btn{display:inline-flex !important;align-items:center !important;gap:10px !important;padding:14px 28px !important;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important;color:#ffffff !important;font-size:15px !important;font-weight:700 !important;border-radius:50px !important;text-decoration:none !important;box-shadow:0 6px 20px rgba(26,158,135,0.35) !important;transition:all 0.3s !important;border:none !important;cursor:pointer !important}
+.gscon-form-section{padding:80px 0 !important;background:linear-gradient(135deg,#f0fdf9 0%,#e8f7f5 100%) !important}
+.gscon-form-wrap{background:#ffffff !important;border-radius:24px !important;padding:56px !important;box-shadow:0 8px 40px rgba(0,0,0,0.08) !important;max-width:760px !important;margin:0 auto !important}
+.gscon-form-grid{display:grid !important;grid-template-columns:1fr 1fr !important;gap:20px !important}
+.gscon-form-group{display:flex !important;flex-direction:column !important;gap:6px !important}
+.gscon-form-group.full{grid-column:1/-1 !important}
+.gscon-label{font-size:13px !important;font-weight:600 !important;color:#374151 !important}
+.gscon-input,.gscon-select,.gscon-textarea{width:100% !important;padding:14px 16px !important;border:1.5px solid #e5e7eb !important;border-radius:12px !important;font-size:15px !important;color:#1a1a2e !important;background:#f9fafb !important;transition:all 0.2s !important;outline:none !important;font-family:inherit !important}
+.gscon-input:focus,.gscon-select:focus,.gscon-textarea:focus{border-color:#1a9e87 !important;background:#ffffff !important;box-shadow:0 0 0 3px rgba(26,158,135,0.12) !important}
+.gscon-textarea{min-height:120px !important;resize:vertical !important}
+.gscon-phone-row{display:flex !important;gap:8px !important}
+.gscon-phone-select{width:160px !important;flex-shrink:0 !important}
+.gscon-phone-input{flex:1 !important}
+.gscon-consent{display:flex !important;align-items:flex-start !important;gap:10px !important;font-size:13px !important;color:#6b7280 !important;line-height:1.5 !important;margin-top:8px !important}
+.gscon-submit{width:100% !important;padding:16px !important;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important;color:#ffffff !important;font-size:17px !important;font-weight:700 !important;border:none !important;border-radius:14px !important;cursor:pointer !important;margin-top:24px !important;box-shadow:0 6px 20px rgba(26,158,135,0.35) !important;transition:all 0.3s !important;font-family:inherit !important}
+.gscon-guarantee-row{display:flex !important;justify-content:center !important;gap:24px !important;margin-top:24px !important;flex-wrap:wrap !important}
+.gscon-guarantee-item{display:flex !important;align-items:center !important;gap:6px !important;font-size:13px !important;color:#6b7280 !important}
+.gscon-guarantee-item i{color:#1a9e87 !important}
+@media(max-width:768px){.gscon-hero-title{font-size:28px !important}.gscon-doctor-card{grid-template-columns:1fr !important;padding:32px 24px !important}.gscon-form-wrap{padding:32px 24px !important}}
+@media(max-width:576px){.gscon-form-grid{grid-template-columns:1fr !important}}
+</style>
+@endpush
+
 @section('front-content')
 <div class="custom-page-wrapper">
 
