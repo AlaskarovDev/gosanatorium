@@ -1456,6 +1456,65 @@
             </div>
         </section>
 
+        <section class="gstr-feat-sec">
+            <div class="container">
+                <div class="text-center" style="margin-bottom:44px"><div class="gstr-uline" style="margin:0 auto 14px"></div><h2 class="gstr-stitle" style="margin-bottom:0">Почему выбирают нас</h2></div>
+                <div class="gstr-fgrid">
+                    <div class="gstr-frow"><div class="gstr-ficon"><i class="fas fa-clock"></i></div><div><div class="gstr-ftitle">Пунктуальность</div><div class="gstr-fdesc">Мониторинг рейсов — встретим точно по прилёту, даже при задержке</div></div></div>
+                    <div class="gstr-frow"><div class="gstr-ficon"><i class="fas fa-id-card"></i></div><div><div class="gstr-ftitle">Встреча с табличкой</div><div class="gstr-fdesc">Водитель встретит с именной табличкой у выхода и поможет с багажом</div></div></div>
+                    <div class="gstr-frow"><div class="gstr-ficon"><i class="fas fa-car"></i></div><div><div class="gstr-ftitle">Комфортные авто</div><div class="gstr-fdesc">Автомобили бизнес-класса с кондиционером, водой и зарядкой</div></div></div>
+                    <div class="gstr-frow"><div class="gstr-ficon"><i class="fas fa-ban"></i></div><div><div class="gstr-ftitle">Без предоплаты</div><div class="gstr-fdesc">Оплата только по прилёту. Бесплатная отмена за 24 часа</div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="gstr-form-sec">
+            <div class="container" style="position:relative;z-index:2">
+                <div class="gstr-fwrap">
+                    <h2 class="gstr-ftop-title">Забронировать трансфер</h2>
+                    <p class="gstr-ftop-sub">Заполните форму — ответим в течение 15 минут</p>
+                    @if(session('transfer_success'))
+                        <div style="background:#e8f7f5;color:#0d7a68;border-radius:11px;padding:14px 18px;margin-bottom:20px;font-weight:600">{{ session('transfer_success') }}</div>
+                    @endif
+                    @if(session('transfer_error'))
+                        <div style="background:#fef2f2;color:#b91c1c;border-radius:11px;padding:14px 18px;margin-bottom:20px;font-weight:600">{{ session('transfer_error') }}</div>
+                    @endif
+                    @if($errors->any())
+                        <div style="background:#fef2f2;color:#b91c1c;border-radius:11px;padding:14px 18px;margin-bottom:20px;font-size:14px">
+                            @foreach($errors->all() as $error)<div>{{ $error }}</div>@endforeach
+                        </div>
+                    @endif
+                    <form method="POST" action="{{ route('transfer-inquiry') }}" id="transferForm">
+                        @csrf
+                        <div class="gstr-fform-grid">
+                            <div class="gstr-fgroup full"><label class="gstr-flbl">Маршрут *</label>
+                            <select name="route" class="gstr-sel" required>
+                                <option value="">— Выберите маршрут —</option>
+                                <option value="airport_naftalan" @selected(old('route') == 'airport_naftalan')>Аэропорт Гейдар Алиев → Нафталан (49 ₼)</option>
+                                <option value="airport_lankaran" @selected(old('route') == 'airport_lankaran')>Аэропорт Гейдар Алиев → Ленкорань (49 ₼)</option>
+                                <option value="airport_baku" @selected(old('route') == 'airport_baku')>Аэропорт Гейдар Алиев → Баку (15 ₼)</option>
+                                <option value="ganja_naftalan" @selected(old('route') == 'ganja_naftalan')>Аэропорт Гянджа → Нафталан (по запросу)</option>
+                            </select></div>
+                            <div class="gstr-fgroup"><label class="gstr-flbl">Дата *</label><input type="date" name="date" class="gstr-inp" value="{{ old('date') }}" required></div>
+                            <div class="gstr-fgroup"><label class="gstr-flbl">Время прилёта</label><input type="time" name="transfer_time" class="gstr-inp" value="{{ old('transfer_time') }}"></div>
+                            <div class="gstr-fgroup"><label class="gstr-flbl">Номер рейса</label><input type="text" name="flight_number" class="gstr-inp" placeholder="J2 123" value="{{ old('flight_number') }}"></div>
+                            <div class="gstr-fgroup"><label class="gstr-flbl">Имя и фамилия *</label><input type="text" name="full_name" class="gstr-inp" placeholder="Ваше имя" value="{{ old('full_name') }}" required></div>
+                            <div class="gstr-fgroup"><label class="gstr-flbl">Телефон *</label><input type="tel" name="phone" class="gstr-inp" placeholder="+994 55 ..." value="{{ old('phone') }}" required></div>
+                            <div class="gstr-fgroup"><label class="gstr-flbl">Email</label><input type="email" name="email" class="gstr-inp" placeholder="your@email.com" value="{{ old('email') }}"></div>
+                            <div class="gstr-fgroup full"><label class="gstr-flbl">Особые пожелания</label><textarea name="special_requests" class="gstr-ta" placeholder="Детское кресло, количество пассажиров...">{{ old('special_requests') }}</textarea></div>
+                        </div>
+                        <button type="submit" class="gstr-sbtn" id="submitBtn">Забронировать трансфер →</button>
+                    </form>
+                    <div class="gstr-gnotes">
+                        <span class="gstr-gnote"><i class="fas fa-ban"></i> Без предоплаты</span>
+                        <span class="gstr-gnote"><i class="fas fa-shield-alt"></i> Бесплатная отмена</span>
+                        <span class="gstr-gnote"><i class="fas fa-lock"></i> Данные защищены</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <script>document.getElementById('transferForm').addEventListener('submit',function(){var b=document.getElementById('submitBtn');b.textContent='Отправка...';b.disabled=true;});</script>
+
 
     {{-- ================================================================ --}}
     {{-- VIDEO GALLERY PAGE --}}
