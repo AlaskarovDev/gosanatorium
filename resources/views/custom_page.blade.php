@@ -1432,111 +1432,85 @@
         @php
             $transferRoutes = \Modules\TourBooking\App\Models\TransferRoute::where('status', true)
                 ->orderBy('display_order', 'asc')->get();
+            $transferVehicles = \Modules\TourBooking\App\Models\TransferVehicle::where('status', true)
+                ->orderBy('display_order', 'asc')->get();
         @endphp
 
-        {{-- ========== HERO WITH FULL IMAGE + SEARCH FORM ========== --}}
-        <section class="th-hero">
-            <div class="th-hero__bg">
-                @if($custom_page->banner_image)
-                    <img src="{{ asset($custom_page->banner_image) }}" alt="{{ $custom_page->page_name }}">
-                @endif
-            </div>
-            <div class="th-hero__overlay"></div>
-
-            <div class="container">
-                <div class="th-hero__inner">
-                    {{-- Left: Title --}}
-                    <div class="th-hero__text">
-                        <h1 class="th-hero__title">{{ $custom_page->page_name }}</h1>
-                        @if($custom_page->banner_description)
-                            <p class="th-hero__desc">{{ $custom_page->banner_description }}</p>
-                        @endif
+        {{-- ========== HERO ========== --}}
+        <section class="gstr-hero">
+            <div class="container" style="position:relative;z-index:1">
+                <div class="row"><div class="col-lg-7">
+                    <div class="gstr-hero-label">🚗 Трансфер к санаторию</div>
+                    <h1 class="gstr-hero-title">Трансфер без<br>лишних забот</h1>
+                    <p class="gstr-hero-sub">Встретим в аэропорту с табличкой, поможем с багажом и доставим прямо до санатория — пунктуально и комфортно</p>
+                    <div class="gstr-trust-row">
+                        <div class="gstr-trust-pill"><i class="fas fa-clock"></i> Без предоплаты</div>
+                        <div class="gstr-trust-pill"><i class="fas fa-user-tie"></i> Профессиональные водители</div>
+                        <div class="gstr-trust-pill"><i class="fas fa-plane-arrival"></i> Мониторинг рейса</div>
+                        <div class="gstr-trust-pill"><i class="fas fa-shield-alt"></i> Бизнес-класс авто</div>
                     </div>
+                </div></div>
+            </div>
+        </section>
 
-                    {{-- Right: Search Form --}}
-                    <div class="th-hero__form">
-                        <div class="th-form-card">
-                            <div class="th-form-card__head">
-                                <i class="fas fa-search"></i>
-                                Заполните форму для поиска трансфера!
-                            </div>
-
-                            <div class="th-form-card__body">
-                                <div class="th-form-field">
-                                    <select id="tbRouteSelect">
-                                        <option value="">Выберите маршрут</option>
-                                        @foreach($transferRoutes as $route)
-                                            <option value="{{ $route->id }}"
-                                                    data-from="{{ $route->from_location }}"
-                                                    data-to="{{ $route->to_location }}"
-                                                    data-price="{{ $route->base_price }}"
-                                                    data-duration="{{ $route->duration_minutes }}">
-                                                {{ $route->from_location }} → {{ $route->to_location }}
-                                                @if($route->base_price) ({{ number_format($route->base_price, 2) }} ₼) @endif
-                                            </option>
-                                        @endforeach
-                                    </select>
-                                </div>
-
-                                <div class="th-form-field">
-                                    <input type="date" id="tbDateInput" min="{{ date('Y-m-d') }}" value="{{ date('Y-m-d', strtotime('+1 day')) }}" placeholder="Дата трансфера">
-                                </div>
-
-                                <div class="th-form-field">
-                                    <input type="number" id="tbPassengers" min="1" max="50" value="2" placeholder="Пассажиры">
-                                </div>
-
-                                <button type="button" class="th-form-btn" id="tbSearchBtn">
-                                    <i class="fas fa-search"></i>
-                                    Найти трансфер
-                                </button>
-                            </div>
+        {{-- ========== ROUTES ========== --}}
+        <section class="gstr-routes-section">
+            <div class="container">
+                <div class="gstr-underline"></div>
+                <div class="gstr-section-label">Популярные маршруты</div>
+                <h2 class="gstr-section-title">Цены на трансфер</h2>
+                <div class="gstr-routes-grid">
+                    @foreach($transferRoutes as $route)
+                    <div class="gstr-route-card">
+                        <div class="gstr-route-icon">✈️</div>
+                        <div>
+                            <div class="gstr-route-from">{{ $route->from_location }}</div>
+                            <div class="gstr-route-arrow">↓</div>
+                            <div class="gstr-route-to">{{ $route->to_location }}</div>
+                        </div>
+                        <div class="gstr-route-price">
+                            @if($route->base_price > 0)
+                                <div class="gstr-price-val">{{ rtrim(rtrim(number_format($route->base_price, 2, '.', ''), '0'), '.') }} ₼</div>
+                                <div class="gstr-price-note">за авто</div>
+                            @else
+                                <div class="gstr-price-val" style="font-size:16px;color:#1a9e87">По запросу</div>
+                                <div class="gstr-price-note">уточните у нас</div>
+                            @endif
                         </div>
                     </div>
+                    @endforeach
                 </div>
             </div>
         </section>
 
-        {{-- ========== FEATURES STRIP ========== --}}
-        <section class="th-features">
+        {{-- ========== FEATURES ========== --}}
+        <section class="gstr-features-section">
             <div class="container">
-                <div class="th-features__inner">
-                    @if($custom_page->feature1_title)
-                    <div class="th-feat">
-                        <div class="th-feat__icon"><i class="{{ $custom_page->feature1_icon ?? 'fas fa-clock' }}"></i></div>
-                        <div class="th-feat__text">
-                            <strong>{{ $custom_page->feature1_title }}</strong>
-                            @if($custom_page->feature1_description)<span>{{ $custom_page->feature1_description }}</span>@endif
-                        </div>
+                <div class="text-center mb-5">
+                    <div class="gstr-underline" style="margin:0 auto 16px"></div>
+                    <h2 class="gstr-section-title" style="margin-bottom:0">Почему выбирают наш трансфер</h2>
+                </div>
+                <div class="gstr-feat-grid">
+                    <div class="gstr-feat-card">
+                        <div class="gstr-feat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="gstr-feat-title">Пунктуальность</div>
+                        <div class="gstr-feat-desc">Круглосуточный мониторинг рейсов — встретим точно по прилёту, без ожидания</div>
                     </div>
-                    @endif
-                    @if($custom_page->feature2_title)
-                    <div class="th-feat">
-                        <div class="th-feat__icon"><i class="{{ $custom_page->feature2_icon ?? 'fas fa-ruble-sign' }}"></i></div>
-                        <div class="th-feat__text">
-                            <strong>{{ $custom_page->feature2_title }}</strong>
-                            @if($custom_page->feature2_description)<span>{{ $custom_page->feature2_description }}</span>@endif
-                        </div>
+                    <div class="gstr-feat-card">
+                        <div class="gstr-feat-icon"><i class="fas fa-user-tie"></i></div>
+                        <div class="gstr-feat-title">Профессиональные водители</div>
+                        <div class="gstr-feat-desc">Опытные водители с лицензией, отлично знают все маршруты</div>
                     </div>
-                    @endif
-                    @if($custom_page->feature3_title)
-                    <div class="th-feat">
-                        <div class="th-feat__icon"><i class="{{ $custom_page->feature3_icon ?? 'fas fa-user-tie' }}"></i></div>
-                        <div class="th-feat__text">
-                            <strong>{{ $custom_page->feature3_title }}</strong>
-                            @if($custom_page->feature3_description)<span>{{ $custom_page->feature3_description }}</span>@endif
-                        </div>
+                    <div class="gstr-feat-card">
+                        <div class="gstr-feat-icon"><i class="fas fa-car"></i></div>
+                        <div class="gstr-feat-title">Комфорт и безопасность</div>
+                        <div class="gstr-feat-desc">Автомобили бизнес-класса в чистоте. Кондиционер, вода, зарядка</div>
                     </div>
-                    @endif
-                    @if($custom_page->feature4_title)
-                    <div class="th-feat">
-                        <div class="th-feat__icon"><i class="{{ $custom_page->feature4_icon ?? 'fas fa-shield-alt' }}"></i></div>
-                        <div class="th-feat__text">
-                            <strong>{{ $custom_page->feature4_title }}</strong>
-                            @if($custom_page->feature4_description)<span>{{ $custom_page->feature4_description }}</span>@endif
-                        </div>
+                    <div class="gstr-feat-card">
+                        <div class="gstr-feat-icon"><i class="fas fa-id-card"></i></div>
+                        <div class="gstr-feat-title">Встреча с табличкой</div>
+                        <div class="gstr-feat-desc">Водитель встретит с табличкой на имя, поможет с багажом и проводит до авто</div>
                     </div>
-                    @endif
                 </div>
             </div>
         </section>
@@ -1554,178 +1528,127 @@
         </section>
         @endif
 
-        {{-- ========== VEHICLES + CHECKOUT (below hero) ========== --}}
-        <section class="tb-section" id="transferBookingSection">
+        {{-- ========== BOOKING FORM ========== --}}
+        <section class="gstr-form-section" id="transfer-form">
             <div class="container">
-
-                {{-- VEHICLES LIST --}}
-                <div id="tbVehiclesArea" style="display:none;">
-                    <h3 class="tb-vehicles-title" id="tbVehiclesTitle"></h3>
-                    <div id="tbVehiclesList"></div>
+                <div class="text-center mb-5">
+                    <div class="gstr-underline" style="margin:0 auto 16px"></div>
+                    <h2 class="gstr-section-title" style="margin-bottom:8px">Забронировать трансфер</h2>
+                    <p style="color:#6b7280;font-size:16px">Заполните форму — ответим в течение 15 минут</p>
                 </div>
-
-                <div id="tbLoadingArea" style="display:none;">
-                    <div class="tb-loading">
-                        <div class="spinner"></div>
-                        <p style="font-family: var(--cp-font-body); color: var(--cp-slate);">Загрузка транспорта...</p>
-                    </div>
-                </div>
-
-                {{-- ========== CHECKOUT FORM (appears after vehicle selection) ========== --}}
-                <div class="tb-checkout" id="tbCheckout">
-                    <form action="{{ route('front.tourbooking.transfer.process') }}" method="POST" id="tbCheckoutForm">
+                <div class="gstr-form-wrap">
+                    @if($errors->any())
+                        <div class="alert alert-danger mb-4">
+                            <ul class="mb-0">@foreach($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>
+                        </div>
+                    @endif
+                    <form method="POST" action="{{ route('front.tourbooking.transfer.process') }}" id="transferForm">
                         @csrf
-                        <input type="hidden" name="route_id" id="tbFormRouteId">
-                        <input type="hidden" name="vehicle_id" id="tbFormVehicleId">
-                        <input type="hidden" name="transfer_date" id="tbFormDate">
-                        <input type="hidden" name="passengers" id="tbFormPassengers">
-
-                        <div class="tb-checkout-grid">
-                            {{-- Left column: form fields --}}
-                            <div>
-                                {{-- Trip Details --}}
-                                <div class="tb-card">
-                                    <div class="tb-card__head">
-                                        <i class="fas fa-route"></i>
-                                        <h4>Детали поездки</h4>
-                                    </div>
-                                    <div class="tb-card__body">
-                                        <div class="tb-form-row">
-                                            <div class="tb-form-group">
-                                                <label>Маршрут</label>
-                                                <p id="tbDisplayRoute" style="font-weight:700; margin:0; font-family: var(--cp-font-body); font-size: 15px; color: var(--cp-ink);"></p>
-                                            </div>
-                                            <div class="tb-form-group">
-                                                <label>Дата</label>
-                                                <p id="tbDisplayDate" style="font-weight:700; margin:0; font-family: var(--cp-font-body); font-size: 15px; color: var(--cp-ink);"></p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Additional Details --}}
-                                <div class="tb-card">
-                                    <div class="tb-card__head">
-                                        <i class="fas fa-info-circle"></i>
-                                        <h4>Дополнительная информация</h4>
-                                    </div>
-                                    <div class="tb-card__body">
-                                        <div class="tb-form-row">
-                                            <div class="tb-form-group">
-                                                <label>Время трансфера</label>
-                                                <input type="time" name="transfer_time">
-                                            </div>
-                                            <div class="tb-form-group">
-                                                <label>Номер рейса (если есть)</label>
-                                                <input type="text" name="flight_number" placeholder="Например: J2-8001">
-                                            </div>
-                                        </div>
-                                        <div class="tb-form-row">
-                                            <div class="tb-form-group">
-                                                <label>Адрес подачи</label>
-                                                <input type="text" name="pickup_address" placeholder="Укажите точный адрес">
-                                            </div>
-                                            <div class="tb-form-group">
-                                                <label>Адрес высадки</label>
-                                                <input type="text" name="dropoff_address" placeholder="Укажите точный адрес">
-                                            </div>
-                                        </div>
-                                        <div class="tb-form-row full">
-                                            <div class="tb-form-group" style="margin-bottom:0;">
-                                                <label>Особые пожелания</label>
-                                                <textarea name="special_requests" rows="3" placeholder="Детское кресло, встреча с табличкой и т.д."></textarea>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                {{-- Contact Info --}}
-                                <div class="tb-card">
-                                    <div class="tb-card__head">
-                                        <i class="fas fa-user"></i>
-                                        <h4>Контактная информация</h4>
-                                    </div>
-                                    <div class="tb-card__body">
-                                        <div class="tb-form-row">
-                                            <div class="tb-form-group">
-                                                <label>Имя и фамилия *</label>
-                                                <input type="text" name="guest_name" required
-                                                       value="{{ old('guest_name', auth()->user()->name ?? '') }}">
-                                            </div>
-                                            <div class="tb-form-group">
-                                                <label>Телефон *</label>
-                                                <input type="tel" name="guest_phone" required placeholder="+994 XX XXX XX XX"
-                                                       value="{{ old('guest_phone', auth()->user()->phone ?? '') }}">
-                                            </div>
-                                        </div>
-                                        <div class="tb-form-row full">
-                                            <div class="tb-form-group">
-                                                <label>Email *</label>
-                                                <input type="email" name="guest_email" required
-                                                       value="{{ old('guest_email', auth()->user()->email ?? '') }}">
-                                            </div>
-                                        </div>
-
-                                        @guest
-                                        <div class="tb-create-account">
-                                            <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="create_account" id="tbCreateAccount" value="1">
-                                                <label class="form-check-label" for="tbCreateAccount" style="font-family: var(--cp-font-body); font-size: 14px; color: var(--cp-ink-soft);">
-                                                    <strong>Создать аккаунт</strong> — чтобы отслеживать свои бронирования
-                                                </label>
-                                            </div>
-                                            <div id="tbPasswordField" style="display:none; margin-top: 14px;">
-                                                <label style="font-family: var(--cp-font-body); font-size: 13px; font-weight: 700; color: var(--cp-ink-soft);">Пароль</label>
-                                                <input type="password" name="password" minlength="6" style="width:100%;padding:14px 18px;border:1.5px solid var(--cp-cloud);border-radius:12px;font-family:var(--cp-font-body);font-size:14px;background:var(--cp-snow);outline:none;margin-top:6px;">
-                                                <small style="font-family: var(--cp-font-body); font-size: 12px; color: var(--cp-silver);">Минимум 6 символов</small>
-                                            </div>
-                                        </div>
-                                        @endguest
-                                    </div>
+                        <div class="gstr-form-grid">
+                            <div class="gstr-form-group full">
+                                <label class="gstr-label">Маршрут *</label>
+                                <select name="route_id" id="gstrRoute" class="gstr-select" required>
+                                    <option value="">— Выберите маршрут —</option>
+                                    @foreach($transferRoutes as $route)
+                                        <option value="{{ $route->id }}" data-price="{{ (float) $route->base_price }}" @selected(old('route_id') == $route->id)>
+                                            {{ $route->from_location }} → {{ $route->to_location }} ({{ $route->base_price > 0 ? rtrim(rtrim(number_format($route->base_price, 2, '.', ''), '0'), '.') . ' ₼' : 'по запросу' }})
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="gstr-form-group full">
+                                <label class="gstr-label">Автомобиль *</label>
+                                <select name="vehicle_id" id="gstrVehicle" class="gstr-select" required>
+                                    <option value="">— Выберите автомобиль —</option>
+                                    @foreach($transferVehicles as $vehicle)
+                                        <option value="{{ $vehicle->id }}" data-price="{{ (float) $vehicle->base_price }}" @selected(old('vehicle_id') == $vehicle->id)>
+                                            {{ $vehicle->name }} ({{ $vehicle->passenger_capacity }} пасс.@if($vehicle->base_price > 0), +{{ rtrim(rtrim(number_format($vehicle->base_price, 2, '.', ''), '0'), '.') }} ₼@endif)
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Дата трансфера *</label>
+                                <input type="date" name="transfer_date" class="gstr-input" min="{{ date('Y-m-d') }}" value="{{ old('transfer_date') }}" required>
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Время прилёта</label>
+                                <input type="time" name="transfer_time" class="gstr-input" value="{{ old('transfer_time') }}">
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Номер рейса</label>
+                                <input type="text" name="flight_number" class="gstr-input" placeholder="Например: J2 123" value="{{ old('flight_number') }}">
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Количество пассажиров *</label>
+                                <input type="number" name="passengers" class="gstr-input" min="1" max="50" value="{{ old('passengers', 2) }}" required>
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Ваше имя *</label>
+                                <input type="text" name="guest_name" class="gstr-input" placeholder="Имя и фамилия" value="{{ old('guest_name', auth()->user()->name ?? '') }}" required>
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Телефон *</label>
+                                <input type="tel" name="guest_phone" class="gstr-input" placeholder="+994 55 123 45 67" value="{{ old('guest_phone', auth()->user()->phone ?? '') }}" required>
+                            </div>
+                            <div class="gstr-form-group full">
+                                <label class="gstr-label">Email *</label>
+                                <input type="email" name="guest_email" class="gstr-input" placeholder="your@email.com" value="{{ old('guest_email', auth()->user()->email ?? '') }}" required>
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Адрес подачи</label>
+                                <input type="text" name="pickup_address" class="gstr-input" placeholder="Укажите точный адрес" value="{{ old('pickup_address') }}">
+                            </div>
+                            <div class="gstr-form-group">
+                                <label class="gstr-label">Адрес высадки</label>
+                                <input type="text" name="dropoff_address" class="gstr-input" placeholder="Укажите точный адрес" value="{{ old('dropoff_address') }}">
+                            </div>
+                            <div class="gstr-form-group full">
+                                <label class="gstr-label">Особые пожелания</label>
+                                <textarea name="special_requests" class="gstr-textarea" rows="3" placeholder="Детское кресло, помощь с багажом, количество пассажиров...">{{ old('special_requests') }}</textarea>
+                            </div>
+                            @guest
+                            <div class="gstr-form-group full">
+                                <label style="font-size:14px;color:#374151">
+                                    <input type="checkbox" name="create_account" id="gstrCreateAccount" value="1"> <strong>Создать аккаунт</strong> — чтобы отслеживать свои бронирования
+                                </label>
+                                <div id="gstrPasswordField" style="display:none">
+                                    <input type="password" name="password" class="gstr-input" minlength="6" placeholder="Пароль (минимум 6 символов)">
                                 </div>
                             </div>
-
-                            {{-- Right column: summary --}}
-                            <div>
-                                <div class="tb-summary">
-                                    <div class="tb-card">
-                                        <div class="tb-card__head">
-                                            <i class="fas fa-receipt"></i>
-                                            <h4>Итого</h4>
-                                        </div>
-                                        <div class="tb-card__body">
-                                            <div class="tb-summary-item">
-                                                <span>Маршрут</span>
-                                                <span id="tbSummaryRoutePrice">0.00 ₼</span>
-                                            </div>
-                                            <div class="tb-summary-item">
-                                                <span>Транспорт (<span id="tbSummaryVehicleName"></span>)</span>
-                                                <span id="tbSummaryVehiclePrice">0.00 ₼</span>
-                                            </div>
-
-                                            <div class="tb-summary-total">
-                                                <span>Итого:</span>
-                                                <span id="tbSummaryTotal">0.00 ₼</span>
-                                            </div>
-
-                                            <button type="submit" class="tb-submit-btn" id="tbSubmitBtn">
-                                                <i class="fas fa-check-circle"></i>
-                                                Подтвердить бронирование
-                                            </button>
-
-                                            <p class="tb-payment-note">
-                                                <i class="fas fa-lock"></i> Оплата при получении услуги
-                                            </p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            @endguest
+                        </div>
+                        <div class="gstr-price-box">
+                            <div class="gstr-price-row"><span>Стоимость маршрута</span><span id="routePrice">— ₼</span></div>
+                            <div class="gstr-price-row"><span>Автомобиль</span><span id="vehiclePrice">— ₼</span></div>
+                            <div class="gstr-price-row"><span><strong>Итого к оплате</strong></span><span id="totalPrice">— ₼</span></div>
+                        </div>
+                        <button type="submit" class="gstr-submit">Забронировать трансфер</button>
+                        <div class="gstr-guarantee-row">
+                            <div class="gstr-guarantee-item"><i class="fas fa-ban"></i> Без предоплаты</div>
+                            <div class="gstr-guarantee-item"><i class="fas fa-clock"></i> Ответ за 15 минут</div>
+                            <div class="gstr-guarantee-item"><i class="fas fa-shield-alt"></i> Бесплатная отмена</div>
                         </div>
                     </form>
                 </div>
-
             </div>
         </section>
+        <script>
+        (function(){
+            var r=document.getElementById('gstrRoute'),v=document.getElementById('gstrVehicle');
+            function p(s){var o=s.options[s.selectedIndex];return o&&o.value?(parseFloat(o.getAttribute('data-price'))||0):null;}
+            function fmt(n){return n===null?'— ₼':(Math.round(n*100)/100)+' ₼';}
+            function upd(){
+                var a=p(r),b=p(v);
+                document.getElementById('routePrice').textContent=a===null?'— ₼':(a>0?fmt(a):'По запросу');
+                document.getElementById('vehiclePrice').textContent=fmt(b);
+                document.getElementById('totalPrice').textContent=(a===null||a===0)&&a!==null?'По запросу':(a===null?'— ₼':fmt(a+(b||0)));
+            }
+            r.addEventListener('change',upd);v.addEventListener('change',upd);upd();
+            var c=document.getElementById('gstrCreateAccount'),f=document.getElementById('gstrPasswordField');
+            if(c&&f)c.addEventListener('change',function(){f.style.display=this.checked?'block':'none';f.querySelector('input').required=this.checked;});
+        })();
+        </script>
 
         {{-- Video Modal --}}
         @if($custom_page->video_url)
