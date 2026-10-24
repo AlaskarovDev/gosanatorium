@@ -68,7 +68,7 @@
                 </div>
             </div>
         </div>
-        <div class="gscard-grid project-active-two">
+        <div class="gscard-grid">
             @foreach ($theme1_popular_services as $key => $service)
                 @php
                     $gsUrl = route('front.tourbooking.services.show', ['slug' => $service?->slug]);
@@ -79,7 +79,7 @@
                         ? $service->price_per_person
                         : ($service->discount_price ?: $service->full_price);
                 @endphp
-                <div class="gscard-item grid-item type-{{ $service->service_type_id }}">
+                <div class="gscard-item type-{{ $service->service_type_id }}">
                     <div class="gscard-card">
                         <div class="gscard-media">
                             <a href="{{ $gsUrl }}">
@@ -150,7 +150,8 @@
     <style>
         .gscard-section { background: #f8fafc !important; }
         .gscard-section .tg-listing-shape, .gscard-section .tg-listing-shape-2, .gscard-section .tg-listing-shape-3 { display: none !important; }
-        .gscard-label { color: #1a9e87 !important; font-size: 13px !important; letter-spacing: 3px !important; text-transform: none !important; font-family: inherit !important; font-style: normal !important; }
+        .gscard-label, [class*="popular"] .label, .section-label { text-transform: none !important; letter-spacing: 2px !important; }
+        .gscard-label { color: #1a9e87 !important; font-size: 13px !important; letter-spacing: 2px !important; text-transform: none !important; font-family: inherit !important; font-style: normal !important; }
         .gscard-heading { color: #1a2540 !important; font-size: 36px !important; font-weight: 800 !important; text-transform: none !important; }
         .gscard-tabs { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 10px !important; margin-bottom: 32px !important; border: 0 !important; }
         .gscard-tabs::before, .gscard-tabs::after { display: none !important; }
@@ -159,7 +160,9 @@
         .gscard-tab svg path { fill: currentColor !important; }
         .gscard-tab:hover { border-color: #1a9e87 !important; color: #1a9e87 !important; }
         .gscard-tab.active, .gscard-tab.active:hover { background: linear-gradient(135deg, #1a9e87, #2ec4a9) !important; color: #fff !important; border-color: transparent !important; box-shadow: 0 4px 12px rgba(26,158,135,0.3) !important; }
-        .gscard-grid { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 24px !important; width: 100% !important; }
+        .gscard-grid { display: grid !important; grid-template-columns: repeat(4, minmax(0, 1fr)) !important; gap: 20px !important; width: 100% !important; max-width: 100% !important; height: auto !important; position: static !important; }
+        .gscard-section .container { max-width: 1400px !important; }
+        .gscard-item { position: static !important; float: none !important; left: auto !important; top: auto !important; }
         .gscard-item { display: flex !important; min-width: 0 !important; width: 100% !important; }
         .gscard-item.gscard-hidden { display: none !important; }
         .gscard-card { height: 100% !important; display: flex !important; flex-direction: column !important; width: 100% !important; background: #fff !important; border-radius: 16px !important; box-shadow: 0 2px 16px rgba(0,0,0,0.08) !important; border: 1px solid #f0f4f8 !important; overflow: hidden !important; padding: 0 !important; transition: all .25s ease !important; }
@@ -187,8 +190,10 @@
         .gscard-per { color: #94a3b8 !important; font-size: 12px !important; }
         .gscard-cta { background: #1a9e87 !important; color: #fff !important; border-radius: 8px !important; padding: 8px 16px !important; font-size: 13px !important; font-weight: 600 !important; white-space: nowrap !important; text-transform: none !important; }
         .gscard-cta:hover { background: #158573 !important; color: #fff !important; }
-        @media (max-width: 1024px) { .gscard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
-        @media (max-width: 640px) { .gscard-grid { grid-template-columns: 1fr !important; } .gscard-heading { font-size: 28px !important; } }
+        @media (max-width: 1200px) { .gscard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
+        @media (max-width: 768px) { .gscard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+        @media (max-width: 480px) { .gscard-grid { grid-template-columns: repeat(1, minmax(0, 1fr)) !important; } }
+        @media (max-width: 640px) { .gscard-heading { font-size: 28px !important; } }
     </style>
 @endpush
 
