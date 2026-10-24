@@ -1,6 +1,5 @@
 @php
     use Modules\Blog\App\Models\Blog;
-    use Illuminate\Support\Str;
 
     $home1_blog = getContent('theme1_blog.content', true);
     $blogs = Blog::with('translate:id,blog_id,lang_code,title,reading_time')
@@ -8,126 +7,72 @@
         ->latest()
         ->take(3)
         ->get();
+    $gsIsRu = app()->getLocale() === 'ru';
 @endphp
 
 <!-- blog-area-start -->
-<div class="tg-blog-area tg-blog-space tg-grey-bg pt-135 p-relative z-index-1">
-    <img class="tg-blog-shape" src="{{ asset('frontend/assets/img/shape/map-shape-3.png') }}" alt="shape">
-    <img class="tg-blog-shape-2" src="{{ asset('frontend/assets/img/shape/map-shape-4.png') }}" alt="shape">
+<section class="gsblog-section">
     <div class="container">
-        <div class="row">
-            <!-- Section Title -->
-            <div class="col-lg-12">
-                <div class="tg-location-section-title text-center mb-30">
-                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" style="color:#1a9e87;" data-wow-delay=".3s" data-wow-duration=".9s">
-                        {{ getTranslatedValue($home1_blog, 'sub_title') }}
-                    </h5>
-                    <h2 class="mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                        {{ getTranslatedValue($home1_blog, 'title') }}
-                    </h2>
-                    <p class="wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
-                        {!! strip_tags(clean(getTranslatedValue($home1_blog, 'description')), '<br>') !!}
-                    </p>
-                </div>
-            </div>
-
-            @if ($blogs->count() > 0)
-                @php
-                    $firstBlog = $blogs->get(0);
-                    $restBlogs = $blogs->slice(1);
-                @endphp
-
-                <!-- Left Side Big Blog -->
-                <div class="col-lg-5 wow fadeInLeft" data-wow-delay=".4s" data-wow-duration=".9s">
-                    <div class="tg-blog-item mb-25">
-                        <div class="tg-blog-thumb fix left-side-img">
-                            <a href="{{ route('blog', ['slug' => $firstBlog->slug]) }}">
-                                <img class="w-100" src="{{ asset($firstBlog->image) }}"
-                                    alt="{{ $firstBlog?->translate?->title }}">
-                            </a>
-                        </div>
-                        <div class="tg-blog-content p-relative">
-                            <span class="tg-blog-tag p-absolute">{{ $firstBlog?->category?->name }}</span>
-                            <h3 class="tg-blog-title">
-                                <a href="{{ route('blog', ['slug' => $firstBlog->slug]) }}">
-                                    {{ $firstBlog?->translate?->title }}
-                                </a>
-                            </h3>
-                            <div class="tg-blog-date">
-                                <span class="mr-20"><i class="fa-light fa-calendar"></i>
-                                    {{ app()->getLocale() === 'ru' ? $firstBlog->created_at->locale('ru')->isoFormat('D MMMM YYYY') . ' г.' : $firstBlog->created_at->format('jS M, Y') }}</span>
-                                @if ($firstBlog?->translate?->reading_time)
-                                    <span><i class="fa-regular fa-clock"></i>
-                                        {{ $firstBlog?->translate?->reading_time }} </span>
-                                @endif
-                            </div>
-                        </div>
+        <div class="text-center">
+            <div class="gsblog-underline"></div>
+            <span class="gsblog-label">{{ getTranslatedValue($home1_blog, 'sub_title') }}</span>
+            <h2 class="gsblog-title">{{ getTranslatedValue($home1_blog, 'title') }}</h2>
+            <p class="gsblog-subtitle">{!! strip_tags(clean(getTranslatedValue($home1_blog, 'description')), '<br>') !!}</p>
+        </div>
+        <div class="gsblog-grid">
+            @foreach ($blogs as $blog)
+                <a href="{{ route('blog', ['slug' => $blog->slug]) }}" class="gsblog-card">
+                    <div class="gsblog-img-wrap">
+                        <img src="{{ asset($blog->image) }}" alt="{{ $blog?->translate?->title }}" class="gsblog-img" loading="lazy">
+                        @if ($blog?->category?->name)
+                            <span class="gsblog-tag">{{ $blog->category->name }}</span>
+                        @endif
                     </div>
-                </div>
-
-                <!-- Right Side Small Blogs -->
-                <div class="col-lg-7">
-                    <div class="row">
-                        @foreach ($restBlogs as $i => $blog)
-                            <div class="col-12 wow fadeInRight" data-wow-delay=".{{ $i + 4 }}s"
-                                data-wow-duration=".9s">
-                                <div class="tg-blog-item mb-20">
-                                    <div class="row align-items-center">
-                                        <div class="col-lg-5">
-                                            <div class="tg-blog-thumb fix right-side-img">
-                                                <a href="{{ route('blog', ['slug' => $blog->slug]) }}">
-                                                    <img class="w-100" src="{{ asset($blog->image) }}" alt="blog">
-                                                </a>
-                                            </div>
-                                        </div>
-                                        <div class="col-lg-7">
-                                            <div class="tg-blog-contents">
-                                                <span
-                                                    class="tg-blog-tag d-inline-block mb-10">{{ $blog?->category?->name }}</span>
-                                                <h3 class="tg-blog-title title-2 mb-0">
-                                                    <a
-                                                        href="{{ route('blog', ['slug' => $blog->slug]) }}">{{ $blog?->translate?->title }}</a>
-                                                </h3>
-                                                <div class="tg-blog-date">
-                                                    <span class="mr-20"><i class="fa-light fa-calendar"></i>
-                                                        {{ app()->getLocale() === 'ru' ? $blog->created_at->locale('ru')->isoFormat('D MMMM YYYY') . ' г.' : $blog->created_at->format('jS M, Y') }}</span>
-                                                    @if ($blog?->translate?->reading_time)
-                                                        <span><i class="fa-regular fa-clock"></i>
-                                                            {{ $blog?->translate?->reading_time }} </span>
-                                                    @endif
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
+                    <div class="gsblog-body">
+                        <div class="gsblog-meta">
+                            <i class="far fa-calendar-alt"></i>
+                            <span>{{ $gsIsRu ? $blog->created_at->locale('ru')->isoFormat('D MMMM YYYY') . ' г.' : $blog->created_at->format('jS M, Y') }}</span>
+                        </div>
+                        <div class="gsblog-post-title">{{ $blog?->translate?->title }}</div>
+                        <div class="gsblog-read-more">{{ $gsIsRu ? 'Читать далее' : 'Read more' }} <i class="fas fa-arrow-right"></i></div>
                     </div>
-                </div>
-            @endif
-
-            <!-- Footer link -->
-            <div class="col-12 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
-                <div class="tg-blog-bottom text-center pt-25">
-                    <p>{{ __('translate.Want to see our Recent News & Updates?') }}
-                        <a href="{{ route('blogs') }}">
-                            {{ __('translate.Click here to View More') }}
-                        </a>
-                    </p>
-                </div>
-            </div>
+                </a>
+            @endforeach
+        </div>
+        <div class="gsblog-footer">
+            <a href="{{ route('blogs') }}" class="gsblog-btn">
+                {{ $gsIsRu ? 'Все статьи' : 'All articles' }} <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
     </div>
-</div>
+</section>
 <!-- blog-area-end -->
 @push('style_section')
     <style>
-        .tg-blog-thumb.fix.left-side-img img {
-            height: 260px;
-        }
-
-        .tg-blog-thumb.fix.right-side-img img {
-            height: 167px;
-        }
+/* === BLOG SECTION (gsblog- prefix) === */
+.gsblog-section { padding: 80px 0 !important; background: #f8fafb !important; }
+.gsblog-label { display: inline-block !important; font-size: 13px !important; font-weight: 700 !important; color: #1a9e87 !important; text-transform: uppercase !important; letter-spacing: 2px !important; margin-bottom: 12px !important; }
+.gsblog-title { font-size: 36px !important; font-weight: 800 !important; color: #1a1a2e !important; margin-bottom: 12px !important; text-transform: none !important; letter-spacing: -0.5px !important; }
+.gsblog-subtitle { font-size: 16px !important; color: #6b7280 !important; margin-bottom: 50px !important; text-transform: none !important; }
+.gsblog-underline { width: 60px !important; height: 4px !important; background: linear-gradient(135deg,#1a9e87,#2ec4a9) !important; border-radius: 2px !important; margin: 0 auto 16px !important; }
+.gsblog-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 28px !important; }
+@media(max-width:992px){ .gsblog-grid{ grid-template-columns: repeat(2,1fr) !important; } }
+@media(max-width:576px){ .gsblog-grid{ grid-template-columns: 1fr !important; } .gsblog-title{ font-size: 28px !important; } }
+.gsblog-card { background: #ffffff !important; border-radius: 18px !important; overflow: hidden !important; box-shadow: 0 2px 16px rgba(0,0,0,0.07) !important; transition: all 0.3s ease !important; display: flex !important; flex-direction: column !important; text-decoration: none !important; }
+.gsblog-card:hover { transform: translateY(-6px) !important; box-shadow: 0 16px 40px rgba(0,0,0,0.13) !important; }
+.gsblog-img-wrap { position: relative !important; overflow: hidden !important; height: 210px !important; }
+.gsblog-img { width: 100% !important; height: 100% !important; object-fit: cover !important; transition: transform 0.4s ease !important; }
+.gsblog-card:hover .gsblog-img { transform: scale(1.06) !important; }
+.gsblog-tag { position: absolute !important; top: 14px !important; left: 14px !important; background: linear-gradient(135deg,#1a9e87,#2ec4a9) !important; color: #fff !important; font-size: 12px !important; font-weight: 700 !important; padding: 4px 12px !important; border-radius: 20px !important; text-transform: none !important; }
+.gsblog-body { padding: 24px !important; flex: 1 !important; display: flex !important; flex-direction: column !important; }
+.gsblog-post-title { font-size: 17px !important; font-weight: 700 !important; color: #1a1a2e !important; line-height: 1.45 !important; margin-bottom: 12px !important; text-transform: none !important; flex: 1 !important; }
+.gsblog-card:hover .gsblog-post-title { color: #1a9e87 !important; }
+.gsblog-meta { display: flex !important; align-items: center !important; gap: 8px !important; font-size: 13px !important; color: #9ca3af !important; margin-bottom: 16px !important; text-transform: none !important; }
+.gsblog-meta i { color: #1a9e87 !important; font-size: 12px !important; }
+.gsblog-read-more { display: inline-flex !important; align-items: center !important; gap: 6px !important; font-size: 14px !important; font-weight: 600 !important; color: #1a9e87 !important; text-decoration: none !important; margin-top: auto !important; text-transform: none !important; }
+.gsblog-read-more:hover { gap: 10px !important; }
+.gsblog-footer { text-align: center !important; margin-top: 48px !important; }
+.gsblog-btn { display: inline-flex !important; align-items: center !important; gap: 8px !important; padding: 14px 36px !important; background: linear-gradient(135deg,#1a9e87,#2ec4a9) !important; color: #fff !important; font-size: 15px !important; font-weight: 700 !important; border-radius: 50px !important; text-decoration: none !important; box-shadow: 0 6px 20px rgba(26,158,135,0.35) !important; transition: all 0.3s ease !important; text-transform: none !important; }
+.gsblog-btn:hover { transform: translateY(-2px) !important; box-shadow: 0 10px 28px rgba(26,158,135,0.45) !important; color: #fff !important; }
     </style>
 @endpush
