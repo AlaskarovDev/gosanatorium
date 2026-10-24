@@ -1295,64 +1295,6 @@
 
 @push('style_section')
 <style>
-*{box-sizing:border-box}
-.gstr-hero{position:relative;height:520px;overflow:hidden;display:flex;align-items:center}
-.gstr-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1400&q=80');background-size:cover;background-position:center;transform:scale(1.04)}
-.gstr-hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,60,52,0.88) 0%,rgba(26,158,135,0.72) 100%)}
-.gstr-hero-content{position:relative;z-index:2;width:100%}
-.gstr-hero-badge{display:inline-block;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:50px;padding:7px 18px;font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
-.gstr-hero-title{font-size:52px;font-weight:900;color:#fff;line-height:1.08;margin-bottom:16px;text-transform:none;letter-spacing:-1.5px}
-.gstr-hero-sub{font-size:18px;color:rgba(255,255,255,0.85);margin-bottom:36px;line-height:1.6;text-transform:none;max-width:520px}
-.gstr-hero-pills{display:flex;flex-wrap:wrap;gap:12px}
-.gstr-hero-pill{display:flex;align-items:center;gap:8px;background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.28);border-radius:50px;padding:9px 20px;color:#fff;font-size:14px;font-weight:600;backdrop-filter:blur(6px)}
-.gstr-routes-section{padding:72px 0;background:#ffffff}
-.gstr-underline{width:56px;height:4px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);border-radius:2px;margin-bottom:14px}
-.gstr-sec-label{font-size:12px;font-weight:700;color:#1a9e87;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
-.gstr-sec-title{font-size:36px;font-weight:800;color:#1a1a2e;margin-bottom:48px;text-transform:none;letter-spacing:-0.5px}
-.gstr-routes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
-.gstr-route-card{background:#f8fafb;border-radius:20px;padding:28px 22px;border:2px solid transparent;transition:all 0.3s;cursor:default}
-.gstr-route-card:hover{border-color:#1a9e87;background:#fff;box-shadow:0 10px 36px rgba(26,158,135,0.14);transform:translateY(-5px)}
-.gstr-route-icon-wrap{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#e8f7f5,#d0f0eb);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;transition:all 0.3s}
-.gstr-route-card:hover .gstr-route-icon-wrap{background:linear-gradient(135deg,#1a9e87,#2ec4a9)}
-.gstr-route-from{font-size:12px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:6px}
-.gstr-route-to{font-size:17px;font-weight:800;color:#1a1a2e;margin-bottom:16px;text-transform:none}
-.gstr-route-price{font-size:30px;font-weight:900;color:#1a9e87;line-height:1}
-.gstr-route-per{font-size:12px;color:#9ca3af;margin-top:3px}
-.gstr-features-section{padding:72px 0;background:#f8fafb}
-.gstr-feat-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-.gstr-feat-row{display:flex;align-items:flex-start;gap:20px;background:#fff;border-radius:18px;padding:28px;box-shadow:0 2px 14px rgba(0,0,0,0.06);transition:all 0.3s}
-.gstr-feat-row:hover{box-shadow:0 8px 28px rgba(26,158,135,0.12);transform:translateY(-3px)}
-.gstr-feat-icon{width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);display:flex;align-items:center;justify-content:center;flex-shrink:0}
-.gstr-feat-icon i{color:#fff;font-size:20px}
-.gstr-feat-title{font-size:16px;font-weight:700;color:#1a1a2e;margin-bottom:6px;text-transform:none}
-.gstr-feat-desc{font-size:14px;color:#6b7280;line-height:1.6;text-transform:none}
-.gstr-form-section{padding:80px 0;background:linear-gradient(135deg,#0d7a68 0%,#1a9e87 60%,#2ec4a9 100%);position:relative;overflow:hidden}
-.gstr-form-section::before{content:'';position:absolute;top:-120px;right:-120px;width:500px;height:500px;background:rgba(255,255,255,0.05);border-radius:50%}
-.gstr-form-section::after{content:'';position:absolute;bottom:-80px;left:-60px;width:300px;height:300px;background:rgba(255,255,255,0.04);border-radius:50%}
-.gstr-form-wrap{background:#fff;border-radius:24px;padding:52px;box-shadow:0 24px 80px rgba(0,0,0,0.18);max-width:800px;margin:0 auto;position:relative;z-index:2}
-.gstr-form-title{font-size:28px;font-weight:800;color:#1a1a2e;margin-bottom:6px;text-transform:none}
-.gstr-form-sub{font-size:15px;color:#6b7280;margin-bottom:36px}
-.gstr-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
-.gstr-form-group{display:flex;flex-direction:column;gap:6px}
-.gstr-form-group.full{grid-column:1/-1}
-.gstr-flabel{font-size:13px;font-weight:600;color:#374151}
-.gstr-finput,.gstr-fselect,.gstr-ftextarea{width:100%;padding:14px 16px;border:1.5px solid #e5e7eb;border-radius:12px;font-size:15px;color:#1a1a2e;background:#f9fafb;outline:none;font-family:inherit;transition:all 0.2s}
-.gstr-finput:focus,.gstr-fselect:focus,.gstr-ftextarea:focus{border-color:#1a9e87;background:#fff;box-shadow:0 0 0 3px rgba(26,158,135,0.11)}
-.gstr-ftextarea{min-height:100px;resize:vertical}
-.gstr-submit{width:100%;padding:18px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);color:#fff;font-size:17px;font-weight:700;border:none;border-radius:14px;cursor:pointer;box-shadow:0 6px 20px rgba(26,158,135,0.4);transition:all 0.3s;font-family:inherit;margin-top:10px}
-.gstr-submit:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(26,158,135,0.5)}
-.gstr-submit:disabled{opacity:.7;cursor:not-allowed;transform:none}
-.gstr-form-guarantees{display:flex;justify-content:center;gap:28px;margin-top:20px;flex-wrap:wrap}
-.gstr-guarantee{display:flex;align-items:center;gap:7px;font-size:13px;color:#9ca3af}
-.gstr-guarantee i{color:#1a9e87}
-@media(max-width:1100px){.gstr-routes-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:768px){.gstr-hero-title{font-size:34px}.gstr-routes-grid{grid-template-columns:1fr 1fr}.gstr-feat-grid{grid-template-columns:1fr}.gstr-form-wrap{padding:32px 24px}}
-@media(max-width:576px){.gstr-routes-grid{grid-template-columns:1fr}.gstr-form-grid{grid-template-columns:1fr}.gstr-hero{height:420px}}
-</style>
-@endpush
-
-@push('style_section')
-<style>
 .gscon-hero{background:linear-gradient(135deg,#0d7a68 0%,#1a9e87 50%,#2ec4a9 100%) !important;padding:80px 0 100px !important;position:relative !important;overflow:hidden !important}
 .gscon-hero::before{content:'' !important;position:absolute !important;top:-80px !important;right:-80px !important;width:400px !important;height:400px !important;background:rgba(255,255,255,0.06) !important;border-radius:50% !important}
 .gscon-hero-label{font-size:13px !important;font-weight:700 !important;color:rgba(255,255,255,0.8) !important;text-transform:uppercase !important;letter-spacing:2px !important;margin-bottom:16px !important}
@@ -1429,6 +1371,60 @@
     {{-- TRANSFER PAGE --}}
     {{-- ================================================================ --}}
     @if($custom_page->slug == 'transfer')
+        <style>
+        *{box-sizing:border-box}
+        .gstr-hero{position:relative;height:500px;overflow:hidden;display:flex;align-items:center}
+        .gstr-hero-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=1400&q=80');background-size:cover;background-position:center}
+        .gstr-hero-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(10,60,52,0.88) 0%,rgba(26,158,135,0.72) 100%)}
+        .gstr-hero-content{position:relative;z-index:2;width:100%}
+        .gstr-hero-badge{display:inline-block;background:rgba(255,255,255,0.18);border:1px solid rgba(255,255,255,0.35);border-radius:50px;padding:7px 18px;font-size:13px;font-weight:700;color:#fff;letter-spacing:1px;text-transform:uppercase;margin-bottom:20px}
+        .gstr-hero-title{font-size:50px;font-weight:900;color:#fff;line-height:1.1;margin-bottom:16px;text-transform:none;letter-spacing:-1px}
+        .gstr-hero-sub{font-size:17px;color:rgba(255,255,255,0.85);margin-bottom:36px;line-height:1.6;text-transform:none;max-width:500px}
+        .gstr-hero-pills{display:flex;flex-wrap:wrap;gap:10px}
+        .gstr-hero-pill{background:rgba(255,255,255,0.14);border:1px solid rgba(255,255,255,0.28);border-radius:50px;padding:8px 18px;color:#fff;font-size:13px;font-weight:600}
+        .gstr-routes-sec{padding:72px 0;background:#fff}
+        .gstr-uline{width:56px;height:4px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);border-radius:2px;margin-bottom:14px}
+        .gstr-slabel{font-size:12px;font-weight:700;color:#1a9e87;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px}
+        .gstr-stitle{font-size:34px;font-weight:800;color:#1a1a2e;margin-bottom:44px;text-transform:none;letter-spacing:-0.5px}
+        .gstr-rgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+        .gstr-rcard{background:#f8fafb;border-radius:18px;padding:28px 20px;border:2px solid transparent;transition:all 0.3s}
+        .gstr-rcard:hover{border-color:#1a9e87;background:#fff;box-shadow:0 10px 32px rgba(26,158,135,0.13);transform:translateY(-5px)}
+        .gstr-ricon{width:50px;height:50px;border-radius:13px;background:linear-gradient(135deg,#e8f7f5,#d0f0eb);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:16px}
+        .gstr-rfrom{font-size:11px;color:#9ca3af;font-weight:600;text-transform:uppercase;letter-spacing:0.8px;margin-bottom:5px}
+        .gstr-rto{font-size:16px;font-weight:800;color:#1a1a2e;margin-bottom:14px;text-transform:none}
+        .gstr-rprice{font-size:28px;font-weight:900;color:#1a9e87;line-height:1}
+        .gstr-rper{font-size:11px;color:#9ca3af;margin-top:3px}
+        .gstr-feat-sec{padding:72px 0;background:#f8fafb}
+        .gstr-fgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+        .gstr-frow{display:flex;align-items:flex-start;gap:18px;background:#fff;border-radius:16px;padding:26px;box-shadow:0 2px 12px rgba(0,0,0,0.06);transition:all 0.3s}
+        .gstr-frow:hover{box-shadow:0 8px 26px rgba(26,158,135,0.12);transform:translateY(-3px)}
+        .gstr-ficon{width:50px;height:50px;border-radius:13px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .gstr-ficon i{color:#fff;font-size:19px}
+        .gstr-ftitle{font-size:15px;font-weight:700;color:#1a1a2e;margin-bottom:5px;text-transform:none}
+        .gstr-fdesc{font-size:13px;color:#6b7280;line-height:1.6;text-transform:none}
+        .gstr-form-sec{padding:80px 0;background:linear-gradient(135deg,#0d7a68,#1a9e87 60%,#2ec4a9);position:relative;overflow:hidden}
+        .gstr-form-sec::before{content:'';position:absolute;top:-120px;right:-120px;width:480px;height:480px;background:rgba(255,255,255,0.05);border-radius:50%}
+        .gstr-fwrap{background:#fff;border-radius:24px;padding:50px;box-shadow:0 24px 80px rgba(0,0,0,0.18);max-width:780px;margin:0 auto;position:relative;z-index:2}
+        .gstr-ftop-title{font-size:26px;font-weight:800;color:#1a1a2e;margin-bottom:6px;text-transform:none}
+        .gstr-ftop-sub{font-size:15px;color:#6b7280;margin-bottom:32px}
+        .gstr-fform-grid{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+        .gstr-fgroup{display:flex;flex-direction:column;gap:5px}
+        .gstr-fgroup.full{grid-column:1/-1}
+        .gstr-flbl{font-size:13px;font-weight:600;color:#374151}
+        .gstr-inp,.gstr-sel,.gstr-ta{width:100%;padding:13px 15px;border:1.5px solid #e5e7eb;border-radius:11px;font-size:14px;color:#1a1a2e;background:#f9fafb;outline:none;font-family:inherit;transition:all 0.2s}
+        .gstr-inp:focus,.gstr-sel:focus,.gstr-ta:focus{border-color:#1a9e87;background:#fff;box-shadow:0 0 0 3px rgba(26,158,135,0.1)}
+        .gstr-ta{min-height:90px;resize:vertical}
+        .gstr-sbtn{width:100%;padding:17px;background:linear-gradient(135deg,#1a9e87,#2ec4a9);color:#fff;font-size:16px;font-weight:700;border:none;border-radius:13px;cursor:pointer;box-shadow:0 6px 20px rgba(26,158,135,0.38);transition:all 0.3s;font-family:inherit;margin-top:8px}
+        .gstr-sbtn:hover{transform:translateY(-2px);box-shadow:0 12px 30px rgba(26,158,135,0.48)}
+        .gstr-sbtn:disabled{opacity:.7;cursor:not-allowed;transform:none}
+        .gstr-gnotes{display:flex;justify-content:center;gap:24px;margin-top:18px;flex-wrap:wrap}
+        .gstr-gnote{display:flex;align-items:center;gap:6px;font-size:13px;color:#9ca3af}
+        .gstr-gnote i{color:#1a9e87}
+        @media(max-width:1100px){.gstr-rgrid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:768px){.gstr-hero-title{font-size:32px!important}.gstr-hero{height:420px!important}.gstr-fgrid{grid-template-columns:1fr!important}.gstr-fwrap{padding:32px 20px!important}}
+        @media(max-width:576px){.gstr-rgrid{grid-template-columns:1fr!important}.gstr-fform-grid{grid-template-columns:1fr!important}}
+        </style>
+
 
         @php
             $transferRoutes = \Modules\TourBooking\App\Models\TransferRoute::where('status', true)
