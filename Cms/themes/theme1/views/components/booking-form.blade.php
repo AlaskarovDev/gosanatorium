@@ -33,6 +33,15 @@
             ];
         });
     
+    // All active sanatoriums/hotels for the transfer destination dropdown
+    $transfer_sanatoriums = \Modules\TourBooking\App\Models\Service::where('status', true)
+        ->with(['translation:id,service_id,title', 'destination:id,name'])
+        ->get()
+        ->map(fn($s) => ['name' => $s->translation?->title ?? '', 'location' => $s->destination?->name ?? ''])
+        ->filter(fn($s) => $s['name'] !== '')
+        ->sortBy('name', SORT_NATURAL | SORT_FLAG_CASE)
+        ->values();
+
     // ===== Transfer marşrutlarını al =====
     $transfer_routes = [];
     if (class_exists(\Modules\TourBooking\App\Models\TransferRoute::class)) {
@@ -145,6 +154,7 @@
 .gstrf-dd{position:absolute;left:0;right:0;top:100%;z-index:50;background:#fff;border:1px solid #e0e0e0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);max-height:240px;overflow:auto;margin-top:4px}
 .gstrf-dd div{padding:10px 14px;cursor:pointer;font-size:14px;color:#333}
 .gstrf-dd div:hover{background:#f2faf8}
+.gstrf-dropdown-item:hover{background:#f0faf8 !important;color:#1a9e87 !important}
 @media (max-width:767px){.gstrf-row,.gstrf-row-3{grid-template-columns:1fr !important;gap:12px !important}.gstrf-swap{align-self:center !important;height:40px !important;transform:rotate(90deg)}.gstrf-card{padding:20px 16px !important}}
 </style>
 <div class="gstrf-card">
@@ -170,10 +180,20 @@
             </div>
         </div>
         <button type="button" class="gstrf-swap" @click="swapDirection()" aria-label="Swap">⇄</button>
-        <div class="gstrf-field">
+        <div class="gstrf-field" x-ref="destWrapper">
             <label class="gstrf-label" x-text="direction==='from' ? 'Куда отвезти' : 'Аэропорт вылета'">Куда отвезти</label>
-            <input type="text" class="gstrf-input" x-model="rightValue" autocomplete="off"
+            <input type="text" id="gstrfDestination" class="gstrf-input" x-model="rightValue" autocomplete="off"
+                   @input="showSanDropdown = direction==='from'" @focus="showSanDropdown = direction==='from'"
+                   @keydown.escape="showSanDropdown = false"
                    :placeholder="direction==='from' ? 'Санаторий, отель или адрес' : 'Например, Гянджа (GNJ)'">
+            <div class="gstrf-dd" id="gstrfDropdown" x-show="showSanDropdown && direction==='from' && filteredSanatoriums.length" x-cloak>
+                <template x-for="s in filteredSanatoriums" :key="s.name + s.location">
+                    <div class="gstrf-dropdown-item" @mousedown.prevent="rightValue = s.name; showSanDropdown = false">
+                        <span x-text="s.name"></span>
+                        <small x-show="s.location" x-text="' • ' + s.location" style="color:#888"></small>
+                    </div>
+                </template>
+            </div>
         </div>
     </div>
 
@@ -734,6 +754,7 @@
             services: @json($autocomplete_services)
         };
         window.transferRoutesData = @json($transfer_routes);
+        window.transferSanatoriumsData = @json($transfer_sanatoriums);
     </script>
 
     @push('js_section')
@@ -923,16 +944,29 @@
                     filteredRoutes: [],
                     selectedRoute: null,
 
+                    // Destination (sanatorium) dropdown
+                    showSanDropdown: false,
+                    allSanatoriums: [],
+                    get filteredSanatoriums() {
+                        const q = (this.rightValue || '').toLowerCase().trim();
+                        return q ? this.allSanatoriums.filter(s => s.name.toLowerCase().includes(q)) : this.allSanatoriums;
+                    },
+
                     // ===== FIX: initForm - x-init ilə çağırılır =====
                     initForm() {
                         this.allRoutes = window.transferRoutesData || [];
                         this.filteredRoutes = this.allRoutes;
+                        this.allSanatoriums = window.transferSanatoriumsData || [];
                         
                         // ===== FIX: Manual click outside handler =====
                         const wrapper = this.$refs.routeWrapper;
                         this._onDocClick = (e) => {
                             if (wrapper && !wrapper.contains(e.target)) {
                                 this.showRouteDropdown = false;
+                            }
+                            const dw = this.$refs.destWrapper;
+                            if (dw && !dw.contains(e.target)) {
+                                this.showSanDropdown = false;
                             }
                         };
                         document.addEventListener('click', this._onDocClick, true);
@@ -950,6 +984,8 @@
                     swapDirection() {
                         this.direction = this.direction === 'from' ? 'to' : 'from';
                         const tmp = this.leftValue; this.leftValue = this.rightValue; this.rightValue = tmp;
+                        this.showSanDropdown = false;
+                        this.showRouteDropdown = false;
                     },
 
                     // Filter routes
