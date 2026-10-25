@@ -123,27 +123,29 @@
                                             {{-- ==================== TRANSFER FORM ==================== --}}
 <form x-data="transferBookingForm()" x-init="initForm()" @submit.prevent="submitForm" class="gstrf-form">
 <style>
-.gstrf-card{background:#fff !important;border-radius:16px !important;box-shadow:0 6px 24px rgba(0,0,0,.08) !important;padding:24px !important;text-align:left}
+.gstrf-card{background:#fff !important;border-radius:16px !important;box-shadow:0 4px 24px rgba(0,0,0,0.10) !important;padding:28px 32px !important;text-align:left}
 .gstrf-dir{display:flex !important;gap:10px;margin-bottom:18px;flex-wrap:wrap}
-.gstrf-dir-btn{border:1px solid #e0e0e0 !important;background:#fff !important;color:#555 !important;border-radius:50px !important;padding:8px 20px !important;font-size:14px;cursor:pointer;line-height:1.3}
-.gstrf-dir-btn.active{border-color:#1a9e87 !important;color:#1a9e87 !important;background:rgba(26,158,135,.08) !important;font-weight:600}
-.gstrf-row{display:flex !important;gap:12px;align-items:flex-end;margin-bottom:14px}
-.gstrf-field{flex:1 1 0;min-width:0;position:relative}
-.gstrf-label{display:block;font-size:11px !important;color:#888 !important;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px}
-.gstrf-input{width:100% !important;border:1px solid #e0e0e0 !important;border-radius:10px !important;padding:14px 16px !important;font-size:15px;background:#fff !important;height:auto !important;color:#222;outline:none;box-sizing:border-box}
-.gstrf-input:focus{border-color:#1a9e87 !important}
-.gstrf-swap{flex:0 0 44px;width:44px;height:44px;border-radius:50% !important;border:1px solid #e0e0e0 !important;background:#fff !important;color:#1a9e87 !important;font-size:20px;cursor:pointer;margin-bottom:2px;padding:0 !important;line-height:1}
+.gstrf-dir-btn{border:1.5px solid #ddd !important;background:transparent !important;color:#666 !important;border-radius:50px !important;padding:8px 20px !important;font-size:14px !important;font-weight:400 !important;cursor:pointer;line-height:1.3}
+.gstrf-dir-btn.active{border:2px solid #1a9e87 !important;color:#1a9e87 !important;background:transparent !important;font-weight:500 !important}
+.gstrf-row{display:grid !important;grid-template-columns:1fr 40px 1fr !important;align-items:center !important;gap:0 !important;margin-bottom:14px}
+.gstrf-row-3{grid-template-columns:1fr 1fr 1fr !important;gap:16px !important;align-items:end !important}
+.gstrf-field{min-width:0;position:relative}
+.gstrf-label{display:block;font-size:11px !important;font-weight:400 !important;color:#9e9e9e !important;margin-bottom:4px !important;text-transform:none !important;letter-spacing:0.3px !important}
+.gstrf-input{width:100% !important;border:1px solid #e8e8e8 !important;border-radius:10px !important;padding:14px 16px !important;font-size:15px !important;background:#fff !important;height:52px !important;color:#222 !important;outline:none !important;box-sizing:border-box !important}
+.gstrf-input:focus{border-color:#1a9e87 !important;outline:none !important;box-shadow:0 0 0 3px rgba(26,158,135,0.12) !important}
+.gstrf-input[type="date"]::-webkit-calendar-picker-indicator{opacity:0.5}
+.gstrf-swap{width:40px !important;height:52px !important;align-self:end !important;border:none !important;background:transparent !important;color:#1a9e87 !important;font-size:18px !important;cursor:pointer;padding:0 !important;line-height:1;border-radius:0 !important}
 .gstrf-icon-wrap{position:relative}
 .gstrf-icon-wrap .gstrf-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:#888;font-size:14px}
-.gstrf-pax{display:flex !important;align-items:center;justify-content:space-between;border:1px solid #e0e0e0 !important;border-radius:10px !important;padding:8px 12px !important;background:#fff}
+.gstrf-pax{display:flex !important;align-items:center;justify-content:space-between;border:1px solid #e8e8e8 !important;border-radius:10px !important;padding:0 16px !important;height:52px !important;box-sizing:border-box !important;font-size:15px !important;background:#fff !important}
 .gstrf-pax button{width:32px;height:32px;border-radius:50% !important;border:1px solid #1a9e87 !important;background:#fff !important;color:#1a9e87 !important;font-size:18px;line-height:1;cursor:pointer;padding:0 !important}
-.gstrf-pax span{font-size:16px;font-weight:600;color:#222}
+.gstrf-pax span{font-size:15px;font-weight:600;color:#222}
 .gstrf-help{text-align:center;font-size:12px !important;color:#888 !important;margin:0 0 4px}
-.gstrf-submit{display:block;width:100% !important;margin-top:16px;border:0 !important;border-radius:10px !important;padding:15px 20px !important;font-size:16px;font-weight:600;color:#fff !important;cursor:pointer;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important}
+.gstrf-submit{display:block;width:100% !important;margin-top:16px;border:0 !important;border-radius:12px !important;height:54px !important;padding:0 20px !important;font-size:16px !important;font-weight:600 !important;letter-spacing:0.2px !important;color:#fff !important;cursor:pointer;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important}
 .gstrf-dd{position:absolute;left:0;right:0;top:100%;z-index:50;background:#fff;border:1px solid #e0e0e0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);max-height:240px;overflow:auto;margin-top:4px}
 .gstrf-dd div{padding:10px 14px;cursor:pointer;font-size:14px;color:#333}
 .gstrf-dd div:hover{background:#f2faf8}
-@media (max-width:767px){.gstrf-row{flex-direction:column;align-items:stretch}.gstrf-field{width:100%;flex:none}.gstrf-swap{align-self:center;transform:rotate(90deg)}.gstrf-card{padding:16px !important}}
+@media (max-width:767px){.gstrf-row,.gstrf-row-3{grid-template-columns:1fr !important;gap:12px !important}.gstrf-swap{align-self:center !important;height:40px !important;transform:rotate(90deg)}.gstrf-card{padding:20px 16px !important}}
 </style>
 <div class="gstrf-card">
     <div class="gstrf-dir">
@@ -175,7 +177,7 @@
         </div>
     </div>
 
-    <div class="gstrf-row">
+    <div class="gstrf-row gstrf-row-3">
         <div class="gstrf-field">
             <label class="gstrf-label" x-text="direction==='from' ? 'Дата встречи' : 'Дата поездки'">Дата встречи</label>
             <div class="gstrf-icon-wrap">
@@ -1052,7 +1054,7 @@
                         mode: "single",
                         dateFormat: "Y-m-d",
                         altInput: true,
-                        altFormat: "D d.m.Y",
+                        altFormat: "d.m.Y",
                         minDate: "today",
                         locale: {
                             firstDayOfWeek: 1
