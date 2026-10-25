@@ -1,6 +1,6 @@
 <!-- WhatsApp Floating Button -->
 <style>
-.wa-float-btn{position:fixed;bottom:100px;right:24px;z-index:9999;display:flex;align-items:center;gap:10px;background:#25D366;color:#fff !important;text-decoration:none !important;font-size:15px;font-weight:700;padding:14px 20px 14px 16px;border-radius:50px;box-shadow:0 4px 20px rgba(37,211,102,.45);transition:transform .2s,box-shadow .2s}
+.wa-float-btn{position:fixed;bottom:20px;right:24px;z-index:9999;display:flex;align-items:center;gap:10px;background:#25D366;color:#fff !important;text-decoration:none !important;font-size:15px;font-weight:700;padding:14px 20px 14px 16px;border-radius:50px;box-shadow:0 4px 20px rgba(37,211,102,.45);transition:transform .2s,box-shadow .2s}
 .wa-float-btn:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(37,211,102,.55)}
 @media (max-width:768px){.wa-float-label{display:none}.wa-float-btn{padding:14px;border-radius:50%;bottom:90px;right:16px}}
 </style>

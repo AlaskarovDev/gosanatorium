@@ -67,7 +67,7 @@
 
     {{-- Sticky side navigation --}}
 <style>
-.gssticky-nav{position:fixed!important;right:16px!important;top:50%!important;transform:translateY(-50%)!important;z-index:99999!important;display:flex!important;flex-direction:column!important;gap:6px!important;background:#fff!important;border-radius:12px!important;box-shadow:0 4px 24px rgba(0,0,0,0.12)!important;padding:10px 8px!important;max-height:94vh!important;overflow-y:auto!important;scrollbar-width:none!important}
+.gssticky-nav{position:fixed!important;right:16px!important;top:50%!important;transform:translateY(-50%)!important;z-index:99999!important;display:flex!important;flex-direction:column!important;gap:6px!important;background:#fff!important;border-radius:12px!important;box-shadow:0 4px 24px rgba(0,0,0,0.12)!important;padding:10px 8px!important;max-height:calc(100vh - 200px)!important;overflow-y:auto!important;scrollbar-width:none!important}
 .gssticky-nav::-webkit-scrollbar{display:none}
 .gssticky-item{display:flex!important;flex-direction:column!important;align-items:center!important;gap:4px!important;cursor:pointer!important;padding:8px 6px!important;border-radius:8px!important;text-decoration:none!important;transition:background 0.2s!important;width:72px!important}
 .gssticky-item:hover{background:#f0faf8!important}
