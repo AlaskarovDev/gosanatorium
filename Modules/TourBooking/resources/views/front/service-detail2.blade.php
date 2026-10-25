@@ -91,9 +91,75 @@
 </table>
 <p style="font-size:12px;color:#9ca3af;margin-top:8px">* Без предоплаты. Оплата при заезде.</p>
 </div>
+<div class="gstd-panel" id="gstd-rooms">
+<h2 class="gstd-section-title">Номера и цены</h2>
+<div class="gstd-rooms-grid">
+<div class="gstd-room-card">
+<div class="gstd-room-img"><img src="https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=400&q=80" alt="Одноместный"></div>
+<div class="gstd-room-info"><div>
+<div class="gstd-room-name">Одноместный стандарт</div>
+<div class="gstd-room-feats"><span class="gstd-room-feat"><i class="fas fa-bed"></i> 1 кровать</span><span class="gstd-room-feat"><i class="fas fa-wifi"></i> Wi-Fi</span><span class="gstd-room-feat"><i class="fas fa-snowflake"></i> Кондиционер</span><span class="gstd-room-feat"><i class="fas fa-utensils"></i> 3-разовое питание</span></div>
 </div>
-</div>
+<div class="gstd-room-bottom"><div><div class="gstd-room-price">от $73.50</div><div class="gstd-room-price-note">за ночь · без предоплаты</div></div><button class="gstd-room-btn">Выбрать</button></div>
 </div></div>
+<div class="gstd-room-card">
+<div class="gstd-room-img"><img src="https://images.unsplash.com/photo-1590490360182-c33d57733427?w=400&q=80" alt="Двухместный"></div>
+<div class="gstd-room-info"><div>
+<div class="gstd-room-name">Двухместный стандарт</div>
+<div class="gstd-room-feats"><span class="gstd-room-feat"><i class="fas fa-bed"></i> 2 кровати</span><span class="gstd-room-feat"><i class="fas fa-wifi"></i> Wi-Fi</span><span class="gstd-room-feat"><i class="fas fa-snowflake"></i> Кондиционер</span><span class="gstd-room-feat"><i class="fas fa-utensils"></i> 3-разовое питание</span></div>
+</div>
+<div class="gstd-room-bottom"><div><div class="gstd-room-price">от $63</div><div class="gstd-room-price-note">с чел/ночь · скидка 12%</div></div><button class="gstd-room-btn">Выбрать</button></div>
+</div></div>
+</div></div>
+<div class="gstd-panel" id="gstd-included">
+<h2 class="gstd-section-title">Что включено в тур</h2>
+<div class="gstd-inc-grid">
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Проживание в номере</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">3-разовое питание</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Осмотр врача-курортолога</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Все лечебные процедуры по программе</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Пользование бассейном и SPA</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Wi-Fi на всей территории</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Медицинская документация</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Поддержка GoSanatorium 24/7</span></div>
+</div></div>
+<div class="gstd-panel" id="gstd-reviews">
+<div class="gstd-review-empty">
+<i class="far fa-comment-dots"></i>
+<p>Пока отзывов нет. Будьте первым!</p>
+<button class="gstd-rev-btn">Оставить отзыв</button>
+</div>
+</div>
+</div>
+<div class="gstd-sidebar">
+<div class="gstd-price-card">
+<div class="gstd-price-from">Стоимость тура от</div>
+<div class="gstd-price-num">875 <span style="font-size:20px;color:#9ca3af">AZN</span></div>
+<div class="gstd-price-per">за 7 ночей · 1 человек · все процедуры включены</div>
+<div class="gstd-price-divider"></div>
+<div class="gstd-date-group"><div class="gstd-date-lbl">Дата заезда</div><input type="date" class="gstd-date-inp" id="gstdCheckin"></div>
+<div class="gstd-date-group"><div class="gstd-date-lbl">Дата выезда</div><input type="date" class="gstd-date-inp" id="gstdCheckout"></div>
+<div class="gstd-nights-row"><span class="gstd-nights-lbl">Ночей</span><span class="gstd-nights-val" id="gstdNights">7</span></div>
+<div class="gstd-guests-row"><span class="gstd-guests-lbl">Гостей</span><div class="gstd-guests-ctrl"><button class="gstd-gcbtn" onclick="gstdGuests(-1)">−</button><span class="gstd-gcval" id="gstdGuests">1</span><button class="gstd-gcbtn" onclick="gstdGuests(1)">+</button></div></div>
+<button class="gstd-book-btn">Забронировать</button>
+<a href="https://wa.me/994519158894" class="gstd-wa-btn"><i class="fab fa-whatsapp"></i> Спросить в WhatsApp</a>
+<div class="gstd-guarantees">
+<span class="gstd-guarantee"><i class="fas fa-ban"></i> Без предоплаты</span>
+<span class="gstd-guarantee"><i class="fas fa-shield-alt"></i> Бесплатная отмена</span>
+<span class="gstd-guarantee"><i class="fas fa-headset"></i> Поддержка 24/7</span>
+</div>
+</div>
+<div class="gstd-consult-card">
+<img src="/images/consultant.jpg" class="gstd-consult-photo" alt="Консультант" onerror="this.src='https://ui-avatars.com/api/?name=Go&background=1a9e87&color=fff&size=70'">
+<div class="gstd-consult-name">Консультант GoSanatorium</div>
+<div class="gstd-consult-role">Специалист по подбору санаториев</div>
+<div class="gstd-consult-links">
+<a href="https://wa.me/994519158894" class="gstd-consult-link wa"><i class="fab fa-whatsapp"></i> WhatsApp</a>
+<a href="tel:+994519158894" class="gstd-consult-link ph"><i class="fas fa-phone"></i> +994 51 915 88 94</a>
+</div>
+</div>
+</div>
+</div></div></div>
 <script>
 function gstdTab(id, btn) {
     document.querySelectorAll('.gstd-panel').forEach(function (p) { p.classList.remove('active'); });
@@ -102,6 +168,8 @@ function gstdTab(id, btn) {
     if (panel) panel.classList.add('active');
     if (btn) btn.classList.add('active');
 }
+function gstdGuests(d){var el=document.getElementById('gstdGuests');el.textContent=Math.max(1,Math.min(6,parseInt(el.textContent)+d));}
+(function(){var ci=document.getElementById('gstdCheckin'),co=document.getElementById('gstdCheckout'),ni=document.getElementById('gstdNights');if(!ci)return;var t=new Date();ci.valueAsDate=new Date(t.getFullYear(),t.getMonth(),t.getDate()+7);co.valueAsDate=new Date(t.getFullYear(),t.getMonth(),t.getDate()+14);function u(){if(ci.value&&co.value){var d=Math.round((new Date(co.value)-new Date(ci.value))/86400000);if(d>0)ni.textContent=d;}}ci.addEventListener('change',u);co.addEventListener('change',u);})();
 </script>
 @endsection
     <script>
