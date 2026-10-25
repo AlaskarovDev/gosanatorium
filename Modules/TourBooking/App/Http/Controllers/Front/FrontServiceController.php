@@ -557,7 +557,7 @@ final class FrontServiceController extends Controller
 
         $paginatedReviews = Review::where('service_id', $service->id)
             ->where('status', true)
-            ->with('user:id,name,image')
+            ->with('user')
             ->latest()
             ->paginate(14);
 

@@ -2271,7 +2271,7 @@
                                         <div class="review-content">
                                             <div class="review-header">
                                                 <div>
-                                                    <h5 class="review-author">{{ $review->user->name }}</h5>
+                                                    <h5 class="review-author">{{ $review->user->name }}@if(!empty($review->user->country)), {{ $review->user->country }}@endif</h5>
                                                     <span class="review-date">{{ \Carbon\Carbon::parse($review->created_at)->format('d.m.Y') }}</span>
                                                 </div>
                                                 <div class="review-rating">
