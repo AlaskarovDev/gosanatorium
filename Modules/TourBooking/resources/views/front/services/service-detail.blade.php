@@ -23,6 +23,9 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/themes/airbnb.css">
     
     <style>
+        .gs-translate-btn{display:inline-block;margin-top:10px;padding:5px 14px;font-size:12px;font-weight:600;color:#1a9e87;background:#f0faf8;border:1px solid #d0f0eb;border-radius:50px;cursor:pointer;transition:all .2s}
+        .gs-translate-btn:hover{background:#1a9e87;color:#fff}
+        .gs-translated-text{margin-top:8px;font-size:14px;color:#374151;font-style:italic;display:none;padding:8px 12px;background:#f9fffe;border-left:3px solid #1a9e87;border-radius:0 8px 8px 0}
         /* ═══════════════════════════════════════════════════════════════
            КОРНЕВЫЕ CSS ПЕРЕМЕННЫЕ
         ═══════════════════════════════════════════════════════════════ */
@@ -2278,6 +2281,8 @@
                                                 </div>
                                             </div>
                                             <p class="review-text">{{ $review->review }}</p>
+                                            <span class="gs-translate-btn" onclick="gsTranslate(this)">🌐 Перевести</span>
+                                            <div class="gs-translated-text"></div>
                                         </div>
                                     </li>
                                 @endforeach
@@ -2394,6 +2399,27 @@
 @endsection
 
 @push('js_section')
+    <script>
+function gsTranslate(btn){
+  if(!btn)return;
+  var textEl=btn.previousElementSibling;
+  var outEl=btn.nextElementSibling;
+  if(!textEl||!outEl)return;
+  if(outEl.style.display==='block'){outEl.style.display='none';btn.textContent='🌐 Перевести';return;}
+  var text=textEl.textContent.trim();
+  if(!text)return;
+  btn.textContent='⏳ Перевод...';
+  fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q='+encodeURIComponent(text))
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var result=d[0].map(function(x){return x[0];}).join('');
+    outEl.textContent=result;
+    outEl.style.display='block';
+    btn.textContent='✕ Скрыть перевод';
+  })
+  .catch(function(){btn.textContent='🌐 Перевести';alert('Ошибка перевода');});
+}
+    </script>
     {{-- AOS --}}
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     {{-- GLightbox --}}

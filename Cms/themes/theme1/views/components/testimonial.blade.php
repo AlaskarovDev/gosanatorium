@@ -46,6 +46,9 @@
         .gsreview-prev{left:0!important}
         .gsreview-next{right:0!important}
         @media(max-width:768px){.gsreview-section{padding:56px 0!important}.gsreview-title{font-size:28px!important}.gsreview-slider-wrap{padding:0 8px!important}.gsreview-arrow{display:none!important}}
+        .gs-translate-btn{display:inline-block;margin-top:10px;padding:5px 14px;font-size:12px;font-weight:600;color:#1a9e87;background:#f0faf8;border:1px solid #d0f0eb;border-radius:50px;cursor:pointer;transition:all .2s;font-style:normal;align-self:flex-start}
+        .gs-translate-btn:hover{background:#1a9e87;color:#fff}
+        .gs-translated-text{margin-top:8px;font-size:14px;color:#374151;font-style:italic;display:none;padding:8px 12px;background:#f9fffe;border-left:3px solid #1a9e87;border-radius:0 8px 8px 0}
     </style>
     <div class="gsreview-container">
         <div class="gsreview-head">
@@ -83,6 +86,8 @@
                             <div class="gsreview-card">
                                 <span class="gsreview-quote">&ldquo;</span>
                                 <p class="gsreview-text">{{ $comment }}</p>
+                                <span class="gs-translate-btn" onclick="gsTranslate(this)">🌐 Перевести</span>
+                                <div class="gs-translated-text"></div>
                                 <span class="gsreview-stars">@for ($i = 1; $i <= 5; $i++)<span class="{{ $i <= $rating ? '' : 'gsreview-off' }}">★</span>@endfor</span>
                                 <div class="gsreview-user">
                                     <div class="gsreview-avatar">
@@ -114,6 +119,27 @@
 </section>
 
 @push('js_section')
+    <script>
+function gsTranslate(btn){
+  if(!btn)return;
+  var textEl=btn.previousElementSibling;
+  var outEl=btn.nextElementSibling;
+  if(!textEl||!outEl)return;
+  if(outEl.style.display==='block'){outEl.style.display='none';btn.textContent='🌐 Перевести';return;}
+  var text=textEl.textContent.trim();
+  if(!text)return;
+  btn.textContent='⏳ Перевод...';
+  fetch('https://translate.googleapis.com/translate_a/single?client=gtx&sl=auto&tl=ru&dt=t&q='+encodeURIComponent(text))
+  .then(function(r){return r.json();})
+  .then(function(d){
+    var result=d[0].map(function(x){return x[0];}).join('');
+    outEl.textContent=result;
+    outEl.style.display='block';
+    btn.textContent='✕ Скрыть перевод';
+  })
+  .catch(function(){btn.textContent='🌐 Перевести';alert('Ошибка перевода');});
+}
+    </script>
     <script>
         (function () {
             var root = document.querySelector('.gsreview-section');
