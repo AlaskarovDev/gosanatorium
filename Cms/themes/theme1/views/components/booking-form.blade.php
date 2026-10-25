@@ -121,114 +121,92 @@
                                         
                                         @if($isTransferType)
                                             {{-- ==================== TRANSFER FORM ==================== --}}
-                                            <form x-data="transferBookingForm()" x-init="initForm()" @submit.prevent="submitForm">
-                                                <div class="tg-booking-form-input-group d-flex align-items-end justify-content-between flex-wrap">
-                                                    
-                                                    {{-- ========== 1. MARŞRUT SEÇİMİ ========== --}}
-                                                    <div class="tg-booking-form-parent-inner tg-hero-quantity p-relative mr-15 mb-15 tg-autocomplete-parent"
-                                                         x-ref="routeWrapper">
-                                                        <span class="tg-booking-form-title mb-5">Маршрут</span>
-                                                        <div class="tg-autocomplete-field">
-                                                            <input type="text" 
-                                                                   x-model="routeSearchQuery"
-                                                                   @input="filterRoutes()"
-                                                                   @focus="openRouteDropdown()"
-                                                                   @keydown.escape="showRouteDropdown = false"
-                                                                   class="tg-autocomplete-input"
-                                                                   placeholder="Введите для поиска или выберите..."
-                                                                   autocomplete="off">
-                                                            <span class="tg-autocomplete-arrow" 
-                                                                  :class="{ 'open': showRouteDropdown }"
-                                                                  @click.prevent.stop="showRouteDropdown = !showRouteDropdown; if(showRouteDropdown) openRouteDropdown()">
-                                                                <svg width="12" height="8" viewBox="0 0 12 8" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M1 1.5L6 6.5L11 1.5" stroke="#666" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                </svg>
-                                                            </span>
-                                                        </div>
-                                                        
-                                                        {{-- Route Dropdown - HEÇ BİR @click.away/@click.outside YOX --}}
-                                                        <div class="tg-autocomplete-dropdown tg-route-dropdown" 
-                                                             x-show="showRouteDropdown"
-                                                             x-cloak
-                                                             x-transition:enter="transition ease-out duration-150"
-                                                             x-transition:enter-start="opacity-0 transform -translate-y-2"
-                                                             x-transition:enter-end="opacity-100 transform translate-y-0">
-                                                            <div class="tg-ac-results">
-                                                                <div class="tg-ac-section">
-                                                                    <div class="tg-ac-section-header">
-                                                                        <span><i class="fa-solid fa-route"></i> Маршруты</span>
-                                                                    </div>
-                                                                    <ul class="tg-ac-list">
-                                                                        <template x-for="route in filteredRoutes" :key="route.id">
-                                                                            <li @mousedown.prevent="selectRoute(route)" class="tg-ac-item">
-                                                                                <span class="tg-ac-icon">
-                                                                                    <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                                        <path d="M2 5L8 2L14 5V11L8 14L2 11V5Z" stroke="#008080" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                                        <circle cx="5" cy="6" r="1.5" fill="#008080"/>
-                                                                                        <circle cx="11" cy="10" r="1.5" fill="#ff6b35"/>
-                                                                                    </svg>
-                                                                                </span>
-                                                                                <div class="tg-ac-info">
-                                                                                    <span class="tg-ac-name" x-text="route.name"></span>
-                                                                                    <span class="tg-ac-location">
-                                                                                        <template x-if="route.duration">
-                                                                                            <span x-text="route.duration + ' мин'"></span>
-                                                                                        </template>
-                                                                                        <template x-if="route.price">
-                                                                                            <span x-text="' • от ' + route.price + ' ₼'"></span>
-                                                                                        </template>
-                                                                                    </span>
-                                                                                </div>
-                                                                            </li>
-                                                                        </template>
-                                                                        
-                                                                        <template x-if="filteredRoutes.length === 0">
-                                                                            <li class="tg-ac-no-results-item">
-                                                                                <span>Маршрут не найден</span>
-                                                                            </li>
-                                                                        </template>
-                                                                    </ul>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+<form x-data="transferBookingForm()" x-init="initForm()" @submit.prevent="submitForm" class="gstrf-form">
+<style>
+.gstrf-card{background:#fff !important;border-radius:16px !important;box-shadow:0 6px 24px rgba(0,0,0,.08) !important;padding:24px !important;text-align:left}
+.gstrf-dir{display:flex !important;gap:10px;margin-bottom:18px;flex-wrap:wrap}
+.gstrf-dir-btn{border:1px solid #e0e0e0 !important;background:#fff !important;color:#555 !important;border-radius:50px !important;padding:8px 20px !important;font-size:14px;cursor:pointer;line-height:1.3}
+.gstrf-dir-btn.active{border-color:#1a9e87 !important;color:#1a9e87 !important;background:rgba(26,158,135,.08) !important;font-weight:600}
+.gstrf-row{display:flex !important;gap:12px;align-items:flex-end;margin-bottom:14px}
+.gstrf-field{flex:1 1 0;min-width:0;position:relative}
+.gstrf-label{display:block;font-size:11px !important;color:#888 !important;margin-bottom:6px;text-transform:uppercase;letter-spacing:.3px}
+.gstrf-input{width:100% !important;border:1px solid #e0e0e0 !important;border-radius:10px !important;padding:14px 16px !important;font-size:15px;background:#fff !important;height:auto !important;color:#222;outline:none;box-sizing:border-box}
+.gstrf-input:focus{border-color:#1a9e87 !important}
+.gstrf-swap{flex:0 0 44px;width:44px;height:44px;border-radius:50% !important;border:1px solid #e0e0e0 !important;background:#fff !important;color:#1a9e87 !important;font-size:20px;cursor:pointer;margin-bottom:2px;padding:0 !important;line-height:1}
+.gstrf-icon-wrap{position:relative}
+.gstrf-icon-wrap .gstrf-icon{position:absolute;right:14px;top:50%;transform:translateY(-50%);pointer-events:none;color:#888;font-size:14px}
+.gstrf-pax{display:flex !important;align-items:center;justify-content:space-between;border:1px solid #e0e0e0 !important;border-radius:10px !important;padding:8px 12px !important;background:#fff}
+.gstrf-pax button{width:32px;height:32px;border-radius:50% !important;border:1px solid #1a9e87 !important;background:#fff !important;color:#1a9e87 !important;font-size:18px;line-height:1;cursor:pointer;padding:0 !important}
+.gstrf-pax span{font-size:16px;font-weight:600;color:#222}
+.gstrf-help{text-align:center;font-size:12px !important;color:#888 !important;margin:0 0 4px}
+.gstrf-submit{display:block;width:100% !important;margin-top:16px;border:0 !important;border-radius:10px !important;padding:15px 20px !important;font-size:16px;font-weight:600;color:#fff !important;cursor:pointer;background:linear-gradient(135deg,#1a9e87,#2ec4a9) !important}
+.gstrf-dd{position:absolute;left:0;right:0;top:100%;z-index:50;background:#fff;border:1px solid #e0e0e0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.1);max-height:240px;overflow:auto;margin-top:4px}
+.gstrf-dd div{padding:10px 14px;cursor:pointer;font-size:14px;color:#333}
+.gstrf-dd div:hover{background:#f2faf8}
+@media (max-width:767px){.gstrf-row{flex-direction:column;align-items:stretch}.gstrf-field{width:100%;flex:none}.gstrf-swap{align-self:center;transform:rotate(90deg)}.gstrf-card{padding:16px !important}}
+</style>
+<div class="gstrf-card">
+    <div class="gstrf-dir">
+        <button type="button" class="gstrf-dir-btn" :class="{active: direction==='from'}" @click="setDirection('from')">Из аэропорта</button>
+        <button type="button" class="gstrf-dir-btn" :class="{active: direction==='to'}" @click="setDirection('to')">До аэропорта</button>
+    </div>
 
-                                                    {{-- ========== 2. TƏK TARİX SEÇİMİ ========== --}}
-                                                    <div class="tg-booking-form-parent-inner mr-15 mb-15 tg-daterange-parent">
-                                                        <span class="tg-booking-form-title mb-5">Дата трансфера</span>
-                                                        <div class="tg-date-field p-relative">
-                                                            <input type="text" 
-                                                                   id="transferDatePicker-{{ $service_type->id }}"
-                                                                   class="input single-date-picker" 
-                                                                   placeholder="Выберите дату"
-                                                                   x-model="transfer_date"
-                                                                   readonly>
-                                                            <span class="tg-date-icon">
-                                                                <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <path d="M12.6667 2.66667H3.33333C2.59695 2.66667 2 3.26362 2 4V13.3333C2 14.0697 2.59695 14.6667 3.33333 14.6667H12.6667C13.403 14.6667 14 14.0697 14 13.3333V4C14 3.26362 13.403 2.66667 12.6667 2.66667Z" stroke="#666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                    <path d="M10.6667 1.33333V4" stroke="#666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                    <path d="M5.33333 1.33333V4" stroke="#666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                    <path d="M2 6.66667H14" stroke="#666" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                </svg>
-                                                            </span>
-                                                        </div>
-                                                    </div>
+    <div class="gstrf-row">
+        <div class="gstrf-field" x-ref="routeWrapper">
+            <label class="gstrf-label" x-text="direction==='from' ? 'Аэропорт прилёта' : 'Откуда забрать'">Аэропорт прилёта</label>
+            <input type="text" class="gstrf-input" x-model="leftValue" @input="filterRoutes()" @focus="openRouteDropdown()"
+                   @keydown.escape="showRouteDropdown = false" autocomplete="off"
+                   :placeholder="direction==='from' ? 'Например, Гянджа (GNJ)' : 'Санаторий, отель или адрес'">
+            <div class="gstrf-dd" x-show="showRouteDropdown" x-cloak>
+                <template x-for="route in filteredRoutes" :key="route.id">
+                    <div @mousedown.prevent="selectRoute(route)">
+                        <span x-text="route.name"></span>
+                        <small x-show="route.price" x-text="' • от ' + route.price + ' ₼'" style="color:#888"></small>
+                    </div>
+                </template>
+                <div x-show="filteredRoutes.length === 0" style="color:#888;cursor:default">Маршрут не найден</div>
+            </div>
+        </div>
+        <button type="button" class="gstrf-swap" @click="swapDirection()" aria-label="Swap">⇄</button>
+        <div class="gstrf-field">
+            <label class="gstrf-label" x-text="direction==='from' ? 'Куда отвезти' : 'Аэропорт вылета'">Куда отвезти</label>
+            <input type="text" class="gstrf-input" x-model="rightValue" autocomplete="off"
+                   :placeholder="direction==='from' ? 'Санаторий, отель или адрес' : 'Например, Гянджа (GNJ)'">
+        </div>
+    </div>
 
-                                                    {{-- ========== 3. AXTARIŞ DÜYMƏSI ========== --}}
-                                                    <div class="tg-booking-form-search-btn mb-15">
-                                                        <button class="bk-search-button" type="submit">
-                                                            Поиск
-                                                            <span class="ml-5">
-                                                                <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                                                    <g clip-path="url(#clip0_53_103)">
-                                                                        <path d="M13.2218 13.2222L10.5188 10.5192M12.1959 6.48705C12.1959 9.6402 9.63977 12.1963 6.48662 12.1963C3.33348 12.1963 0.777344 9.6402 0.777344 6.48705C0.777344 3.3339 3.33348 0.777771 6.48662 0.777771C9.63977 0.777771 12.1959 3.3339 12.1959 6.48705Z" stroke="currentColor" stroke-width="1.575" stroke-linecap="round" stroke-linejoin="round"/>
-                                                                    </g>
-                                                                </svg>
-                                                            </span>
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                            </form>
+    <div class="gstrf-row">
+        <div class="gstrf-field">
+            <label class="gstrf-label" x-text="direction==='from' ? 'Дата встречи' : 'Дата поездки'">Дата встречи</label>
+            <div class="gstrf-icon-wrap">
+                <input type="text" id="transferDatePicker-{{ $service_type->id }}" class="gstrf-input single-date-picker"
+                       placeholder="Выберите дату" x-model="transfer_date" readonly>
+                <span class="gstrf-icon"><i class="fa-regular fa-calendar"></i></span>
+            </div>
+        </div>
+        <div class="gstrf-field">
+            <label class="gstrf-label" x-text="direction==='from' ? 'Время встречи' : 'Время подачи'">Время встречи</label>
+            <div class="gstrf-icon-wrap">
+                <input type="time" class="gstrf-input" x-model="transfer_time" value="12:00">
+                <span class="gstrf-icon"><i class="fa-regular fa-clock"></i></span>
+            </div>
+        </div>
+        <div class="gstrf-field">
+            <label class="gstrf-label">Пассажиры · взрослые и дети</label>
+            <div class="gstrf-pax">
+                <button type="button" @click="decrementPassengers()">−</button>
+                <span id="gstrfCount" x-text="passengers">1</span>
+                <button type="button" @click="incrementPassengers()">+</button>
+            </div>
+        </div>
+    </div>
+
+    <p class="gstrf-help">Встреча в аэропорту и поездка до санатория, отеля или указанного адреса.</p>
+    <p class="gstrf-help">Стоимость трансфера можно уточнить в WhatsApp.</p>
+
+    <button type="submit" class="gstrf-submit">Подобрать трансфер →</button>
+</div>
+</form>
                                             {{-- ==================== TRANSFER FORM END ==================== --}}
                                         @else
                                             {{-- ==================== SANATORIUM/HOTEL FORM ==================== --}}
@@ -930,7 +908,11 @@
                     transfer_route_id: '',
                     transfer_route_name: '',
                     transfer_date: '',
-                    passengers: 2,
+                    transfer_time: '12:00',
+                    passengers: 1,
+                    direction: 'from',
+                    leftValue: '',
+                    rightValue: '',
                     
                     // Route Selection
                     routeSearchQuery: '',
@@ -962,8 +944,16 @@
                         this.showRouteDropdown = true;
                     },
 
+                    setDirection(d) { this.direction = d; },
+                    swapDirection() {
+                        this.direction = this.direction === 'from' ? 'to' : 'from';
+                        const tmp = this.leftValue; this.leftValue = this.rightValue; this.rightValue = tmp;
+                    },
+
                     // Filter routes
                     filterRoutes() {
+                        this.routeSearchQuery = this.leftValue;
+                        this.transfer_route_id = '';
                         this.showRouteDropdown = true;
                         
                         const query = this.routeSearchQuery.toLowerCase().trim();
@@ -986,15 +976,22 @@
                         this.transfer_route_id = route.id;
                         this.transfer_route_name = route.name;
                         this.routeSearchQuery = route.name;
+                        this.leftValue = this.direction === 'from' ? route.from : route.to;
+                        this.rightValue = this.direction === 'from' ? route.to : route.from;
                         this.showRouteDropdown = false;
                     },
 
                     // Passenger Methods
-                    incrementPassengers() { if (this.passengers < 50) this.passengers++; },
+                    incrementPassengers() { if (this.passengers < 10) this.passengers++; },
                     decrementPassengers() { if (this.passengers > 1) this.passengers--; },
 
                     // Form Submit
                     submitForm() {
+                        if (!this.transfer_route_id) {
+                            const q = (this.leftValue || '').toLowerCase().trim();
+                            const m = q ? this.allRoutes.find(r => r.name.toLowerCase() === q || r.from.toLowerCase() === q || r.to.toLowerCase() === q) : null;
+                            if (m) { this.transfer_route_id = m.id; }
+                        }
                         if (!this.transfer_route_id) {
                             alert('Пожалуйста, выберите маршрут');
                             return;
@@ -1008,6 +1005,9 @@
                         params.append('route_id', this.transfer_route_id);
                         params.append('transfer_date', this.transfer_date);
                         params.append('passengers', this.passengers);
+                        params.append('transfer_time', this.transfer_time);
+                        params.append('direction', this.direction);
+                        if (this.rightValue) params.append('address', this.rightValue);
                         
                         const baseUrl = window.location.origin;
                         window.location.href = baseUrl + '/tour-booking/transfer/select-vehicle?' + params.toString();
