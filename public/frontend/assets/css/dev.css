@@ -912,3 +912,14 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 .hfaq-item--open .hfaq-question{color:#1a9e87}
 @media(max-width:768px){.hfaq-wrap{padding:40px 0}.hfaq-container{padding:0 16px}.hfaq-title{font-size:22px}.hfaq-question{font-size:14px;padding:15px 16px}.hfaq-answer p{padding:10px 16px 14px;font-size:13px}}
 /* END HFAQ */
+
+/* Dual rating badges (general / treatment) */
+.gs-rating-badges{display:inline-block}
+.gs-rating-badges__row{display:flex;gap:4px;align-items:flex-start}
+.gs-rating-badge{width:48px;min-height:52px;box-sizing:border-box;padding:6px 4px;border-radius:6px;color:#fff;text-align:center;line-height:1.2;font-weight:700}
+.gs-rating-badge--general{background:#4CAF50}
+.gs-rating-badge--treatment{background:#26A69A}
+.gs-rating-badge__num{font-size:20px;font-weight:700}
+.gs-rating-badge__label{font-size:11px;font-weight:400;opacity:.9}
+.gs-rating-badges__count{font-size:12px;color:#888;margin-top:4px;text-align:center;white-space:nowrap}
+.gs-rating-badges--card{position:absolute;top:10px;right:10px;z-index:3;background:rgba(255,255,255,.92);padding:4px;border-radius:8px}
