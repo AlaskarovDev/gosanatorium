@@ -27,6 +27,7 @@
 <span class="gstd-hloc"><i class="fas fa-map-marker-alt"></i> {{ $gstdLoc }}</span>
 <span class="gstd-hrating"><span class="gstd-hstars">★★★★★</span><span class="gstd-hrcnt">({{ $service->active_reviews_count ?? 0 }} отзывов)</span></span>
 </div></div>
+@include('tourbooking::front.services.rating-badges', ['service' => $service])
 <div class="gstd-hactions"><button class="gstd-savebtn" onclick="addToWishlist({{ $service->id }}, this, 'service')"><i class="far fa-heart"></i> Сохранить</button></div>
 </div>
 <div class="gstd-gallery">

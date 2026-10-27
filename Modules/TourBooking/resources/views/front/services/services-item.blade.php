@@ -39,6 +39,7 @@
                                         style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">Sale Offer</span>
                                 @endif
                             </a>
+                            @include('tourbooking::front.services.rating-badges', ['service' => $service, 'class' => 'gs-rating-badges--card'])
                             <div class="tg-listing-2-price">
                                 {!! $service->price_display !!}
                             </div>
