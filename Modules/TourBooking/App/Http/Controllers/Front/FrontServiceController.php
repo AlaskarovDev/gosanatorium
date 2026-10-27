@@ -559,7 +559,7 @@ final class FrontServiceController extends Controller
             ->where('status', true)
             ->with('user')
             ->latest()
-            ->paginate(14);
+            ->paginate(100);
 
         $popularServices = $this->popularServices();
 
