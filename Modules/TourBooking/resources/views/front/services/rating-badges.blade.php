@@ -8,6 +8,7 @@
         'borjomi-palace-sanatoriy-2026' => [9.2, 9.3, 22],
         'tskaltubo-spa-resort' => [9.0, 9.1, 17],
         'maricel-naftalan-center-baku-lechenie-2026' => [8.8, 9.0, 12],
+        'maricel-naftalan-center-baku-2026' => [8.8, 9.0, 12],
     ];
     $ratingData = $slugRatings[$service->slug ?? ''] ?? [8.8, 9.0, 12];
     $rGeneral = number_format($ratingData[0], 1);
