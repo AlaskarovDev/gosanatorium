@@ -4,7 +4,7 @@
             @foreach ($allServices as $key => $service)
                 <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-6 tg-grid-full">
                     <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
-                        <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative">
+                        <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative" style="position:relative;overflow:hidden;">
                             <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                 <img class="tg-card-border w-100"
                                     src="{{ asset($service?->thumbnail?->file_path) }}"
