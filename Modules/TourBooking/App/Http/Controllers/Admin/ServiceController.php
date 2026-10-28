@@ -173,6 +173,7 @@ public function storeRoom(Request $request, Service $service): RedirectResponse
         'bed_type' => 'nullable|string|max:100',
         'quantity' => 'required|integer|min:1',
         'low_stock_show' => 'nullable|boolean',
+        'is_popular' => 'nullable|boolean',
         'low_stock_text' => 'nullable|string|max:255',
 'features' => 'nullable|string',
         'features.*' => 'nullable|string|max:255',
@@ -202,6 +203,7 @@ public function storeRoom(Request $request, Service $service): RedirectResponse
     $data['service_id'] = $service->id;
     $data['status'] = $request->boolean('status');
     $data['low_stock_show'] = $request->boolean('low_stock_show');
+    $data['is_popular'] = $request->boolean('is_popular');
     $data['base_price_for'] = $request->input('base_price_for') ?: ($request->input('max_guests') ?: 2);
 
     // Handle features array - boş dəyərləri filtr et
@@ -318,6 +320,7 @@ public function updateRoom(Request $request, ServiceRoom $room): RedirectRespons
         'bed_type' => 'nullable|string|max:100',
         'quantity' => 'required|integer|min:1',
         'low_stock_show' => 'nullable|boolean',
+        'is_popular' => 'nullable|boolean',
         'low_stock_text' => 'nullable|string|max:255',
 'features' => 'nullable|string',
         'features.*' => 'nullable|string|max:255',
@@ -353,6 +356,7 @@ public function updateRoom(Request $request, ServiceRoom $room): RedirectRespons
     $data = $request->except(['_token', '_method', 'thumbnail', 'images', 'features', 'remove_thumbnail', 'remove_images', 'extras', 'season_prices']);
     $data['status'] = $request->boolean('status');
     $data['low_stock_show'] = $request->boolean('low_stock_show');
+    $data['is_popular'] = $request->boolean('is_popular');
     $data['base_price_for'] = $request->input('base_price_for') ?: ($request->input('max_guests') ?: 2);
 
     // Handle features array

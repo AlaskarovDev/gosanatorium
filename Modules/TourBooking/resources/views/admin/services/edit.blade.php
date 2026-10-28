@@ -1493,6 +1493,7 @@ data-room-features="{{ is_array($room->features) ? implode(', ', $room->features
                                                                                     data-room-base-price-for="{{ $room->base_price_for ?? $room->max_guests ?? 2 }}"
                                                                                     data-room-extras='{!! json_encode($roomExtrasData) !!}'
                                                                                     data-room-low-stock-show="{{ $room->low_stock_show ? 1 : 0 }}"
+                                                                                    data-room-is-popular="{{ $room->is_popular ? 1 : 0 }}"
                                                                                     data-room-low-stock-text="{{ $room->low_stock_text }}"
                                                                                     data-bs-toggle="modal"
                                                                                     data-bs-target="#editRoomModal">
@@ -1923,6 +1924,12 @@ data-room-features="{{ is_array($room->features) ? implode(', ', $room->features
                                     <option value="1">{{ __('translate.Visible') }}</option>
                                 </select>
                             </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="is_popular" id="add_room_is_popular" value="1">
+                                    <label class="form-check-label" for="add_room_is_popular">Популярный</label>
+                                </div>
+                            </div>
                             <div class="col-md-8 mb-3">
                                 <label class="crancy__item-label">{{ __('translate.Badge text') }}</label>
                                 <input type="text" name="low_stock_text" class="form-control" placeholder="Осталось только 1 номер!">
@@ -2091,6 +2098,12 @@ data-room-features="{{ is_array($room->features) ? implode(', ', $room->features
                                     <option value="0">{{ __('translate.Hidden') }}</option>
                                     <option value="1">{{ __('translate.Visible') }}</option>
                                 </select>
+                            </div>
+                            <div class="col-12 mb-3">
+                                <div class="form-check">
+                                    <input type="checkbox" class="form-check-input" name="is_popular" id="edit_room_is_popular" value="1">
+                                    <label class="form-check-label" for="edit_room_is_popular">Популярный</label>
+                                </div>
                             </div>
                             <div class="col-md-8 mb-3">
                                 <label class="crancy__item-label">{{ __('translate.Badge text') }}</label>
@@ -2716,6 +2729,7 @@ $('#edit_features_textarea').val(featuresText);
                     $('#edit_room_base_price_for').val($(this).data('room-base-price-for') || 2);
 
                     // Populate low stock badge fields
+                    $('#edit_room_is_popular').prop('checked', !!$(this).data('room-is-popular'));
                     $('#edit_room_low_stock_show').val($(this).data('room-low-stock-show') ? '1' : '0');
                     $('#edit_room_low_stock_text').val($(this).data('room-low-stock-text') || '');
 
