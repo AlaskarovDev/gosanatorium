@@ -9,11 +9,18 @@
 @push('style_section')
     <style>
         .tg-page-hero {
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 60%, #334155 100%);
+            position: relative;
+            background-color: #1e293b;
+            background-size: cover;
+            background-position: center;
             padding: 180px 0 60px;
             color: #fff;
             text-align: center;
         }
+        .tg-page-hero .container { position: relative; z-index: 1; }
+        .tg-page-hero h1 { text-shadow: 0 2px 8px rgba(0,0,0,.5); }
+        .tg-page-hero p { text-shadow: 0 1px 6px rgba(0,0,0,.6); color: rgba(255,255,255,.9); }
+        .gs-disease-credit { text-align: center; font-size: 12px; color: #94a3b8; margin-top: 24px; }
         .tg-page-hero h1 { color: #fff; font-size: 38px; margin-bottom: 12px; }
         .tg-page-hero p { color: rgba(255,255,255,.7); max-width: 720px; margin: 0 auto; }
         .tg-page-hero .tg-breadcrumb { margin-bottom: 18px; font-size: 14px; color: rgba(255,255,255,.6); }
@@ -24,7 +31,7 @@
 @endpush
 
 @section('front-content')
-    <section class="tg-page-hero">
+    <section class="tg-page-hero" style="background-image: linear-gradient(rgba(15,23,42,.62), rgba(15,23,42,.72)), url('{{ $disease->image ? $disease->image_url : asset('images/og-default.jpg') }}');">
         <div class="container">
             <div class="tg-breadcrumb">
                 <a href="{{ route('home') }}">{{ __('translate.Home') }}</a>
@@ -48,6 +55,9 @@
                 ])
             @else
                 <div class="gs-disease-empty">{{ \Modules\TourBooking\App\Models\Disease::t('Coming soon') }}</div>
+            @endif
+            @if ($disease->image_credit)
+                <div class="gs-disease-credit">{{ $disease->image_credit }}</div>
             @endif
         </div>
     </section>

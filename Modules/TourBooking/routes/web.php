@@ -359,6 +359,9 @@ Route::group(['as' => 'front.tourbooking.transfer.', 'prefix' => 'tour-booking/t
 Route::group(['middleware' => ['web']], function () {
     Route::get('/diseases', [FrontDiseaseController::class, 'index'])->name('diseases.index');
     Route::get('/diseases/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show');
+    // Russian-style aliases (/ru/bolezni, /ru/bolezni/sustavy)
+    Route::get('/bolezni', [FrontDiseaseController::class, 'index'])->name('diseases.index.alias');
+    Route::get('/bolezni/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show.alias');
 });
 
 Route::group(['as' => 'front.tourbooking.', 'prefix' => 'tour-booking', 'middleware' => ['web']], function () {
