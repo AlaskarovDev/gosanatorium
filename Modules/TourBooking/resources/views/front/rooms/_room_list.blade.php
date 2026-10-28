@@ -120,6 +120,11 @@
                     </div>
                 @endif
                 
+                @if($thumbnailUrl && count($allImages) > 1)
+                    <button type="button" class="rc-gal-btn rc-gal-prev" aria-label="Назад" onclick="rcGallery(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
+                    <button type="button" class="rc-gal-btn rc-gal-next" aria-label="Вперёд" onclick="rcGallery(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
+                @endif
+
                 {{-- Mobile: Discount badge on image --}}
                 @if($hasDiscount)
                     <div class="mobile-discount-badge">
@@ -171,35 +176,71 @@
                     </div>
                 @endif
                 
-                @if(count($features) > 0)
-                    <div class="room-features">
-                        @foreach(array_slice($features, 0, 4) as $feature)
-                            @if(!empty(trim($feature)))
-                                <span class="feature-tag">
-                                    <i class="fa-solid fa-check"></i>{{ trim($feature) }}
-                                </span>
-                            @endif
+                @php
+                    $rcIcon = function ($t) {
+                        $t = mb_strtolower($t);
+                        $map = [
+                            ['кондиц|conditi|\bac\b|air', 'fa-snowflake'],
+                            ['телевиз|tv|\bтв\b', 'fa-tv'],
+                            ['wi-?fi|вай|интернет|internet', 'fa-wifi'],
+                            ['душ|shower|ванн|bath|санузел|туалет', 'fa-shower'],
+                            ['холодил|fridge|минибар|mini', 'fa-temperature-low'],
+                            ['фен|hair', 'fa-wind'],
+                            ['чайник|кофе|kettle|coffee', 'fa-mug-hot'],
+                            ['сейф|safe', 'fa-lock'],
+                            ['балкон|balcon|вид|view', 'fa-mountain-sun'],
+                            ['телефон|phone', 'fa-phone'],
+                            ['завтрак|питани|breakfast|meal', 'fa-utensils'],
+                            ['полотен|халат|towel|тапочки', 'fa-bath'],
+                            ['отопл|heat', 'fa-fire'],
+                        ];
+                        foreach ($map as [$re, $ic]) {
+                            if (preg_match('/' . $re . '/u', $t)) return $ic;
+                        }
+                        return 'fa-circle-check';
+                    };
+                    $cleanFeatures = array_values(array_filter(array_map(fn($f) => is_string($f) ? trim($f) : '', $features)));
+                @endphp
+                @if(count($cleanFeatures) > 0)
+                    <div class="rc-amenities">
+                        @foreach(array_slice($cleanFeatures, 0, 5) as $feature)
+                            <div class="rc-amenity" title="{{ $feature }}">
+                                <i class="fa-solid {{ $rcIcon($feature) }}"></i>
+                                <span>{{ $feature }}</span>
+                            </div>
                         @endforeach
-                        @if($hasMoreFeatures)
-                            @foreach(array_slice($features, 4) as $feature)
-                                @if(!empty(trim($feature)))
-                                    <span class="feature-tag feature-tag--hidden">
-                                        <i class="fa-solid fa-check"></i>{{ trim($feature) }}
-                                    </span>
-                                @endif
-                            @endforeach
-                        @endif
                     </div>
                 @endif
-                
+
                 @if($needsExpand)
                     <button type="button" class="room-toggle-btn" onclick="toggleRoomDetails(this)">
                         <span class="room-toggle-btn__label">Подробнее</span>
                         <i class="fa-solid fa-chevron-down room-toggle-btn__arrow"></i>
                     </button>
+                    <div class="rc-more">
+                        <div class="rc-more-inner">
+                            @if($hasLongDesc)
+                                <p class="rc-more-text">{{ $room->description }}</p>
+                            @endif
+                            @if(count($cleanFeatures) > 5)
+                                <div class="rc-more-title">Дополнительные удобства</div>
+                                <ul class="rc-more-list">
+                                    @foreach(array_slice($cleanFeatures, 5) as $feature)
+                                        <li><i class="fa-solid {{ $rcIcon($feature) }}"></i>{{ $feature }}</li>
+                                    @endforeach
+                                </ul>
+                            @endif
+                            @if(!empty($service->check_in_time) || !empty($service->check_out_time))
+                                <div class="rc-more-title">Правила заселения</div>
+                                <ul class="rc-more-list">
+                                    @if(!empty($service->check_in_time))<li><i class="fa-solid fa-right-to-bracket"></i>Заезд: {{ $service->check_in_time }}</li>@endif
+                                    @if(!empty($service->check_out_time))<li><i class="fa-solid fa-right-from-bracket"></i>Выезд: {{ $service->check_out_time }}</li>@endif
+                                </ul>
+                            @endif
+                        </div>
+                    </div>
                 @endif
-            </div>
-            
+
             <!-- Цена -->
             <div class="room-price-col">
                 @if($hasDiscount)
@@ -255,13 +296,14 @@
                             data-base-price-for="{{ $roomBasePriceFor }}"
                             data-extras='{!! $roomExtrasJson !!}'
                             data-room-thumb="{{ $thumbnailUrl ?? '' }}">
-                        <i class="fa-solid fa-calendar-check me-2"></i>Выбрать даты
+                        <i class="fa-regular fa-calendar-check"></i>Забронировать
                     </button>
                 @else
                     <button type="button" class="select-room-btn" disabled>
                         <i class="fa-solid fa-ban me-2"></i>Распродано
                     </button>
                 @endif
+            </div>
             </div>
         </div>
     </div>
