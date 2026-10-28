@@ -33,7 +33,7 @@ final class FrontDiseaseController extends Controller
             ->where('services.status', true)
             ->with(['thumbnail', 'serviceType', 'translation'])
             ->latest('services.created_at')
-            ->paginate(12);
+            ->paginate(200); // show every sanatorium that treats the disease
 
         return view('tourbooking::front.diseases.show', compact('disease', 'services'));
     }

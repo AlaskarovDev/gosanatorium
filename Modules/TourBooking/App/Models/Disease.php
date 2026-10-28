@@ -82,6 +82,31 @@ final class Disease extends Model
         return $this->localized('description');
     }
 
+    /**
+     * Photo credits of the bundled cover images (Wikimedia Commons), keyed by file name.
+     */
+    private const IMAGE_CREDITS = [
+        'sustavy.jpg' => 'Hilahalumit, CC BY-SA 4.0',
+        'kozha.jpg' => 'Harrison Keely, CC BY 4.0',
+        'nevrologiya.jpg' => 'Harrison Keely, CC BY 4.0',
+        'zhkt.jpg' => 'Dekanosidzeee, CC BY-SA 4.0',
+        'urologiya.jpg' => 'Schwede66, CC BY-SA 4.0',
+        'kardio.jpg' => 'formulatehealth, CC BY 2.0',
+        'metabolizm.jpg' => 'USDA / Lance Cheung, public domain',
+        'lor.jpg' => 'BCIT, CC BY 4.0',
+        'dyhanie.jpg' => 'Altay Mahmudi, CC BY-SA 4.0',
+        'pochki.jpg' => 'Lizi Otiashvili, CC BY-SA 4.0',
+        'allergiya.jpg' => 'Vyacheslav Argenberg, CC BY 4.0',
+        'oftalmologiya.jpg' => 'Kwameghana, CC BY-SA 4.0',
+    ];
+
+    public function getImageCreditAttribute(): ?string
+    {
+        $credit = self::IMAGE_CREDITS[basename((string) $this->image)] ?? null;
+
+        return $credit ? 'Photo: ' . $credit . ' / Wikimedia Commons' : null;
+    }
+
     public function getImageUrlAttribute(): string
     {
         return asset($this->image ?: 'images/diseases/placeholder.svg');
