@@ -157,7 +157,7 @@
                     <h3 class="room-name">{{ $roomName }}</h3>
                     @if($quantity === 1)
                         <span class="rc-badge rc-badge--last">Последний номер</span>
-                    @elseif($hasDiscount)
+                    @elseif(!empty($room->is_popular))
                         <span class="rc-badge rc-badge--popular">Популярный</span>
                     @endif
                 </div>
