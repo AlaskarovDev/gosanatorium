@@ -1946,6 +1946,77 @@
         position: sticky; bottom: 0; z-index: 20; box-shadow: 0 -6px 16px rgba(15,23,42,.12);
     }
 }
+
+/* ========== REDESIGN 2026 v2 ========== */
+.room-selection-wrapper .room-card { border: 1px solid #e5e7eb !important; box-shadow: 0 2px 12px rgba(0,0,0,.08); transition: box-shadow .2s ease; }
+.room-selection-wrapper .room-card:hover { box-shadow: 0 4px 20px rgba(0,0,0,.13); }
+.room-selection-wrapper .room-image-col { border-radius: 8px 0 0 8px; }
+.room-selection-wrapper .room-card .room-name { font-size: 20px !important; color: #111827 !important; }
+.room-selection-wrapper .room-card { line-height: 1.6; }
+.rc-amenity span { font-size: 11px; color: #9ca3af; }
+.rc-amenities { display: flex; flex-wrap: wrap; gap: 16px; }
+.rc-amenity { width: calc((100% - 64px) / 5); }
+.rc-amenities, .rc-more { border-top: 1px solid #eef0f3; padding-top: 14px; }
+.rc-more { padding-top: 0; border-top: 0; }
+.rc-title-row { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.rc-badge { flex: none; font-size: 12px; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+.rc-badge--popular { background: #fef3c7; color: #92400e; }
+.rc-badge--last { background: #fee2e2; color: #b91c1c; }
+.rc-counter { position: absolute; right: 10px; bottom: 76px; z-index: 6; background: rgba(0,0,0,.55); color: #fff; font-size: 12px; padding: 2px 9px; border-radius: 999px; }
+.rc-thumbs { position: absolute; left: 0; right: 0; bottom: 0; z-index: 6; display: flex; gap: 6px; padding: 8px 10px; overflow-x: auto; background: linear-gradient(transparent, rgba(0,0,0,.45)); scrollbar-width: none; }
+.rc-thumbs::-webkit-scrollbar { display: none; }
+.rc-thumb { flex: none; width: 60px; height: 40px; padding: 0; border: 2px solid transparent; border-radius: 4px; overflow: hidden; cursor: pointer; background: #000; opacity: .8; }
+.rc-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.rc-thumb.active { border-color: #fff; opacity: 1; }
+.room-selection-wrapper .room-image-col .image-badge { display: none; }
+.rc-price-line { display: block; }
+.room-selection-wrapper .room-card .select-room-btn { height: 48px; padding: 0 20px; border-radius: 8px; font-weight: 600; transition: filter .2s, transform .1s; }
+.room-selection-wrapper .room-card .select-room-btn:hover:not(:disabled) { filter: brightness(.9); }
+.room-selection-wrapper .room-card .select-room-btn:active:not(:disabled) { transform: scale(.98); }
+.room-selection-wrapper .results-count { flex: 1; text-align: center; }
+.room-selection-wrapper .room-list-header { justify-content: center; position: relative; }
+.room-selection-wrapper .sort-select { margin-left: 0; position: absolute; right: 0; }
+.room-selection-wrapper .room-list-header .results-count { width: 100%; }
+.rc-more { transition: grid-template-rows .3s ease, opacity .3s ease; }
+
+.rc-pending { display: none; }
+.rc-skel-card { display: grid; grid-template-columns: 40% 60%; min-height: 320px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden; margin-bottom: 24px; }
+.rc-skel-body { padding: 24px 28px; display: flex; flex-direction: column; gap: 14px; }
+.rc-skel-line { height: 16px; border-radius: 6px; }
+.rc-shimmer { background: linear-gradient(90deg, #eceff3 25%, #f8f9fb 50%, #eceff3 75%); background-size: 200% 100%; animation: rcShimmer 1.3s linear infinite; }
+@keyframes rcShimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+
+@media (max-width: 991px) {
+    .room-selection-wrapper .room-image-col { border-radius: 12px 12px 0 0; }
+    .rc-skel-card { grid-template-columns: 1fr; }
+    .rc-skel-img { height: 220px; }
+}
+@media (max-width: 767px) {
+    .room-selection-wrapper { overflow-x: clip; }
+    .room-selection-wrapper .room-header-section { display: block; padding-top: 12px !important; }
+    .room-selection-wrapper .header-title { display: none; }
+    .room-selection-wrapper .header-info-alert { font-size: 13px !important; min-height: 44px; }
+    .rc-thumbs { position: static; background: #fff; padding: 8px 12px; }
+    .rc-thumb { border-color: transparent; }
+    .rc-thumb.active { border-color: var(--rs-primary); }
+    .room-selection-wrapper .room-image-col { overflow: visible; height: auto !important; min-height: 0; }
+    .room-selection-wrapper .room-image-col > a { position: relative; inset: auto; height: 220px; border-radius: 12px 12px 0 0; overflow: hidden; }
+    .room-selection-wrapper .room-image-col .room-image-placeholder { height: 220px; }
+    .rc-gal-btn { top: 110px; }
+    .rc-counter { bottom: auto; top: 190px; right: 10px; }
+    .rc-amenity { width: calc((100% - 32px) / 3); }
+    .room-selection-wrapper .room-card .room-details-col { padding-bottom: 0 !important; }
+    .room-selection-wrapper .room-card .room-price-col {
+        position: sticky; bottom: 0; z-index: 20; background: #fff !important; margin: 14px -16px 0; width: auto;
+        padding: 0 16px !important; min-height: 56px; box-shadow: 0 -2px 8px rgba(0,0,0,.08);
+        display: grid; grid-template-columns: 1fr auto; align-items: center; column-gap: 12px; border-radius: 0 0 12px 12px;
+    }
+    .room-selection-wrapper .room-card .room-price-col > * { grid-column: 1; }
+    .room-selection-wrapper .room-card .room-price-col .select-room-btn { grid-column: 2; grid-row: 1 / span 4; width: auto !important; height: 44px; margin: 0; box-shadow: none; padding: 0 16px; }
+    .room-selection-wrapper .room-card .room-price-col .select-room-btn::after { content: ' \2192'; }
+    .room-selection-wrapper .room-card .current-price { font-size: 22px !important; }
+    .room-selection-wrapper .room-card .discount-tag, .room-selection-wrapper .room-card .low-stock-alert { font-size: 11px; }
+}
 </style>
 @endpush
 
@@ -2120,7 +2191,22 @@
                         </div>
                     </div>
 
-                    <div id="roomListContainer">
+                    <div id="roomSkeleton" class="rc-skeleton-wrap" aria-hidden="true">
+                        @for($sk = 0; $sk < min(max($rooms->count(), 1), 3); $sk++)
+                            <div class="rc-skel-card">
+                                <div class="rc-skel-img rc-shimmer"></div>
+                                <div class="rc-skel-body">
+                                    <div class="rc-skel-line rc-shimmer" style="width:55%;height:24px"></div>
+                                    <div class="rc-skel-line rc-shimmer" style="width:40%"></div>
+                                    <div class="rc-skel-line rc-shimmer" style="width:90%;height:40px"></div>
+                                    <div class="rc-skel-line rc-shimmer" style="width:70%"></div>
+                                    <div class="rc-skel-line rc-shimmer" style="width:100%;height:48px;margin-top:auto"></div>
+                                </div>
+                            </div>
+                        @endfor
+                    </div>
+                    <noscript><style>#roomSkeleton{display:none!important}#roomListContainer{display:block!important}</style></noscript>
+                    <div id="roomListContainer" class="rc-pending">
                         @include('tourbooking::front.rooms._room_list', ['rooms' => $rooms])
                     </div>
                 </div>
@@ -2538,6 +2624,19 @@
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeBookingModal(); });
     
     // ========== EXPAND / COLLAPSE ==========
+    (function () {
+        var done = false;
+        function reveal() {
+            if (done) return; done = true;
+            var sk = document.getElementById('roomSkeleton');
+            var ct = document.getElementById('roomListContainer');
+            if (sk) sk.style.display = 'none';
+            if (ct) ct.classList.remove('rc-pending');
+        }
+        window.addEventListener('load', function () { setTimeout(reveal, 250); });
+        setTimeout(reveal, 4000);
+    })();
+
     window.rcGallery = function(btn, dir) {
         var col = btn.closest('.room-image-col');
         var link = col.querySelector('.room-lightbox-trigger');
@@ -2550,7 +2649,27 @@
         i = (i + dir + list.length) % list.length;
         col.dataset.rcIdx = i;
         img.src = list[i];
+        rcSync(col, i);
     };
+    window.rcGalleryGo = function(btn, i) {
+        var col = btn.closest('.room-image-col');
+        var link = col.querySelector('.room-lightbox-trigger');
+        var img = link && link.querySelector('img');
+        var list = [];
+        try { list = JSON.parse(link.dataset.images || '[]'); } catch (e) {}
+        if (!img || !list[i]) return;
+        col.dataset.rcIdx = i;
+        img.src = list[i];
+        rcSync(col, i);
+    };
+    function rcSync(col, i) {
+        var c = col.querySelector('.rc-counter-cur');
+        if (c) c.textContent = i + 1;
+        col.querySelectorAll('.rc-thumb').forEach(function(t, k) {
+            t.classList.toggle('active', k === i);
+            if (k === i) t.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+        });
+    }
 
     window.toggleRoomDetails = function(btn) {
         var card = btn.closest('.room-card');

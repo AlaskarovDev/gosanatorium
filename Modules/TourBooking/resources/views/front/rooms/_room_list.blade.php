@@ -121,6 +121,12 @@
                 @endif
                 
                 @if($thumbnailUrl && count($allImages) > 1)
+                    <div class="rc-counter"><span class="rc-counter-cur">1</span> / {{ count($allImages) }}</div>
+                    <div class="rc-thumbs">
+                        @foreach($allImages as $ti => $tu)
+                            <button type="button" class="rc-thumb {{ $ti === 0 ? 'active' : '' }}" aria-label="{{ $ti + 1 }}" onclick="rcGalleryGo(this, {{ $ti }})"><img src="{{ $tu }}" alt="" loading="lazy"></button>
+                        @endforeach
+                    </div>
                     <button type="button" class="rc-gal-btn rc-gal-prev" aria-label="Назад" onclick="rcGallery(this, -1)"><i class="fa-solid fa-chevron-left"></i></button>
                     <button type="button" class="rc-gal-btn rc-gal-next" aria-label="Вперёд" onclick="rcGallery(this, 1)"><i class="fa-solid fa-chevron-right"></i></button>
                 @endif
@@ -132,7 +138,7 @@
                     </div>
                 @endif
                 
-                @if($imageCount > 0)
+                @if($imageCount > 0 && count($allImages) < 2)
                     <div class="image-badge">
                         <i class="fa-solid fa-camera me-1"></i>{{ $imageCount }}
                     </div>
@@ -147,7 +153,14 @@
             
             <!-- Детали номера -->
             <div class="room-details-col">
-                <h3 class="room-name">{{ $roomName }}</h3>
+                <div class="rc-title-row">
+                    <h3 class="room-name">{{ $roomName }}</h3>
+                    @if($quantity === 1)
+                        <span class="rc-badge rc-badge--last">Последний номер</span>
+                    @elseif($hasDiscount)
+                        <span class="rc-badge rc-badge--popular">Популярный</span>
+                    @endif
+                </div>
                 
                 <div class="room-specs">
                     @if($roomSize)
@@ -243,6 +256,7 @@
 
             <!-- Цена -->
             <div class="room-price-col">
+                <div class="rc-price-line">
                 @if($hasDiscount)
                     <div class="discount-tag">
                         <i class="fa-solid fa-tag me-1"></i>{{ $discountPercent }}% скидка
@@ -252,6 +266,7 @@
                 
                 <div class="current-price">{{ currency($currentPrice) }}</div>
                 <div class="price-note">за ночь</div>
+                </div>
                 
                 @php
                     // Nişanın görünməsi və mətni admin paneldən idarə olunur.
