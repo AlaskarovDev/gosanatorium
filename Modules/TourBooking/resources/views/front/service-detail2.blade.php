@@ -22,12 +22,12 @@
 <div class="gstd-breadcrumb"><a href="/ru">Главная</a><span>›</span><a href="/ru/hotels">Санатории</a><span>›</span><span>{{ $gstdTitle }}</span></div>
 <div class="gstd-htop">
 <div><h1 class="gstd-hname">{{ $gstdTitle }}</h1>
+@include('tourbooking::front.services.rating-badges', ['service' => $service])
 <div class="gstd-hmeta">
 <span class="gstd-htype"><i class="fas fa-hospital"></i> Санаторий</span>
 <span class="gstd-hloc"><i class="fas fa-map-marker-alt"></i> {{ $gstdLoc }}</span>
 <span class="gstd-hrating"><span class="gstd-hstars">★★★★★</span><span class="gstd-hrcnt">({{ $service->active_reviews_count ?? 0 }} отзывов)</span></span>
 </div></div>
-@include('tourbooking::front.services.rating-badges', ['service' => $service])
 <div class="gstd-hactions"><button class="gstd-savebtn" onclick="addToWishlist({{ $service->id }}, this, 'service')"><i class="far fa-heart"></i> Сохранить</button></div>
 </div>
 <div class="gstd-gallery">

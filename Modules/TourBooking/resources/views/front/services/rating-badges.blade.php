@@ -5,6 +5,7 @@
         'gashalti-health-hotel-naftalan-2026' => [9.3, 9.4, 31],
         'sun-city-hotel-spa-naftalan-lechenie-2026' => [9.1, 9.2, 24],
         'naftalan-central-wellness-sanatorii' => [8.9, 9.0, 19],
+        'naftalan-central-wellness-resort-2026' => [8.9, 9.0, 19],
         'borjomi-palace-sanatoriy-2026' => [9.2, 9.3, 22],
         'tskaltubo-spa-resort' => [9.0, 9.1, 17],
         'maricel-naftalan-center-baku-lechenie-2026' => [8.8, 9.0, 12],
