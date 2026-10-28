@@ -2937,6 +2937,8 @@
                     {{ $service?->translation?->title }}
                 </h1>
 
+                @include('tourbooking::front.services.rating-badges', ['service' => $service])
+
                 <div class="hero__meta" data-aos="fade-up" data-aos-delay="300">
                     @if($service?->location)
                         <div class="hero__location">
