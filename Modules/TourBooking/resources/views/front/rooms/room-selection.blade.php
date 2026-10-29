@@ -2017,6 +2017,155 @@
     .room-selection-wrapper .room-card .current-price { font-size: 22px !important; }
     .room-selection-wrapper .room-card .discount-tag, .room-selection-wrapper .room-card .low-stock-alert { font-size: 11px; }
 }
+
+/* ========== BOOKING MODAL REDESIGN (v2) ========== */
+.booking-modal-overlay {
+    background: rgba(0,0,0,0.5);
+    -webkit-backdrop-filter: blur(4px);
+    backdrop-filter: blur(4px);
+    opacity: 0;
+}
+.booking-modal-overlay.active { opacity: 1; animation: bmOverlayIn 0.2s ease; }
+.booking-modal-overlay.active.closing { opacity: 0; animation: bmOverlayOut 0.2s ease; }
+@keyframes bmOverlayIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes bmOverlayOut { from { opacity: 1; } to { opacity: 0; } }
+body.booking-modal-open .wa-float-btn { display: none !important; }
+
+.booking-modal {
+    max-width: 520px;
+    background: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+    padding: 32px;
+    display: flex;
+    flex-direction: column;
+    animation: bmIn 0.25s ease-out;
+}
+.booking-modal-overlay.closing .booking-modal { animation: bmOut 0.25s ease-in forwards; }
+@keyframes bmIn { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes bmOut { from { opacity: 1; transform: translateY(0); } to { opacity: 0; transform: translateY(20px); } }
+.modal-sheet-handle { display: none; }
+
+.booking-modal .modal-header {
+    background: none;
+    padding: 0 0 16px;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #e5e7eb;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+.booking-modal .modal-room-name { color: #111827; font-size: 18px; font-weight: 700; margin: 0; line-height: 1.3; }
+.booking-modal .modal-close-btn {
+    position: static;
+    width: 32px; height: 32px;
+    flex: 0 0 auto;
+    background: none;
+    border-radius: 50%;
+    color: #9ca3af;
+    font-size: 20px;
+    line-height: 1;
+    display: flex; align-items: center; justify-content: center;
+}
+.booking-modal .modal-close-btn:hover { background: none; color: #374151; transform: none; }
+
+.booking-modal .modal-body { padding: 0; }
+.booking-modal .form-section { margin-bottom: 20px; }
+.booking-modal .form-section-title {
+    font-size: 13px; font-weight: 600; color: #6b7280;
+    text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px;
+}
+
+.booking-modal .date-range-container { display: flex; align-items: center; gap: 10px; }
+.booking-modal .date-range-dash { color: #9ca3af; font-size: 16px; flex: 0 0 auto; }
+.booking-modal .date-input-group { flex: 1 1 0; min-width: 0; }
+.booking-modal .date-input-group > i {
+    position: absolute; left: 14px; top: 50%; transform: translateY(-50%);
+    color: #9ca3af; pointer-events: none; z-index: 1;
+}
+.booking-modal .date-input {
+    height: 48px; padding: 0 12px 0 40px;
+    border: 1px solid #e5e7eb; border-radius: 8px; font-size: 15px;
+}
+.booking-modal .date-input:focus {
+    border-color: var(--rs-primary);
+    box-shadow: 0 0 0 3px rgba(0, 119, 182, 0.15);
+}
+
+.booking-modal .modal-base-hint {
+    display: flex; align-items: flex-start; gap: 8px;
+    padding: 10px 14px; margin-bottom: 12px;
+    background: #fef3c7; color: #92400e; border: none; border-radius: 8px;
+    font-size: 13px; line-height: 1.4;
+}
+.booking-modal .modal-base-hint strong { color: #92400e; }
+.booking-modal .modal-base-hint .hint-icon { flex: 0 0 auto; font-size: 13px; }
+
+.booking-modal .guest-counters { display: flex; flex-direction: column; gap: 10px; }
+.booking-modal .guest-counter-box {
+    display: flex; align-items: center; justify-content: space-between;
+    background: none; border: none; padding: 0;
+}
+.booking-modal .guest-counter-label { display: block; margin: 0; }
+.booking-modal .guest-counter-label span { font-size: 15px; font-weight: 500; color: #111827; }
+.booking-modal .guest-counter-label small { display: inline; font-size: 12px; color: #6b7280; margin-left: 4px; }
+.booking-modal .counter-controls { gap: 4px; }
+.booking-modal .counter-btn {
+    width: 32px; height: 32px; padding: 0;
+    border: 1px solid #e5e7eb; border-radius: 50%;
+    color: #374151; font-size: 18px; line-height: 1;
+    background: #fff;
+}
+.booking-modal .counter-btn:hover:not(:disabled) { background: var(--rs-primary); border-color: var(--rs-primary); color: #fff; }
+.booking-modal .counter-btn:disabled { opacity: 0.4; cursor: not-allowed; border-color: #e5e7eb; color: #374151; }
+.booking-modal .counter-value { font-size: 18px; font-weight: 700; min-width: 32px; text-align: center; }
+
+.booking-modal .price-summary { background: #f9fafb; border: none; border-radius: 12px; padding: 16px; }
+.booking-modal .price-row { padding: 4px 0; font-size: 14px; color: #374151; }
+.booking-modal .price-row.total {
+    border-top: 1px solid #e5e7eb; margin-top: 8px; padding-top: 12px;
+    font-size: 16px; font-weight: 700; color: #111827;
+}
+.booking-modal .price-row.total .price-value { font-size: 22px; font-weight: 700; color: var(--rs-primary); }
+.booking-modal .nights-badge { background: none; color: inherit; padding: 0; font-size: 14px; font-weight: 400; border-radius: 0; }
+.booking-modal .nights-badge.is-zero { background: #f59e0b; color: #fff; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+
+.booking-modal .modal-footer { padding: 20px 0 0; }
+.booking-modal .confirm-booking-btn {
+    height: 52px; padding: 0 16px;
+    background: var(--rs-primary); border-radius: 10px;
+    font-size: 16px; font-weight: 700; color: #fff;
+    transition: filter 0.2s ease, transform 0.1s ease;
+}
+.booking-modal .confirm-booking-btn:hover:not(:disabled) { transform: none; box-shadow: none; filter: brightness(0.9); }
+.booking-modal .confirm-booking-btn:active:not(:disabled) { transform: scale(0.98); }
+.booking-modal .confirm-booking-btn:disabled { background: #d1d5db; color: #fff; cursor: not-allowed; }
+
+@media (max-width: 767px) {
+    .booking-modal-overlay { padding: 0; align-items: flex-end; }
+    .booking-modal {
+        max-width: 100%; max-height: 95vh; padding: 12px 20px 0;
+        border-radius: 16px 16px 0 0;
+        animation: bmSheetIn 0.3s ease;
+    }
+    .booking-modal-overlay.closing .booking-modal { animation: bmSheetOut 0.25s ease-in forwards; }
+    @keyframes bmSheetIn { from { transform: translateY(100%); } to { transform: translateY(0); } }
+    @keyframes bmSheetOut { from { transform: translateY(0); } to { transform: translateY(100%); } }
+    .modal-sheet-handle { display: block; width: 40px; height: 4px; background: #d1d5db; border-radius: 2px; margin: 0 auto 12px; position: relative; }
+    .modal-sheet-handle::before { content: ''; position: absolute; left: -30px; right: -30px; top: -12px; bottom: -12px; }
+    .booking-modal .modal-header::before { display: none; }
+    .booking-modal .date-range-container { flex-direction: column; align-items: stretch; gap: 8px; }
+    .booking-modal .date-range-dash { display: none; }
+    .booking-modal .modal-footer {
+        position: sticky; bottom: 0; background: #fff;
+        padding: 12px 0 calc(12px + var(--safe-bottom, 0px));
+        margin-top: 4px; box-shadow: 0 -8px 12px -8px rgba(0,0,0,0.08);
+    }
+    .booking-modal .confirm-booking-btn { border-radius: 10px; font-size: 16px; padding: 0 16px; }
+    .booking-modal .price-row.total { font-size: 16px; }
+}
 </style>
 @endpush
 
@@ -2220,67 +2369,53 @@
 {{-- МОДАЛЬНОЕ ОКНО БРОНИРОВАНИЯ --}}
 <div class="booking-modal-overlay" id="bookingModal">
     <div class="booking-modal">
+        <div class="modal-sheet-handle" id="modalSheetHandle"></div>
         <div class="modal-header">
-            <button type="button" class="modal-close-btn" onclick="closeBookingModal()">
-                <i class="fa-solid fa-times"></i>
-            </button>
-            <div class="modal-room-info">
-                <img src="" alt="" class="modal-room-thumb" id="modalRoomThumb">
-                <div>
-                    <h3 class="modal-room-name" id="modalRoomName">Номер</h3>
-                    <p class="modal-room-price">
-                        <span id="modalRoomPrice">{{ currency(0) }}</span> / ночь
-                    </p>
-                </div>
-            </div>
+            <h3 class="modal-room-name" id="modalRoomName">Бронирование</h3>
+            <button type="button" class="modal-close-btn" onclick="closeBookingModal()" aria-label="Закрыть">&#10005;</button>
         </div>
-        
+
         <div class="modal-body">
             <div class="form-section">
                 <div class="form-section-title">
-                    <i class="fa-solid fa-calendar-days"></i> Даты проживания
+                    Даты проживания
                 </div>
                 <div class="date-range-container">
                     <div class="date-input-group">
-                        <label>Дата заезда</label>
-                        <input type="text" id="modalCheckIn" class="date-input" placeholder="Выберите дату" readonly>
+                        <i class="fa-regular fa-calendar"></i>
+                        <input type="text" id="modalCheckIn" class="date-input" placeholder="Заезд" aria-label="Дата заезда" readonly>
                     </div>
+                    <span class="date-range-dash">—</span>
                     <div class="date-input-group">
-                        <label>Дата выезда</label>
-                        <input type="text" id="modalCheckOut" class="date-input" placeholder="Выберите дату" readonly>
+                        <i class="fa-regular fa-calendar"></i>
+                        <input type="text" id="modalCheckOut" class="date-input" placeholder="Выезд" aria-label="Дата выезда" readonly>
                     </div>
                 </div>
             </div>
             
             <div class="form-section">
                 <div class="form-section-title">
-                    <i class="fa-solid fa-users"></i> Гости
+                    Гости
                 </div>
                 <div id="modalBaseHint" class="modal-base-hint" style="display:none">
-                    <i class="fa-solid fa-circle-info"></i>
-                    <span></span>
+                    <span class="hint-icon">ℹ️</span>
+                    <span class="hint-text"></span>
                 </div>
                 <div class="guest-counters">
                     <div class="guest-counter-box">
-                        <div class="guest-counter-label">
-                            <i class="fa-solid fa-user"></i>
-                            <div><span>Взрослые</span><small>от 18 лет</small></div>
-                        </div>
+                        <div class="guest-counter-label"><span>Взрослые</span><small>(от 18 лет)</small></div>
                         <div class="counter-controls">
-                            <button type="button" class="counter-btn" onclick="updateCounter('adults', -1)"><i class="fa-solid fa-minus"></i></button>
+                            <button type="button" class="counter-btn" id="adultsMinus" aria-label="−" onclick="updateCounter('adults', -1)">−</button>
                             <span class="counter-value" id="adultsCount">2</span>
-                            <button type="button" class="counter-btn" onclick="updateCounter('adults', 1)"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" class="counter-btn" id="adultsPlus" aria-label="+" onclick="updateCounter('adults', 1)">+</button>
                         </div>
                     </div>
                     <div class="guest-counter-box">
-                        <div class="guest-counter-label">
-                            <i class="fa-solid fa-child"></i>
-                            <div><span>Дети</span><small>0-17 лет</small></div>
-                        </div>
+                        <div class="guest-counter-label"><span>Дети</span><small>(0–17 лет)</small></div>
                         <div class="counter-controls">
-                            <button type="button" class="counter-btn" onclick="updateCounter('children', -1)"><i class="fa-solid fa-minus"></i></button>
+                            <button type="button" class="counter-btn" id="childrenMinus" aria-label="−" onclick="updateCounter('children', -1)">−</button>
                             <span class="counter-value" id="childrenCount">0</span>
-                            <button type="button" class="counter-btn" onclick="updateCounter('children', 1)"><i class="fa-solid fa-plus"></i></button>
+                            <button type="button" class="counter-btn" id="childrenPlus" aria-label="+" onclick="updateCounter('children', 1)">+</button>
                         </div>
                     </div>
                 </div>
@@ -2288,14 +2423,14 @@
 
             <div class="form-section" id="modalExtrasSection" style="display:none">
                 <div class="form-section-title">
-                    <i class="fa-solid fa-circle-plus"></i> Дополнительные опции
+                    Дополнительные опции
                 </div>
                 <div id="modalExtrasList"></div>
             </div>
             
             <div class="form-section">
                 <div class="form-section-title">
-                    <i class="fa-solid fa-receipt"></i> Расчёт стоимости
+                    Расчёт стоимости
                 </div>
                 <div class="price-summary">
                     <div class="price-row">
@@ -2305,7 +2440,7 @@
                     <div id="summaryExtras"></div>
                     <div class="price-row">
                         <span>Количество ночей</span>
-                        <span class="nights-badge" id="summaryNights">0 ночей</span>
+                        <span class="nights-badge is-zero" id="summaryNights">0 ночей</span>
                     </div>
                     <div class="price-row">
                         <span>Гости</span>
@@ -2321,7 +2456,7 @@
         
         <div class="modal-footer">
             <button type="button" class="confirm-booking-btn" id="confirmBookingBtn" onclick="confirmBooking()">
-                <i class="fa-solid fa-check"></i> Подтвердить и продолжить
+                Выберите даты
             </button>
         </div>
     </div>
@@ -2443,9 +2578,7 @@
         bookingData.checkOut = null;
         bookingData.selectedOptional = {};
 
-        document.getElementById('modalRoomName').textContent = roomName;
-        document.getElementById('modalRoomPrice').textContent = formatCurrencyDynamic(price);
-        document.getElementById('modalRoomThumb').src = roomThumb || '{{ asset("frontend/assets/img/shape/placeholder.png") }}';
+        document.getElementById('modalRoomName').textContent = 'Бронирование — ' + roomName;
         document.getElementById('selectedRoomId').value = roomId;
         document.getElementById('selectedRoomPrice').value = price;
         document.getElementById('selectedRoomMaxGuests').value = maxGuests;
@@ -2456,7 +2589,7 @@
         var hint = document.getElementById('modalBaseHint');
         if (hint) {
             hint.style.display = '';
-            hint.querySelector('span').innerHTML =
+            hint.querySelector('.hint-text').innerHTML =
                 'Базовая цена <strong>' + formatCurrencyDynamic(price) + '</strong> ' +
                 'указана для <strong>' + bookingData.basePriceFor + ' гостя(ей)</strong>. ' +
                 'Дополнительные взрослые/дети добавятся ниже автоматически.';
@@ -2469,7 +2602,11 @@
         checkOutPicker.clear();
         calculatePrice();
 
-        document.getElementById('bookingModal').classList.add('active');
+        var overlay = document.getElementById('bookingModal');
+        overlay.classList.remove('closing');
+        overlay.classList.add('active');
+        overlay.querySelector('.booking-modal').style.transform = '';
+        document.body.classList.add('booking-modal-open');
         document.body.style.overflow = 'hidden';
     };
 
@@ -2502,8 +2639,14 @@
     }
     
     window.closeBookingModal = function() {
-        document.getElementById('bookingModal').classList.remove('active');
-        document.body.style.overflow = '';
+        var overlay = document.getElementById('bookingModal');
+        if (!overlay.classList.contains('active') || overlay.classList.contains('closing')) return;
+        overlay.classList.add('closing');
+        setTimeout(function() {
+            overlay.classList.remove('active', 'closing');
+            document.body.classList.remove('booking-modal-open');
+            document.body.style.overflow = '';
+        }, 250);
     };
     
     window.updateCounter = function(type, delta) {
@@ -2578,13 +2721,23 @@
         bookingData.total = nights * totalPerNight;
 
         document.getElementById('summaryNightPrice').textContent = formatCurrencyDynamic(bookingData.pricePerNight);
-        document.getElementById('summaryNights').textContent = nights + ' ' + getNightsWord(nights);
+        var nightsEl = document.getElementById('summaryNights');
+        nightsEl.textContent = nights > 0 ? nights : '0 ' + getNightsWord(0);
+        nightsEl.classList.toggle('is-zero', nights === 0);
 
         let gt = bookingData.adults + ' взр.';
         if (bookingData.children > 0) gt += ', ' + bookingData.children + ' дет.';
         document.getElementById('summaryGuests').textContent = gt;
         document.getElementById('summaryTotal').textContent = formatCurrencyDynamic(bookingData.total);
-        document.getElementById('confirmBookingBtn').disabled = !(nights > 0);
+        var confirmBtn = document.getElementById('confirmBookingBtn');
+        confirmBtn.disabled = !(nights > 0);
+        confirmBtn.innerHTML = nights > 0 ? '<i class="fa-regular fa-calendar-check"></i> Перейти к бронированию →' : 'Выберите даты';
+        var maxG = bookingData.maxGuests;
+        var total = bookingData.adults + bookingData.children;
+        document.getElementById('adultsMinus').disabled = bookingData.adults <= 1;
+        document.getElementById('adultsPlus').disabled = total >= maxG;
+        document.getElementById('childrenMinus').disabled = bookingData.children <= 0;
+        document.getElementById('childrenPlus').disabled = total >= maxG;
     }
     
     function getNightsWord(n) {
@@ -2620,6 +2773,25 @@
             optParam;
     };
     
+    (function() {
+        var handle = document.getElementById('modalSheetHandle');
+        var sheet = document.querySelector('#bookingModal .booking-modal');
+        var startY = null, dy = 0;
+        handle.addEventListener('touchstart', function(e) { startY = e.touches[0].clientY; dy = 0; sheet.style.animation = 'none'; sheet.style.transition = 'none'; }, { passive: true });
+        handle.addEventListener('touchmove', function(e) {
+            if (startY === null) return;
+            dy = Math.max(0, e.touches[0].clientY - startY);
+            sheet.style.transform = 'translateY(' + dy + 'px)';
+        }, { passive: true });
+        handle.addEventListener('touchend', function() {
+            if (startY === null) return;
+            startY = null;
+            sheet.style.transition = '';
+            sheet.style.animation = '';
+            if (dy > 100) { closeBookingModal(); } else { sheet.style.transform = ''; }
+        });
+    })();
+
     document.getElementById('bookingModal').addEventListener('click', function(e) { if (e.target === this) closeBookingModal(); });
     document.addEventListener('keydown', function(e) { if (e.key === 'Escape') closeBookingModal(); });
     
