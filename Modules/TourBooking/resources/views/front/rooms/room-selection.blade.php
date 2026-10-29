@@ -2018,6 +2018,25 @@
     .room-selection-wrapper .room-card .discount-tag, .room-selection-wrapper .room-card .low-stock-alert { font-size: 11px; }
 }
 
+/* Mobile fixes for room cards (<=480px) */
+@media (max-width: 480px) {
+    .room-selection-wrapper .room-card { max-width: 100%; }
+    .room-selection-wrapper .room-details-col { min-width: 0; }
+    .rc-title-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+    .rc-title-row .room-name { max-width: 100%; overflow-wrap: anywhere; }
+    .room-selection-wrapper .room-card .rc-title-row .room-name { font-size: 18px !important; line-height: 1.3; margin-bottom: 0; }
+    .rc-badge { max-width: calc(100% - 16px); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 12px; }
+    .room-selection-wrapper .room-specs { flex-wrap: wrap; gap: 6px 12px; font-size: 13px; }
+    .room-selection-wrapper .room-card .spec-badge { font-size: 13px; }
+    .rc-amenities { gap: 12px 8px; }
+    .rc-amenity { width: calc((100% - 8px) / 2); }
+    .rc-amenity span { font-size: 11px; white-space: normal; text-align: center; overflow-wrap: anywhere; }
+    .rc-thumbs { overflow-x: auto; -webkit-overflow-scrolling: touch; scrollbar-width: none; max-width: 100%; }
+    .rc-thumb { flex-shrink: 0; width: 64px; height: 48px; }
+    .room-selection-wrapper .room-card .select-room-btn { border-radius: 8px; }
+    .room-selection-wrapper .room-card .room-price-col { margin-bottom: 0; }
+}
+
 /* ========== BOOKING MODAL REDESIGN (v2) ========== */
 .booking-modal-overlay {
     background: rgba(0,0,0,0.5);
