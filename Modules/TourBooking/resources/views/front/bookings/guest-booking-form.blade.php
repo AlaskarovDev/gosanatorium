@@ -187,40 +187,8 @@
                                     </select>
                                 </div>
                                 <div class="gb-full">
-                                    <label class="gb-label" for="gbAddress">Адрес</label>
-                                    <input type="text" id="gbAddress" name="address" class="gb-input" value="{{ old('address') }}" placeholder="Введите ваш адрес" autocomplete="street-address">
-                                </div>
-                                <div class="gb-full">
                                     <label class="gb-label" for="gbNotes">Особые пожелания</label>
                                     <textarea id="gbNotes" name="notes" class="gb-input" placeholder="Любые особые пожелания или заметки">{{ old('notes') }}</textarea>
-                                </div>
-                            </div>
-
-                            {{-- Необязательный личный кабинет --}}
-                            @php $accOpen = old('create_account') || $errors->has('password'); @endphp
-                            <div class="gb-account">
-                                <button type="button" class="gb-account-head" id="gbAccountToggle" aria-expanded="{{ $accOpen ? 'true' : 'false' }}">
-                                    <span><i class="fa-solid fa-circle-info me-2" style="color:var(--gb-accent)"></i>Создать личный кабинет (необязательно)</span>
-                                    <i class="fa-solid fa-chevron-down"></i>
-                                </button>
-                                <div class="gb-account-body {{ $accOpen ? 'open' : '' }}" id="gbAccountBody">
-                                    <p class="gb-account-text">Сохраните бронирование в личном кабинете, чтобы управлять им онлайн</p>
-                                    <label class="gb-check">
-                                        <input type="checkbox" name="create_account" id="gbCreateAccount" value="1" @checked(old('create_account'))>
-                                        <span class="gb-box"></span>
-                                        <span>Создать личный кабинет</span>
-                                    </label>
-                                    <div class="gb-fields gb-pw-fields {{ old('create_account') ? 'open' : '' }}" id="gbPwFields">
-                                        <div>
-                                            <label class="gb-label" for="gbPass">Пароль<span class="req">*</span></label>
-                                            <input type="password" id="gbPass" name="password" class="gb-input @error('password') is-invalid @enderror" minlength="6" placeholder="Минимум 6 символов" autocomplete="new-password">
-                                            @error('password')<div class="gb-error">{{ $message }}</div>@enderror
-                                        </div>
-                                        <div>
-                                            <label class="gb-label" for="gbPass2">Подтвердите пароль<span class="req">*</span></label>
-                                            <input type="password" id="gbPass2" name="password_confirmation" class="gb-input" minlength="6" placeholder="Введите пароль ещё раз" autocomplete="new-password">
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
 
@@ -252,12 +220,6 @@
     (function () {
         var form = document.getElementById('guestBookingForm');
         var btn = document.getElementById('submitBtn');
-        var toggle = document.getElementById('gbAccountToggle');
-        var body = document.getElementById('gbAccountBody');
-        var create = document.getElementById('gbCreateAccount');
-        var pw = document.getElementById('gbPwFields');
-        var pass = document.getElementById('gbPass');
-        var pass2 = document.getElementById('gbPass2');
         var original = btn.innerHTML;
 
         // Не подставлять автозаполнением чужие данные в email/пароль
@@ -265,27 +227,12 @@
             setTimeout(function () {
                 var email = document.getElementById('gbEmail');
                 if (email && !email.defaultValue && email.value) { email.value = ''; }
-                if (!create.checked) { pass.value = ''; pass2.value = ''; }
                 validate();
             }, 300);
         });
 
-        toggle.addEventListener('click', function () {
-            var open = body.classList.toggle('open');
-            toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-        });
-
-        function syncAccount() {
-            pw.classList.toggle('open', create.checked);
-            pass.required = pass2.required = create.checked;
-            if (!create.checked) { pass.value = ''; pass2.value = ''; }
-            validate();
-        }
-        create.addEventListener('change', syncAccount);
-
         function validate() {
             var ok = form.checkValidity();
-            if (create.checked && pass.value !== pass2.value) ok = false;
             btn.disabled = !ok;
         }
         form.addEventListener('input', validate);
@@ -293,7 +240,8 @@
         form.querySelectorAll('.gb-input').forEach(function (el) {
             el.addEventListener('blur', function () { el.classList.add('gb-touched'); });
         });
-        syncAccount();
+
+        validate();
 
         form.addEventListener('submit', function () {
             btn.disabled = true;
