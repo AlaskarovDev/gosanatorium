@@ -147,7 +147,8 @@ final class GuestBookingController extends Controller
             'country' => 'nullable|string|max:100',
             'address' => 'nullable|string|max:500',
             'notes' => 'nullable|string|max:1000',
-            'password' => 'required|string|min:6|confirmed',
+            'create_account' => 'nullable|boolean',
+            'password' => 'nullable|required_if:create_account,1|string|min:6|confirmed',
             'terms' => 'required|accepted',
             'optional_extras' => 'nullable|array',
             'optional_extras.*' => 'integer|exists:room_extras,id',
@@ -178,6 +179,8 @@ final class GuestBookingController extends Controller
             'terms.accepted' => 'Şərtləri qəbul etməlisiniz.',
         ]);
 
+        $createAccount = $request->boolean('create_account') && !empty($validated['password']);
+
         DB::beginTransaction();
 
         try {
@@ -193,7 +196,7 @@ final class GuestBookingController extends Controller
                 $user = User::create([
                     'name' => $validated['name'],
                     'email' => $validated['email'],
-                    'password' => Hash::make($validated['password']),
+                    'password' => Hash::make($createAccount ? $validated['password'] : Str::random(32)),
                     'phone' => $validated['phone'],
                     'address' => $validated['address'] ?? null,
                     'country' => $validated['country'] ?? null,
@@ -291,8 +294,10 @@ final class GuestBookingController extends Controller
                 'extra_services' => $extrasBreakdown,
             ]);
 
-            // Log in the user
-            Auth::login($user);
+            // Log in only a newly created account the guest explicitly asked for
+            if ($isNewUser && $createAccount) {
+                Auth::login($user);
+            }
 
             // Send notification email to admin
             $this->sendAdminNotification($booking);
@@ -306,11 +311,12 @@ final class GuestBookingController extends Controller
             $sessionData = [
                 'success' => 'Sifarişiniz qəbul edildi! Təsdiq sizə email vasitəsilə göndəriləcək.',
                 'booking_code' => $booking->booking_code,
-                'is_new_user' => $isNewUser,
+                'is_new_user' => $isNewUser && $createAccount,
+                'no_account' => !$createAccount,
             ];
             
             // Yeni istifadəçi üçün giriş məlumatlarını əlavə et
-            if ($isNewUser) {
+            if ($isNewUser && $createAccount) {
                 $sessionData['user_credentials'] = [
                     'email' => $user->email,
                     'password' => $validated['password'], // Orijinal şifrəni göstəririk

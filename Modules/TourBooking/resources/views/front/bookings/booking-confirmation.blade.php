@@ -137,6 +137,7 @@
                                     Сохраните эти данные! Пароль можно изменить позже в личном кабинете.
                                 </div>
                             </div>
+                        @elseif(session('no_account'))
                         @elseif(!session('is_new_user'))
                             {{-- Для существующего пользователя --}}
                             <div class="account-info mt-4 p-3 border rounded mx-auto" style="max-width: 500px;">
