@@ -2031,6 +2031,102 @@
 /* ═══════════════════════════════════════════════════════════════
            SIDEBAR - Doctor/Consultant Card (Modern)
         ═══════════════════════════════════════════════════════════════ */
+        .sidebar-video {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-xl);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            padding: 20px;
+            scroll-margin-top: 120px;
+        }
+        .sidebar-video:hover { box-shadow: var(--shadow-lg); }
+        .sidebar-video__badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #0d9488;
+            color: #fff;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            padding: 5px 14px;
+            border-radius: 100px;
+            margin-bottom: 14px;
+        }
+        .sidebar-video__thumb {
+            position: relative;
+            display: block;
+            width: 100%;
+            padding: 0;
+            border: 0;
+            background: #0f172a;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            aspect-ratio: 16 / 9;
+        }
+        .sidebar-video__thumb img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: filter 0.2s;
+        }
+        .sidebar-video__thumb:hover img { filter: brightness(0.85); }
+        .sidebar-video__play {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 52px; height: 52px;
+            margin: -26px 0 0 -26px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.92);
+            color: #0d9488;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            padding-left: 3px;
+            transition: transform 0.2s;
+        }
+        .sidebar-video__thumb:hover .sidebar-video__play { transform: scale(1.08); }
+        .sidebar-video__caption { font-size: 13px; color: #6b7280; margin: 10px 0 0; }
+        .video-modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 100000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .video-modal-overlay.open { display: flex; }
+        .video-modal-overlay__frame {
+            width: 90vw;
+            max-width: 900px;
+            aspect-ratio: 16 / 9;
+            background: #000;
+        }
+        .video-modal-overlay__frame iframe { width: 100%; height: 100%; border: 0; display: block; }
+        .video-modal-overlay__close {
+            position: absolute;
+            top: 16px; right: 16px;
+            width: 40px; height: 40px;
+            border: 0; border-radius: 50%;
+            background: rgba(255,255,255,0.15);
+            color: #fff;
+            font-size: 20px;
+            line-height: 1;
+            cursor: pointer;
+        }
+        .video-modal-overlay__close:hover { background: rgba(255,255,255,0.3); }
+        @media (max-width: 767px) {
+            .sidebar-video__play { width: 44px; height: 44px; margin: -22px 0 0 -22px; font-size: 15px; }
+            .video-modal-overlay__frame { width: 100vw; max-width: 100vw; }
+        }
+
         .sidebar-doctor {
             background: var(--bg-primary);
             border: 1px solid var(--border);
@@ -3529,6 +3625,46 @@
                         @endif
 
 
+                        {{-- 1.6 VIDEO CARD --}}
+                        @php
+                            $sbVideoUrl = trim((string) $service->video_url);
+                            $sbVideoEmbed = null;
+                            $sbVideoThumb = null;
+                            if (preg_match('~(?:youtube\.com/(?:watch\?(?:.*&)?v=|embed/|shorts/|live/)|youtu\.be/)([A-Za-z0-9_-]{11})~i', $sbVideoUrl, $m)) {
+                                $sbVideoEmbed = 'https://www.youtube.com/embed/' . $m[1];
+                                $sbVideoThumb = 'https://img.youtube.com/vi/' . $m[1] . '/maxresdefault.jpg';
+                            } elseif (preg_match('~vimeo\.com/(?:video/)?(\d+)~i', $sbVideoUrl, $m)) {
+                                $sbVideoEmbed = 'https://player.vimeo.com/video/' . $m[1];
+                                $sbVideoThumb = 'https://vumbnail.com/' . $m[1] . '.jpg';
+                            }
+                        @endphp
+                        @if($sbVideoEmbed)
+                            <div class="sidebar-video" id="section-video" data-aos="fade-left" data-aos-delay="75">
+                                <div class="sidebar-video__badge">🎬 Видео</div>
+                                <button type="button" class="sidebar-video__thumb" onclick="openSanVideo('{{ $sbVideoEmbed }}')" aria-label="Смотреть видео">
+                                    <img src="{{ $sbVideoThumb }}" alt="Видео" loading="lazy"
+                                         onerror="if(this.dataset.fb!=='1'&&this.src.indexOf('maxresdefault')>-1){this.dataset.fb='1';this.src=this.src.replace('maxresdefault','hqdefault');}">
+                                    <span class="sidebar-video__play"><i class="fa-solid fa-play"></i></span>
+                                </button>
+                                <p class="sidebar-video__caption">Виртуальный тур по санаторию</p>
+                            </div>
+                            <div class="video-modal-overlay" id="sanVideoModal" onclick="if(event.target===this)closeSanVideo()">
+                                <button type="button" class="video-modal-overlay__close" onclick="closeSanVideo()" aria-label="Закрыть">✕</button>
+                                <div class="video-modal-overlay__frame"><iframe id="sanVideoIframe" src="" allow="autoplay; encrypted-media; fullscreen" allowfullscreen></iframe></div>
+                            </div>
+                            <script>
+                                function openSanVideo(url) {
+                                    document.getElementById('sanVideoIframe').src = url + (url.indexOf('?') > -1 ? '&' : '?') + 'autoplay=1';
+                                    document.getElementById('sanVideoModal').classList.add('open');
+                                }
+                                function closeSanVideo() {
+                                    document.getElementById('sanVideoModal').classList.remove('open');
+                                    document.getElementById('sanVideoIframe').src = '';
+                                }
+                                document.addEventListener('keydown', function (e) { if (e.key === 'Escape') closeSanVideo(); });
+                            </script>
+                        @endif
+
                         {{-- 2. ЧТО ВКЛЮЧЕНО --}}
                         @if($service?->included || $service?->excluded)
                             <div class="sidebar-included" data-aos="fade-left" data-aos-delay="100" id="section-included">
@@ -3927,6 +4063,9 @@
         <ul>
             <li><a href="#section-about" class="active-link" data-target="section-about" data-tooltip="О санатории"><i class="fa-solid fa-compass"></i><span class="nav-label">О санатории</span></a></li>
             <li><a href="#section-treatment" data-target="section-treatment" data-tooltip="Лечение"><i class="fa-solid fa-heart-pulse"></i><span class="nav-label">Лечение</span></a></li>
+            @if(!empty($sbVideoEmbed))
+            <li><a href="#section-video" data-target="section-video" data-tooltip="Видео"><i class="fa-solid fa-clapperboard"></i><span class="nav-label">Видео</span></a></li>
+            @endif
             <li><a href="#section-itinerary" data-target="section-itinerary" data-tooltip="FAQ"><i class="fa-solid fa-circle-question"></i><span class="nav-label">FAQ</span></a></li>
             <li class="nav-separator"></li>
             <li><a href="#section-map" data-target="section-map" data-tooltip="Расположение"><i class="fa-solid fa-map-location-dot"></i><span class="nav-label">Расположение</span></a></li>

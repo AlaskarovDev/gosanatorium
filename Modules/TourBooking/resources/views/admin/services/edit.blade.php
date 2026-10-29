@@ -1025,7 +1025,8 @@
                                                         <label class="crancy__item-label">{{ __('Video URL') }}</label>
                                                         <input class="crancy__item-input" type="url" name="video_url"
                                                             value="{{ old('video_url', $service->video_url) }}"
-                                                            placeholder="YouTube or Vimeo URL">
+                                                            placeholder="https://www.youtube.com/watch?v=...">
+                                                        <small class="text-muted">Вставьте ссылку на YouTube или Vimeo. Блок видео появится автоматически.</small>
                                                         @error('video_url')
                                                             <span class="text-danger">{{ $message }}</span>
                                                         @enderror
