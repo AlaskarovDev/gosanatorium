@@ -215,7 +215,7 @@
     </section>
 @endsection
 
-@push('scripts')
+@push('js_section')
 <script>
     (function () {
         var form = document.getElementById('guestBookingForm');
