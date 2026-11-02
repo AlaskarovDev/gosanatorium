@@ -23,6 +23,7 @@ final class ServiceMedia extends Model
         'file_type',
         'file_name',
         'caption',
+        'category',
         'is_featured',
         'is_thumbnail',
         'display_order',
@@ -38,6 +39,16 @@ final class ServiceMedia extends Model
         'is_thumbnail' => 'boolean',
         'display_order' => 'integer',
     ];
+
+    public const CATEGORIES = ['exterior', 'interior', 'restaurant', 'treatment', 'rooms', 'other'];
+
+    /**
+     * Category with fallback to "other" for legacy / unknown values.
+     */
+    public function getGalleryCategoryAttribute(): string
+    {
+        return in_array($this->category, self::CATEGORIES, true) ? $this->category : 'other';
+    }
 
     /**
      * Get the service that this media belongs to.

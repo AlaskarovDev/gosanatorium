@@ -746,6 +746,34 @@
 
         .gallery__play:hover i { color: #fff; }
 
+
+        /* Categorized gallery modal */
+        .gmodal { position: fixed; inset: 0; z-index: 99990; background: #fff; display: flex; flex-direction: column; }
+        .gmodal[hidden] { display: none; }
+        body.gmodal-open { overflow: hidden; }
+        body.gmodal-open #stickyLeftNav { display: none !important; }
+        .gmodal__bar { display: flex; align-items: center; gap: 12px; padding: 10px 16px; border-bottom: 1px solid #e5e7eb; background: #fff; flex-shrink: 0; }
+        .gmodal__tabs { display: flex; flex: 1; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+        .gmodal__tabs::-webkit-scrollbar { display: none; }
+        .gmodal__tab { background: none; border: 0; border-bottom: 3px solid transparent; padding: 10px 14px; font-size: 15px; font-weight: 600; color: #6b7280; white-space: nowrap; cursor: pointer; font-family: inherit; }
+        .gmodal__tab:hover { color: #111827; }
+        .gmodal__tab.active { color: #1a9e87; border-bottom-color: #1a9e87; }
+        .gmodal__close { background: none; border: 0; font-size: 15px; font-weight: 600; color: #111827; cursor: pointer; white-space: nowrap; padding: 8px 4px; font-family: inherit; }
+        .gmodal__close:hover { color: #1a9e87; }
+        .gmodal__body { flex: 1; overflow-y: auto; padding: 20px 16px 40px; -webkit-overflow-scrolling: touch; }
+        .gmodal__section { max-width: 1280px; margin: 0 auto 32px; }
+        .gmodal__heading { font-size: 24px; font-weight: 800; color: #111827; margin: 0 0 14px; text-transform: none; }
+        .gmodal__grid { display: grid; grid-template-columns: 1fr; gap: 12px; }
+        .gmodal__item { position: relative; display: block; aspect-ratio: 4 / 3; overflow: hidden; border-radius: 10px; background: #f3f4f6; cursor: zoom-in; border: 0; padding: 0; }
+        .gmodal__item img { width: 100%; height: 100%; object-fit: cover; display: block; }
+        .gmodal__item::after { content: ''; position: absolute; inset: 0; background: rgba(0,0,0,0); transition: background .2s; }
+        .gmodal__item:hover::after { background: rgba(0,0,0,.28); }
+        .gmodal__zoom { position: absolute; top: 50%; left: 50%; width: 44px; height: 44px; margin: -22px 0 0 -22px; border-radius: 50%; background: rgba(255,255,255,.92); color: #111827; display: flex; align-items: center; justify-content: center; opacity: 0; z-index: 2; transition: opacity .2s; pointer-events: none; }
+        .gmodal__item:hover .gmodal__zoom { opacity: 1; }
+        @media (min-width: 640px) { .gmodal__grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 992px) { .gmodal__grid { grid-template-columns: repeat(3, 1fr); } .gmodal__body { padding: 28px 32px 48px; } }
+        .glightbox-container { z-index: 99999 !important; }
+
         /* Mobile Gallery - Horizontal scroll strip like an app */
         @media (max-width: 991px) {
             .gallery {
@@ -2993,6 +3021,17 @@
         $allMedia = $thumbnails->merge($nonThumbnails);
         $hasRooms = $service->rooms()->where('status', true)->exists();
         $visibleMediaCount = min($allMedia->count(), 6);
+        $galleryPhotos = $allMedia->filter(fn ($m) => $m->file_type !== 'video')->values()->map(fn ($m) => [
+            'src' => asset($m->file_path),
+            'alt' => $m->caption ?: ($service?->translation?->title ?? ''),
+            'cat' => $m->gallery_category,
+        ])->all();
+        $galleryCats = ['exterior', 'interior', 'restaurant', 'treatment', 'rooms', 'other'];
+        $galleryLabels = ['all' => __('translate.gallery_cat_all')];
+        foreach ($galleryCats as $galleryCat) {
+            $galleryLabels[$galleryCat] = __('translate.gallery_cat_' . $galleryCat);
+        }
+        $galleryPayload = ['photos' => $galleryPhotos, 'cats' => $galleryCats, 'labels' => $galleryLabels];
     @endphp
 
     {{-- MOBILE FLOATING HEADER --}}
@@ -3074,7 +3113,7 @@
         <div class="container">
             <div class="gallery__grid" data-aos="fade-up" id="galleryGrid">
                 @if(isset($thumbnails[0]))
-                    <a href="{{ asset($thumbnails[0]->file_path) }}" class="gallery__item glightbox" data-gallery="gallery">
+                    <a href="{{ asset($thumbnails[0]->file_path) }}" class="gallery__item js-gallery-open" data-gallery-open>
                         <img src="{{ asset($thumbnails[0]->file_path) }}" alt="{{ $thumbnails[0]->caption ?: $service?->translation?->title }}">
                         <div class="gallery__overlay">
                             <div class="gallery__icon"><i class="fa-solid fa-expand"></i></div>
@@ -3090,7 +3129,7 @@
                         </a>
                     </div>
                 @elseif(isset($nonThumbnails[0]))
-                    <a href="{{ asset($nonThumbnails[0]->file_path) }}" class="gallery__item glightbox" data-gallery="gallery">
+                    <a href="{{ asset($nonThumbnails[0]->file_path) }}" class="gallery__item js-gallery-open" data-gallery-open>
                         <img src="{{ asset($nonThumbnails[0]->file_path) }}" alt="{{ $nonThumbnails[0]->caption ?: $service?->translation?->title }}">
                         <div class="gallery__overlay">
                             <div class="gallery__icon"><i class="fa-solid fa-expand"></i></div>
@@ -3100,7 +3139,7 @@
 
                 @for($i = 1; $i <= 3; $i++)
                     @if(isset($nonThumbnails[$i]))
-                        <a href="{{ asset($nonThumbnails[$i]->file_path) }}" class="gallery__item glightbox" data-gallery="gallery">
+                        <a href="{{ asset($nonThumbnails[$i]->file_path) }}" class="gallery__item js-gallery-open" data-gallery-open>
                             <img src="{{ asset($nonThumbnails[$i]->file_path) }}" alt="{{ $nonThumbnails[$i]->caption ?: $service?->translation?->title }}">
                             <div class="gallery__overlay">
                                 <div class="gallery__icon"><i class="fa-solid fa-expand"></i></div>
@@ -3108,10 +3147,6 @@
                         </a>
                     @endif
                 @endfor
-
-                @foreach($allMedia->slice(5) as $media)
-                    <a href="{{ asset($media->file_path) }}" class="gallery__item glightbox d-none" data-gallery="gallery"></a>
-                @endforeach
             </div>
         </div>
         {{-- Mobile gallery indicators --}}
@@ -3121,6 +3156,17 @@
             @endfor
         </div>
     </section>
+
+
+    {{-- GALLERY MODAL (categorized) --}}
+    <div class="gmodal" id="galleryModal" role="dialog" aria-modal="true" hidden>
+        <div class="gmodal__bar">
+            <div class="gmodal__tabs" id="galleryModalTabs"></div>
+            <button type="button" class="gmodal__close" id="galleryModalClose">{{ __('translate.gallery_close') }} &#10005;</button>
+        </div>
+        <div class="gmodal__body" id="galleryModalBody"></div>
+    </div>
+    <script type="application/json" id="galleryData">@json($galleryPayload)</script>
 
     {{-- MOBILE TABS (Quick navigation) --}}
     <nav class="mobile-tabs" id="mobileTabs">
@@ -4423,110 +4469,116 @@ window.closeDoctorModal = function() {
             autoplayVideos: true
         });
 
-        // Thumbnail strip for lightbox
+        // Categorized gallery modal
         (function() {
-            var galleryItems = document.querySelectorAll('.gallery__item.glightbox[data-gallery="gallery"]');
-            if (galleryItems.length < 2) return;
+            var dataEl = document.getElementById('galleryData');
+            var modal = document.getElementById('galleryModal');
+            if (!dataEl || !modal) return;
+            var data = JSON.parse(dataEl.textContent);
+            var photos = data.photos || [];
+            var tabsEl = document.getElementById('galleryModalTabs');
+            var bodyEl = document.getElementById('galleryModalBody');
+            var current = 'all';
+            var lastFocus = null;
 
-            // Collect all image URLs (visible + hidden)
-            var allUrls = [];
-            document.querySelectorAll('.glightbox[data-gallery="gallery"]').forEach(function(el) {
-                var href = el.getAttribute('href');
-                if (href) allUrls.push(href);
-            });
-            if (allUrls.length < 2) return;
+            function el(tag, cls, text) {
+                var e = document.createElement(tag);
+                if (cls) e.className = cls;
+                if (text) e.textContent = text;
+                return e;
+            }
 
-            // Add CSS for thumbnail strip
-            var styleEl = document.createElement('style');
-            styleEl.textContent = [
-                '#glightbox-thumbs::-webkit-scrollbar{display:none}',
-                '#glightbox-thumbs{scrollbar-width:none}',
-                '.gslide-description{display:none !important}',
-                '.goverlay{background:rgba(0,0,0,0.95) !important}',
-                'body.glightbox-open #stickyLeftNav{display:none !important}',
-                // Şəkili yuxarı qaldır ki altda thumbnail-a yer olsun
-                '.glightbox-clean .gslide-media{max-height:calc(100vh - 120px) !important}',
-                '.glightbox-clean .gslide-image img{max-height:calc(100vh - 120px) !important}',
-                // Thumbnail wrapper - şəkilin altında, ekranın aşağısında
-                '#glightbox-thumbs-wrapper{position:fixed;bottom:12px;left:0;right:0;z-index:1000000;display:flex;justify-content:center;pointer-events:none;transition:opacity 0.15s ease}',
-                '#glightbox-thumbs-wrapper>*{pointer-events:auto}'
-            ].join(' ');
-            document.head.appendChild(styleEl);
+            function cats() {
+                return data.cats.filter(function(c) { return photos.some(function(p) { return p.cat === c; }); });
+            }
 
-            var strip = null;
-            var wrapper = null;
-
-            function ensureStrip() {
-                if (strip) return;
-                strip = document.createElement('div');
-                strip.id = 'glightbox-thumbs';
-                strip.style.cssText = 'display:flex;gap:6px;padding:8px 14px;background:rgba(255,255,255,0.08);backdrop-filter:blur(16px);border-radius:12px;max-width:88vw;overflow-x:auto;';
-
-                allUrls.forEach(function(url, idx) {
-                    var thumb = document.createElement('img');
-                    thumb.src = url;
-                    thumb.dataset.index = idx;
-                    thumb.style.cssText = 'width:64px;height:44px;object-fit:cover;border-radius:6px;cursor:pointer;opacity:0.4;transition:all 0.25s ease;border:2px solid transparent;flex-shrink:0;';
-                    thumb.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        lightbox.goToSlide(parseInt(this.dataset.index));
-                    });
-                    strip.appendChild(thumb);
+            function openLightbox(list, index) {
+                var lb = GLightbox({
+                    elements: list.map(function(p) { return { href: p.src, type: 'image' }; }),
+                    startAt: index, touchNavigation: true, loop: true
                 });
-
-                wrapper = document.createElement('div');
-                wrapper.id = 'glightbox-thumbs-wrapper';
-                wrapper.addEventListener('click', function(e) { e.stopPropagation(); });
-                wrapper.appendChild(strip);
-                wrapper.style.opacity = '0';
-                document.body.appendChild(wrapper);
+                lb.open();
             }
 
-            function showStrip() {
-                if (!wrapper) return;
-                wrapper.style.display = 'flex';
-                wrapper.style.opacity = '1';
+            function photoBtn(p, list, idx) {
+                var b = el('button', 'gmodal__item');
+                b.type = 'button';
+                var img = document.createElement('img');
+                img.loading = 'lazy';
+                img.decoding = 'async';
+                img.src = p.src;
+                img.alt = p.alt || '';
+                b.appendChild(img);
+                var z = el('span', 'gmodal__zoom');
+                z.innerHTML = '<i class="fa-solid fa-magnifying-glass-plus"></i>';
+                b.appendChild(z);
+                b.addEventListener('click', function() { openLightbox(list, idx); });
+                return b;
             }
 
-            function hideStrip() {
-                if (!wrapper) return;
-                wrapper.style.opacity = '0';
-                wrapper.style.display = 'none';
+            function section(cat) {
+                var list = photos.filter(function(p) { return p.cat === cat; });
+                var sec = el('section', 'gmodal__section');
+                sec.appendChild(el('h2', 'gmodal__heading', data.labels[cat]));
+                var grid = el('div', 'gmodal__grid');
+                list.forEach(function(p, i) { grid.appendChild(photoBtn(p, list, i)); });
+                sec.appendChild(grid);
+                return sec;
             }
 
-            function updateThumbs(idx) {
-                if (!strip) return;
-                var thumbs = strip.querySelectorAll('img');
-                thumbs.forEach(function(t, i) {
-                    if (i === idx) {
-                        t.style.opacity = '1';
-                        t.style.borderColor = '#3fc8c3';
-                        t.style.transform = 'scale(1.12)';
-                        t.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
-                    } else {
-                        t.style.opacity = '0.4';
-                        t.style.borderColor = 'transparent';
-                        t.style.transform = 'scale(1)';
-                    }
+            function render() {
+                Array.prototype.forEach.call(tabsEl.children, function(t) {
+                    t.classList.toggle('active', t.dataset.cat === current);
+                });
+                bodyEl.innerHTML = '';
+                if (current === 'all') {
+                    var sec = el('section', 'gmodal__section');
+                    sec.appendChild(el('h2', 'gmodal__heading', data.labels.all));
+                    var grid = el('div', 'gmodal__grid');
+                    photos.forEach(function(p, i) { grid.appendChild(photoBtn(p, photos, i)); });
+                    sec.appendChild(grid);
+                    bodyEl.appendChild(sec);
+                } else {
+                    bodyEl.appendChild(section(current));
+                }
+                bodyEl.scrollTop = 0;
+            }
+
+            function buildTabs() {
+                tabsEl.innerHTML = '';
+                ['all'].concat(cats()).forEach(function(c) {
+                    var t = el('button', 'gmodal__tab', data.labels[c]);
+                    t.type = 'button';
+                    t.dataset.cat = c;
+                    t.addEventListener('click', function() { current = c; render(); });
+                    tabsEl.appendChild(t);
                 });
             }
 
-            lightbox.on('open', function() {
-                document.body.classList.add('glightbox-open');
-                ensureStrip();
-                setTimeout(function() {
-                    showStrip();
-                    updateThumbs(lightbox.index);
-                }, 100);
-            });
+            function open() {
+                if (!photos.length) return;
+                lastFocus = document.activeElement;
+                buildTabs();
+                current = 'all';
+                render();
+                modal.hidden = false;
+                document.body.classList.add('gmodal-open');
+            }
 
-            lightbox.on('slide_changed', function(data) {
-                updateThumbs(data.current.index);
-            });
+            function close() {
+                modal.hidden = true;
+                bodyEl.innerHTML = '';
+                document.body.classList.remove('gmodal-open');
+                if (lastFocus && lastFocus.focus) lastFocus.focus();
+            }
 
-            lightbox.on('close', function() {
-                hideStrip();
-                document.body.classList.remove('glightbox-open');
+            document.querySelectorAll('[data-gallery-open]').forEach(function(a) {
+                a.addEventListener('click', function(e) { e.preventDefault(); open(); });
+            });
+            document.getElementById('galleryModalClose').addEventListener('click', close);
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && !modal.hidden && !document.body.classList.contains('glightbox-open')
+                    && !document.querySelector('.glightbox-container.active')) close();
             });
         })();
 
