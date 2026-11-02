@@ -249,6 +249,15 @@
                                                                         </div>
 
                                                                         <div class="col-lg-6 col-md-6 col-12">
+                                                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                                                <label class="crancy__item-label">{{ __('translate.Photo category') }}</label>
+                                                                                <select class="crancy__item-input" name="category">
+                                                                                    @foreach (\Modules\TourBooking\App\Models\ServiceMedia::CATEGORIES as $cat)<option value="{{ $cat }}" @selected(old('category', 'other') === $cat)>{{ __('translate.gallery_cat_' . $cat) }}</option>@endforeach
+                                                                                </select>
+                                                                            </div>
+                                                                        </div>
+
+                                                                        <div class="col-lg-6 col-md-6 col-12">
                                                                             <div
                                                                                 class="crancy__item-form--group mg-top-form-20">
                                                                                 <label
@@ -295,6 +304,13 @@
                                                                     action="{{ route('admin.tourbooking.services.media.store', $service->id) }}"
                                                                     method="POST" enctype="multipart/form-data">
                                                                     @csrf
+
+                                                                    <div class="mb-3" style="max-width:320px;">
+                                                                        <label class="crancy__item-label">{{ __('translate.Photo category') }}</label>
+                                                                        <select class="crancy__item-input" name="category">
+                                                                            @foreach (\Modules\TourBooking\App\Models\ServiceMedia::CATEGORIES as $cat)<option value="{{ $cat }}" @selected('other' === $cat)>{{ __('translate.gallery_cat_' . $cat) }}</option>@endforeach
+                                                                        </select>
+                                                                    </div>
 
                                                                     {{-- Drop Zone --}}
                                                                     <div id="bulkDropZone" style="border: 3px dashed #d1d5db; border-radius: 16px; padding: 40px 20px; text-align: center; cursor: pointer; transition: all 0.3s ease; background: #f9fafb; position: relative; overflow: hidden;">
@@ -411,6 +427,9 @@
                                                                             <input type="text" name="caption" class="form-control form-control-sm"
                                                                                 value="{{ $media->caption }}"
                                                                                 placeholder="{{ __('translate.Alt text') }}" maxlength="255">
+                                                                            <select name="category" class="form-select form-select-sm" style="max-width:110px;">
+                                                                                @foreach (\Modules\TourBooking\App\Models\ServiceMedia::CATEGORIES as $cat)<option value="{{ $cat }}" @selected($media->gallery_category === $cat)>{{ __('translate.gallery_cat_' . $cat) }}</option>@endforeach
+                                                                            </select>
                                                                             <button type="submit" class="btn btn-sm btn-success" title="{{ __('translate.Save') }}"><i class="fa fa-check"></i></button>
                                                                         </form>
                                                                     @elseif ($media->caption)

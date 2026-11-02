@@ -827,6 +827,7 @@ if ($request->hasFile('doctor_image')) {
             'files' => 'required|array|max:20',
             'files.*' => 'file|mimes:jpeg,png,jpg,gif,webp,mp4,avi,mov|max:10240',
             'caption' => 'nullable|string|max:255',
+            'category' => 'nullable|in:' . implode(',', ServiceMedia::CATEGORIES),
         ]);
 
         $uploadedCount = 0;
@@ -845,6 +846,7 @@ if ($request->hasFile('doctor_image')) {
                     'file_type' => $fileType,
                     'file_name' => $fileName,
                     'caption' => $request->caption,
+                    'category' => $request->input('category') ?: 'other',
                     'is_featured' => $isThumbnail,
                     'is_thumbnail' => $isThumbnail,
                     'display_order' => $service->media()->count() + 1,
@@ -926,9 +928,13 @@ if ($request->hasFile('doctor_image')) {
     {
         $request->validate([
             'caption' => 'nullable|string|max:255',
+            'category' => 'nullable|in:' . implode(',', ServiceMedia::CATEGORIES),
         ]);
 
-        $media->update(['caption' => $request->caption]);
+        $media->update([
+            'caption' => $request->caption,
+            'category' => $request->input('category') ?: 'other',
+        ]);
 
         $notify_message = array(
             'message' => trans('translate.Caption updated successfully'),
