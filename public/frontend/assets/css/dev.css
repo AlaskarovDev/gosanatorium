@@ -1019,3 +1019,71 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .gsp-card--placeholder .gsp-btn{background:#fff;color:#1a9e87;border:1px solid #1a9e87}
 .gsp-expired{display:none;position:absolute;inset:0;background:rgba(255,255,255,.92);align-items:center;justify-content:center;font-weight:700;color:#6b7280;font-size:18px;z-index:2}
 .gsp-card--expired .gsp-expired{display:flex}
+
+/* ==========================================================================
+   Header redesign (Task #254): top bar 32px + main bar 72px = 104px total
+   ========================================================================== */
+.tg-header__area[data-gs-header] { padding: 0 !important; }
+
+/* ---- Top bar ---- */
+.gs-topbar { background: #f1f3f2; height: 32px; color: #333; font-size: 13px; line-height: 32px; }
+.gs-topbar__row { display: flex; align-items: center; justify-content: space-between; height: 32px; }
+.gs-topbar__left { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
+.gs-topbar__left i { color: #0e7a66; font-size: 12px; }
+.gs-topbar__left a { color: #111; font-weight: 600; }
+.gs-topbar__left a:hover { color: #0e7a66; }
+.gs-topbar__right { display: flex; align-items: center; gap: 10px; }
+.gs-topbar .tg-currency-select,
+.gs-topbar .tg-language-select {
+    height: 24px; padding: 0 22px 0 8px !important; font-size: 13px !important; line-height: 20px;
+    min-width: 0 !important; border-radius: 4px !important; border-width: 1px !important;
+    background-color: #0e7a66 !important; border-color: #0e7a66 !important; color: #fff !important;
+    background-position: right 7px center !important; background-size: 10px !important;
+}
+.gs-topbar .tg-currency-select:hover, .gs-topbar .tg-language-select:hover { background-color: #0a5e4e !important; }
+.gs-topbar__account { color: #222; font-weight: 600; font-size: 13px; }
+.gs-topbar__account:hover { color: #0e7a66; }
+
+/* ---- Main bar ---- */
+#header-sticky[data-gs-header] { background: #0e7a66; }
+.gs-mainbar__row { display: flex; align-items: center; justify-content: space-between; height: 72px; gap: 24px; }
+.gs-mainbar .logo img { max-height: 48px; width: auto; }
+.gs-mainnav { flex: 1 1 auto; min-width: 0; margin: 0 !important; display: block; }
+.gs-mainnav .tgmenu__main-menu { display: flex !important; justify-content: center; }
+.gs-mainnav .navigation { display: flex; flex-wrap: nowrap !important; align-items: center; justify-content: center; margin: 0 !important; padding: 0; }
+.gs-mainnav .navigation > li { margin: 0 !important; padding: 0 !important; flex-shrink: 0; }
+.gs-mainnav .navigation > li > a {
+    height: 72px; padding: 0 11px !important; font-size: 14px !important; font-weight: 500 !important;
+    letter-spacing: 0 !important; white-space: nowrap; line-height: 1.25; color: #fff !important;
+    font-family: 'Poppins', sans-serif; transition: color .2s ease;
+}
+@media (min-width: 1280px) { .gs-mainnav .navigation > li > a { font-size: 15px !important; } }
+@media (min-width: 1440px) { .gs-mainnav .navigation > li > a { font-size: 16px !important; } }
+
+/* hover: colour change to light green; active section: bold + colour */
+.gs-mainnav .navigation > li:hover > a,
+.gs-mainnav .navigation > li > a:hover { color: #c9f5a8 !important; }
+.gs-mainnav .navigation > li.active > a,
+.gs-mainnav .navigation > li.current-menu-item > a,
+.gs-mainnav .navigation > li.current-menu-ancestor > a { font-weight: 700 !important; color: #ffe98a !important; }
+
+.gs-burger { display: none; }
+
+/* ---- Mobile / tablet < 1024px: only logo + burger ---- */
+@media (max-width: 1023.98px) {
+    .gs-topbar { display: none; }
+    .gs-mainnav { display: none !important; }
+    .gs-burger { display: block; }
+    .gs-mainbar__row { height: 64px; }
+    .gs-mainbar .logo img { max-height: 40px; }
+}
+
+/* ---- Drawer extras (phone, switchers, socials at the bottom) ---- */
+.gs-drawer-contact { padding: 16px 20px 0; text-align: center; }
+.gs-drawer-contact__phone { display: block; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; }
+.gs-drawer-contact__phone small { display: block; font-size: 13px; font-weight: 400; opacity: .8; }
+.gs-drawer-contact__switchers { display: flex; justify-content: center; gap: 10px; margin-bottom: 14px; }
+.gs-drawer-contact__switchers select {
+    height: 34px; padding: 0 28px 0 10px; font-size: 14px; border-radius: 6px; min-width: 80px;
+    background: #0e7a66; color: #fff; border: 1px solid #0e7a66;
+}

@@ -9,6 +9,36 @@
             <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->
         </div>
         
+        {{-- Phone + switchers inside the drawer (the top bar is hidden on mobile) --}}
+        <div class="gs-drawer-contact">
+            @if(!empty($footer->phone))
+                <a class="gs-drawer-contact__phone" href="tel:{{ $footer->phone }}"><small>{{ __('translate.Call Us') }}:</small>{{ $footer->phone }}</a>
+            @endif
+            <div class="gs-drawer-contact__switchers">
+                @php
+                    $gsDCur = \Modules\Currency\App\Models\Currency::where('status', 'active')->get();
+                    $gsDCurSess = session('currency');
+                    $gsDCurCode = $gsDCurSess ? $gsDCurSess['currency_code'] : optional($gsDCur->where('is_default', 'yes')->first())->currency_code ?? 'USD';
+                    $gsDLangs = \Modules\Language\App\Models\Language::where('status', 1)->get();
+                    $gsDLang = session('lang_code', config('app.locale', 'en'));
+                @endphp
+                @if($gsDCur->count() > 1)
+                    <select class="currency_code notranslate" translate="no" aria-label="{{ __('translate.Currency') }}">
+                        @foreach($gsDCur as $curr)
+                            <option value="{{ $curr->currency_code }}" {{ $gsDCurCode == $curr->currency_code ? 'selected' : '' }}>{{ $curr->currency_icon }} {{ $curr->currency_code }}</option>
+                        @endforeach
+                    </select>
+                @endif
+                @if($gsDLangs->count() > 1)
+                    <select class="language_code notranslate" translate="no" aria-label="{{ __('translate.Language') }}">
+                        @foreach($gsDLangs as $lang)
+                            <option value="{{ $lang->lang_code }}" {{ $gsDLang == $lang->lang_code ? 'selected' : '' }}>{{ strtoupper($lang->lang_code) }}</option>
+                        @endforeach
+                    </select>
+                @endif
+            </div>
+        </div>
+
         {{-- ========== SOCIAL CONTACT ICONS (Header ilə eyni) ========== --}}
         @php
             $phoneClean = $footer->phone ? preg_replace('/[^0-9]/', '', $footer->phone) : null;
