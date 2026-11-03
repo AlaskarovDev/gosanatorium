@@ -77,7 +77,10 @@ final class FrontDiseaseController extends Controller
             || $nights !== '' || $destinationId > 0;
 
         $query = Service::where('status', true)
-            ->with(['thumbnail', 'serviceType', 'translation']);
+            ->with(['thumbnail', 'serviceType', 'translation', 'destination:id,name,country'])
+            ->withExists('myWishlist')
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating');
 
         if ($diseaseFilterActive) {
             if ($disease) {
@@ -120,7 +123,10 @@ final class FrontDiseaseController extends Controller
             })->pluck('id')->all();
 
             $query = Service::where('status', true)->whereIn('services.id', $ids)
-                ->with(['thumbnail', 'serviceType', 'translation']);
+                ->with(['thumbnail', 'serviceType', 'translation', 'destination:id,name,country'])
+            ->withExists('myWishlist')
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating');
         }
 
         $services = $query->latest('services.created_at')->paginate(200)->withQueryString();
