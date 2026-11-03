@@ -32,7 +32,7 @@
                                             <div class="row mg-top-30">
                                                 <div class="col-md-6">
                                                     <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">Title *</label>
+                                                        <label class="crancy__item-label">Headline *</label>
                                                         <input class="crancy__item-input" type="text" name="title" value="{{ old('title', $akcii->title) }}" required>
                                                         @error('title') <span class="text-danger">{{ $message }}</span> @enderror
                                                     </div>
@@ -70,7 +70,47 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="crancy__item-form--group mg-top-form-20">
-                                                        <label class="crancy__item-label">Sanatorium name</label>
+                                                        <label class="crancy__item-label">Sanatorium</label>
+                                                        <select class="form-select crancy__item-input" name="service_id">
+                                                            <option value="">—</option>
+                                                            @foreach (\Modules\TourBooking\App\Models\Service::with('translation')->orderBy('id')->get() as $svc)
+                                                                <option value="{{ $svc->id }}" {{ (string) old('service_id', $akcii->service_id) === (string) $svc->id ? 'selected' : '' }}>{{ $svc->translation->title ?? $svc->slug }}</option>
+                                                            @endforeach
+                                                        </select>
+                                                        @error('service_id') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">Original price, $/night</label>
+                                                        <input class="crancy__item-input" type="number" step="0.01" min="0" name="original_price" value="{{ old('original_price', $akcii->original_price) }}">
+                                                        @error('original_price') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-3">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">Discounted price, $/night</label>
+                                                        <input class="crancy__item-input" type="number" step="0.01" min="0" name="discounted_price" value="{{ old('discounted_price', $akcii->discounted_price) }}">
+                                                        @error('discounted_price') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">Valid from</label>
+                                                        <input class="crancy__item-input" type="date" name="valid_from" value="{{ old('valid_from', $akcii->valid_from?->format('Y-m-d')) }}">
+                                                        @error('valid_from') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">Hot offer (countdown timer)</label>
+                                                        <input type="hidden" name="is_hot" value="0">
+                                                        <input type="checkbox" name="is_hot" value="1" {{ old('is_hot', $akcii->is_hot) ? 'checked' : '' }}>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">Sanatorium name (optional, overrides dropdown)</label>
                                                         <input class="crancy__item-input" type="text" name="sanatorium_name" value="{{ old('sanatorium_name', $akcii->sanatorium_name) }}">
                                                         @error('sanatorium_name') <span class="text-danger">{{ $message }}</span> @enderror
                                                     </div>

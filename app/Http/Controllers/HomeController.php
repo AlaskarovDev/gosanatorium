@@ -77,7 +77,7 @@ class HomeController extends Controller
                 $query->take(20);
             }])->take(3)->get();
 
-            $data['latestAkcii'] = \App\Models\Akcii::active()->take(3)->get();
+            $data['latestAkcii'] = \App\Models\Akcii::withPlaceholders(\App\Models\Akcii::visible()->with('service.thumbnail', 'service.translation')->get(), 4);
 
             try {
                 $data['featuredProducts'] = \App\Models\NaftalanProduct::active()->take(4)->get();

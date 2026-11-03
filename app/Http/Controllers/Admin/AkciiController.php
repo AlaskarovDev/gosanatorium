@@ -11,14 +11,14 @@ class AkciiController extends Controller
 {
     public function index()
     {
-        $akcii = Akcii::orderBy('sort_order')->paginate(20);
+        $akcii = Akcii::orderByRaw('valid_until IS NULL')->orderBy('valid_until')->paginate(20);
 
         return view('admin.akcii.index', compact('akcii'));
     }
 
     public function create()
     {
-        return view('admin.akcii.create', ['akcii' => new Akcii(['is_active' => true, 'sort_order' => 0, 'lang' => 'ru'])]);
+        return view('admin.akcii.create', ['akcii' => new Akcii(['is_active' => true, 'is_hot' => false, 'sort_order' => 0, 'lang' => 'ru'])]);
     }
 
     public function store(Request $request)
@@ -66,8 +66,13 @@ class AkciiController extends Controller
             'content' => 'nullable|string',
             'image' => 'nullable|image|max:4096',
             'discount_percent' => 'nullable|integer|min:0|max:100',
-            'valid_until' => 'nullable|date',
+            'valid_until' => 'nullable|date|after_or_equal:valid_from',
             'sanatorium_name' => 'nullable|string|max:255',
+            'service_id' => 'nullable|integer|exists:services,id',
+            'original_price' => 'nullable|numeric|min:0',
+            'discounted_price' => 'nullable|numeric|min:0|lte:original_price',
+            'valid_from' => 'nullable|date',
+            'is_hot' => 'boolean',
             'is_active' => 'boolean',
             'sort_order' => 'nullable|integer',
             'lang' => 'nullable|string|max:10',
@@ -86,6 +91,10 @@ class AkciiController extends Controller
         }
 
         $data['is_active'] = $request->boolean('is_active');
+        $data['is_hot'] = $request->boolean('is_hot');
+        if (!empty($data['service_id']) && empty($data['sanatorium_name'])) {
+            $data['sanatorium_name'] = optional(\Modules\TourBooking\App\Models\Service::with('translation')->find($data['service_id']))->translation->title ?? null;
+        }
         $data['sort_order'] = (int) ($data['sort_order'] ?? 0);
         $data['lang'] = $data['lang'] ?? 'ru';
 
