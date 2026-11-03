@@ -1206,10 +1206,24 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu::after {
   content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px;
 }
-.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu::before {
-  content: ''; position: absolute; top: -6px; left: 24px; width: 12px; height: 12px;
+/* Task #275: arrow lives on the outer <li>, not inside the scrolling list, so it never scrolls away */
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown { position: relative; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu::before { display: none; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown::before {
+  content: ''; position: absolute; top: 100%; left: 24px; width: 12px; height: 12px; margin-top: -6px;
   background: #ffffff; transform: rotate(45deg); box-shadow: -2px -2px 4px rgba(0,0,0,0.04);
+  z-index: 1000; opacity: 0; visibility: hidden; pointer-events: none;
+  transition: opacity 0.2s ease, visibility 0.2s ease;
 }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:hover::before,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:focus-within::before,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown.is-open::before { opacity: 1; visibility: visible; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.sub-menu-scroll {
+  scrollbar-width: thin; scrollbar-color: #22876b #f0f0f0; overflow-x: hidden;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.sub-menu-scroll::-webkit-scrollbar { width: 6px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.sub-menu-scroll::-webkit-scrollbar-track { background: #f0f0f0; border-radius: 3px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.sub-menu-scroll::-webkit-scrollbar-thumb { background: #22876b; border-radius: 3px; }
 .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:hover > .sub-menu,
 .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:focus-within > .sub-menu,
 .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown.is-open > .sub-menu,
