@@ -1052,3 +1052,20 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .gsp-card--expired .gsp-expired{display:block}
 .gsp-card--expired .gsp-btn,.gsp-card--expired .gsp-timer{display:none}
 .gsp-card--expired .gsp-pct{background:#999}
+
+/* Task #266: larger header logo, same size on home and inner pages */
+.tg-header__area .logo,
+.tg-header__area .tgmenu__wrap .logo { flex-shrink: 0; min-width: 120px; }
+.tg-header__area .logo a { display: inline-block; }
+.tg-header__area .logo img,
+.tg-header__area .logo-1 img,
+.tg-header__area .logo-2 img {
+  height: 56px !important;
+  width: auto !important;
+  max-width: none !important;
+  max-height: none !important;
+  object-fit: contain;
+}
+@media (max-width: 575px) {
+  .tg-header__area .logo img { height: 44px !important; }
+}
