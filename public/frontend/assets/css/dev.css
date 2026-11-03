@@ -1187,3 +1187,69 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
   .tg-header__area .logo-2 img,
   .tg-header__area.header-sticky .logo img { height: 56px !important; }
 }
+
+/* ===== Task #274: modern dropdowns (Санатории / Направления лечения) ===== */
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu {
+  background: #ffffff;
+  border: none;
+  border-radius: 12px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+  padding: 8px;
+  min-width: 260px;
+  margin-top: 0;
+  top: 100%;
+  transform: translateY(-8px);
+  transform-origin: 50% 0;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+/* invisible bridge so hover is not lost in the gap */
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu::after {
+  content: ''; position: absolute; left: 0; right: 0; top: -12px; height: 12px;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu::before {
+  content: ''; position: absolute; top: -6px; left: 24px; width: 12px; height: 12px;
+  background: #ffffff; transform: rotate(45deg); box-shadow: -2px -2px 4px rgba(0,0,0,0.04);
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:hover > .sub-menu,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:focus-within > .sub-menu,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown.is-open > .sub-menu,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.show {
+  opacity: 1; visibility: visible; transform: translateY(0);
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li a {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.35;
+  color: #1a1a1a;
+  text-decoration: none;
+  white-space: normal;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li a::before {
+  content: '';
+  flex: 0 0 18px; width: 18px; height: 18px;
+  background-color: #22876b;
+  -webkit-mask: var(--dd-icon) center / contain no-repeat;
+  mask: var(--dd-icon) center / contain no-repeat;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown.nav-sanatoriums > .sub-menu li a {
+  --dd-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z'/%3E%3Ccircle cx='12' cy='10' r='2.5'/%3E%3C/svg%3E");
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown.nav-treatments > .sub-menu li a {
+  --dd-icon: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M20.8 4.6a5.5 5.5 0 0 0-7.8 0L12 5.7l-1-1.1a5.5 5.5 0 0 0-7.8 7.8l1 1.1L12 21l7.8-7.5 1-1.1a5.5 5.5 0 0 0 0-7.8z'/%3E%3C/svg%3E");
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li:hover > a,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li a:focus {
+  background: #f0fdf4;
+  color: #22876b;
+  transform: none;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li.nav-divider {
+  height: 1px; background: #f0f0f0; margin: 6px 8px; padding: 0; border: none;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li.nav-divider::before { display: none; }
