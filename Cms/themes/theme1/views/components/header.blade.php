@@ -307,7 +307,7 @@
             }
 
             var base = parseFloat(getComputedStyle(links[0]).fontSize) || 15;
-            var size = base, min = 10, guard = 0;
+            var size = base, min = 14, guard = 0;
             while (overflowing() && size > min && guard < 40) {
                 size -= 0.5; setFont(size); guard++;
             }
