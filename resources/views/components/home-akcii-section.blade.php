@@ -1,5 +1,4 @@
 @if (isset($latestAkcii) && $latestAkcii->count() > 0)
-@php $gspCarousel = $latestAkcii->count() > 6; @endphp
 
 <style>
 .hakcii-section{background:#fff !important;padding:72px 0 !important;width:100% !important}
@@ -16,19 +15,41 @@
             <span class="hakcii-label">Акции и спецпредложения</span>
             <h2 class="hakcii-title">Выгодные акции для вашего лечения</h2>
         </div>
-        <div class="gsp-wrap" @if ($gspCarousel) data-gsp-carousel @endif>
-            @if ($gspCarousel)
-                <button type="button" class="gsp-nav gsp-nav--prev" data-gsp-dir="-1" aria-label="Назад">‹</button>
-                <button type="button" class="gsp-nav gsp-nav--next" data-gsp-dir="1" aria-label="Вперёд">›</button>
-            @endif
-            <div class="gsp-track {{ $gspCarousel ? 'gsp-track--carousel' : 'gsp-track--grid' }}">
-                @foreach ($latestAkcii as $item)
-                    @include('partials.akcii-card', ['item' => $item])
-                @endforeach
-            </div>
+        <div class="home-promos-grid">
+            @foreach ($latestAkcii->take(3) as $item)
+                @php
+                    $ph = !empty($item->is_placeholder);
+                    $svc = $item->service;
+                    $img = $item->image ?: ($svc?->thumbnail?->file_path);
+                    $pct = $item->discount_label;
+                    $desc = $item->description ?: ($item->sanatorium_name ?: $svc?->translation?->title);
+                    $href = $ph ? route('front.tourbooking.services') : $item->url;
+                @endphp
+                <a href="{{ $href }}" class="home-promo-card">
+                    <div class="home-promo-img">
+                        @if ($img)
+                            <img src="{{ asset($img) }}" alt="{{ $item->title }}" loading="lazy">
+                        @else
+                            <div class="home-promo-img-placeholder"></div>
+                        @endif
+                        @if ($pct)
+                            <span class="home-promo-badge">−{{ $pct }}%</span>
+                        @endif
+                    </div>
+                    <div class="home-promo-body">
+                        <h3>{{ $item->title }}</h3>
+                        @if ($desc)
+                            <p>{{ \Illuminate\Support\Str::limit($desc, 80) }}</p>
+                        @endif
+                        @if (!$ph && $item->valid_until)
+                            <span class="home-promo-date">Действует до {{ $item->valid_until->format('d.m.Y') }}</span>
+                        @endif
+                        <span class="home-promo-btn">Подробнее →</span>
+                    </div>
+                </a>
+            @endforeach
         </div>
         <div class="hakcii-more"><a href="/ru/aktsii">Все акции →</a></div>
     </div>
 </section>
-@include('partials.akcii-script')
 @endif
