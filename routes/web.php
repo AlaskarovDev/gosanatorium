@@ -70,6 +70,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/{locale}/naftalan-produkty', [App\Http\Controllers\NaftalanProductsController::class, 'index'])->where('locale', 'ru|az|en')->name('naftalan.products');
     Route::get('/akcii', [App\Http\Controllers\AkciiController::class, 'index'])->name('akcii.frontend.index');
     Route::get('/{locale}/akcii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('akcii.frontend.index.locale');
+    Route::get('/{locale}/aktsii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('aktsii.frontend.index.locale');
+    Route::get('/aktsii', [App\Http\Controllers\AkciiController::class, 'index'])->name('aktsii.frontend.index');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
 
     Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');

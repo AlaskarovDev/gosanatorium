@@ -44,36 +44,11 @@
 
     <section class="fakcii-section">
         <div class="container">
-            @if ($akcii->count())
-                <div class="fakcii-grid">
-                    @foreach ($akcii as $item)
-                        <div class="fakcii-card">
-                            @if ($item->image)
-                                <img class="fakcii-img" src="{{ asset($item->image) }}" alt="{{ $item->title }}" loading="lazy">
-                            @else
-                                <div class="fakcii-placeholder">{{ $item->discount_percent ? $item->discount_percent . '%' : '%' }}</div>
-                            @endif
-                            <div class="fakcii-body">
-                                @if ($item->sanatorium_name)
-                                    <div class="fakcii-sanatorium">{{ $item->sanatorium_name }}</div>
-                                @endif
-                                <h3 class="fakcii-card-title">{{ $item->title }}</h3>
-                                @if ($item->description)
-                                    <p class="fakcii-desc">{{ $item->description }}</p>
-                                @endif
-                                <div class="fakcii-row">
-                                    <span>
-                                        @if ($item->discount_percent)
-                                            <span class="fakcii-badge">−{{ $item->discount_percent }}%</span>
-                                        @endif
-                                    </span>
-                                    @if ($item->valid_until)
-                                        <span class="fakcii-valid">до {{ $item->valid_until->format('d.m.Y') }}</span>
-                                    @endif
-                                </div>
-                                <a class="fakcii-btn" href="https://wa.me/994519158894" target="_blank" rel="noopener">Забронировать</a>
-                            </div>
-                        </div>
+            @php $gspItems = $placeholders ?? $akcii; @endphp
+            @if ($gspItems->count())
+                <div class="gsp-track gsp-track--grid gsp-track--page">
+                    @foreach ($gspItems as $item)
+                        @include('partials.akcii-card', ['item' => $item])
                     @endforeach
                 </div>
                 <div class="fakcii-pagination">
@@ -85,3 +60,7 @@
         </div>
     </section>
 @endsection
+
+@push('js_section')
+    @include('partials.akcii-script')
+@endpush
