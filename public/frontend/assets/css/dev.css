@@ -1056,7 +1056,6 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 /* Task #266: larger header logo, same size on home and inner pages */
 .tg-header__area .logo,
 .tg-header__area .tgmenu__wrap .logo { flex-shrink: 0; min-width: 120px; }
-.tg-header__area .logo a { display: inline-block; }
 .tg-header__area .logo img,
 .tg-header__area .logo-1 img,
 .tg-header__area .logo-2 img {
@@ -1085,3 +1084,19 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .home-promo-btn{margin-top:auto;display:inline-block;background:#22876b;color:#fff;font-size:13px;font-weight:600;padding:8px 16px;border-radius:8px;text-align:center}
 @media(max-width:768px){.home-promos-grid{grid-template-columns:1fr}}
 @media(min-width:769px) and (max-width:1023px){.home-promos-grid{grid-template-columns:repeat(2,1fr)}}
+
+/* Task #268: one logo only (header-sticky swaps logo-1/logo-2), no hamburger on desktop */
+.tg-header__area .logo .logo-1 { display: inline-block; }
+.tg-header__area .logo .logo-2 { display: none; }
+.header-sticky.tg-header__area .logo .logo-1,
+.header-sticky .logo .logo-1 { display: none !important; }
+.header-sticky.tg-header__area .logo .logo-2,
+.header-sticky .logo .logo-2 { display: inline-block !important; }
+@media (min-width: 1200px) {
+  .tg-header__area .tgmenu-offcanvas-open-btn.menu-tigger,
+  .tg-header__area .tgmenu-offcanvas-open-btn.mobile-nav-toggler,
+  .tg-header__area .tg-header-border { display: none !important; }
+}
+@media (max-width: 1199px) {
+  .tg-header__area .tgmenu-offcanvas-open-btn.mobile-nav-toggler { display: block !important; }
+}
