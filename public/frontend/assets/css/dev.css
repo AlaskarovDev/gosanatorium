@@ -1017,7 +1017,7 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .gsp-card--placeholder{background:#f4faf9;box-shadow:none;border:1px dashed #b7ddd5}
 .gsp-card--placeholder .gsp-media{background:linear-gradient(135deg,#d7eee9,#eaf6f3)}
 .gsp-card--placeholder .gsp-btn{background:#fff;color:#1a9e87;border:1px solid #1a9e87}
-.gsp-expired{display:none;position:absolute;inset:0;background:rgba(255,255,255,.92);align-items:center;justify-content:center;font-weight:700;color:#6b7280;font-size:18px;z-index:2}
+.gsp-expired{display:none;margin-top:auto;background:#f0f0f0;color:#999;font-size:13px;padding:10px;border-radius:8px;text-align:center;font-weight:600;cursor:not-allowed}
 .gsp-card--expired .gsp-expired{display:flex}
 
 /* Task #263: header — nav spacing, phone visibility, no desktop hamburger */
@@ -1041,3 +1041,14 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
   .tg-header__area .tg-header-menu-bar .menu-tigger,
   .tg-header__area .tg-header-menu-bar .tg-header-border { display: none !important; }
 }
+/* Akcii page card polish */
+.gsp-media{height:200px}
+.gsp-pct{background:#e63946;border-radius:6px;font-size:14px}
+.gsp-san{color:#1a1a1a;font-size:16px;font-weight:700}
+.gsp-title{color:#555;font-size:14px;font-weight:400}
+.gsp-valid{color:#999;font-size:12px;margin-bottom:12px}
+.gsp-btn{background:#22876b;padding:10px 20px}
+.gsp-btn:hover{background:#1a6b5a}
+.gsp-card--expired .gsp-expired{display:block}
+.gsp-card--expired .gsp-btn,.gsp-card--expired .gsp-timer{display:none}
+.gsp-card--expired .gsp-pct{background:#999}
