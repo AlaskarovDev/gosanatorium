@@ -175,18 +175,27 @@ if (!function_exists('wp_nav_menu')) {
         // "Акции" link: added automatically unless the menu already has it
         $add_akcii = $args['theme_location'] === 'primary_menu'
             && !$menu_items->contains(fn ($i) => stripos((string) $i->url, 'akcii') !== false);
-        $akcii_added = false;
+
+        // Primary menu order: Санатории | Направления лечения | Акции | Блоги | FAQ | О нас | Контакты
+        if ($args['theme_location'] === 'primary_menu') {
+            $items_output .= render_sanatorium_nav_items($args);
+            if ($add_akcii) {
+                $items_output .= render_akcii_menu_item($args);
+            }
+            $menu_items = $menu_items->values()->sortBy(function ($i, $idx) {
+                $path = strtolower(rtrim((string) parse_url((string) $i->url, PHP_URL_PATH), '/'));
+                $rank = 100;
+                if (str_contains($path, 'akcii')) $rank = 3;
+                elseif (preg_match('#/blogs?$#', $path)) $rank = 4;
+                elseif (str_ends_with($path, '/faq')) $rank = 5;
+                elseif (preg_match('#/about#', $path)) $rank = 6;
+                elseif (preg_match('#/contact#', $path)) $rank = 7;
+                return $rank * 1000 + $idx;
+            })->values();
+        }
 
         foreach ($menu_items as $item) {
             $items_output .= render_menu_item($item, $args);
-            if ($add_akcii && !$akcii_added
-                && preg_match('#/blogs?$#i', rtrim((string) parse_url((string) $item->url, PHP_URL_PATH), '/'))) {
-                $items_output .= render_akcii_menu_item($args);
-                $akcii_added = true;
-            }
-        }
-        if ($add_akcii && !$akcii_added) {
-            $items_output .= render_akcii_menu_item($args);
         }
         
         // Wrap the menu items
@@ -282,6 +291,81 @@ if (!function_exists('localize_front_url')) {
         $prefixed = '/' . $lang . ($cleanPath === '/' ? '' : $cleanPath);
 
         return $prefixed . $query . $fragment;
+    }
+}
+
+/**
+ * Built-in "Санатории" and "Направления лечения" dropdowns (first two items of the primary menu)
+ */
+if (!function_exists('render_sanatorium_nav_items')) {
+    function render_sanatorium_nav_items($args) {
+        $lang = request()->attributes->get('display_lang') ?: app()->getLocale();
+        $ru = $lang === 'ru';
+        $path = '/' . trim(request()->getPathInfo(), '/');
+        $isList = preg_match('#^/sanatoriyi/?$#', $path) === 1;
+        $hasDisease = request()->query('disease') !== null && request()->query('disease') !== '';
+        $onDiseases = $hasDisease || preg_match('#^/(diseases|bolezni)(/|$)#', $path) === 1;
+
+        // Sanatoriums (alphabetical)
+        $sanatoriums = \Illuminate\Support\Facades\Cache::remember('nav_sanatoriums_' . app()->getLocale(), 600, function () {
+            return \Modules\TourBooking\App\Models\Service::where('status', true)
+                ->with('translation')
+                ->get()
+                ->map(fn ($s) => ['title' => trim((string) ($s->translation->title ?? '')) ?: (string) $s->title, 'slug' => $s->slug])
+                ->filter(fn ($s) => $s['title'] !== '' && !empty($s['slug']))
+                ->sortBy(fn ($s) => mb_strtolower($s['title']))
+                ->values()
+                ->all();
+        });
+        $onSanatorium = $isList && !$hasDisease;
+        foreach ($sanatoriums as $s) {
+            if (str_ends_with($path, '/' . $s['slug'])) { $onSanatorium = true; break; }
+        }
+
+        $children = [['title' => $ru ? 'Все санатории' : 'All sanatoriums', 'url' => '/sanatoriyi']];
+        $children[] = ['divider' => true];
+        foreach ($sanatoriums as $s) {
+            $children[] = ['title' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
+        }
+
+        $diseases = $ru ? [
+            'sustavy' => 'Заболевания суставов (артрит, артроз, подагра)',
+            'psoriaz' => 'Кожные заболевания (псориаз, экзема, нейродермит)',
+            'nevrologiya' => 'Неврологические заболевания',
+            'urologiya' => 'Гинекологические заболевания',
+            'zhkt' => 'Заболевания ЖКТ',
+            'diabet' => 'Эндокринология',
+        ] : [
+            'sustavy' => 'Joint diseases (arthritis, arthrosis, gout)',
+            'psoriaz' => 'Skin diseases (psoriasis, eczema, neurodermatitis)',
+            'nevrologiya' => 'Neurological diseases',
+            'urologiya' => 'Gynecological diseases',
+            'zhkt' => 'Digestive diseases',
+            'diabet' => 'Endocrinology',
+        ];
+        $dChildren = [];
+        foreach ($diseases as $slug => $label) {
+            $dChildren[] = ['title' => $label, 'url' => '/sanatoriyi?disease=' . $slug];
+        }
+
+        return render_nav_dropdown($ru ? 'Санатории' : 'Sanatoriums', '/sanatoriyi', $children, $onSanatorium, 'nav-sanatoriums', true)
+            . render_nav_dropdown($ru ? 'Направления лечения' : 'Treatment directions', '#', $dChildren, $onDiseases, 'nav-treatments', false);
+    }
+}
+
+if (!function_exists('render_nav_dropdown')) {
+    function render_nav_dropdown($title, $url, array $children, $active, $cssClass, $scroll) {
+        $out = '<li class="menu-item-has-children nav-sanatorium-dropdown ' . $cssClass . ($active ? ' current-menu-item active' : '') . '" role="none">';
+        $out .= '<a href="' . esc_attr(localize_front_url($url)) . '" role="menuitem" aria-haspopup="true" aria-expanded="false">' . esc_attr($title) . '</a>';
+        $out .= '<ul class="sub-menu' . ($scroll ? ' sub-menu-scroll' : '') . '" role="menu">';
+        foreach ($children as $c) {
+            if (!empty($c['divider'])) {
+                $out .= '<li class="nav-divider" role="separator"></li>';
+                continue;
+            }
+            $out .= '<li role="none"><a role="menuitem" href="' . esc_attr(localize_front_url($c['url'])) . '">' . esc_attr($c['title']) . '</a></li>';
+        }
+        return $out . '</ul></li>';
     }
 }
 

@@ -923,3 +923,31 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 .gs-rating-badge__label{font-size:11px;font-weight:400;opacity:.9}
 .gs-rating-badges__count{font-size:12px;color:#888;margin-top:4px;text-align:center;white-space:nowrap}
 .gs-rating-badges--card{position:absolute;top:10px;right:10px;z-index:3;background:rgba(255,255,255,.92);padding:4px;border-radius:8px}
+
+/* ===== Main menu: «Санатории» / «Направления лечения» dropdowns ===== */
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu { min-width: 300px; max-width: 420px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.sub-menu-scroll { max-height: 400px; overflow-y: auto; overscroll-behavior: contain; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li a { white-space: normal; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li.nav-divider { height: 1px; margin: 6px 20px; background: #e2e8f0; padding: 0; }
+.tgmenu__navbar-wrap ul li.menu-item-has-children:focus-within > .sub-menu,
+.tgmenu__navbar-wrap ul li.menu-item-has-children.is-open > .sub-menu { opacity: 1; visibility: visible; transform: scale(1); }
+/* active page: bold */
+.tgmenu__navbar-wrap > ul > li.active > a,
+.tgmenu__navbar-wrap > ul > li.current-menu-item > a { font-weight: 700; }
+.tgmenu__navbar-wrap ul li a:focus-visible,
+.tgmobile__menu .navigation li .dropdown-btn:focus-visible { outline: 2px solid var(--tg-theme-primary, #6c3ee0); outline-offset: 2px; }
+
+/* Mobile (hamburger): chevron toggle + 16px indented submenu */
+.tgmobile__menu .navigation li.nav-sanatorium-dropdown > .dropdown-btn .plus-line {
+    width: 8px; height: 8px; background: transparent; border-radius: 0;
+    border-right: 2px solid var(--tg-theme-primary); border-bottom: 2px solid var(--tg-theme-primary);
+    transform: translate(-50%, -70%) rotate(-45deg); transition: transform 200ms ease;
+}
+.tgmobile__menu .navigation li.nav-sanatorium-dropdown > .dropdown-btn .plus-line::after { display: none; }
+.tgmobile__menu .navigation li.nav-sanatorium-dropdown > .dropdown-btn.open .plus-line {
+    background: transparent; border-color: #fff; transform: translate(-50%, -30%) rotate(45deg);
+}
+.tgmobile__menu .navigation li.nav-sanatorium-dropdown > ul { padding-left: 16px; max-height: 60vh; overflow-y: auto; }
+.tgmobile__menu .navigation li.nav-sanatorium-dropdown > ul li.nav-divider { height: 1px; margin: 6px 25px; background: rgba(0,0,0,.1); }
+.tgmobile__menu .navigation li.active > a { font-weight: 700; }
+.tgmenu__navbar-wrap ul li.menu-item-has-children.esc-closed:focus-within > .sub-menu{opacity:0;visibility:hidden}
