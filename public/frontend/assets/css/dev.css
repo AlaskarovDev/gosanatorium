@@ -1087,3 +1087,43 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
     height: 34px; padding: 0 28px 0 10px; font-size: 14px; border-radius: 6px; min-width: 80px;
     background: #0e7a66; color: #fff; border: 1px solid #0e7a66;
 }
+
+/* ==========================================================================
+   Header fix (Task #255): header never overlaps content, burger hidden on desktop
+   ========================================================================== */
+/* Fixed header above everything, always opaque */
+.tg-header__area[data-gs-header],
+.tg-header__area[data-gs-header].header-sticky {
+    position: fixed !important; top: 0; left: 0; right: 0; width: 100%;
+    z-index: 1000 !important; background: #0e7a66 !important;
+    backdrop-filter: none; animation: none !important;
+}
+.tg-header__area[data-gs-header].header-sticky { box-shadow: 0 1px 3px rgba(0,0,0,.2); }
+/* Keep menu text light even in sticky state */
+.tg-header__area[data-gs-header].header-sticky .gs-mainnav .navigation > li > a { color: #fff !important; }
+.tg-header__area[data-gs-header].header-sticky .gs-mainnav .navigation > li.active > a,
+.tg-header__area[data-gs-header].header-sticky .gs-mainnav .navigation > li.current-menu-item > a { color: #ffe98a !important; }
+.tg-header__area[data-gs-header] .logo-2 { display: none !important; }
+.tg-header__area[data-gs-header] .logo-1 { display: inline-block !important; }
+
+/* Reserve space so page content (hero) starts below the header: 32 + 72 = 104px */
+header.tg-header-height { height: 104px !important; display: block; position: relative; }
+@media (max-width: 1023.98px) {
+    header.tg-header-height { height: 64px !important; }
+}
+
+/* Burger: hidden on desktop (>= 1024px) */
+@media (min-width: 1024px) {
+    .gs-burger,
+    .gs-burger .mobile-nav-toggler,
+    .gs-mainbar .tgmenu-offcanvas-open-btn,
+    .gs-mainbar .mobile-nav-toggler { display: none !important; }
+}
+/* Top bar is slightly darker than the main green? — keep distinct light bar with border */
+.gs-topbar { border-bottom: 1px solid rgba(0,0,0,.08); box-sizing: border-box; }
+/* Top bar: slightly darker than the main green, 32px, 13px font */
+.gs-topbar { background: #0a5e4e; color: #fff; border-bottom: 0; }
+.gs-topbar__left i { color: #c9f5a8; }
+.gs-topbar__left a, .gs-topbar__account { color: #fff; }
+.gs-topbar__left a:hover, .gs-topbar__account:hover { color: #c9f5a8; }
+.gs-topbar .tg-currency-select, .gs-topbar .tg-language-select { background-color: #0e7a66 !important; border-color: rgba(255,255,255,.35) !important; }
