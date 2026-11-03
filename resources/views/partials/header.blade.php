@@ -11,51 +11,36 @@
         [route('about-us'), $gsHdrRu ? 'О нас' : 'About us'],
     ];
 @endphp
-<header class="site-header tg-header-height">
-    <div class="tg-header__area tg-header-lg-space z-index-999 tg-transparent" id="header-sticky" data-gs-header>
+<header class="site-header">
 
-        <!-- TOP BAR -->
-        <div class="header-top gs-topbar">
-            <div class="container-fluid container-1860">
-                <div class="gs-topbar__row">
-                    <div class="gs-topbar__left">
-                        @php $gsHdrPhone = !empty($footer->phone) ? $footer->phone : '+994519158894'; @endphp
-                        <a href="tel:{{ preg_replace('/[^\d+]/', '', $gsHdrPhone) }}" class="phone">📞 {{ $gsHdrPhone }}</a>
-                    </div>
-                    <div class="controls gs-topbar__right">
-                        @include('partials.header-topbar-controls')
-                    </div>
-                </div>
-            </div>
+    <!-- TOP BAR -->
+    <div class="header-top">
+        @php $gsHdrPhone = !empty($footer->phone) ? $footer->phone : '+994519158894'; @endphp
+        <a href="tel:{{ preg_replace('/[^\d+]/', '', $gsHdrPhone) }}" class="phone">📞 {{ $gsHdrPhone }}</a>
+        <div class="controls">
+            @include('partials.header-topbar-controls')
         </div>
+    </div>
 
-        <!-- MAIN NAV -->
-        <div class="container-fluid container-1860 gs-mainbar">
-            <div class="header-main gs-mainbar__row">
-                <div class="logo">
-                    <a class="logo-1 header-logo" href="{{ route('home') }}">
-                        <img src="{{ asset($general_setting->logo) }}" alt="GoSanatorium">
-                    </a>
-                    <a class="logo-2 d-none" href="{{ route('home') }}">
-                        <img src="{{ asset($general_setting->secondary_logo) }}" alt="GoSanatorium">
-                    </a>
-                </div>
-                <nav class="header-nav tgmenu__nav gs-mainnav">
-                    <div class="tgmenu__navbar-wrap tgmenu__main-menu">
-                        <ul class="navigation" id="main-nav">
-                            @foreach($gsHdrNav as [$gsHdrUrl, $gsHdrLabel])
-                                <li class="{{ rtrim(url()->current(), '/') === rtrim($gsHdrUrl, '/') ? 'active' : '' }}"><a href="{{ $gsHdrUrl }}">{{ $gsHdrLabel }}</a></li>
-                            @endforeach
-                        </ul>
-                    </div>
-                </nav>
-                <a href="{{ url('/hotels') }}" class="header-cta">{{ $gsHdrRu ? 'Забронировать' : 'Book now' }}</a>
-                <div class="header-burger gs-burger">
-                    <button class="tgmenu-offcanvas-open-btn mobile-nav-toggler" aria-label="Menu">
-                        <span></span><span></span><span></span>
-                    </button>
-                </div>
+    <!-- MAIN NAV -->
+    <div class="header-main">
+        <a class="header-logo" href="{{ route('home') }}">
+            <img src="{{ asset($general_setting->logo) }}" alt="GoSanatorium">
+        </a>
+        <nav class="header-nav">
+            <div class="tgmenu__main-menu">
+                <ul class="navigation" id="main-nav">
+                    @foreach($gsHdrNav as [$gsHdrUrl, $gsHdrLabel])
+                        <li class="{{ rtrim(url()->current(), '/') === rtrim($gsHdrUrl, '/') ? 'active' : '' }}"><a href="{{ $gsHdrUrl }}">{{ $gsHdrLabel }}</a></li>
+                    @endforeach
+                </ul>
             </div>
+        </nav>
+        <a href="{{ url('/hotels') }}" class="header-cta">{{ $gsHdrRu ? 'Забронировать' : 'Book now' }}</a>
+        <div class="header-burger">
+            <button class="tgmenu-offcanvas-open-btn mobile-nav-toggler" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
         </div>
     </div>
 

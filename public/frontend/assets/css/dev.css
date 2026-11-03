@@ -1020,65 +1020,7 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .gsp-expired{display:none;position:absolute;inset:0;background:rgba(255,255,255,.92);align-items:center;justify-content:center;font-weight:700;color:#6b7280;font-size:18px;z-index:2}
 .gsp-card--expired .gsp-expired{display:flex}
 
-/* ==========================================================================
-   Header redesign (Task #254): top bar 32px + main bar 72px = 104px total
-   ========================================================================== */
-.tg-header__area[data-gs-header] { padding: 0 !important; }
-
-/* ---- Top bar ---- */
-.gs-topbar { background: #f1f3f2; height: 36px; color: #333; font-size: 13px; line-height: 36px; }
-.gs-topbar__row { display: flex; align-items: center; justify-content: space-between; height: 36px; }
-.gs-topbar__left { display: flex; align-items: center; gap: 6px; white-space: nowrap; }
-.gs-topbar__left i { color: #0e7a66; font-size: 12px; }
-.gs-topbar__left a { color: #111; font-weight: 600; }
-.gs-topbar__left a:hover { color: #0e7a66; }
-.gs-topbar__right { display: flex; align-items: center; gap: 10px; }
-.gs-topbar .tg-currency-select,
-.gs-topbar .tg-language-select {
-    height: 24px; padding: 0 22px 0 8px !important; font-size: 13px !important; line-height: 20px;
-    min-width: 0 !important; border-radius: 4px !important; border-width: 1px !important;
-    background-color: #0e7a66 !important; border-color: #0e7a66 !important; color: #fff !important;
-    background-position: right 7px center !important; background-size: 10px !important;
-}
-.gs-topbar .tg-currency-select:hover, .gs-topbar .tg-language-select:hover { background-color: #0a5e4e !important; }
-.gs-topbar__account { color: #222; font-weight: 600; font-size: 13px; }
-.gs-topbar__account:hover { color: #0e7a66; }
-
-/* ---- Main bar ---- */
-#header-sticky[data-gs-header] { background: #0e7a66; }
-.gs-mainbar__row { display: flex; align-items: center; justify-content: space-between; height: 68px; gap: 24px; }
-.gs-mainbar .logo img { max-height: 48px; width: auto; }
-.gs-mainnav { flex: 1 1 auto; min-width: 0; margin: 0 !important; display: block; }
-.gs-mainnav .tgmenu__main-menu { display: flex !important; justify-content: center; }
-.gs-mainnav .navigation { display: flex; flex-wrap: nowrap !important; align-items: center; justify-content: center; margin: 0 !important; padding: 0; }
-.gs-mainnav .navigation > li { margin: 0 !important; padding: 0 !important; flex-shrink: 0; }
-.gs-mainnav .navigation > li > a {
-    height: 68px; padding: 0 11px !important; font-size: 14px !important; font-weight: 500 !important;
-    letter-spacing: 0 !important; white-space: nowrap; line-height: 1.25; color: #fff !important;
-    font-family: 'Poppins', sans-serif; transition: color .2s ease;
-}
-@media (min-width: 1280px) { .gs-mainnav .navigation > li > a { font-size: 15px !important; } }
-@media (min-width: 1440px) { .gs-mainnav .navigation > li > a { font-size: 16px !important; } }
-
-/* hover: colour change to light green; active section: bold + colour */
-.gs-mainnav .navigation > li:hover > a,
-.gs-mainnav .navigation > li > a:hover { color: #c9f5a8 !important; }
-.gs-mainnav .navigation > li.active > a,
-.gs-mainnav .navigation > li.current-menu-item > a,
-.gs-mainnav .navigation > li.current-menu-ancestor > a { font-weight: 700 !important; color: #ffe98a !important; }
-
-.gs-burger { display: none; }
-
-/* ---- Mobile / tablet < 1024px: only logo + burger ---- */
-@media (max-width: 1023.98px) {
-    .gs-topbar { display: none; }
-    .gs-mainnav { display: none !important; }
-    .gs-burger { display: block; }
-    .gs-mainbar__row { height: 64px; }
-    .gs-mainbar .logo img { max-height: 40px; }
-}
-
-/* ---- Drawer extras (phone, switchers, socials at the bottom) ---- */
+/* Mobile drawer contact block */
 .gs-drawer-contact { padding: 16px 20px 0; text-align: center; }
 .gs-drawer-contact__phone { display: block; font-size: 18px; font-weight: 700; color: #fff; margin-bottom: 12px; }
 .gs-drawer-contact__phone small { display: block; font-size: 13px; font-weight: 400; opacity: .8; }
@@ -1088,84 +1030,134 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
     background: #0e7a66; color: #fff; border: 1px solid #0e7a66;
 }
 
-/* ==========================================================================
-   Header fix (Task #255): header never overlaps content, burger hidden on desktop
-   ========================================================================== */
-/* Fixed header above everything, always opaque */
-.tg-header__area[data-gs-header],
-.tg-header__area[data-gs-header].header-sticky {
-    position: fixed !important; top: 0; left: 0; right: 0; width: 100%;
-    z-index: 1000 !important; background: #0e7a66 !important;
-    backdrop-filter: none; animation: none !important;
-}
-.tg-header__area[data-gs-header].header-sticky { box-shadow: 0 1px 3px rgba(0,0,0,.2); }
-/* Keep menu text light even in sticky state */
-.tg-header__area[data-gs-header].header-sticky .gs-mainnav .navigation > li > a { color: #fff !important; }
-.tg-header__area[data-gs-header].header-sticky .gs-mainnav .navigation > li.active > a,
-.tg-header__area[data-gs-header].header-sticky .gs-mainnav .navigation > li.current-menu-item > a { color: #ffe98a !important; }
-.tg-header__area[data-gs-header] .logo-2 { display: none !important; }
-.tg-header__area[data-gs-header] .logo-1 { display: inline-block !important; }
+/* ===== GOSANATORIUM PROFESSIONAL HEADER ===== */
 
-/* Reserve space so page content starts below the header: 36 + 68 = 104px */
-header.tg-header-height { height: 104px !important; display: block; position: relative; }
-@media (max-width: 1023.98px) {
-    header.tg-header-height { height: 64px !important; }
+.site-header {
+  display: flex !important;
+  flex-direction: column !important;
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  z-index: 9999 !important;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.15);
 }
 
-/* Burger: hidden on desktop (>= 1024px) */
+/* TOP BAR */
+.header-top {
+  background: #1a6b5a;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+.header-top .phone {
+  color: rgba(255,255,255,0.92);
+  font-size: 13px;
+  font-weight: 500;
+  text-decoration: none;
+}
+.header-top .ctrl-btn {
+  color: rgba(255,255,255,0.92);
+  font-size: 13px;
+  font-weight: 500;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.2);
+  border-radius: 6px;
+  padding: 3px 10px;
+  cursor: pointer;
+  margin-left: 8px;
+}
+.header-top .ctrl-btn:hover {
+  background: rgba(255,255,255,0.2);
+}
+
+/* MAIN NAV */
+.header-main {
+  background: #22876b;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 40px;
+}
+.header-logo img {
+  height: 40px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+.header-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.header-nav a {
+  color: rgba(255,255,255,0.9);
+  text-decoration: none;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  transition: all 0.2s;
+}
+.header-nav a:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.15);
+}
+
+/* CTA BUTTON */
+.header-cta {
+  background: #fff;
+  color: #22876b;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 9px 20px;
+  border-radius: 8px;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s;
+}
+.header-cta:hover {
+  background: #f0fdf4;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+/* HAMBURGER */
+.header-burger {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  cursor: pointer;
+}
+.header-burger span {
+  display: block;
+  width: 24px;
+  height: 2px;
+  background: #fff;
+  border-radius: 2px;
+}
+
+/* RESPONSIVE */
+@media (max-width: 1023px) {
+  .header-nav, .header-cta { display: none !important; }
+  .header-burger { display: flex !important; }
+  .header-main, .header-top { padding: 0 20px; }
+}
 @media (min-width: 1024px) {
-    .gs-burger,
-    .gs-burger .mobile-nav-toggler,
-    .gs-mainbar .tgmenu-offcanvas-open-btn,
-    .gs-mainbar .mobile-nav-toggler { display: none !important; }
-}
-/* Top bar is slightly darker than the main green? — keep distinct light bar with border */
-.gs-topbar { border-bottom: 1px solid rgba(0,0,0,.08); box-sizing: border-box; }
-/* Top bar: slightly darker than the main green, 32px, 13px font */
-.gs-topbar { background: #0a5e4e; color: #fff; border-bottom: 0; }
-.gs-topbar__left i { color: #c9f5a8; }
-.gs-topbar__left a, .gs-topbar__account { color: #fff; }
-.gs-topbar__left a:hover, .gs-topbar__account:hover { color: #c9f5a8; }
-.gs-topbar .tg-currency-select, .gs-topbar .tg-language-select { background-color: #0e7a66 !important; border-color: rgba(255,255,255,.35) !important; }
-
-/* Task #256: clear separation of the two header rows, topbar padding, burger hidden on desktop */
-.gs-topbar { box-sizing: border-box; border-bottom: 1px solid rgba(255,255,255,.12); }
-.gs-topbar .tg-currency-select, .gs-topbar .tg-language-select { height: 26px; padding-top: 0; padding-bottom: 0; line-height: 24px; }
-.gs-mainbar { box-shadow: 0 -1px 0 rgba(0,0,0,.15) inset; }
-@media (min-width: 1024px) {
-    .tg-header__area[data-gs-header] .gs-burger,
-    .tg-header__area[data-gs-header] [class*="burger"],
-    .tg-header__area[data-gs-header] .mobile-nav-toggler,
-    .tg-header__area[data-gs-header] .tgmenu-offcanvas-open-btn { display: none !important; }
+  .header-burger { display: none !important; }
 }
 
-/* Task #257: final header hardening — fixed two-row header, no burger on desktop, no overlap */
-.tg-header__area[data-gs-header],
-.tg-header__area[data-gs-header].header-sticky { z-index: 9999 !important; display: flex; flex-direction: column; }
-.tg-header__area[data-gs-header] > .gs-topbar { flex: 0 0 36px; height: 36px; background: #0a5e4e !important; border-bottom: 1px solid rgba(255,255,255,.18) !important; }
-.tg-header__area[data-gs-header] > .gs-mainbar { flex: 0 0 68px; height: 68px; }
-.gs-mainnav .navigation > li > a { font-size: 14px !important; }
-@media (min-width: 1280px) { .gs-mainnav .navigation > li > a { font-size: 15px !important; } }
-@media (min-width: 1440px) { .gs-mainnav .navigation > li > a { font-size: 16px !important; } }
-@media (min-width: 1024px) {
-    header.tg-header-height { height: 104px !important; }
-    .gs-burger, .gs-burger *, .gs-mainbar .mobile-nav-toggler, .gs-mainbar .tgmenu-offcanvas-open-btn,
-    header .mobile-nav-toggler, header .tgmenu-offcanvas-open-btn { display: none !important; }
-    .gs-mainnav { display: block !important; }
-}
-@media (max-width: 1023.98px) {
-    .tg-header__area[data-gs-header] > .gs-mainbar { flex-basis: 64px; height: 64px; }
-    .gs-mainnav { display: none !important; }
-    .gs-burger { display: block !important; }
-}
+/* PAGE OFFSET */
+body { padding-top: 108px !important; }
 
-/* Task #258: shared two-bar header — white "book" CTA, phone/controls in the top bar */
-.site-header .header-cta {
-    display: inline-flex; align-items: center; flex: 0 0 auto; height: 40px; padding: 0 22px;
-    background: #fff; color: #0e7a66 !important; font-weight: 700; font-size: 15px;
-    border-radius: 8px; white-space: nowrap; text-decoration: none; transition: background .2s ease, color .2s ease;
-}
-.site-header .header-cta:hover { background: #c9f5a8; color: #0a5e4e !important; }
-.site-header .header-top .phone { color: #fff; font-weight: 600; text-decoration: none; }
-.site-header .header-top .phone:hover { color: #c9f5a8; }
-@media (max-width: 1023.98px) { .site-header .header-cta { display: none; } }
+/* Markup helpers for the header (list reset, burger button reset) */
+.header-nav ul { display: flex; align-items: center; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.header-nav li { margin: 0; padding: 0; }
+.header-nav li.active > a { color: #fff; background: rgba(255,255,255,0.15); }
+.header-top .controls { display: flex; align-items: center; }
+.header-top .controls a.ctrl-btn { text-decoration: none; }
+.header-burger button { background: none; border: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; cursor: pointer; }

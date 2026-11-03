@@ -10,7 +10,7 @@
     $gsLangCode = session('lang_code', config('app.locale', 'en'));
 @endphp
 @if($gsTopCurrencies->count() > 1)
-                    <select class="currency_code tg-currency-select notranslate" translate="no" aria-label="{{ __('translate.Currency') }}">
+                    <select class="currency_code ctrl-btn tg-currency-select notranslate" translate="no" aria-label="{{ __('translate.Currency') }}">
                         @foreach($gsTopCurrencies as $curr)
                             <option value="{{ $curr->currency_code }}" {{ $gsCurrencyCode == $curr->currency_code ? 'selected' : '' }}>
                                 {{ $curr->currency_icon }} {{ $curr->currency_code }}
@@ -19,7 +19,7 @@
                     </select>
                 @endif
                 @if($gsTopLanguages->count() > 1)
-                    <select class="language_code tg-language-select notranslate" translate="no" aria-label="{{ __('translate.Language') }}">
+                    <select class="language_code ctrl-btn tg-language-select notranslate" translate="no" aria-label="{{ __('translate.Language') }}">
                         @foreach($gsTopLanguages as $lang)
                             <option value="{{ $lang->lang_code }}" {{ $gsLangCode == $lang->lang_code ? 'selected' : '' }}>
                                 {{ strtoupper($lang->lang_code) }}
@@ -28,7 +28,7 @@
                     </select>
                 @endif
                 @auth('web')
-                    <a class="gs-topbar__account" href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
+                    <a class="ctrl-btn" href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
                         <i class="far fa-user" aria-hidden="true"></i> {{ __('translate.Dashboard') }}
                     </a>
                 @endauth
