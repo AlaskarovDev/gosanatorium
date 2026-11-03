@@ -1138,3 +1138,23 @@ header.tg-header-height { height: 104px !important; display: block; position: re
     .tg-header__area[data-gs-header] .mobile-nav-toggler,
     .tg-header__area[data-gs-header] .tgmenu-offcanvas-open-btn { display: none !important; }
 }
+
+/* Task #257: final header hardening — fixed two-row header, no burger on desktop, no overlap */
+.tg-header__area[data-gs-header],
+.tg-header__area[data-gs-header].header-sticky { z-index: 9999 !important; display: flex; flex-direction: column; }
+.tg-header__area[data-gs-header] > .gs-topbar { flex: 0 0 36px; height: 36px; background: #0a5e4e !important; border-bottom: 1px solid rgba(255,255,255,.18) !important; }
+.tg-header__area[data-gs-header] > .gs-mainbar { flex: 0 0 68px; height: 68px; }
+.gs-mainnav .navigation > li > a { font-size: 14px !important; }
+@media (min-width: 1280px) { .gs-mainnav .navigation > li > a { font-size: 15px !important; } }
+@media (min-width: 1440px) { .gs-mainnav .navigation > li > a { font-size: 16px !important; } }
+@media (min-width: 1024px) {
+    header.tg-header-height { height: 104px !important; }
+    .gs-burger, .gs-burger *, .gs-mainbar .mobile-nav-toggler, .gs-mainbar .tgmenu-offcanvas-open-btn,
+    header .mobile-nav-toggler, header .tgmenu-offcanvas-open-btn { display: none !important; }
+    .gs-mainnav { display: block !important; }
+}
+@media (max-width: 1023.98px) {
+    .tg-header__area[data-gs-header] > .gs-mainbar { flex-basis: 64px; height: 64px; }
+    .gs-mainnav { display: none !important; }
+    .gs-burger { display: block !important; }
+}
