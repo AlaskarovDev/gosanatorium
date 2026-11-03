@@ -57,10 +57,10 @@
                 <div class="text-end mb-3"><a href="{{ localize_front_url('/sanatoriyi') }}" class="gs-reset-link">Сбросить фильтры</a></div>
             @endif
             @if ($services->count() > 0)
-                @include('tourbooking::front.services.services-item', [
-                    'allServices' => $services,
-                    'isListView' => 'false',
-                ])
+                @include('tourbooking::front.services.gscard-grid', ['allServices' => $services])
+                <div class="text-center mt-50 mb-30">
+                    @include('components.front.custom-pagination', ['items' => $services])
+                </div>
             @else
                 @if (!empty($filtersActive))
                     <div class="gs-filter-empty">
