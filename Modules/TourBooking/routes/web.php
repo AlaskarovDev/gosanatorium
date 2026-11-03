@@ -361,6 +361,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/diseases/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show');
     // Russian-style aliases (/ru/bolezni, /ru/bolezni/sustavy)
     Route::get('/sanatoriyi', [FrontDiseaseController::class, 'sanatoriums'])->name('sanatoriums.list');
+    // Sanatorium comparison (/ru/sravnenie?s1=slug1&s2=slug2&s3=slug3)
+    Route::get('/sravnenie', [\Modules\TourBooking\App\Http\Controllers\Front\FrontCompareController::class, 'index'])->name('sanatoriums.compare');
     Route::get('/bolezni', [FrontDiseaseController::class, 'index'])->name('diseases.index.alias');
     Route::get('/bolezni/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show.alias');
 });

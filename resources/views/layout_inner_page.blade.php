@@ -695,6 +695,7 @@
     </script>
 
 
+    <script src="{{ asset('frontend/assets/js/gs-compare.js') }}?v={{ @filemtime(public_path('frontend/assets/js/gs-compare.js')) }}" defer></script>
     @stack('js_section')
 
 {{-- Chat widget mobil fix - tabbar ilə overlap olmasın --}}

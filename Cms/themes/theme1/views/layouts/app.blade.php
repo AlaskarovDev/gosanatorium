@@ -499,6 +499,7 @@
     </script>
 
 
+    <script src="{{ asset('frontend/assets/js/gs-compare.js') }}?v={{ @filemtime(public_path('frontend/assets/js/gs-compare.js')) }}" defer></script>
     @stack('js_section')
 
     {{-- Yourgood widget — moved out of <head> and deferred for fast first paint --}}

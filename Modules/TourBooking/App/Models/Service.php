@@ -90,7 +90,14 @@ final class Service extends Model
         'tour_plan_sub_title',
         'google_map_sub_title',
         'google_map_url',
-        'is_per_person'
+        'is_per_person',
+        'procedures_per_day',
+        'meals_included',
+        'tests_included',
+        'doctor_exam_included',
+        'airport_distance_km',
+        'child_min_age',
+        'child_discount',
     ];
 
     /**
@@ -122,7 +129,10 @@ final class Service extends Model
         'show_on_homepage' => 'boolean',
         'status' => 'boolean',
         'is_new' => 'boolean',
-        'is_per_person' => 'boolean'
+        'is_per_person' => 'boolean',
+        'meals_included' => 'boolean',
+        'tests_included' => 'boolean',
+        'doctor_exam_included' => 'boolean',
     ];
 
     protected static function booted(): void
