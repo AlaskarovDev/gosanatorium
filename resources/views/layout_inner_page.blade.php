@@ -430,27 +430,6 @@
                     <div class="col-lg-5 col-7">
                         <div class="tg-menu-right-action d-flex align-items-center justify-content-end">
                             
-                            {{-- ========== SOCIAL CONTACT ICONS ========== --}}
-                            @php
-                                $phoneClean = $footer->phone ? preg_replace('/[^0-9]/', '', $footer->phone) : null;
-                            @endphp
-                            <div class="tg-header-social-contacts d-none d-xl-flex align-items-center">
-                                @if($phoneClean)
-                                <a href="https://wa.me/{{ $phoneClean }}" class="tg-social-icon tg-whatsapp" target="_blank" title="WhatsApp">
-                                    <i class="fab fa-whatsapp"></i>
-                                </a>
-                                @endif
-                                @if($phoneClean)
-                                <a href="https://t.me/+{{ $phoneClean }}" class="tg-social-icon tg-telegram" target="_blank" title="Telegram">
-                                    <i class="fab fa-telegram-plane"></i>
-                                </a>
-                                @endif
-                                <a href="https://vk.com/gosanatorium" class="tg-social-icon tg-vk" target="_blank" rel="noopener" title="VK">
-                                    <i class="fab fa-vk"></i>
-                                </a>
-                            </div>
-                            {{-- ========== END SOCIAL CONTACT ICONS ========== --}}
-
                             <div class="tg-header-contact-info d-flex align-items-center">
                                 <span class="tg-header-contact-icon mr-5 d-none d-xl-block">
                                     @include('svg.search_phone')
