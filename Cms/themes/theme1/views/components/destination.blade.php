@@ -23,17 +23,12 @@
                             ? rtrim(route('front.tourbooking.hotels.destination', ['slug' => $destination_item->slug]), '/') . '/'
                             : route('front.tourbooking.services', ['destination_id' => $destination_item->id, 'destination' => $destination_item->name]);
                         $dest_count = (int) $destination_item->services_count;
-                        if (app()->getLocale() == 'ru') {
-                            $dest_label = $dest_count == 1 ? 'Тур' : ($dest_count < 5 ? 'Туры' : 'Туров');
-                        } else {
-                            $dest_label = $dest_count == 1 ? __('translate.Tour') : __('translate.Tours');
-                        }
                     @endphp
                     <a href="{{ $destination_url }}" class="gsdest-card">
                         <img src="{{ asset($destination_item->image) }}" alt="{{ $destination_item->country }}" class="gsdest-card-img">
                         <div class="gsdest-overlay"></div>
                         @if ($dest_count > 0)
-                            <div class="gsdest-badge">{{ $dest_count }} {{ $dest_label }}</div>
+                            <div class="gsdest-badge">{{ sanatoriumCountLabel($dest_count) }}</div>
                         @endif
                         <div class="gsdest-info">
                             <div class="gsdest-name">{{ $destination_item->country }}</div>
