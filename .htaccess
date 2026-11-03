@@ -7,6 +7,10 @@
 
 RewriteRule ^update - [L]
 
+    # Permanent redirect of duplicated language prefix: /ru/ru/xxx -> /ru/xxx
+    RewriteRule ^ru/ru(/.*)?$ /ru$1 [L,R=301]
+
+
 
     RewriteCond %{REQUEST_FILENAME} -d [OR]
     RewriteCond %{REQUEST_FILENAME} -f
