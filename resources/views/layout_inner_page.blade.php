@@ -107,6 +107,77 @@
     .tg-social-icon.tg-email { background: #EA4335 !important; }
     .tg-social-icon.tg-email:hover { background: #d33426 !important; }
 
+    /* ===== RESPONSIVE — keep all elements, just compact spacing ===== */
+    .tgmenu__main-menu,
+    .tgmenu__main-menu .navigation,
+    .tgmenu__navbar-wrap ul {
+        flex-wrap: nowrap !important;
+        white-space: nowrap !important;
+    }
+    .tgmenu__main-menu li,
+    .tgmenu__navbar-wrap li {
+        flex-shrink: 0;
+        white-space: nowrap;
+    }
+
+    /* 1699px and below — tighter menu spacing for 15" / smaller HD laptops */
+    @media (max-width: 1699px) {
+        .tgmenu__main-menu li,
+        .tgmenu__navbar-wrap li { margin-right: 6px !important; }
+        .tgmenu__main-menu li a,
+        .tgmenu__navbar-wrap li a { padding: 0 8px !important; }
+    }
+
+    /* 1499px and below — slightly smaller icons + tighter menu */
+    @media (max-width: 1499px) {
+        .tg-header-social-contacts { gap: 5px; margin-right: 10px; padding-right: 10px; }
+        .tg-social-icon { width: 32px; height: 32px; font-size: 14px; }
+        .tgmenu__nav.tgmenu-1-space.ml-30 { margin-left: 14px !important; }
+        .tgmenu__main-menu li,
+        .tgmenu__navbar-wrap li { margin-right: 4px !important; }
+        .tgmenu__main-menu li a,
+        .tgmenu__navbar-wrap li a { font-size: 14px !important; padding: 0 6px !important; }
+        .tg-header-contact-number { font-size: 13px; }
+        .tg-header-contact-number span { font-size: 11px; }
+        .tg-currency-select, .tg-language-select { padding: 6px 22px 6px 8px; font-size: 13px; }
+        .tg-header-btn .tg-btn-header { padding: 8px 14px; font-size: 13px; }
+    }
+
+    /* 1366px and below — tighter still, all elements remain visible */
+    @media (max-width: 1366px) {
+        .tg-header-social-contacts { gap: 4px; margin-right: 8px; padding-right: 8px; }
+        .tg-social-icon { width: 28px; height: 28px; font-size: 12px; }
+        .tgmenu__nav.tgmenu-1-space.ml-30 { margin-left: 10px !important; }
+        .tgmenu__main-menu li,
+        .tgmenu__navbar-wrap li { margin-right: 4px !important; padding: 0 !important; }
+        .tgmenu__main-menu li a,
+        .tgmenu__navbar-wrap li a {
+            font-size: 13px !important;
+            letter-spacing: 0 !important;
+            padding: 0 6px !important;
+        }
+        .tg-header-contact-icon { display: none !important; }
+        .tg-header-contact-number { font-size: 12px; line-height: 1.2; }
+        .tg-header-contact-number span { font-size: 10px; }
+        .tg-currency-select, .tg-language-select { padding: 5px 18px 5px 6px; font-size: 12px; min-width: 60px; }
+        .tg-header-btn .tg-btn-header { padding: 7px 12px; font-size: 12px; }
+        .tg-header-btn.ml-20 { margin-left: 10px !important; }
+        .tg-header-menu-bar.ml-20.pl-20 { margin-left: 10px !important; padding-left: 10px !important; }
+        .tg-currency-switcher.ml-15 { margin-left: 8px !important; }
+        .tg-language-switcher.ml-10 { margin-left: 6px !important; }
+    }
+
+    /* Below 1200px (XL breakpoint) — mobile menu kicks in, hide socials and phone */
+    @media (max-width: 1199px) {
+        .tg-header-social-contacts { display: none !important; }
+    }
+
+    /* Give the left column more space on mid-XL screens */
+    @media (min-width: 1200px) and (max-width: 1499px) {
+        .tg-header__area .row > .col-lg-7 { flex: 0 0 58.333% !important; max-width: 58.333% !important; }
+        .tg-header__area .row > .col-lg-5 { flex: 0 0 41.666% !important; max-width: 41.666% !important; }
+    }
+
     /* Tooltip on hover */
     .tg-social-icon[title] { position: relative; }
     .tg-social-icon[title]:hover::after {
@@ -197,6 +268,46 @@
         background-position: right 10px center;
     }
 
+    /* ===== MOBILE RESPONSIVE ===== */
+    @media (max-width: 1199px) {
+        .tg-currency-switcher,
+        .tg-language-switcher {
+            margin-left: 6px !important;
+        }
+        .tg-currency-select,
+        .tg-language-select {
+            padding: 5px 26px 5px 8px;
+            font-size: 12px;
+            min-width: 70px;
+            border-radius: 6px;
+        }
+        .tg-language-select { min-width: 58px; }
+    }
+
+    @media (max-width: 767px) {
+        .tg-currency-select,
+        .tg-language-select {
+            padding: 4px 22px 4px 6px;
+            font-size: 11px;
+            min-width: 60px;
+        }
+        .tg-language-select { min-width: 52px; }
+        .tg-currency-switcher,
+        .tg-language-switcher {
+            margin-left: 4px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .tg-currency-select,
+        .tg-language-select {
+            padding: 3px 20px 3px 5px;
+            font-size: 10px;
+            min-width: 52px;
+            border-radius: 5px;
+        }
+        .tg-language-select { min-width: 46px; }
+    }
     </style>
     {{-- ========== END CUSTOM HEADER CSS ========== --}}
 
@@ -297,7 +408,141 @@
 
 
     <!-- header-area -->
-    @include('partials.header')
+    <header class="tg-header-height">
+        <div class="tg-header__area tg-header-lg-space z-index-999 tg-transparent" id="header-sticky">
+            <div class="container-fluid container-1860">
+                <div class="row align-items-center">
+                    <div class="col-lg-7 col-5">
+                        <div class="tgmenu__wrap d-flex align-items-center">
+                            <div class="logo">
+                                <a class="logo-1" href="{{ route('home') }}"><img
+                                        src="{{ asset($general_setting->logo) }}" alt="Logo"></a>
+                                <a class="logo-2 d-none" href="{{ route('home') }}"><img
+                                        src="{{ asset($general_setting->secondary_logo) }}" alt="Logo"></a>
+                            </div>
+                            <nav class="tgmenu__nav tgmenu-1-space ml-30">
+                                <div class="tgmenu__navbar-wrap tgmenu__main-menu d-none d-xl-flex">
+                                    @include('components.common_navitems')
+                                </div>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-5 col-7">
+                        <div class="tg-menu-right-action d-flex align-items-center justify-content-end">
+                            
+                            {{-- ========== SOCIAL CONTACT ICONS ========== --}}
+                            @php
+                                $phoneClean = $footer->phone ? preg_replace('/[^0-9]/', '', $footer->phone) : null;
+                            @endphp
+                            <div class="tg-header-social-contacts d-none d-xl-flex align-items-center">
+                                @if($phoneClean)
+                                <a href="https://wa.me/{{ $phoneClean }}" class="tg-social-icon tg-whatsapp" target="_blank" title="WhatsApp">
+                                    <i class="fab fa-whatsapp"></i>
+                                </a>
+                                @endif
+                                @if($phoneClean)
+                                <a href="https://t.me/+{{ $phoneClean }}" class="tg-social-icon tg-telegram" target="_blank" title="Telegram">
+                                    <i class="fab fa-telegram-plane"></i>
+                                </a>
+                                @endif
+                                <a href="https://vk.com/gosanatorium" class="tg-social-icon tg-vk" target="_blank" rel="noopener" title="VK">
+                                    <i class="fab fa-vk"></i>
+                                </a>
+                            </div>
+                            {{-- ========== END SOCIAL CONTACT ICONS ========== --}}
+
+                            <div class="tg-header-contact-info d-flex align-items-center">
+                                <span class="tg-header-contact-icon mr-5 d-none d-xl-block">
+                                    @include('svg.search_phone')
+                                </span>
+                                <div class="tg-header-contact-number d-none d-xl-block">
+                                    <span>{{ __('translate.Call Us') }}:</span>
+                                    <a href="tel:{{ $footer->phone }}">{{ $footer->phone }}</a>
+                                </div>
+                            </div>
+
+                            {{-- ========== CURRENCY & LANGUAGE SWITCHERS ========== --}}
+                            @php
+                                $activeCurrencies = \Modules\Currency\App\Models\Currency::where('status', 'active')->get();
+                                $sessionCurrency = session('currency');
+                                $currentCode = $sessionCurrency ? $sessionCurrency['currency_code'] : null;
+                                
+                                if (!$currentCode) {
+                                    $defaultCurr = $activeCurrencies->where('is_default', 'yes')->first();
+                                    $currentCode = $defaultCurr ? $defaultCurr->currency_code : 'USD';
+                                }
+
+                                $activeLanguages = \Modules\Language\App\Models\Language::where('status', 1)->get();
+                                $currentLang = session('lang_code', config('app.locale', 'en'));
+                            @endphp
+
+                            @if($activeCurrencies->count() > 1)
+                            <div class="tg-currency-switcher d-flex align-items-center ml-15">
+                                <select class="currency_code tg-currency-select" aria-label="{{ __('translate.Currency') }}">
+                                    @foreach($activeCurrencies as $curr)
+                                        <option value="{{ $curr->currency_code }}" 
+                                            {{ $currentCode == $curr->currency_code ? 'selected' : '' }}>
+                                            {{ $curr->currency_icon }} {{ $curr->currency_code }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
+
+                            @if($activeLanguages->count() > 1)
+                            <div class="tg-language-switcher d-flex align-items-center ml-10">
+                                <select class="language_code tg-language-select" aria-label="{{ __('translate.Language') }}">
+                                    @foreach($activeLanguages as $lang)
+                                        <option value="{{ $lang->lang_code }}" 
+                                            {{ $currentLang == $lang->lang_code ? 'selected' : '' }}>
+                                            {{ strtoupper($lang->lang_code) }}
+                                        </option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            @endif
+                            {{-- ========== END CURRENCY & LANGUAGE SWITCHERS ========== --}}
+                        
+                            <div class="tg-header-btn ml-20 d-none d-sm-block">
+                                @auth('web')
+                                    <a class="tg-btn-header"
+                                        href="{{ Auth::guard('web')->user()->is_seller == 1 ? route('agency.dashboard') : route('user.dashboard') }}">
+                                        <span>
+                                            <svg width="18" height="18" viewBox="0 0 18 18" fill="none"
+                                                xmlns="http://www.w3.org/2000/svg">
+                                                <path
+                                                    d="M1.7 17.2C1.5 17.2 1.3 17.1 1.2 17C1.1 16.8 1 16.7 1 16.5C1 15.1 1.4 13.7 2.1 12.4C2.8 11.2 3.9 10.1 5.1 9.4C4.6 8.8 4.2 8 4 7.2C3.9 6.4 3.9 5.5 4.1 4.8C4.3 4 4.8 3.2 5.3 2.6C5.9 2 6.6 1.5 7.3 1.3C7.9 1.1 8.5 1 9.1 1C9.3 1 9.6 1 9.8 1C10.6 1.1 11.4 1.4 12.1 1.9C12.8 2.4 13.3 3 13.7 3.7C14.1 4.4 14.3 5.2 14.3 6.1C14.3 7.3 13.9 8.5 13.1 9.4C13.7 9.8 14.3 10.2 14.9 10.7C15.7 11.5 16.2 12.3 16.7 13.3C17.1 14.3 17.3 15.3 17.3 16.4C17.3 16.6 17.2 16.8 17.1 16.9C17 17 16.8 17.1 16.6 17.1C16.5 17.1 16.4 17.1 16.3 17C16.2 17 16.1 16.9 16.1 16.8C16 16.7 16 16.7 15.9 16.6C15.9 16.5 15.8 16.4 15.8 16.3C15.8 15.4 15.6 14.6 15.3 13.8C15 13 14.5 12.3 13.8 11.7C13.2 11.2 12.6 10.7 11.9 10.4C11.1 10.9 10.2 11.2 9.1 11.2C8.1 11.2 7.1 10.9 6.3 10.4C5.2 10.9 4.2 11.7 3.5 12.8C2.8 13.9 2.4 15.1 2.4 16.4C2.4 16.6 2.3 16.8 2.2 16.9C2.1 17.1 1.9 17.2 1.7 17.2ZM9.1 2.5C8.4 2.5 7.7 2.7 7.1 3.1C6.4 3.5 6 4.1 5.7 4.7C5.4 5.4 5.3 6.1 5.5 6.9C5.6 7.6 6 8.3 6.5 8.8C7 9.3 7.7 9.7 8.4 9.8C8.6 9.8 8.9 9.9 9.1 9.9C9.6 9.9 10.1 9.8 10.5 9.6C11.2 9.3 11.7 8.9 12.2 8.2C12.6 7.6 12.8 6.9 12.8 6.2C12.8 5.2 12.4 4.3 11.7 3.6C11 2.8 10.1 2.5 9.1 2.5Z"
+                                                    fill="currentColor" />
+                                            </svg>
+                                        </span>
+                                        {{ __('translate.Dashboard') }}
+                                    </a>
+                                @endauth
+                            </div>
+                            <div class="tg-header-menu-bar lh-1 p-relative ml-20 pl-20">
+                                <span class="tg-header-border d-none d-xl-block"></span>
+                                <button class="tgmenu-offcanvas-open-btn menu-tigger d-none d-xl-block">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                                <button class="tgmenu-offcanvas-open-btn mobile-nav-toggler d-block d-xl-none">
+                                    <span></span>
+                                    <span></span>
+                                    <span></span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu  -->
+        @include('components.common_mobile_menu')
+        <!-- End Mobile Menu -->
+        @include('components.common_offcanvas')
+    </header>
     <!-- header-area-end -->
     @yield('front-content')
 
