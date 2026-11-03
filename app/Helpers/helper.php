@@ -456,11 +456,20 @@ function popularServices($count = 16, $isPagination = false)
     return $isPagination ? $query->paginate($count) : $query->take($count)->get();
 }
 
+/**
+ * Data source of the counts on the homepage destination cards («Лучшие курорты»):
+ * a live DB query — `services_count` = number of published (status = true) services
+ * (sanatorium pages) linked to each destination. Nothing is hardcoded.
+ * Destinations without any published service are excluded, so empty cards never show.
+ */
 function popularDestinations($count = 4, $isPagination = false)
 {
     $query = Destination::select('id', 'name', 'country', 'image', 'tags', 'slug')
         ->where('status', true)
         ->where('is_featured', true)
+        ->whereHas('services', function ($query) {
+            $query->where('status', true);
+        })
         ->withCount(['services' => function ($query) {
             $query->where('status', true);
         }])
@@ -489,6 +498,27 @@ if (!function_exists('cleanLocation')) {
         return trim($s);
     }
 }
+if (!function_exists('sanatoriumCountLabel')) {
+    // "1 санаторий", "2 санатория", "5 санаториев" (EN: "1 sanatorium", "2 sanatoriums")
+    function sanatoriumCountLabel($n)
+    {
+        $n = (int) $n;
+        if (app()->getLocale() !== 'ru') {
+            return $n . ' ' . ($n === 1 ? 'sanatorium' : 'sanatoriums');
+        }
+        $m10 = $n % 10;
+        $m100 = $n % 100;
+        if ($m10 === 1 && $m100 !== 11) {
+            $w = 'санаторий';
+        } elseif ($m10 >= 2 && $m10 <= 4 && ($m100 < 12 || $m100 > 14)) {
+            $w = 'санатория';
+        } else {
+            $w = 'санаториев';
+        }
+        return $n . ' ' . $w;
+    }
+}
+
 if (!function_exists('gscardReviewsLabel')) {
     function gscardReviewsLabel($n)
     {
