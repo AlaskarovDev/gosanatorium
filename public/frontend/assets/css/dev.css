@@ -1100,3 +1100,6 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 @media (max-width: 1199px) {
   .tg-header__area .tgmenu-offcanvas-open-btn.mobile-nav-toggler { display: block !important; }
 }
+
+/* Homepage promotions: whole card clickable (same cards as /ru/aktsii) */
+.gsp-track--home .gsp-btn::after{content:"";position:absolute;inset:0}
