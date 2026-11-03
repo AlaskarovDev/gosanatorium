@@ -371,48 +371,6 @@
                                                         </button>
                                                     </div>
                                                 </div>
-
-                                                {{-- ========== FILTERS: disease / budget / nights ========== --}}
-                                                <button type="button" class="gs-filters-toggle" @click="filtersOpen = !filtersOpen" :aria-expanded="filtersOpen.toString()">
-                                                    <span x-text="filtersOpen ? 'Скрыть фильтры ▴' : 'Фильтры ▾'">Фильтры ▾</span>
-                                                </button>
-                                                <div class="gs-filters-row" :class="{ 'is-open': filtersOpen }">
-                                                    <div class="gs-filter-item">
-                                                        <label class="tg-booking-form-title">Заболевание</label>
-                                                        <select x-model="disease" class="gs-filter-select" name="disease">
-                                                            <option value="">Выберите заболевание</option>
-                                                            <option value="joints">Заболевания суставов</option>
-                                                            <option value="skin">Кожные заболевания</option>
-                                                            <option value="neuro">Неврологические</option>
-                                                            <option value="gyneco">Гинекологические</option>
-                                                            <option value="gastro">Заболевания ЖКТ</option>
-                                                            <option value="endo">Эндокринология</option>
-                                                            <option value="all">Показать все</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="gs-filter-item">
-                                                        <label class="tg-booking-form-title">Бюджет</label>
-                                                        <select x-model="budget" class="gs-filter-select" name="budget">
-                                                            <option value="">Любой бюджет</option>
-                                                            <option value="0-500">До $500</option>
-                                                            <option value="500-1000">$500–$1,000</option>
-                                                            <option value="1000-2000">$1,000–$2,000</option>
-                                                            <option value="2000-">Свыше $2,000</option>
-                                                        </select>
-                                                    </div>
-                                                    <div class="gs-filter-item">
-                                                        <label class="tg-booking-form-title">Количество ночей</label>
-                                                        <select x-model="nights" class="gs-filter-select" name="nights">
-                                                            <option value="">Любое</option>
-                                                            <option value="7">7 ночей</option>
-                                                            <option value="10">10 ночей</option>
-                                                            <option value="14">14 ночей</option>
-                                                            <option value="21">21 ночь</option>
-                                                            <option value="other">Другое</option>
-                                                        </select>
-                                                    </div>
-                                                    <a href="#" class="gs-filters-reset" x-show="hasActiveFilters()" x-cloak @click.prevent="resetFilters()">Сбросить фильтры</a>
-                                                </div>
                                             </form>
                                             {{-- ==================== SANATORIUM/HOTEL FORM END ==================== --}}
                                         @endif
@@ -748,20 +706,7 @@
         .flatpickr-day.nextMonthDay { color: #cfd2d6 !important; }
 
 
-        /* ===== FILTERS (disease / budget / nights) ===== */
         [x-cloak] { display: none !important; }
-        .gs-filters-toggle { display: none; }
-        .gs-filters-row { display: flex; align-items: flex-end; flex-wrap: wrap; gap: 14px; padding: 10px 24px 8px; margin-top: 4px; border-top: 1px solid #eee; }
-        .gs-filter-item { flex: 1 1 180px; min-width: 150px; }
-        .gs-filter-item .tg-booking-form-title { display: block; font-size: 13px; color: #6b7280; margin-bottom: 2px; }
-        .gs-filter-select { width: 100%; height: 36px; border: 1px solid #e2e8f0; border-radius: 10px; background: #fff; padding: 0 10px; font-size: 14px; color: #1f2937; }
-        .gs-filters-reset { flex: 0 0 auto; align-self: center; font-size: 14px; font-weight: 600; color: var(--tg-theme-primary, #1a9e87); text-decoration: underline; padding-bottom: 4px; }
-        @media (max-width: 767px) {
-            .gs-filters-toggle { display: block; width: 100%; background: transparent; border: 0; border-top: 1px solid #eee; padding: 10px 14px 4px; text-align: left; font-weight: 600; font-size: 14px; color: var(--tg-theme-primary, #1a9e87); }
-            .gs-filters-row { display: none; flex-direction: column; align-items: stretch; padding: 10px 14px 4px; border-top: 0; }
-            .gs-filters-row.is-open { display: flex; }
-            .gs-filter-item { flex: 1 1 100%; }
-        }
 
         /* ===== RESPONSIVE ===== */
         @media (max-width: 1199px) {
@@ -840,12 +785,6 @@
                     children: 0,
                     activeServiceTypeId: serviceTypeId || null,
 
-                    // Extra filters (restored from URL params)
-                    disease: '',
-                    budget: '',
-                    nights: '',
-                    filtersOpen: false,
-
                     // Autocomplete Data
                     searchQuery: '',
                     showDropdown: false,
@@ -858,7 +797,6 @@
 
                     // ===== FIX: initForm - x-init ilə çağırılır =====
                     initForm() {
-                        this.restoreFiltersFromUrl();
                         // Data-nı sinxron yüklə
                         this.allDestinations = window.autocompleteData?.destinations || [];
                         var allSvc = window.autocompleteData?.services || [];
@@ -966,25 +904,7 @@
                     incrementChildren() { if (this.children < 10) this.children++; },
                     decrementChildren() { if (this.children > 0) this.children--; },
 
-                    // ===== Filters: restore / reset / active =====
-                    restoreFiltersFromUrl() {
-                        const q = new URLSearchParams(window.location.search);
-                        const d = q.get('disease') || '';
-                        if (['joints', 'skin', 'neuro', 'gyneco', 'gastro', 'endo', 'all'].includes(d)) this.disease = d;
-                        if (q.has('budget_min') || q.has('budget_max')) {
-                            const key = (q.get('budget_min') || '0') + '-' + (q.get('budget_max') || '');
-                            if (['0-500', '500-1000', '1000-2000', '2000-'].includes(key)) this.budget = key;
-                        }
-                        const n = q.get('nights') || '';
-                        if (['7', '10', '14', '21', 'other'].includes(n)) this.nights = n;
-                        // open the accordion on mobile when filters came from the URL
-                        if (this.disease || this.budget || this.nights) this.filtersOpen = true;
-                    },
-                    hasActiveFilters() {
-                        return !!(this.disease || this.budget || this.nights || this.searchQuery || this.destination_id || this.check_in || this.check_out);
-                    },
                     resetFilters() {
-                        this.disease = ''; this.budget = ''; this.nights = '';
                         this.searchQuery = ''; this.destination = ''; this.destination_id = ''; this.selectedService = null;
                         this.check_in = ''; this.check_out = '';
                         const dp = this.$refs.dateRangePicker;
@@ -1008,21 +928,13 @@
                         if (this.activeServiceTypeId) params.append('service_type_ids[]', this.activeServiceTypeId);
 
                         const baseUrl = window.location.origin;
-                        const hasFilter = !!(this.disease || this.budget || this.nights);
-
+                        
                         if (this.selectedService && this.selectedService.url) {
                             window.location.href = this.selectedService.url + '?' + params.toString();
                             return;
                         }
-                        if (hasFilter || (!this.destination && !this.destination_id)) {
+                        if ((!this.destination && !this.destination_id)) {
                             const fp = new URLSearchParams();
-                            if (this.disease) fp.append('disease', this.disease);
-                            if (this.budget) {
-                                const [bmin, bmax] = this.budget.split('-');
-                                fp.append('budget_min', bmin || '0');
-                                if (bmax) fp.append('budget_max', bmax);
-                            }
-                            if (this.nights) fp.append('nights', this.nights);
                             if (this.destination_id) fp.append('destination_id', this.destination_id);
                             if (this.destination) fp.append('destination', this.destination);
                             if (this.check_in) fp.append('check_in', this.check_in);
