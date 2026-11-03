@@ -1,74 +1,75 @@
 @php
-    // Table is created by a migration; skip the section until it has been run
-    $homeDiseases = \Illuminate\Support\Facades\Schema::hasTable('diseases')
-        ? \Modules\TourBooking\App\Models\Disease::active()->ordered()->take(6)->get()
-        : collect();
-
-    $u = 'https://images.unsplash.com/photo-';
-    $diseaseImages = [
-        'psoria' => $u . '1631815588090-d4bfec5b1ccb?w=600&q=80',
-        'sustav' => $u . '1559757148-5c350d0d3c56?w=600&q=80',
-        'kozh' => $u . '1576091160550-2173dba999ef?w=600&q=80',
-        'nerv' => $u . '1559757175-0eb30cd8c063?w=600&q=80',
-        'pishchev' => $u . '1505751172876-fa1923c5c528?w=600&q=80',
-        'opor' => $u . '1571019613454-1cb2f99b2d8b?w=600&q=80',
+    $isRu = app()->getLocale() === 'ru';
+    $base = ($isRu ? '/ru' : '/en') . '/sanatoriyi';
+    $stroke = 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"';
+    $diseaseCards = [
+        [
+            'name' => $isRu ? 'Суставы и опорно-двигательный аппарат' : 'Joints & Musculoskeletal System',
+            'sub' => $isRu ? 'Артрит, артроз, остеохондроз, подагра' : 'Arthritis, arthrosis, osteochondrosis, gout',
+            'key' => 'joints',
+            'svg' => '<circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M8.8 7.8l6.4 8.4"/><path d="M4 3.5l-1 1M10 3l1 1M20 20.5l1-1M14 21l-1-1"/>',
+        ],
+        [
+            'name' => $isRu ? 'Кожные заболевания (псориаз, экзема)' : 'Skin Diseases (psoriasis, eczema)',
+            'sub' => $isRu ? 'Псориаз, экзема, нейродермит' : 'Psoriasis, eczema, neurodermatitis',
+            'key' => 'skin',
+            'svg' => '<path d="M12 3c3.5 4.5 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 2.5-6.5 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
+        ],
+        [
+            'name' => $isRu ? 'Неврология' : 'Neurology',
+            'sub' => $isRu ? 'Межпозвоночные грыжи, радикулит, невриты' : 'Spinal hernias, radiculitis, neuritis',
+            'key' => 'neuro',
+            'svg' => '<path d="M9.5 4A3.5 3.5 0 0 0 6 7.5v.3A3.2 3.2 0 0 0 4 10.8c0 1 .4 1.8 1 2.4A3.3 3.3 0 0 0 6 18a3.5 3.5 0 0 0 6 1V5.5A2.5 2.5 0 0 0 9.5 4z"/><path d="M14.5 4A3.5 3.5 0 0 1 18 7.5v.3a3.2 3.2 0 0 1 2 3c0 1-.4 1.8-1 2.4A3.3 3.3 0 0 1 18 18a3.5 3.5 0 0 1-6 1"/><path d="M12 9h-2M12 14h2"/>',
+        ],
+        [
+            'name' => $isRu ? 'Гинекология' : 'Gynecology',
+            'sub' => $isRu ? 'Нарушения цикла, воспалительные заболевания' : 'Cycle disorders, inflammatory diseases',
+            'key' => 'gyneco',
+            'svg' => '<circle cx="12" cy="8" r="4.5"/><path d="M12 12.5V21M9 17.5h6"/>',
+        ],
+        [
+            'name' => $isRu ? 'Заболевания ЖКТ' : 'Digestive Diseases',
+            'sub' => $isRu ? 'Гастрит, колит, заболевания печени' : 'Gastritis, colitis, liver diseases',
+            'key' => 'gastro',
+            'svg' => '<path d="M8 3v5a4 4 0 0 0 4 4h1a3.5 3.5 0 0 1 0 7h-3"/><path d="M8 3h5a3 3 0 0 1 0 6"/><circle cx="7" cy="19" r="2"/>',
+        ],
+        [
+            'name' => $isRu ? 'Другие заболевания' : 'Other Diseases',
+            'sub' => $isRu ? 'Сердце, дыхание, эндокринология, реабилитация' : 'Heart, respiratory, endocrine, rehabilitation',
+            'key' => 'all',
+            'svg' => '<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/>',
+        ],
     ];
-    $diseaseImageKeys = [
-        'psoria' => ['psoria', 'псориаз'],
-        'sustav' => ['sustav', 'сустав'],
-        'kozh' => ['kozh', 'кож'],
-        'nerv' => ['nerv', 'нервн'],
-        'pishchev' => ['pishchev', 'pischev', 'pishev', 'пищевар', 'digest'],
-        'opor' => ['opor', 'dvigat', 'опорно', 'musculo'],
-    ];
-    $diseaseImageFor = function ($disease, $index) use ($diseaseImages, $diseaseImageKeys) {
-        $hay = mb_strtolower($disease->slug . ' ' . ($disease->name_ru ?? '') . ' ' . ($disease->name_en ?? ''));
-        foreach ($diseaseImageKeys as $key => $needles) {
-            foreach ($needles as $needle) {
-                if (str_contains($hay, $needle)) {
-                    return $diseaseImages[$key];
-                }
-            }
-        }
-        return array_values($diseaseImages)[$index % count($diseaseImages)];
-    };
 @endphp
 
-@if ($homeDiseases->count() > 0)
-    <style>
-        .home-diseases-section { background: #f8f9fa; padding: 50px 0; }
-        .home-diseases-inner { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
-        .home-diseases-title { text-align: center; font-size: 28px; font-weight: 700; color: #1a1a1a; margin-bottom: 8px; }
-        .home-diseases-sub { text-align: center; color: #666; margin-bottom: 32px; }
-        .home-diseases-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 20px; }
-        .home-dg-card { position: relative !important; display: block !important; height: 220px; border-radius: 14px; overflow: hidden; text-decoration: none; background-color: #e9ecef; box-sizing: border-box; }
-        .home-dg-bg { position: absolute; inset: 0; background-size: cover !important; background-position: center !important; transition: transform 0.3s ease; }
-        .home-dg-card:hover .home-dg-bg { transform: scale(1.04); }
-        .home-dg-overlay { position: absolute; inset: 0; background: linear-gradient(to bottom, rgba(0,0,0,0.1), rgba(0,0,0,0.6)); border-radius: inherit; }
-        .home-dg-title { position: absolute; bottom: 0; left: 0; right: 0; z-index: 2; padding: 16px; color: #fff; font-size: 18px; font-weight: 700; line-height: 1.3; text-align: left; }
-        .home-diseases-btn { display: inline-block; background: #1a5c36; color: #fff; padding: 12px 32px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 15px; }
-        .home-diseases-btn:hover { background: #154d2e; color: #fff; }
-        @media (max-width: 768px) { .home-diseases-grid { grid-template-columns: repeat(2, 1fr) !important; } }
-        @media (max-width: 480px) { .home-diseases-grid { grid-template-columns: 1fr !important; } .home-dg-card { height: 180px; } }
-    </style>
+<style>
+    .home-diseases-section { background: #f8f9fa; padding: 50px 0; }
+    .home-diseases-inner { max-width: 1100px; margin: 0 auto; padding: 0 16px; }
+    .home-diseases-title { text-align: center; font-size: 28px; font-weight: 700; color: #1a1a1a; margin-bottom: 32px; }
+    .home-diseases-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .home-dc-card { display: flex; flex-direction: column; background: #fff; border: 1px solid #e5e8eb; border-radius: 14px; padding: 24px; text-decoration: none; box-sizing: border-box; transition: box-shadow .25s ease, border-color .25s ease, transform .25s ease; }
+    .home-dc-card:hover { border-color: #1a5c36; box-shadow: 0 8px 24px rgba(26,92,54,.14); transform: translateY(-2px); }
+    .home-dc-icon { width: 52px; height: 52px; border-radius: 12px; background: #e8f3ec; color: #1a5c36; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
+    .home-dc-icon svg { width: 28px; height: 28px; }
+    .home-dc-name { font-size: 18px; font-weight: 700; color: #1a1a1a; line-height: 1.3; margin: 0 0 8px; }
+    .home-dc-sub { font-size: 14px; color: #777; line-height: 1.4; margin: 0 0 18px; }
+    .home-dc-link { margin-top: auto; font-size: 15px; font-weight: 600; color: #1a5c36; }
+    @media (max-width: 1024px) { .home-diseases-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 767px) { .home-diseases-grid { grid-template-columns: 1fr; } }
+</style>
 
-    <section id="section-diseases" class="home-diseases-section">
-        <div class="home-diseases-inner">
-            <h2 class="home-diseases-title">{{ \Modules\TourBooking\App\Models\Disease::t('Find a Sanatorium for Your Condition') }}</h2>
-
-            <div class="home-diseases-grid">
-                @foreach ($homeDiseases as $i => $disease)
-                    <a href="{{ route('diseases.show', ['slug' => $disease->slug]) }}" class="home-dg-card">
-                        <div class="home-dg-bg" role="img" aria-label="{{ $disease->name }}" style="background-image: url('{{ $diseaseImageFor($disease, $i) }}') !important;"></div>
-                        <div class="home-dg-overlay"></div>
-                        <span class="home-dg-title">{{ $disease->name }}</span>
-                    </a>
-                @endforeach
-            </div>
-
-            <div style="text-align:center; margin-top:24px;">
-                <a href="{{ route('diseases.index') }}" class="home-diseases-btn">{{ \Modules\TourBooking\App\Models\Disease::t('View All') }} →</a>
-            </div>
+<section id="section-diseases" class="home-diseases-section">
+    <div class="home-diseases-inner">
+        <h2 class="home-diseases-title">{{ $isRu ? 'Найти по заболеванию' : 'Find by Condition' }}</h2>
+        <div class="home-diseases-grid">
+            @foreach ($diseaseCards as $card)
+                <a href="{{ $base }}?disease={{ $card['key'] }}" class="home-dc-card">
+                    <span class="home-dc-icon"><svg viewBox="0 0 24 24" {!! $stroke !!} aria-hidden="true">{!! $card['svg'] !!}</svg></span>
+                    <h3 class="home-dc-name">{{ $card['name'] }}</h3>
+                    <p class="home-dc-sub">{{ $card['sub'] }}</p>
+                    <span class="home-dc-link">{{ $isRu ? 'Подобрать санаторий' : 'Find a sanatorium' }} →</span>
+                </a>
+            @endforeach
         </div>
-    </section>
-@endif
+    </div>
+</section>
