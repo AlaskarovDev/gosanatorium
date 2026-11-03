@@ -1158,3 +1158,14 @@ header.tg-header-height { height: 104px !important; display: block; position: re
     .gs-mainnav { display: none !important; }
     .gs-burger { display: block !important; }
 }
+
+/* Task #258: shared two-bar header — white "book" CTA, phone/controls in the top bar */
+.site-header .header-cta {
+    display: inline-flex; align-items: center; flex: 0 0 auto; height: 40px; padding: 0 22px;
+    background: #fff; color: #0e7a66 !important; font-weight: 700; font-size: 15px;
+    border-radius: 8px; white-space: nowrap; text-decoration: none; transition: background .2s ease, color .2s ease;
+}
+.site-header .header-cta:hover { background: #c9f5a8; color: #0a5e4e !important; }
+.site-header .header-top .phone { color: #fff; font-weight: 600; text-decoration: none; }
+.site-header .header-top .phone:hover { color: #c9f5a8; }
+@media (max-width: 1023.98px) { .site-header .header-cta { display: none; } }
