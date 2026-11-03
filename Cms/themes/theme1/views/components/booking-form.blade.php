@@ -1014,7 +1014,7 @@
                             window.location.href = this.selectedService.url + '?' + params.toString();
                             return;
                         }
-                        if (hasFilter) {
+                        if (hasFilter || (!this.destination && !this.destination_id)) {
                             const fp = new URLSearchParams();
                             if (this.disease) fp.append('disease', this.disease);
                             if (this.budget) {
