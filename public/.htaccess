@@ -18,6 +18,9 @@
     RewriteCond %{REQUEST_URI} ^/?$
     RewriteRule ^$ /ru [L,R=301]
 
+    # Permanent redirect of duplicated language prefix: /ru/ru/xxx -> /ru/xxx
+    RewriteRule ^ru/ru(/.*)?$ /ru$1 [L,R=301]
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]

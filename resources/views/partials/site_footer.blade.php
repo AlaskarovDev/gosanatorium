@@ -63,12 +63,13 @@
     <div>
       <p class="gsfooter-col-title">Направления</p>
       <ul class="gsfooter-links">
-        <li><a href="{{ url('/ru/hotels/naftalan-azerbaydzhan/') }}">Нафталан</a></li>
-        <li><a href="{{ url('/ru/hotels/borjomi-gruziya/') }}">Боржоми</a></li>
-        <li><a href="{{ url('/ru/hotels/tskaltubo-gruziya/') }}">Цхалтубо</a></li>
-        <li><a href="{{ url('/ru/hotels/sairme-gruziya/') }}">Саирме</a></li>
-        <li><a href="{{ url('/ru/hotels/lankaran-azerbaydzhan/') }}">Лянкяран</a></li>
-        <li><a href="{{ url('/ru/hotels/baku-azerbaydzhan/') }}">Баку</a></li>
+        {{-- Audit: footer links /ru/ru/hotels/{naftalan-azerbaydzhan,borjomi-gruziya,tskaltubo-gruziya,sairme-gruziya,lankaran-azerbaydzhan,baku-azerbaydzhan}/ were doubled because url() already adds the /ru prefix (URL::forceRootUrl). Fixed by using unprefixed paths. Other footer/header links use route() and were correct. --}}
+        <li><a href="{{ url('/hotels/naftalan-azerbaydzhan/') }}">Нафталан</a></li>
+        <li><a href="{{ url('/hotels/borjomi-gruziya/') }}">Боржоми</a></li>
+        <li><a href="{{ url('/hotels/tskaltubo-gruziya/') }}">Цхалтубо</a></li>
+        <li><a href="{{ url('/hotels/sairme-gruziya/') }}">Саирме</a></li>
+        <li><a href="{{ url('/hotels/lankaran-azerbaydzhan/') }}">Лянкяран</a></li>
+        <li><a href="{{ url('/hotels/baku-azerbaydzhan/') }}">Баку</a></li>
       </ul>
     </div>
 
