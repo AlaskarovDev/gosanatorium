@@ -817,7 +817,23 @@
                                                     </div>
                                                 </div>
 
-                                                <div class="col-lg-4 col-md-6 col-12">
+                                                {{-- Comparison table data --}}
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Процедуры в день (сравнение)</label>
+<input class="crancy__item-input" type="number"  name="procedures_per_day" value="{{ old('procedures_per_day', $service->procedures_per_day) }}"></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Питание включено (сравнение)</label>
+<select class="crancy__item-input" name="meals_included"><option value="">—</option><option value="1" @selected((string) old('meals_included', $service->meals_included) === '1')>Да</option><option value="0" @selected((string) old('meals_included', $service->meals_included) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Анализы при заезде (сравнение)</label>
+<select class="crancy__item-input" name="tests_included"><option value="">—</option><option value="1" @selected((string) old('tests_included', $service->tests_included) === '1')>Да</option><option value="0" @selected((string) old('tests_included', $service->tests_included) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Осмотр врача (сравнение)</label>
+<select class="crancy__item-input" name="doctor_exam_included"><option value="">—</option><option value="1" @selected((string) old('doctor_exam_included', $service->doctor_exam_included) === '1')>Да</option><option value="0" @selected((string) old('doctor_exam_included', $service->doctor_exam_included) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Расстояние от аэропорта, км (сравнение)</label>
+<input class="crancy__item-input" type="number" step="0.1" min="0" name="airport_distance_km" value="{{ old('airport_distance_km', $service->airport_distance_km) }}"></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Детям: минимальный возраст (сравнение)</label>
+<input class="crancy__item-input" type="number"  name="child_min_age" value="{{ old('child_min_age', $service->child_min_age) }}"></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Детям: скидка (сравнение)</label>
+<input class="crancy__item-input" type="text"  name="child_discount" value="{{ old('child_discount', $service->child_discount) }}"></div></div>
+
+<div class="col-lg-4 col-md-6 col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label class="crancy__item-label">{{ __('Room Count') }}</label>
                                                         <input class="crancy__item-input" type="number" name="room_count"

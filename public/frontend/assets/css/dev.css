@@ -951,3 +951,33 @@ section.au-hero{background:linear-gradient(135deg,#0b3d3a 0%,#14706a 60%,#1a9e87
 .tgmobile__menu .navigation li.nav-sanatorium-dropdown > ul li.nav-divider { height: 1px; margin: 6px 25px; background: rgba(0,0,0,.1); }
 .tgmobile__menu .navigation li.active > a { font-weight: 700; }
 .tgmenu__navbar-wrap ul li.menu-item-has-children.esc-closed:focus-within > .sub-menu{opacity:0;visibility:hidden}
+
+/* ===== Sanatorium comparison ===== */
+.gs-compare-btn { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1; background: #fff; color: #475569; font-size: 13px; font-weight: 600; line-height: 1.2; cursor: pointer; transition: all .2s ease; }
+.gs-compare-btn:hover { border-color: #2563eb; color: #2563eb; }
+.gs-compare-btn .gs-compare-box { width: 14px; height: 14px; border: 2px solid currentColor; border-radius: 3px; display: inline-flex; align-items: center; justify-content: center; font-size: 10px; line-height: 1; }
+.gs-compare-btn.is-active { background: #2563eb; border-color: #2563eb; color: #fff; }
+.gs-compare-btn.is-active .gs-compare-box::after { content: "✓"; }
+.gscard-card.gs-compare-active, .tg-listing-card-item.gs-compare-active { box-shadow: 0 0 0 2px #2563eb, 0 6px 24px rgba(37,99,235,.18) !important; border-color: #2563eb !important; }
+.tg-listing-card-item.gs-compare-active { border-radius: 12px; }
+.gs-compare-wrap { margin-top: 10px; }
+.gscard-body .gs-compare-wrap { margin: 0 0 12px; }
+.gs-compare-tip { position: absolute; z-index: 100000; max-width: 280px; background: #1e293b; color: #fff; font-size: 13px; padding: 8px 12px; border-radius: 8px; box-shadow: 0 4px 16px rgba(0,0,0,.25); }
+#gs-compare-bar { position: fixed; left: 0; right: 0; bottom: 0; z-index: 99990; background: #fff; border-top: 2px solid #2563eb; box-shadow: 0 -4px 20px rgba(0,0,0,.15); }
+.gs-cb-inner { max-width: 1200px; margin: 0 auto; padding: 10px 16px; display: flex; align-items: center; gap: 12px; }
+.gs-cb-label { font-weight: 700; color: #1a2540; white-space: nowrap; }
+.gs-cb-chips { display: flex; flex: 1; flex-wrap: wrap; align-items: center; gap: 8px; min-width: 0; }
+.gs-cb-chip { display: inline-flex; align-items: center; gap: 6px; background: #eff6ff; color: #1d4ed8; border-radius: 20px; padding: 4px 6px 4px 12px; font-size: 14px; font-weight: 600; max-width: 100%; }
+.gs-cb-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; max-width: 180px; }
+.gs-cb-x { border: 0; background: #dbeafe; color: #1d4ed8; width: 22px; height: 22px; border-radius: 50%; cursor: pointer; font-size: 11px; line-height: 1; padding: 0; }
+.gs-cb-add { color: #2563eb; font-weight: 600; font-size: 14px; border: 1px dashed #2563eb; border-radius: 20px; padding: 4px 12px; }
+.gs-cb-go { background: #2563eb; color: #fff; border-radius: 8px; padding: 10px 18px; font-weight: 700; white-space: nowrap; }
+.gs-cb-go:hover { background: #1d4ed8; color: #fff; }
+body.gs-compare-bar-on { padding-bottom: 70px; }
+@media (max-width: 575px) {
+    .gs-cb-inner { padding: 8px 10px; gap: 8px; }
+    .gs-cb-label, .gs-cb-add-t { display: none; }
+    .gs-cb-name { max-width: 84px; }
+    .gs-cb-chip { font-size: 12px; padding-left: 8px; }
+    .gs-cb-go { padding: 9px 12px; font-size: 14px; }
+}
