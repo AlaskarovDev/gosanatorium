@@ -360,6 +360,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/diseases', [FrontDiseaseController::class, 'index'])->name('diseases.index');
     Route::get('/diseases/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show');
     // Russian-style aliases (/ru/bolezni, /ru/bolezni/sustavy)
+    Route::get('/sanatoriyi', [FrontDiseaseController::class, 'sanatoriums'])->name('sanatoriums.list');
     Route::get('/bolezni', [FrontDiseaseController::class, 'index'])->name('diseases.index.alias');
     Route::get('/bolezni/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show.alias');
 });
