@@ -1,41 +1,6 @@
-    <header class="tg-header-height">
-        <div class="tg-header__area tg-header-lg-space z-index-999 tg-transparent" id="header-sticky" data-gs-header>
-            @include('partials.header-topbar')
-            <div class="container-fluid container-1860 gs-mainbar">
-                <div class="gs-mainbar__row">
-                    <div class="logo">
-                        <a class="logo-1" href="{{ route('home') }}">
-                            <img src="{{ asset($general_setting->logo) }}" alt="Logo">
-                        </a>
-                        <a class="logo-2 d-none" href="{{ route('home') }}">
-                            <img src="{{ asset($general_setting->secondary_logo) }}" alt="Logo">
-                        </a>
-                    </div>
-                    <nav class="tgmenu__nav gs-mainnav">
-                        <div class="tgmenu__navbar-wrap tgmenu__main-menu">
-                            @include('components.common_navitems')
-                        </div>
-                    </nav>
-                    <div class="gs-burger">
-                        <button class="tgmenu-offcanvas-open-btn mobile-nav-toggler" aria-label="Menu">
-                            <span></span>
-                            <span></span>
-                            <span></span>
-                        </button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mobile Menu  -->
-        @include('components.common_mobile_menu')
-        <!-- End Mobile Menu -->
+    @include('partials.header')
     <script>(function () { var widget = document.createElement('script'); widget.defer = true; widget.dataset.pfId = '8719c067-19f4-4029-b81e-a90b282e3a7f'; widget.src = 'https://widget.yourgood.app/script/widget.js?id=8719c067-19f4-4029-b81e-a90b282e3a7f&now='+Date.now(); document.head.appendChild(widget); })()</script>
-        <!-- offCanvas-menu -->
-        @include('components.common_offcanvas')
-        <!-- offCanvas-menu-end -->
 
-    </header>
 
     {{-- ========== CUSTOM HEADER CSS ========== --}}
     <style>
