@@ -1,4 +1,7 @@
-@if (isset($latestAkcii) && $latestAkcii->count() > 0)
+@php
+    $homeAkcii = collect($latestAkcii ?? [])->filter(fn ($i) => !empty($i->image ?: ($i->service?->thumbnail?->file_path)))->take(3);
+@endphp
+@if ($homeAkcii->count() > 0)
 
 <style>
 .hakcii-section{background:#fff !important;padding:72px 0 !important;width:100% !important}
@@ -16,7 +19,7 @@
             <h2 class="hakcii-title">Выгодные акции для вашего лечения</h2>
         </div>
         <div class="gsp-track gsp-track--grid gsp-track--home">
-            @foreach ($latestAkcii->take(3) as $item)
+            @foreach ($homeAkcii as $item)
                 @include('partials.akcii-card', ['item' => $item])
             @endforeach
         </div>
