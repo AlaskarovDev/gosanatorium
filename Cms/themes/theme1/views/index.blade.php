@@ -9,9 +9,6 @@
     {{-- köhnə slider-ə qayıtmaq üçün: @include('theme::components.slider') + @include('theme::components.booking-form') --}}
     @include('theme::components.hero-search')
 
-    {{-- What is Naftalan block --}}
-    @include('components.home-about-naftalan')
-
     @include('components.features')
     @include('theme::components.statistics')
 
