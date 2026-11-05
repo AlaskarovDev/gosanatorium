@@ -77,6 +77,11 @@ class Akcii extends Model
         return null;
     }
 
+    public function getDetailUrlAttribute(): string
+    {
+        return $this->slug ? route('akczii.show', ['slug' => $this->slug]) : $this->url;
+    }
+
     public function getUrlAttribute(): string
     {
         if ($this->service && $this->service->slug) {

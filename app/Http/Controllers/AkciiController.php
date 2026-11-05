@@ -13,4 +13,14 @@ class AkciiController extends Controller
 
         return view('akcii.index', compact('akcii', 'placeholders'));
     }
+
+    public function show($slug, $extra = null)
+    {
+        // Supports both /akczii/{slug} and /{locale}/akczii/{slug}
+        $slug = $extra ?? $slug;
+        $akcia = Akcii::where('slug', $slug)->where('is_active', true)
+            ->with('service.thumbnail', 'service.translation')->firstOrFail();
+
+        return view('akcii.show', compact('akcia'));
+    }
 }

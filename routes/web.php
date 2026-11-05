@@ -73,6 +73,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/{locale}/akczii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('akczii.frontend.index.locale');
     Route::get('/{locale}/aktsii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('aktsii.frontend.index.locale');
     Route::get('/aktsii', [App\Http\Controllers\AkciiController::class, 'index'])->name('aktsii.frontend.index');
+    Route::get('/{locale}/akczii/{slug}', [App\Http\Controllers\AkciiController::class, 'show'])->where('locale', 'ru|az|en')->name('akczii.show.locale');
+    Route::get('/akczii/{slug}', [App\Http\Controllers\AkciiController::class, 'show'])->name('akczii.show');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
 
     Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
