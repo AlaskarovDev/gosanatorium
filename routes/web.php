@@ -286,3 +286,6 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
         });
     });
 });
+
+// Live exchange rates (USD base), cached for 1 hour
+Route::get('/api/exchange-rates', [\App\Http\Controllers\CurrencyController::class, 'rates'])->name('exchange-rates');

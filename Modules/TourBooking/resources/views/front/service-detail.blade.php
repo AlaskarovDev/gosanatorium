@@ -3233,9 +3233,9 @@
                         <div class="feature-card__label">От</div>
                         <div class="feature-card__value">
                             @if($service?->is_per_person)
-                                {{ currency($service->current_price_per_person ?? $service?->price_per_person) }}
+                                {!! currency_span($service->current_price_per_person ?? $service?->price_per_person) !!}
                             @else
-                                {{ currency($service->current_price ?? $service->discount_price ?? $service->full_price) }}
+                                {!! currency_span($service->current_price ?? $service->discount_price ?? $service->full_price) !!}
                             @endif
                         </div>
                     </div>
@@ -3478,9 +3478,9 @@
                                         <span class="room-select-btn__price-label">От</span>
                                         <span class="room-select-btn__price-value">
                                             @if($service?->is_per_person)
-                                                {{ currency($service->current_price_per_person ?? $service?->price_per_person) }}
+                                                {!! currency_span($service->current_price_per_person ?? $service?->price_per_person) !!}
                                             @else
-                                                {{ currency($service->current_price ?? $service->discount_price ?? $service->full_price) }}
+                                                {!! currency_span($service->current_price ?? $service->discount_price ?? $service->full_price) !!}
                                             @endif
                                             <span class="room-select-btn__price-unit">/ ночь</span>
                                         </span>
@@ -3504,9 +3504,9 @@
                                         <span class="room-select-btn__price-label">От</span>
                                         <span class="room-select-btn__price-value">
                                             @if($service?->is_per_person)
-                                                {{ currency($service->current_price_per_person ?? $service?->price_per_person) }}
+                                                {!! currency_span($service->current_price_per_person ?? $service?->price_per_person) !!}
                                             @else
-                                                {{ currency($service->current_price ?? $service->discount_price ?? $service->full_price) }}
+                                                {!! currency_span($service->current_price ?? $service->discount_price ?? $service->full_price) !!}
                                             @endif
                                         </span>
                                     </div>

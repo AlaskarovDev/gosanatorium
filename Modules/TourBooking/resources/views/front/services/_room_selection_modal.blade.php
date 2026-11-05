@@ -120,18 +120,18 @@
                                             @endphp
                                             
                                             @if($room->discount_price)
-                                                <del class="text-muted d-block small">{{ currency($room->price_per_night) }}</del>
+                                                <del class="text-muted d-block small">{!! currency_span($room->price_per_night) !!}</del>
                                             @endif
                                             
                                             <span class="h4 text-primary d-block room-base-price" data-price="{{ $effectivePrice }}">
-                                                {{ currency($effectivePrice) }}
+                                                {!! currency_span($effectivePrice) !!}
                                             </span>
                                             <small class="text-muted">/ per night</small>
                                             
                                             <div class="room-total-price mt-2">
                                                 <strong>Total: </strong>
                                                 <span class="total-price-value text-success fw-bold">
-                                                    {{ currency($effectivePrice) }}
+                                                    {!! currency_span($effectivePrice) !!}
                                                 </span>
                                             </div>
 
