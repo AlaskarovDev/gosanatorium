@@ -44,7 +44,7 @@
 
     <section class="fakcii-section">
         <div class="container">
-            @php $gspItems = collect($placeholders ?? $akcii)->filter(fn ($i) => !empty($i->image ?: ($i->service?->thumbnail?->file_path))); @endphp
+            @php $gspItems = collect($placeholders ?? $akcii->getCollection())->filter(fn ($i) => !empty($i->image ?: ($i->service?->thumbnail?->file_path))); @endphp
             @if ($gspItems->count())
                 <div class="gsp-track gsp-track--grid gsp-track--page">
                     @foreach ($gspItems as $item)
