@@ -1340,3 +1340,31 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
   .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums { min-width: 750px; width: 750px; }
   .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums > li.mega-right { padding-left: 28px; }
 }
+
+/* ===== Task #286: Санатории mega-menu — naftalan.city style ===== */
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums {
+  display: flex; flex-direction: row; gap: 0; min-width: 900px; width: 900px; padding: 28px 32px;
+  background: #fff; border: 1px solid #e8e8e8; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.10);
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums > li.mega-left { flex: 2.5 1 0; padding-right: 40px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums > li.mega-right {
+  flex: 1 1 0; min-width: 200px; border-left: 1px solid #ebebeb; padding-left: 32px;
+}
+.mega-menu-sanatoriums .mega-label { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: .8px; color: #999; margin-bottom: 4px; }
+.mega-menu-sanatoriums .mega-title { font-size: 17px; font-weight: 700; color: #111; margin-bottom: 4px; }
+.mega-menu-sanatoriums .mega-heading { font-size: 15px; font-weight: 700; color: #111; margin-bottom: 16px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums a.mega-compare {
+  font-size: 13px; color: #2e7d32; text-decoration: underline; display: inline-block; margin-bottom: 20px; padding: 0; font-weight: 400;
+}
+.mega-menu-sanatoriums ul.mega-grid { grid-template-columns: 1fr 1fr; gap: 2px 32px; margin-top: 0; }
+.mega-menu-sanatoriums ul.mega-list { gap: 0; margin-top: 0; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums li a:not(.mega-compare) {
+  font-size: 14px; color: #222; text-decoration: none; padding: 6px 0; display: block;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; border-bottom: 1px solid #f0f0f0; line-height: 1.4;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums > li.mega-right li a:not(.mega-compare) { padding: 7px 0; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums li a:not(.mega-compare):hover,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums li a:not(.mega-compare):focus { color: #1a5e1f; background: transparent; }
+@media (max-width: 1399px) {
+  .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums { min-width: 820px; width: 820px; }
+}
