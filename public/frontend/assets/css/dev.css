@@ -1267,3 +1267,47 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
   height: 1px; background: #f0f0f0; margin: 6px 8px; padding: 0; border: none;
 }
 .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li.nav-divider::before { display: none; }
+
+/* ===== Task #282: mega-menu dropdowns ===== */
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu {
+  padding: 24px 28px; border-radius: 12px; box-shadow: 0 10px 40px rgba(15, 31, 61, 0.14);
+  max-height: none; overflow: visible; max-width: calc(100vw - 48px);
+  transform: translateY(-4px); transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s ease;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums {
+  min-width: 700px; width: 700px; display: flex; gap: 28px;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-treatments { min-width: 460px; width: 460px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-about { min-width: 220px; padding: 10px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:hover > .sub-menu.mega-menu,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown:focus-within > .sub-menu.mega-menu,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown.is-open > .sub-menu.mega-menu { transform: translateY(0); }
+.mega-menu .mega-section { list-style: none; padding: 0; margin: 0; display: block; }
+.mega-menu .mega-left { flex: 1 1 auto; }
+.mega-menu .mega-right { flex: 0 0 220px; border-left: 1px solid #e8ecf1; padding-left: 28px; }
+.mega-menu .mega-label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #8a94a3; margin-bottom: 4px; }
+.mega-menu .mega-title { display: block; font-size: 18px; font-weight: 700; color: #14284b; margin-bottom: 6px; }
+.mega-menu .mega-heading { display: block; font-size: 15px; font-weight: 700; color: #14284b; margin-bottom: 10px; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu a.mega-compare {
+  display: inline-flex; padding: 4px 0; margin-bottom: 10px; font-weight: 600; color: #b8892e; background: transparent;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu a.mega-compare:hover { background: transparent; color: #8f6a1f; text-decoration: underline; }
+.mega-menu ul.mega-grid, .mega-menu ul.mega-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0 16px; position: static; opacity: 1; visibility: visible; transform: none; box-shadow: none; background: transparent; min-width: 0; width: auto; }
+.mega-menu ul.mega-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+.mega-menu ul.mega-list { grid-template-columns: 1fr; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu li a {
+  padding: 8px 10px; color: #1f2a3c; font-size: 14px;
+}
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu li a::before { display: none; }
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu li a:hover,
+.tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu li a:focus { background: #f0fdf4; color: #22876b; }
+.mega-menu .mega-emoji { font-size: 18px; line-height: 1; }
+@media (max-width: 1399px) {
+  .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu.mega-menu-sanatoriums { min-width: 640px; width: 640px; }
+  .mega-menu .mega-right { flex-basis: 190px; padding-left: 20px; }
+}
+/* mobile menu: flatten sections */
+.tgmobile__menu .mega-menu { display: block; }
+.tgmobile__menu .mega-menu .mega-right { border: 0; padding: 0; }
+.tgmobile__menu .mega-menu ul.mega-grid { display: block; }
+.tgmobile__menu .mega-menu .mega-title, .tgmobile__menu .mega-menu .mega-heading, .tgmobile__menu .mega-menu .mega-label { padding: 6px 0; }
