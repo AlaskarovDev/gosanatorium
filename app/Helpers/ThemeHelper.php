@@ -296,6 +296,36 @@ if (!function_exists('localize_front_url')) {
 }
 
 /**
+ * Short display name for a sanatorium in the mega-menu (full name goes to the title attribute)
+ */
+if (!function_exists('nav_short_sanatorium_name')) {
+    function nav_short_sanatorium_name($full) {
+        $t = trim(preg_replace('/\s*\d\s*[★*⭐]+\s*/u', ' ', (string) $full));
+        $t = trim(preg_replace('/\s+/u', ' ', $t));
+        $outside = trim(preg_replace('/\([^)]*\)/u', '', $t));
+        $inside = preg_match('/\(([^)]*)\)/u', $t, $m) ? trim($m[1]) : '';
+        $cyr = fn ($x) => preg_match('/\p{Cyrillic}/u', $x) === 1;
+        $clean = function ($x) {
+            $x = trim(preg_replace('/^(Санаторий|Отель|Sanatorium)\s+/iu', '', trim($x)));
+            $y = trim(preg_replace('/\s+(Нафталан|Naftalan)$/iu', '', $x));
+            if (mb_strpos($y, ' ') !== false) { $x = $y; }
+            $x = trim(preg_replace('/^Legends\s+/u', '', $x));
+            return trim(preg_replace('/\bSPA\b(?!\s+Resort)/u', 'Spa', $x));
+        };
+        if ($inside !== '' && !$cyr($inside) && mb_strlen($inside) > 7) {
+            $r = $clean($inside);
+        } elseif ($inside !== '' && !$cyr($inside)) {
+            $r = $clean($outside) . ' (' . $inside . ')';
+        } elseif ($inside !== '' && $cyr($inside) && !$cyr($outside)) {
+            $r = $clean($outside);
+        } else {
+            $r = $clean($outside !== '' ? $outside : $t);
+        }
+        return $r !== '' ? $r : $t;
+    }
+}
+
+/**
  * Built-in "Санатории" and "Направления лечения" dropdowns (first two items of the primary menu)
  */
 if (!function_exists('render_sanatorium_nav_items')) {
@@ -325,7 +355,7 @@ if (!function_exists('render_sanatorium_nav_items')) {
 
         $sanItems = [];
         foreach ($sanatoriums as $s) {
-            $sanItems[] = ['title' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
+            $sanItems[] = ['title' => nav_short_sanatorium_name($s['title']), 'full' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
         }
 
         $resorts = [
@@ -346,7 +376,8 @@ if (!function_exists('render_sanatorium_nav_items')) {
         ];
 
         $li = function ($c, $icon = null) {
-            return '<li role="none"><a role="menuitem" href="' . esc_attr(localize_front_url($c['url'])) . '">'
+            $tip = !empty($c['full']) && $c['full'] !== $c['title'] ? ' title="' . esc_attr($c['full']) . '"' : '';
+            return '<li role="none"><a role="menuitem"' . $tip . ' href="' . esc_attr(localize_front_url($c['url'])) . '">'
                 . ($icon ? '<span class="mega-emoji" aria-hidden="true">' . $icon . '</span>' : '')
                 . esc_attr($c['title']) . '</a></li>';
         };
