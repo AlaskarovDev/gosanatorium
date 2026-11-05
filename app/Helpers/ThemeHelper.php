@@ -385,11 +385,11 @@ if (!function_exists('render_sanatorium_nav_items')) {
 
         // --- Санатории mega-menu ---
         $m = '<ul class="sub-menu mega-menu mega-menu-sanatoriums" role="menu"><li class="mega-split" role="none"><div class="mega-menu-dropdown">';
-        foreach ([false => '🇦🇿 ' . ($ru ? 'Азербайджан' : 'Azerbaijan'), true => '🇬🇪 ' . ($ru ? 'Грузия' : 'Georgia')] as $isGeo => $colTitle) {
+        foreach ([['🇦🇿 ' . ($ru ? 'Азербайджан' : 'Azerbaijan'), false], ['🇬🇪 ' . ($ru ? 'Грузия' : 'Georgia'), true]] as [$colTitle, $isGeo]) {
             if ($isGeo) { $m .= '<div class="mega-menu-divider"></div>'; }
             $m .= '<div class="mega-menu-col"><div class="mega-menu-col-title">' . $colTitle . '</div>';
             foreach ($sanItems as $c) {
-                if ($c['georgia'] !== $isGeo) { continue; }
+                if ((bool) $c['georgia'] !== $isGeo) { continue; }
                 $tip = $c['full'] !== $c['title'] ? ' title="' . esc_attr($c['full']) . '"' : '';
                 $m .= '<a role="menuitem"' . $tip . ' href="' . esc_attr(localize_front_url($c['url'])) . '">' . esc_attr($c['title']) . '</a>';
             }
