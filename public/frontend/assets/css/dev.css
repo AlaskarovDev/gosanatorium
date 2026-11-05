@@ -1268,3 +1268,18 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
   height: 1px; background: #f0f0f0; margin: 6px 8px; padding: 0; border: none;
 }
 .tgmenu__navbar-wrap ul li.nav-sanatorium-dropdown > .sub-menu li.nav-divider::before { display: none; }
+
+/* Promo cards redesign (/ru/akcii) */
+.gsp-card.promo-card{border-radius:12px;overflow:hidden;box-shadow:0 2px 16px rgba(0,0,0,.09);background:#fff;transition:transform .2s,box-shadow .2s;display:flex;flex-direction:column}
+.gsp-card.promo-card:hover{transform:translateY(-4px);box-shadow:0 8px 32px rgba(0,0,0,.15)}
+.promo-card .promo-card__media{height:220px}
+.promo-card .promo-card__image{width:100%;height:100%;object-fit:cover}
+.promo-card .promo-card__body{padding:16px;flex:1;display:flex;flex-direction:column}
+.promo-card .promo-card__sanatorium{font-size:11px;color:#999;font-weight:400;text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+.promo-card .promo-card__title{font-size:16px;font-weight:700;color:#111;margin:0 0 8px;line-height:1.3;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.promo-card .promo-card__desc{font-size:13px;color:#555;line-height:1.5;margin:0 0 12px;display:-webkit-box;-webkit-line-clamp:3;-webkit-box-orient:vertical;overflow:hidden;flex:1}
+.promo-card .promo-card__date{font-size:12px;color:#aaa;margin:0 0 14px}
+.promo-card .promo-card__btn{display:block;width:100%;text-align:center;background:#1a7c2f;color:#fff;padding:11px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none}
+.promo-card .promo-card__btn:hover{background:#155f24;color:#fff}
+.promo-card .promo-card__badge{top:12px;right:12px;background:#e53935;color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:20px}
+@media(max-width:768px){.gsp-track--grid.gsp-track--page{grid-template-columns:1fr}}
