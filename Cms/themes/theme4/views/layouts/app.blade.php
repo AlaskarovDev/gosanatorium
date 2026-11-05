@@ -76,6 +76,7 @@
 </head>
 
 <body class="td_theme_2">
+    @include('partials.announcement-bar')
     @if ($general_setting->preloader_status == 'enable')
         <!-- Start Preloader -->
         <div id="loading">
