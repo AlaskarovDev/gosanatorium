@@ -1391,3 +1391,21 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
   color: #1a7c2f; padding-left: 4px; transition: padding .15s; background: transparent;
 }
 .mega-menu-divider { width: 1px; background: #e8e8e8; margin: 0; align-self: stretch; }
+
+/* ===== Task #291: Санатории / Направления лечения — open only when hovering the menu word itself ===== */
+/* The hover area is the link only (small padding); the former vertical padding became a non-hoverable margin on the <li>. */
+.tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown { --nav-gap: 25px; margin-top: var(--nav-gap); margin-bottom: var(--nav-gap); }
+.tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown > a { padding-top: 10px; padding-bottom: 10px; }
+.sticky-menu .tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown { --nav-gap: 30px; }
+@media only screen and (min-width: 1200px) and (max-width: 1399px) {
+  .tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown { --nav-gap: 32px; }
+  .sticky-menu .tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown { --nav-gap: 30px; }
+}
+/* invisible bridge so the open dropdown stays open while the mouse moves from the word down into the panel */
+.tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown > .sub-menu { top: calc(100% + var(--nav-gap)); }
+.tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown > .sub-menu::before {
+  content: ""; position: absolute; left: 0; right: 0; top: calc(-1 * var(--nav-gap)); height: var(--nav-gap);
+}
+@media (max-width: 1199px) {
+  .tgmenu__navbar-wrap > ul > li.nav-sanatorium-dropdown { margin-top: 0; margin-bottom: 0; }
+}
