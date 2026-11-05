@@ -3,7 +3,7 @@
 @section('title')
     <title>{{ $disease ? $disease->name . ' | Санатории' : 'Все санатории' }}</title>
     <meta name="title" content="{{ $disease ? $disease->name : 'Все санатории' }}">
-    <meta name="description" content="{{ $disease ? \Illuminate\Support\Str::limit(strip_tags($disease->description ?? $disease->name), 160) : 'Каталог санаториев Нафталана и Грузии' }}">
+    <meta name="description" content="{{ $disease ? \Illuminate\Support\Str::limit(strip_tags($disease->description ?? $disease->name), 160) : 'Все санатории Нафталана и Грузии на одном сайте. Сравните цены, процедуры и отзывы. Более 22 санаториев. Бронирование без предоплаты.' }}">
 @endsection
 
 @push('style_section')

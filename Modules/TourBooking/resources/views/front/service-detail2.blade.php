@@ -1,9 +1,14 @@
 @extends('layout_inner_page2')
 
 @section('title')
-    <title>Services</title>
-    <meta name="title" content="Services">
-    <meta name="description" content="Services">
+    @php
+        $metaTitle = $service?->translation?->seo_title ?: ($service?->translation?->title ?? 'Санаторий');
+        $metaDesc = trim(strip_tags((string) ($service?->translation?->seo_description ?: $service?->translation?->short_description ?: $service?->translation?->description ?: '')));
+        $metaDesc = $metaDesc !== '' ? \Illuminate\Support\Str::limit(preg_replace('/\s+/u', ' ', $metaDesc), 155) : $metaTitle . ' — бронирование без предоплаты на GoSanatorium.com';
+    @endphp
+    <title>{{ $metaTitle }}</title>
+    <meta name="title" content="{{ $metaTitle }}">
+    <meta name="description" content="{{ $metaDesc }}">
 @endsection
 
 @push('style_section')

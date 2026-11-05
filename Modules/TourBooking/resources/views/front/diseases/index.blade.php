@@ -3,7 +3,7 @@
 @section('title')
     <title>{{ \Modules\TourBooking\App\Models\Disease::t('Sanatoriums by Treatment Profile') }} | Санатории</title>
     <meta name="title" content="{{ \Modules\TourBooking\App\Models\Disease::t('Sanatoriums by Treatment Profile') }}">
-    <meta name="description" content="{{ \Modules\TourBooking\App\Models\Disease::t('Sanatoriums by Treatment Profile') }}">
+    <meta name="description" content="Лечение в санаториях Нафталана по направлениям: заболевания суставов, кожные болезни, неврология, гинекология, ЖКТ, эндокринология. Подберём санаторий под ваш диагноз.">
 @endsection
 
 @push('style_section')

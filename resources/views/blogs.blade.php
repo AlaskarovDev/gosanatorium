@@ -3,7 +3,7 @@
 @section('title')
     <title>{{ $seo_setting->seo_title }}</title>
     <meta name="title" content="{{ $seo_setting->seo_title }}" />
-    <meta name="description" content="{!! strip_tags(clean($seo_setting->seo_description)) !!}" />
+    <meta name="description" content="Статьи о санаторно-курортном лечении, Нафталане и Грузии. Советы по выбору санатория, подготовке к лечению и здоровому образу жизни." />
     {{-- noindex silindi (istifadəçi istəyi ilə). Canonical saxlanılır ki, search/filter
          səhifələri əsas /blogs-a yönəlsin. --}}
     @if (request()->filled('search') || request()->filled('category'))

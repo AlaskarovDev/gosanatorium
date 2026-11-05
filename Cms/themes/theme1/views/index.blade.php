@@ -2,7 +2,7 @@
 @section('title')
     <title>{{ $seo_setting->seo_title }}</title>
     <meta name="title" content="{{ $seo_setting->seo_title }}">
-    <meta name="description" content="{!! strip_tags(clean($seo_setting->seo_description)) !!}">
+    <meta name="description" content="Бронируйте санатории Нафталана и Грузии онлайн. Лечение опорно-двигательного аппарата, кожных заболеваний, нервной системы. Без предоплаты, оплата по прибытии. Бесплатная консультация врача.">
 @endsection
 @section('front-content')
     {{-- hero (statik fon + içində axtarış forması, theme3 üslubu) --}}
