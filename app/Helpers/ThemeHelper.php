@@ -355,7 +355,7 @@ if (!function_exists('render_sanatorium_nav_items')) {
 
         $sanItems = [];
         foreach ($sanatoriums as $s) {
-            $isGe = preg_match('/georgia|грузи|borjomi|боржоми|tskaltubo|цхалтубо|sairme|саирме|kutaisi|кутаис|tbilisi|тбилиси|batumi|батуми/iu', $s['location'] . ' ' . $s['title'] . ' ' . $s['slug']) === 1;
+            $isGe = preg_match('/georgia|грузи|borjomi|боржоми|tskaltubo|цхалтубо|sairme|саирме|kutaisi|кутаис|tbilisi|тбилиси|batumi|батуми/iu', ($s['location'] ?? '') . ' ' . ($s['title'] ?? '') . ' ' . ($s['slug'] ?? '')) === 1;
             $sanItems[] = ['georgia' => $isGe, 'title' => nav_short_sanatorium_name($s['title']), 'full' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
         }
 
