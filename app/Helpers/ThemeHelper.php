@@ -342,7 +342,7 @@ if (!function_exists('render_sanatorium_nav_items')) {
             return \Modules\TourBooking\App\Models\Service::where('status', true)
                 ->with('translation')
                 ->get()
-                ->map(fn ($s) => ['title' => trim((string) ($s->translation->title ?? '')) ?: (string) $s->title, 'slug' => $s->slug])
+                ->map(fn ($s) => ['title' => trim((string) ($s->translation->title ?? '')) ?: (string) $s->title, 'slug' => $s->slug, 'location' => (string) $s->location])
                 ->filter(fn ($s) => $s['title'] !== '' && !empty($s['slug']))
                 ->sortBy(fn ($s) => mb_strtolower($s['title']))
                 ->values()
@@ -355,7 +355,8 @@ if (!function_exists('render_sanatorium_nav_items')) {
 
         $sanItems = [];
         foreach ($sanatoriums as $s) {
-            $sanItems[] = ['title' => nav_short_sanatorium_name($s['title']), 'full' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
+            $isGe = preg_match('/georgia|грузи|borjomi|боржоми|tskaltubo|цхалтубо|sairme|саирме|kutaisi|кутаис|tbilisi|тбилиси|batumi|батуми/iu', $s['location'] . ' ' . $s['title'] . ' ' . $s['slug']) === 1;
+            $sanItems[] = ['georgia' => $isGe, 'title' => nav_short_sanatorium_name($s['title']), 'full' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
         }
 
         $resorts = [
@@ -383,18 +384,18 @@ if (!function_exists('render_sanatorium_nav_items')) {
         };
 
         // --- Санатории mega-menu ---
-        $m = '<ul class="sub-menu mega-menu mega-menu-sanatoriums" role="menu">';
-        $m .= '<li class="mega-section mega-left" role="none">';
-        $m .= '<span class="mega-label">' . ($ru ? 'Лечение и отдых' : 'Treatment & rest') . '</span>';
-        $m .= '<span class="mega-title">' . ($ru ? 'Санатории Нафталана' : 'Naftalan sanatoriums') . '</span>';
-        $m .= '<a class="mega-compare" role="menuitem" href="' . esc_attr(localize_front_url('/sanatoriyi')) . '">'
-            . ($ru ? 'Сравнить все санатории →' : 'Compare all sanatoriums →') . '</a>';
-        $m .= '<ul class="mega-grid" role="none">';
-        foreach ($sanItems as $c) { $m .= $li($c); }
-        $m .= '</ul></li>';
-        $m .= '<li class="mega-section mega-right" role="none"><span class="mega-heading">' . ($ru ? 'Другие курорты' : 'Other resorts') . '</span><ul class="mega-list" role="none">';
-        foreach ($resorts as $c) { $m .= $li($c); }
-        $m .= '</ul></li></ul>';
+        $m = '<ul class="sub-menu mega-menu mega-menu-sanatoriums" role="menu"><li class="mega-split" role="none"><div class="mega-menu-dropdown">';
+        foreach ([false => '🇦🇿 ' . ($ru ? 'Азербайджан' : 'Azerbaijan'), true => '🇬🇪 ' . ($ru ? 'Грузия' : 'Georgia')] as $isGeo => $colTitle) {
+            if ($isGeo) { $m .= '<div class="mega-menu-divider"></div>'; }
+            $m .= '<div class="mega-menu-col"><div class="mega-menu-col-title">' . $colTitle . '</div>';
+            foreach ($sanItems as $c) {
+                if ($c['georgia'] !== $isGeo) { continue; }
+                $tip = $c['full'] !== $c['title'] ? ' title="' . esc_attr($c['full']) . '"' : '';
+                $m .= '<a role="menuitem"' . $tip . ' href="' . esc_attr(localize_front_url($c['url'])) . '">' . esc_attr($c['title']) . '</a>';
+            }
+            $m .= '</div>';
+        }
+        $m .= '</div></li></ul>';
 
         // --- Направления лечения mega-menu ---
         $d = '<ul class="sub-menu mega-menu mega-menu-treatments" role="menu"><li class="mega-section" role="none"><ul class="mega-grid" role="none">';
