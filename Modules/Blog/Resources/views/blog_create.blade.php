@@ -39,7 +39,7 @@
                                                             <div class="crancy__item-form--group w-100 h-100">
                                                                 <label class="crancy__item-label">{{ __('translate.Image') }} * </label>
                                                                 <div class="crancy-product-card__upload crancy-product-card__upload--border">
-                                                                    <input type="file" class="btn-check" name="image" id="input-img1" autocomplete="off" onchange="previewImage(event)">
+                                                                    <input type="file" class="btn-check" name="image" accept=".jpg,.jpeg,.png,.gif,.bmp,.webp" id="input-img1" autocomplete="off" onchange="previewImage(event)">
                                                                     <label class="crancy-image-video-upload__label" for="input-img1">
                                                                         <img id="view_img" src="{{ asset($general_setting->placeholder_image) }}">
                                                                         <h4 class="crancy-image-video-upload__title">{{ __('translate.Click here to') }} <span class="crancy-primary-color">{{ __('translate.Choose File') }}</span> {{ __('translate.and upload') }} </h4>

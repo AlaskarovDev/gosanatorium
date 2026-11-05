@@ -12,7 +12,7 @@ class BlogRequest extends FormRequest
             $rules = [
                 'title'=>'required|max:255|unique:blog_translations',
                 'slug'=>'required|max:255|unique:blogs',
-                'image'=>'required',
+                'image'=>'required|file|mimetypes:image/jpeg,image/png,image/gif,image/bmp,image/x-ms-bmp,image/webp',
                 'description'=>'required',
                 'short_description'=>'required',
                 'category'=>'required',
@@ -24,6 +24,7 @@ class BlogRequest extends FormRequest
                 $rules = [
                     'title'=>'required',
                     'slug'=>'required|unique:blogs,slug,'.$this->blog.',id',
+                    'image'=>'nullable|file|mimetypes:image/jpeg,image/png,image/gif,image/bmp,image/x-ms-bmp,image/webp',
                     'description'=>'required',
                     'short_description'=>'required',
                     'category'=>'required',
@@ -31,6 +32,7 @@ class BlogRequest extends FormRequest
             }else{
                 $rules = [
                     'title'=>'required',
+                    'image'=>'nullable|file|mimetypes:image/jpeg,image/png,image/gif,image/bmp,image/x-ms-bmp,image/webp',
                     'description'=>'required',
                     'short_description'=>'required',
                 ];
@@ -58,6 +60,8 @@ class BlogRequest extends FormRequest
             'slug.required' => trans('translate.Slug is required'),
             'slug.unique' => trans('translate.Slug already exist'),
             'image.required' => trans('translate.Image is required'),
+            'image.mimetypes' => 'Unsupported image format. Please upload JPG, PNG, GIF, BMP, or WebP only.',
+            'image.file' => 'Unsupported image format. Please upload JPG, PNG, GIF, BMP, or WebP only.',
             'description.required' => trans('translate.Description is required'),
             'category.required' => trans('translate.Category is required'),
         ];

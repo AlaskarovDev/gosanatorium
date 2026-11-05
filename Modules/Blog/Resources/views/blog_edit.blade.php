@@ -118,7 +118,7 @@
                                                                     <div
                                                                         class="crancy-product-card__upload crancy-product-card__upload--border">
                                                                         <input type="file" class="btn-check"
-                                                                            name="image" id="input-img1"
+                                                                            name="image" accept=".jpg,.jpeg,.png,.gif,.bmp,.webp" id="input-img1"
                                                                             autocomplete="off"
                                                                             onchange="previewImage(event)">
                                                                         <label class="crancy-image-video-upload__label"
