@@ -49,18 +49,7 @@
                                 }
                             @endphp
 
-                            @if($activeCurrencies->count() > 1)
-                            <div class="tg-currency-switcher d-flex align-items-center ml-15">
-                                <select class="currency_code tg-currency-select notranslate" translate="no" aria-label="{{ __('translate.Currency') }}">
-                                    @foreach($activeCurrencies as $curr)
-                                        <option value="{{ $curr->currency_code }}" 
-                                            {{ $currentCode == $curr->currency_code ? 'selected' : '' }}>
-                                            {{ $curr->currency_icon }} {{ $curr->currency_code }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @endif
+                            @include('partials.currency-switcher')
                             {{-- ========== END CURRENCY SWITCHER ========== --}}
 
                             {{-- ========== LANGUAGE SWITCHER ========== --}}

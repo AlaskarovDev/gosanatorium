@@ -132,7 +132,7 @@
                             <div class="gs-compare-wrap"><button type="button" class="gs-compare-btn" data-slug="{{ $service->slug }}" data-title="{{ $service?->translation?->title }}" aria-pressed="false"><span class="gs-compare-box"></span><span class="gs-compare-label">Сравнить</span></button></div>
                             <div class="gscard-footer">
                                 <div class="gscard-price-wrap">
-                                    <div class="gscard-price">{{ app()->getLocale() === 'ru' ? 'от' : 'from' }} {{ currency($gsRaw) }}</div>
+                                    <div class="gscard-price">{{ app()->getLocale() === 'ru' ? 'от' : 'from' }} {!! currency_span($gsRaw) !!}</div>
                                     <div class="gscard-per">{{ app()->getLocale() === 'ru' ? 'за ночь' : 'per night' }}</div>
                                 </div>
                                 <a class="gscard-cta" href="{{ $gsUrl }}">{{ app()->getLocale() === 'ru' ? 'Подробнее' : 'Details' }} &rarr;</a>

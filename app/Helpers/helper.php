@@ -592,3 +592,15 @@ if (!function_exists('gscardBadges')) {
         return array_values(array_filter([$primary, $feature]));
     }
 }
+
+/**
+ * Price markup for the front-end currency switcher: formatted text plus the base (USD) amount
+ * in data-price-usd, so JavaScript can re-calculate it in the visitor's chosen currency.
+ */
+function currency_span($amount)
+{
+    $raw = number_format((float) $amount, 2, '.', '');
+    return new \Illuminate\Support\HtmlString(
+        '<span class="js-price" data-price-usd="' . $raw . '">' . e(currency($amount)) . '</span>'
+    );
+}

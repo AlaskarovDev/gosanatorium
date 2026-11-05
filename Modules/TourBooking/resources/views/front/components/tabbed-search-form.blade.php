@@ -190,7 +190,7 @@
                                                             <i class="fa-solid fa-route"></i>
                                                             <span>{{ $route->from_location }} → {{ $route->to_location }}</span>
                                                             @if($route->base_price)
-                                                                <small class="text-muted ml-2">({{ currency($route->base_price) }})</small>
+                                                                <small class="text-muted ml-2">({!! currency_span($route->base_price) !!})</small>
                                                             @endif
                                                         </li>
                                                     @empty

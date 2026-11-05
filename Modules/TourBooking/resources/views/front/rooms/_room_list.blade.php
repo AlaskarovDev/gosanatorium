@@ -261,10 +261,10 @@
                     <div class="discount-tag">
                         <i class="fa-solid fa-tag me-1"></i>{{ $discountPercent }}% скидка
                     </div>
-                    <div class="old-price">{{ currency($originalPrice) }}</div>
+                    <div class="old-price">{!! currency_span($originalPrice) !!}</div>
                 @endif
                 
-                <div class="current-price">{{ currency($currentPrice) }}</div>
+                <div class="current-price">{!! currency_span($currentPrice) !!}</div>
                 <div class="price-note">за ночь</div>
                 </div>
                 

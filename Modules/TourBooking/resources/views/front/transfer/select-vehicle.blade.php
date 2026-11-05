@@ -534,13 +534,13 @@
                             <div class="vehicle-price-section">
                                 <div class="price-breakdown">
                                     @if($route->base_price > 0)
-                                        <p class="price-item">Маршрут: {{ currency($route->base_price) }}</p>
+                                        <p class="price-item">Маршрут: {!! currency_span($route->base_price) !!}</p>
                                     @endif
-                                    <p class="price-item">Транспорт: {{ currency($vehicle->base_price) }}</p>
+                                    <p class="price-item">Транспорт: {!! currency_span($vehicle->base_price) !!}</p>
                                 </div>
                                 
                                 <p class="price-total-label">Итого:</p>
-                                <p class="price-total-value">{{ currency((float)$route->base_price + (float)$vehicle->base_price) }}</p>
+                                <p class="price-total-value">{!! currency_span((float)$route->base_price + (float)$vehicle->base_price) !!}</p>
                                 
                                 <a href="{{ route('front.tourbooking.transfer.checkout', [
                                     'route_id' => $route->id,

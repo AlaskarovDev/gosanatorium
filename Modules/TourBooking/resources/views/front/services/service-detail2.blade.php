@@ -44,7 +44,7 @@
                                 <div class="tg-tour-details-video-feature-price mb-10 mr-25">
                                     @if ($service?->is_per_person)
                                         <p> {{ __('translate.From') }}
-                                            <span>{{ currency($service?->price_per_person) }}</span> /
+                                            <span>{!! currency_span($service?->price_per_person) !!}</span> /
                                             {{ __('translate.Person') }}
                                         </p>
                                     @else
@@ -511,7 +511,7 @@
                                             <div class="tg-tour-about-tickets-adult">
                                                 <span>Person</span>
                                                 <p class="mb-0">(18+ years)
-                                                    <span>{{ currency($service->price_per_person) }}</span>
+                                                    <span>{!! currency_span($service->price_per_person) !!}</span>
                                                 </p>
                                             </div>
                                             <div class="tg-tour-about-tickets-quantity">
@@ -528,7 +528,7 @@
                                             <div class="tg-tour-about-tickets-adult">
                                                 <span>Children </span>
                                                 <p class="mb-0">(13-17 years)
-                                                    <span>{{ currency($service->child_price) }}</span>
+                                                    <span>{!! currency_span($service->child_price) !!}</span>
                                                 </p>
                                             </div>
                                             <div class="tg-tour-about-tickets-quantity">
@@ -561,7 +561,7 @@
                                                                     {{ $extra->name }}
                                                                 </label>
                                                             </div>
-                                                            <span class="quantity">{{ currency($extra->price) }}</span>
+                                                            <span class="quantity">{!! currency_span($extra->price) !!}</span>
                                                         </li>
                                                     @endforeach
                                                 </ul>
@@ -582,7 +582,7 @@
                                         class="mt-4 tg-tour-about-coast d-flex align-items-center flex-wrap justify-content-between mb-20">
                                         <span class="tg-tour-about-sidebar-title d-inline-block">Total Cost:</span>
                                         <h5 class="total-price">
-                                            {{ currency($service->discount_price ?? $service->full_price) }}</h5>
+                                            {!! currency_span($service->discount_price ?? $service->full_price) !!}</h5>
                                     </div>
                                 @endif
 

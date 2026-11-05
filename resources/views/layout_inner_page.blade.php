@@ -456,18 +456,7 @@
                                 $currentLang = session('lang_code', config('app.locale', 'en'));
                             @endphp
 
-                            @if($activeCurrencies->count() > 1)
-                            <div class="tg-currency-switcher d-flex align-items-center ml-15">
-                                <select class="currency_code tg-currency-select" aria-label="{{ __('translate.Currency') }}">
-                                    @foreach($activeCurrencies as $curr)
-                                        <option value="{{ $curr->currency_code }}" 
-                                            {{ $currentCode == $curr->currency_code ? 'selected' : '' }}>
-                                            {{ $curr->currency_icon }} {{ $curr->currency_code }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                            </div>
-                            @endif
+                            @include('partials.currency-switcher')
 
                             @if($activeLanguages->count() > 1)
                             <div class="tg-language-switcher d-flex align-items-center ml-10">

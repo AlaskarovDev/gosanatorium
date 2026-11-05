@@ -2089,9 +2089,9 @@
                         <div class="feature-card__label">От</div>
                         <div class="feature-card__value">
                             @if($service?->is_per_person)
-                                {{ currency($service?->price_per_person) }}
+                                {!! currency_span($service?->price_per_person) !!}
                             @else
-                                {{ currency($service->discount_price ?? $service->full_price) }}
+                                {!! currency_span($service->discount_price ?? $service->full_price) !!}
                             @endif
                         </div>
                     </div>
