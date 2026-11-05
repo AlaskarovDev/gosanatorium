@@ -47,7 +47,7 @@
                     @if ($expired)
                         Акция завершилась {{ $akcia->valid_until->locale('ru')->translatedFormat('j F Y') }}
                     @else
-                        Действует до: {{ $akcia->valid_until->locale('ru')->translatedFormat('j F Y') }}
+                        Действует @if ($akcia->valid_from)с {{ $akcia->valid_from->locale('ru')->translatedFormat('j F Y') }} @endifдо: {{ $akcia->valid_until->locale('ru')->translatedFormat('j F Y') }}
                     @endif
                 </div>
             @endif

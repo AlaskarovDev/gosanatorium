@@ -43,13 +43,15 @@
                 <span class="gsp-new">${{ rtrim(rtrim(number_format($item->discounted_price ?: $item->original_price, 2, '.', ''), '0'), '.') }}/ночь</span>
             </div>
         @endif
-        @if (!$ph && $item->valid_until)
+        @if (!$ph && $item->valid_from && $item->valid_until)
+            <div class="gsp-valid">Действует с {{ $item->valid_from->locale('ru')->translatedFormat('j F Y') }} до {{ $item->valid_until->locale('ru')->translatedFormat('j F Y') }}</div>
+        @elseif (!$ph && $item->valid_until)
             <div class="gsp-valid">Действует до {{ $item->valid_until->locale('ru')->translatedFormat('j F Y') }}</div>
         @endif
         @if ($showTimer)
             <div class="gsp-timer">Осталось: <b data-gsp-timer>…</b></div>
         @endif
         <div class="gsp-expired">Предложение истекло</div>
-        <a class="gsp-btn" href="/ru/aktsii">Подробнее</a>
+        <a class="gsp-btn" href="{{ !$ph && $item->slug ? $item->detail_url : '/ru/aktsii' }}">Подробнее</a>
     </div>
 </div>
