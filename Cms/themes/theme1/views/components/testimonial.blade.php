@@ -16,7 +16,7 @@
 @endphp
 
 @if ($testimonials->count() > 0)
-<section class="gsreview-section">
+<section class="gsreview-section" id="section-reviews">
     <style>
         .gsreview-section{display:block!important;background:#f8fafc!important;padding:80px 0!important;width:100%!important}
         .gsreview-container{display:block!important;max-width:1200px!important;margin:0 auto!important;padding:0 20px!important}
