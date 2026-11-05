@@ -1281,5 +1281,5 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .promo-card .promo-card__date{font-size:12px;color:#aaa;margin:0 0 14px}
 .promo-card .promo-card__btn{display:block;width:100%;text-align:center;background:#1a7c2f;color:#fff;padding:11px;border-radius:8px;font-size:14px;font-weight:600;text-decoration:none}
 .promo-card .promo-card__btn:hover{background:#155f24;color:#fff}
-.promo-card .promo-card__badge{top:12px;right:12px;background:#e53935;color:#fff;font-size:13px;font-weight:700;padding:4px 10px;border-radius:20px}
+.promo-card .promo-card__badge{top:12px;right:12px;background:#e53935;color:#fff;font-size:20px;font-weight:800;line-height:1.2;padding:8px 14px;border-radius:24px;box-shadow:0 2px 8px rgba(229,57,53,.4);letter-spacing:-.5px}
 @media(max-width:768px){.gsp-track--grid.gsp-track--page{grid-template-columns:1fr}}
