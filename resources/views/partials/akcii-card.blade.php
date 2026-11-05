@@ -47,6 +47,6 @@
             <div class="gsp-timer">Осталось: <b data-gsp-timer>…</b></div>
         @endif
         <div class="gsp-expired">Предложение истекло</div>
-        <a class="gsp-btn" href="{{ $ph ? route('front.tourbooking.services') : $item->detail_url }}">Подробнее</a>
+        <a class="gsp-btn" href="/ru/aktsii">Подробнее</a>
     </div>
 </div>

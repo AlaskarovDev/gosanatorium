@@ -1103,6 +1103,7 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 
 /* Homepage promotions: whole card clickable (same cards as /ru/aktsii) */
 .gsp-track--home .gsp-btn::after{content:"";position:absolute;inset:0}
+.gsp-card .gsp-btn::after{content:"";position:absolute;inset:0}
 
 /* Task #270: single logo, larger, vertically centred, header fixed at top in both states (no slide-in ghost) */
 .tg-header__area {
