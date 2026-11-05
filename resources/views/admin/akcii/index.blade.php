@@ -49,7 +49,7 @@
                                                             <h4 class="crancy-table__product-title">{{ $item->sanatorium_name ?: '—' }}</h4>
                                                         </td>
                                                         <td class="crancy-table__column-2 crancy-table__data-2">
-                                                            <h4 class="crancy-table__product-title">{{ $item->discount_percent !== null ? $item->discount_percent . '%' : '—' }}</h4>
+                                                            <h4 class="crancy-table__product-title">{{ $item->badge_text ?: ($item->discount_percent !== null ? $item->discount_percent . '%' : '—') }}</h4>
                                                         </td>
                                                         <td class="crancy-table__column-2 crancy-table__data-2">
                                                             <h4 class="crancy-table__product-title">{{ $item->valid_until ? $item->valid_until->format('d.m.Y') : '—' }}</h4>

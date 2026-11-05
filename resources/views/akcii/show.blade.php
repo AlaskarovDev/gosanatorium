@@ -36,7 +36,9 @@
             @if ($img)
                 <img class="akcia-img" src="{{ asset($img) }}" alt="{{ $akcia->title }}">
             @endif
-            @if ($pct)
+            @if (!empty($akcia->badge_text))
+                <div class="akcia-badge">{{ $akcia->badge_text }}</div>
+            @elseif ($pct)
                 <div class="akcia-badge">−{{ $pct }}%</div>
             @endif
             <h1>{{ $akcia->title }}</h1>

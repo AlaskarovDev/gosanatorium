@@ -117,6 +117,13 @@
                                                 </div>
                                                 <div class="col-md-4">
                                                     <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label">Badge text (e.g. -10%, 🔥, +1 / +2; overrides Discount %)</label>
+                                                        <input class="crancy__item-input" type="text" maxlength="30" name="badge_text" value="{{ old('badge_text', $akcii->badge_text) }}">
+                                                        @error('badge_text') <span class="text-danger">{{ $message }}</span> @enderror
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
                                                         <label class="crancy__item-label">Discount, %</label>
                                                         <input class="crancy__item-input" type="number" min="0" max="100" name="discount_percent" value="{{ old('discount_percent', $akcii->discount_percent) }}">
                                                         @error('discount_percent') <span class="text-danger">{{ $message }}</span> @enderror

@@ -66,6 +66,7 @@ class AkciiController extends Controller
             'content' => 'nullable|string',
             'image' => 'nullable|image|max:4096',
             'discount_percent' => 'nullable|integer|min:0|max:100',
+            'badge_text' => 'nullable|string|max:30',
             'valid_until' => 'nullable|date|after_or_equal:valid_from',
             'sanatorium_name' => 'nullable|string|max:255',
             'service_id' => 'nullable|integer|exists:services,id',

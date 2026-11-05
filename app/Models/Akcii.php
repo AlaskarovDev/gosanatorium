@@ -15,6 +15,7 @@ class Akcii extends Model
         'content',
         'image',
         'discount_percent',
+        'badge_text',
         'valid_until',
         'sanatorium_name',
         'service_id',

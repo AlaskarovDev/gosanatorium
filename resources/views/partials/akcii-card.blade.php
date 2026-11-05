@@ -17,10 +17,12 @@
         @endif
         @if ($ph)
             <span class="gsp-flag gsp-flag--season">Сезонное предложение</span>
-        @elseif ($item->is_hot)
+        @elseif ($item->is_hot && ($item->badge_text ?? '') !== '🔥')
             <span class="gsp-flag gsp-flag--hot">Горящее предложение 🔥</span>
         @endif
-        @if ($pct)
+        @if (!empty($item->badge_text))
+            <span class="gsp-pct">{{ $item->badge_text }}</span>
+        @elseif ($pct)
             <span class="gsp-pct">−{{ $pct }}%</span>
         @endif
     </div>
@@ -29,8 +31,8 @@
             <div class="gsp-san">{{ $name }} @if ($rating)<span class="gsp-rating">★ {{ $rating }}</span>@endif</div>
         @endif
         <div class="gsp-title">{{ $item->title }}</div>
-        @if ($ph && $item->description)
-            <p class="gsp-desc">{{ $item->description }}</p>
+        @if ($item->description)
+            <p class="gsp-desc" style="white-space:pre-line">{{ $item->description }}</p>
         @endif
         @if (!$ph && ($item->original_price || $item->discounted_price))
             <div class="gsp-prices">
