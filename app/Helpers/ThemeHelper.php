@@ -196,10 +196,6 @@ if (!function_exists('wp_nav_menu')) {
 
         foreach ($menu_items as $item) {
             $itemPath = strtolower(rtrim((string) parse_url((string) $item->url, PHP_URL_PATH), '/'));
-            if ($args['theme_location'] === 'primary_menu' && preg_match('#/about#', $itemPath) && !$item->hasActiveChildren()) {
-                $items_output .= render_about_nav_dropdown($item);
-                continue;
-            }
             $items_output .= render_menu_item($item, $args);
         }
         
@@ -387,27 +383,6 @@ if (!function_exists('render_nav_dropdown')) {
         $out = '<li class="menu-item-has-children nav-sanatorium-dropdown ' . $cssClass . ($active ? ' current-menu-item active' : '') . '" role="none">';
         $out .= '<a href="' . esc_attr(localize_front_url($url)) . '" role="menuitem" aria-haspopup="true" aria-expanded="false">' . esc_attr($title) . '</a>';
         return $out . $submenuHtml . '</li>';
-    }
-}
-
-/**
- * "О компании" dropdown: replaces the plain "About" item with О нас + Партнёрам
- */
-if (!function_exists('render_about_nav_dropdown')) {
-    function render_about_nav_dropdown($item) {
-        $ru = (request()->attributes->get('display_lang') ?: app()->getLocale()) === 'ru';
-        $path = '/' . trim(request()->getPathInfo(), '/');
-        $active = preg_match('#^/(about|partneram)#', $path) === 1;
-        $links = [
-            [$ru ? 'О нас' : 'About us', (string) $item->url],
-            [$ru ? 'Партнёрам' : 'Partners', '/partneram'],
-        ];
-        $sub = '<ul class="sub-menu mega-menu mega-menu-about" role="menu">';
-        foreach ($links as [$t, $u]) {
-            $sub .= '<li role="none"><a role="menuitem" href="' . esc_attr(localize_front_url($u)) . '">' . esc_attr($t) . '</a></li>';
-        }
-        $sub .= '</ul>';
-        return render_nav_dropdown($ru ? 'О компании' : 'About', (string) $item->url, $sub, $active, 'nav-about');
     }
 }
 
