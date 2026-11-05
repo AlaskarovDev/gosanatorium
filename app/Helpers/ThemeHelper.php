@@ -195,6 +195,11 @@ if (!function_exists('wp_nav_menu')) {
         }
 
         foreach ($menu_items as $item) {
+            $itemPath = strtolower(rtrim((string) parse_url((string) $item->url, PHP_URL_PATH), '/'));
+            if ($args['theme_location'] === 'primary_menu' && preg_match('#/about#', $itemPath) && !$item->hasActiveChildren()) {
+                $items_output .= render_about_nav_dropdown($item);
+                continue;
+            }
             $items_output .= render_menu_item($item, $args);
         }
         
@@ -322,50 +327,87 @@ if (!function_exists('render_sanatorium_nav_items')) {
             if (str_ends_with($path, '/' . $s['slug'])) { $onSanatorium = true; break; }
         }
 
-        $children = [['title' => $ru ? 'Все санатории' : 'All sanatoriums', 'url' => '/sanatoriyi']];
-        $children[] = ['divider' => true];
+        $sanItems = [];
         foreach ($sanatoriums as $s) {
-            $children[] = ['title' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
+            $sanItems[] = ['title' => $s['title'], 'url' => route('front.tourbooking.services.show', ['slug' => $s['slug']], false)];
         }
 
-        $diseases = $ru ? [
-            'sustavy' => 'Заболевания суставов (артрит, артроз, подагра)',
-            'psoriaz' => 'Кожные заболевания (псориаз, экзема, нейродермит)',
-            'nevrologiya' => 'Неврологические заболевания',
-            'urologiya' => 'Гинекологические заболевания',
-            'zhkt' => 'Заболевания ЖКТ',
-            'diabet' => 'Эндокринология',
-        ] : [
-            'sustavy' => 'Joint diseases (arthritis, arthrosis, gout)',
-            'psoriaz' => 'Skin diseases (psoriasis, eczema, neurodermatitis)',
-            'nevrologiya' => 'Neurological diseases',
-            'urologiya' => 'Gynecological diseases',
-            'zhkt' => 'Digestive diseases',
-            'diabet' => 'Endocrinology',
+        $resorts = [
+            ['title' => $ru ? 'Нафталан в Баку' : 'Naftalan in Baku', 'url' => '/sanatoriyi?city=baku'],
+            ['title' => $ru ? 'Боржоми, Грузия' : 'Borjomi, Georgia', 'url' => '/sanatoriyi?country=georgia&city=borjomi'],
+            ['title' => $ru ? 'Цхалтубо, Грузия' : 'Tskaltubo, Georgia', 'url' => '/sanatoriyi?country=georgia&city=tskaltubo'],
+            ['title' => $ru ? 'Саирме, Грузия' : 'Sairme, Georgia', 'url' => '/sanatoriyi?country=georgia&city=sairme'],
+            ['title' => $ru ? 'Ленкорань' : 'Lankaran', 'url' => '/sanatoriyi?city=lankaran'],
         ];
-        $dChildren = [];
-        foreach ($diseases as $slug => $label) {
-            $dChildren[] = ['title' => $label, 'url' => '/sanatoriyi?disease=' . $slug];
-        }
 
-        return render_nav_dropdown($ru ? 'Санатории' : 'Sanatoriums', '/sanatoriyi', $children, $onSanatorium, 'nav-sanatoriums', true)
-            . render_nav_dropdown($ru ? 'Направления лечения' : 'Treatment directions', '#', $dChildren, $onDiseases, 'nav-treatments', false);
+        $diseases = [
+            'sustavy' => ['🦴', $ru ? 'Заболевания суставов' : 'Joint diseases'],
+            'psoriaz' => ['🧴', $ru ? 'Кожные заболевания' : 'Skin diseases'],
+            'nevrologiya' => ['🧠', $ru ? 'Нервная система' : 'Nervous system'],
+            'urologiya' => ['💊', $ru ? 'Гинекология' : 'Gynecology'],
+            'zhkt' => ['🫁', $ru ? 'ЖКТ' : 'Digestive system'],
+            'diabet' => ['🩺', $ru ? 'Эндокринология' : 'Endocrinology'],
+        ];
+
+        $li = function ($c, $icon = null) {
+            return '<li role="none"><a role="menuitem" href="' . esc_attr(localize_front_url($c['url'])) . '">'
+                . ($icon ? '<span class="mega-emoji" aria-hidden="true">' . $icon . '</span>' : '')
+                . esc_attr($c['title']) . '</a></li>';
+        };
+
+        // --- Санатории mega-menu ---
+        $m = '<ul class="sub-menu mega-menu mega-menu-sanatoriums" role="menu">';
+        $m .= '<li class="mega-section mega-left" role="none">';
+        $m .= '<span class="mega-label">' . ($ru ? 'Лечение и отдых' : 'Treatment & rest') . '</span>';
+        $m .= '<span class="mega-title">' . ($ru ? 'Санатории Нафталана' : 'Naftalan sanatoriums') . '</span>';
+        $m .= '<a class="mega-compare" role="menuitem" href="' . esc_attr(localize_front_url('/sanatoriyi')) . '">'
+            . ($ru ? 'Сравнить все санатории →' : 'Compare all sanatoriums →') . '</a>';
+        $m .= '<ul class="mega-grid" role="none">';
+        foreach ($sanItems as $c) { $m .= $li($c); }
+        $m .= '</ul></li>';
+        $m .= '<li class="mega-section mega-right" role="none"><span class="mega-heading">' . ($ru ? 'Другие курорты' : 'Other resorts') . '</span><ul class="mega-list" role="none">';
+        foreach ($resorts as $c) { $m .= $li($c); }
+        $m .= '</ul></li></ul>';
+
+        // --- Направления лечения mega-menu ---
+        $d = '<ul class="sub-menu mega-menu mega-menu-treatments" role="menu"><li class="mega-section" role="none"><ul class="mega-grid" role="none">';
+        foreach ($diseases as $slug => [$icon, $label]) {
+            $d .= $li(['title' => $label, 'url' => '/sanatoriyi?disease=' . $slug], $icon);
+        }
+        $d .= '</ul></li></ul>';
+
+        return render_nav_dropdown($ru ? 'Санатории' : 'Sanatoriums', '/sanatoriyi', $m, $onSanatorium, 'nav-sanatoriums')
+            . render_nav_dropdown($ru ? 'Направления лечения' : 'Treatment directions', '#', $d, $onDiseases, 'nav-treatments');
     }
 }
 
 if (!function_exists('render_nav_dropdown')) {
-    function render_nav_dropdown($title, $url, array $children, $active, $cssClass, $scroll) {
+    /** $submenuHtml is a ready-made <ul class="sub-menu ..."> */
+    function render_nav_dropdown($title, $url, $submenuHtml, $active, $cssClass) {
         $out = '<li class="menu-item-has-children nav-sanatorium-dropdown ' . $cssClass . ($active ? ' current-menu-item active' : '') . '" role="none">';
         $out .= '<a href="' . esc_attr(localize_front_url($url)) . '" role="menuitem" aria-haspopup="true" aria-expanded="false">' . esc_attr($title) . '</a>';
-        $out .= '<ul class="sub-menu' . ($scroll ? ' sub-menu-scroll' : '') . '" role="menu">';
-        foreach ($children as $c) {
-            if (!empty($c['divider'])) {
-                $out .= '<li class="nav-divider" role="separator"></li>';
-                continue;
-            }
-            $out .= '<li role="none"><a role="menuitem" href="' . esc_attr(localize_front_url($c['url'])) . '">' . esc_attr($c['title']) . '</a></li>';
+        return $out . $submenuHtml . '</li>';
+    }
+}
+
+/**
+ * "О компании" dropdown: replaces the plain "About" item with О нас + Партнёрам
+ */
+if (!function_exists('render_about_nav_dropdown')) {
+    function render_about_nav_dropdown($item) {
+        $ru = (request()->attributes->get('display_lang') ?: app()->getLocale()) === 'ru';
+        $path = '/' . trim(request()->getPathInfo(), '/');
+        $active = preg_match('#^/(about|partneram)#', $path) === 1;
+        $links = [
+            [$ru ? 'О нас' : 'About us', (string) $item->url],
+            [$ru ? 'Партнёрам' : 'Partners', '/partneram'],
+        ];
+        $sub = '<ul class="sub-menu mega-menu mega-menu-about" role="menu">';
+        foreach ($links as [$t, $u]) {
+            $sub .= '<li role="none"><a role="menuitem" href="' . esc_attr(localize_front_url($u)) . '">' . esc_attr($t) . '</a></li>';
         }
-        return $out . '</ul></li>';
+        $sub .= '</ul>';
+        return render_nav_dropdown($ru ? 'О компании' : 'About', (string) $item->url, $sub, $active, 'nav-about');
     }
 }
 
