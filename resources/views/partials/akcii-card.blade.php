@@ -2,6 +2,7 @@
     $ph = !empty($item->is_placeholder);
     $svc = $item->service;
     $img = $item->image ?: ($svc?->thumbnail?->file_path);
+    $img = is_string($img) && $img !== '' ? $img : null;
     $name = $item->sanatorium_name ?: ($svc?->translation?->title);
     $rating = $svc && (float) $svc->rating_general > 0 ? number_format((float) $svc->rating_general, 1) : null;
     $pct = $item->discount_label;
