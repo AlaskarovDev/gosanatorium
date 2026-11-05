@@ -27,6 +27,7 @@
     <link rel="stylesheet" href="{{ asset('global/toastr/toastr.min.css') }}">
 
     @stack('style_section')
+    @include('partials.schema_localbusiness')
 
 
     @if ($general_setting->google_analytic_status == 1)

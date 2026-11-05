@@ -173,6 +173,7 @@
          yükləmə prioriteti tam videoya getsin. --}}
 
     @stack('style_section')
+    @include('partials.schema_localbusiness')
 
 
     @if ($general_setting->google_analytic_status == 1)
