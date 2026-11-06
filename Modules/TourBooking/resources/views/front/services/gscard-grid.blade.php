@@ -3,7 +3,6 @@
 @foreach ($allServices as $service)
                 @php
                     $gsUrl = route('front.tourbooking.services.show', ['slug' => $service?->slug]);
-                    $gsBadges = gscardBadges($service);
                     $gsCount = (int) ($service?->active_reviews_count ?? 0);
                     $gsRating = (float) ($service?->active_reviews_avg_rating ?? 0);
                     $gsRaw = $service->is_per_person
@@ -18,13 +17,7 @@
                                     src="{{ asset($service?->thumbnail?->file_path) }}"
                                     alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
                             </a>
-                            @if (count($gsBadges))
-                                <div class="gscard-badges">
-                                    @foreach ($gsBadges as $gsBadge)
-                                        <span class="gscard-badge">{{ $gsBadge }}</span>
-                                    @endforeach
-                                </div>
-                            @endif
+                            @include('tourbooking::front.services.badges', ['service' => $service, 'class' => 'gs-sbadges--overlay', 'limit' => 3])
                             <div @class([
                                 'tg-listing-item-wishlist',
                                 'gscard-fav',

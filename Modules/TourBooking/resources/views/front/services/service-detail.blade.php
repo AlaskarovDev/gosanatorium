@@ -1955,7 +1955,8 @@
                     {{ $service?->translation?->title }}
                 </h1>
 
-                @include('tourbooking::front.services.rating-badges', ['service' => $service])
+                @include('tourbooking::front.services.badges', ['service' => $service, 'limit' => 10])
+@include('tourbooking::front.services.rating-badges', ['service' => $service])
 
                 @include('tourbooking::front.services.price-calculator', ['service' => $service])
 

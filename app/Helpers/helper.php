@@ -561,35 +561,18 @@ if (!function_exists('gscardBadges')) {
     // At most 2 badges: one primary + one feature
     function gscardBadges($service)
     {
+        // Single source of truth for sanatorium badges: services.badges (edited in the admin panel).
         $list = [];
         foreach ((is_array($service?->badges) ? $service->badges : []) as $b) {
-            $t = trim($b['text'] ?? '');
-            if ($t !== '') {
+            $t = trim(is_array($b) ? ($b['text'] ?? '') : (string) $b);
+            if ($t !== '' && !in_array($t, $list, true)) {
                 $list[] = $t;
             }
         }
         if (empty($list) && $service?->is_featured == 1) {
             $list[] = 'Популярное';
         }
-        $primary = null;
-        $feature = null;
-        foreach ($list as $t) {
-            $l = mb_strtolower($t);
-            if (preg_match('/рекоменду|лучшая цена|популярн|recommend|best price|popular/u', $l)) {
-                $primary ??= $t;
-            } elseif (!preg_match('/трансфер|transfer/u', $l)) {
-                $feature ??= $t;
-            }
-        }
-        if (!$feature) {
-            foreach ($list as $t) {
-                if ($t !== $primary) {
-                    $feature = $t;
-                    break;
-                }
-            }
-        }
-        return array_values(array_filter([$primary, $feature]));
+        return $list;
     }
 }
 
