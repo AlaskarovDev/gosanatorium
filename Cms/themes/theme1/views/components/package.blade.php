@@ -135,6 +135,9 @@
                 </div>
             @endforeach
         </div>
+        <div class="gscard-all-wrap">
+            <a class="gscard-cta gscard-all-btn" href="{{ localize_front_url('/sanatoriyi') }}">{{ app()->getLocale() === 'ru' ? 'Посмотреть все санатории' : 'View all sanatoriums' }} &rarr;</a>
+        </div>
     </div>
 </div>
 </div>
@@ -183,6 +186,8 @@
         .gscard-price { color: #1a9e87 !important; font-size: 20px !important; font-weight: 800 !important; line-height: 1.2 !important; background: none !important; text-transform: none !important; }
         .gscard-per { color: #94a3b8 !important; font-size: 12px !important; }
         .gscard-cta { background: #1a9e87 !important; color: #fff !important; border-radius: 8px !important; padding: 8px 16px !important; font-size: 13px !important; font-weight: 600 !important; white-space: nowrap !important; text-transform: none !important; }
+        .gscard-all-wrap { text-align: center !important; margin-top: 32px !important; }
+        .gscard-all-btn { display: inline-block !important; padding: 14px 32px !important; font-size: 16px !important; border-radius: 10px !important; }
         .gscard-cta:hover { background: #158573 !important; color: #fff !important; }
         @media (max-width: 1200px) { .gscard-grid { grid-template-columns: repeat(3, minmax(0, 1fr)) !important; } }
         @media (max-width: 768px) { .gscard-grid { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
