@@ -130,6 +130,7 @@
 <p style="font-size:12px;color:#9ca3af;margin-top:8px">* Без предоплаты. Оплата при заезде.</p>
 </div>
 <div class="gstd-panel" id="gstd-rooms">
+@include('partials.sanatorium-suitability-block')
 <h2 class="gstd-section-title">Номера и цены</h2>
 <div class="gstd-rooms-grid">
 <div class="gstd-room-card">

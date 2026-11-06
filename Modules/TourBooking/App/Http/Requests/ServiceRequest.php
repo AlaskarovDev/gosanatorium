@@ -61,6 +61,20 @@ class ServiceRequest extends FormRequest
             }
             $this->merge(['results' => !empty($results) ? $results : null]);
         }
+
+        // "Подходит вам если..." / "Возможно, не подходит если...": textarea (one point per line) → JSON arrays
+        foreach (['suitable_for', 'not_suitable_for'] as $field) {
+            if ($this->has($field . '_text')) {
+                $items = [];
+                foreach (preg_split('/\r\n|\r|\n/', (string) $this->input($field . '_text')) as $line) {
+                    $line = trim(preg_replace('/^\s*[✓✔•\-]+\s*/u', '', $line));
+                    if ($line !== '') {
+                        $items[] = mb_substr($line, 0, 255);
+                    }
+                }
+                $this->merge([$field => !empty($items) ? $items : null]);
+            }
+        }
     }
 
     /**
@@ -141,6 +155,10 @@ class ServiceRequest extends FormRequest
             'is_featured' => 'nullable|boolean',
             'is_popular' => 'nullable|boolean',
             'youtube_url' => ['nullable', 'string', 'max:255', 'regex:~^https?://(www\.|m\.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)/~i'],
+            'suitable_for' => 'nullable|array',
+            'suitable_for.*' => 'nullable|string|max:255',
+            'not_suitable_for' => 'nullable|array',
+            'not_suitable_for.*' => 'nullable|string|max:255',
             'results' => 'nullable|array',
             'results.*' => 'nullable|string|max:255',
             'badges' => 'nullable|array',
