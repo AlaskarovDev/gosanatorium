@@ -91,6 +91,7 @@
 </div>
 <h2 class="gstd-section-title">О санатории</h2>
 <div class="gstd-desc-text">{!! $service?->translation?->description ?? $service->description ?? '' !!}</div>
+@include('partials.sanatorium-results-block')
 <div class="gstd-highlights">
 <div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Без предоплаты — оплата при заезде</span></div>
 <div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Бесплатная отмена бронирования</span></div>

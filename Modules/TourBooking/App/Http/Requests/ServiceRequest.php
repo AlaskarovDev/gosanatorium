@@ -48,6 +48,19 @@ class ServiceRequest extends FormRequest
             ];
         }
         $this->merge(['badges' => !empty($badges) ? $badges : null]);
+
+        // "Наши гости после курса": textarea (one point per line) → results JSON array
+        if ($this->has('results_text')) {
+            $lines = preg_split('/\r\n|\r|\n/', (string) $this->input('results_text'));
+            $results = [];
+            foreach ($lines as $line) {
+                $line = trim(preg_replace('/^\s*[✓✔•\-]+\s*/u', '', $line));
+                if ($line !== '') {
+                    $results[] = mb_substr($line, 0, 255);
+                }
+            }
+            $this->merge(['results' => !empty($results) ? $results : null]);
+        }
     }
 
     /**
@@ -127,6 +140,8 @@ class ServiceRequest extends FormRequest
             'cancellation_policy' => 'nullable|array',
             'is_featured' => 'nullable|boolean',
             'is_popular' => 'nullable|boolean',
+            'results' => 'nullable|array',
+            'results.*' => 'nullable|string|max:255',
             'badges' => 'nullable|array',
             'badges.*.text' => 'nullable|string|max:50',
             'badges.*.color' => 'nullable|string|max:20',

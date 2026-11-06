@@ -863,6 +863,7 @@
 
                                             {{-- Çoxlu etiket (badge) --}}
                                             @include('tourbooking::admin.services._badges_field', ['existingBadges' => []])
+                                            @include('tourbooking::admin.services._results_field', ['existingResults' => []])
                                         </div>
                                     </div>
 
