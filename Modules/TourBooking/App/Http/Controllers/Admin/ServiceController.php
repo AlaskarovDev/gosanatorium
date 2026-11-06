@@ -504,13 +504,48 @@ public function destroyRoom(ServiceRoom $room): RedirectResponse
     
 
     /**
+     * Numeric columns that are NOT NULL in the database: never pass null to them.
+     * Fallback order: submitted value, current value (on update), default.
+     */
+    private function applyNumericDefaults(array $data, ?Service $service = null): array
+    {
+        $defaults = [
+            'room_count' => 0,
+            'adult_count' => 1,
+            'children_count' => 0,
+            'child_count' => 0,
+            'min_nights' => 1,
+            'max_nights' => 30,
+        ];
+
+        foreach ($defaults as $column => $default) {
+            if (array_key_exists($column, $data) && $data[$column] !== null && $data[$column] !== '') {
+                continue;
+            }
+            // only touch columns that really exist in the table
+            if (! array_key_exists($column, $data) && ! \Illuminate\Support\Facades\Schema::hasColumn('services', $column)) {
+                continue;
+            }
+            if (! array_key_exists($column, $data) && $service === null) {
+                // let the database default apply on create unless the column was submitted
+                if (! in_array($column, ['room_count', 'adult_count', 'children_count'], true)) {
+                    continue;
+                }
+            }
+            $data[$column] = $service?->{$column} ?? $default;
+        }
+
+        return $data;
+    }
+
+    /**
      * Store a newly created service in storage.
      */
     public function store(ServiceRequest $request): RedirectResponse
     {
 
         $data = $request->validated();
-        $data['room_count'] = $data['room_count'] ?? 0;
+        $data = $this->applyNumericDefaults($data);
 
         // Handle JSON fields (included & excluded are now rich text HTML, not JSON)
         $jsonFields = ['facilities', 'rules', 'safety', 'social_links'];
@@ -686,7 +721,7 @@ public function destroyRoom(ServiceRoom $room): RedirectResponse
     public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
         $data = $request->validated();
-        $data['room_count'] = $data['room_count'] ?? $service->room_count ?? 0;
+        $data = $this->applyNumericDefaults($data, $service);
 
         $lang_code = $request->lang_code ?? 'ru';
 
