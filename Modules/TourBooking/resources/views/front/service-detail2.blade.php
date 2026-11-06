@@ -56,6 +56,7 @@
 <div class="gstd-breadcrumb"><a href="/ru">Главная</a><span>›</span><a href="/ru/hotels">Санатории</a><span>›</span><span>{{ $gstdTitle }}</span></div>
 <div class="gstd-htop">
 <div><h1 class="gstd-hname">{{ $gstdTitle }}</h1>
+@include('tourbooking::front.services.badges', ['service' => $service, 'limit' => 10])
 @include('tourbooking::front.services.rating-badges', ['service' => $service])
 <div class="gstd-hmeta">
 <span class="gstd-htype"><i class="fas fa-hospital"></i> Санаторий</span>

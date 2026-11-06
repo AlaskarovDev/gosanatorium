@@ -15,30 +15,12 @@
                                         style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">New</span>
                                 @endif
 
-                                @php
-                                    $__badges = is_array($service?->badges) ? $service->badges : [];
-                                    if (empty($__badges) && $service?->is_featured == 1) {
-                                        $__badges = [['text' => 'Популярное', 'color' => '']];
-                                    }
-                                @endphp
-                                @foreach ($__badges as $__i => $__b)
-                                    @php
-                                        $__txt = trim($__b['text'] ?? '');
-                                        $__style = 'top:' . (15 + $__i * 30) . 'px;';
-                                        $__style .= !empty($__b['color'])
-                                            ? 'background:' . $__b['color'] . ';border-radius:4px;'
-                                            : "background-image:url('" . asset('frontend/assets/img/shape/featured.png') . "');";
-                                    @endphp
-                                    @if ($__txt !== '')
-                                        <span class="tg-listing-item-price-discount shape-3" style="{{ $__style }}">{{ $__txt }}</span>
-                                    @endif
-                                @endforeach
-
                                 @if ($service?->discount_price)
                                     <span class="tg-listing-item-price-discount offer-btm shape-2"
                                         style="background-image: url('{{ asset('frontend/assets/img/shape/offter.png') }}')">Sale Offer</span>
                                 @endif
                             </a>
+                            @include('tourbooking::front.services.badges', ['service' => $service, 'class' => 'gs-sbadges--overlay'])
                             @include('tourbooking::front.services.rating-badges', ['service' => $service, 'class' => 'gs-rating-badges--card'])
                             <div class="tg-listing-2-price">
                                 {!! $service->price_display !!}

@@ -1283,3 +1283,9 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 .promo-card .promo-card__btn:hover{background:#155f24;color:#fff}
 .promo-card .promo-card__badge{top:12px;right:12px;background:#e53935;color:#fff;font-size:20px;font-weight:800;line-height:1.2;padding:8px 14px;border-radius:24px;box-shadow:0 2px 8px rgba(229,57,53,.4);letter-spacing:-.5px}
 @media(max-width:768px){.gsp-track--grid.gsp-track--page{grid-template-columns:1fr}}
+
+/* Sanatorium badges — one shared partial (tourbooking::front.services.badges) */
+.gs-sbadges { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+.gs-sbadges--overlay { position: absolute; top: 12px; left: 12px; z-index: 5; flex-direction: column; flex-wrap: nowrap; align-items: flex-start; margin: 0; max-width: calc(100% - 130px); pointer-events: none; }
+.gs-sbadge { background: #fff; color: #1a9e87; border-radius: 20px; padding: 4px 10px; font-size: 12px; font-weight: 600; line-height: 1.4; text-transform: none; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 100%; box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+.gs-sbadges:not(.gs-sbadges--overlay) .gs-sbadge { background: #e8f6f3; box-shadow: none; }
