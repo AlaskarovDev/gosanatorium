@@ -149,6 +149,9 @@
 </div></div>
 <div class="gstd-panel" id="gstd-included">
 <h2 class="gstd-section-title">Что включено в тур</h2>
+@if(str_contains((string) ($service->slug ?? ''), 'park-naftalan'))
+<div class="gs-infection-notice" role="note">⚠️ <strong>Анализы на инфекции (гепатит и др.) — 15 AZN дополнительно для каждого гостя.</strong> Обязательно для всех.</div>
+@endif
 <div class="gstd-inc-grid">
 <div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Проживание в номере</span></div>
 <div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">3-разовое питание</span></div>

@@ -3713,6 +3713,9 @@
                         @endif
 
                         {{-- 2. ЧТО ВКЛЮЧЕНО --}}
+@if(str_contains((string) ($service->slug ?? ''), 'park-naftalan'))
+<div class="gs-infection-notice" role="note">⚠️ <strong>Анализы на инфекции (гепатит и др.) — 15 AZN дополнительно для каждого гостя.</strong> Обязательно для всех.</div>
+@endif
                         @if($service?->included || $service?->excluded)
                             <div class="sidebar-included" data-aos="fade-left" data-aos-delay="100" id="section-included">
                                 <div class="sidebar-included__header">
