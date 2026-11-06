@@ -66,6 +66,12 @@
 }
 
 /* ========== ШАПКА ========== */
+.room-header-spacer {
+    height: 110px;
+    background: var(--rs-primary);
+}
+@media (max-width: 991px) { .room-header-spacer { height: 80px; } }
+
 .room-header-section {
     background: linear-gradient(135deg, var(--rs-primary) 0%, var(--rs-primary-light) 100%);
     padding: 25px 0 30px;
@@ -2201,10 +2207,8 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
     </div>
 
     {{-- Breadcrumb --}}
-    <div class="tg-breadcrumb-spacing-3 include-bg p-relative fix"
-        data-background="{{ asset($general_setting->secondary_breadcrumb_image ?? $general_setting->breadcrumb_image) }}">
-        <div class="tg-hero-top-shadow"></div>
-    </div>
+    {{-- Task #305: no banner image; plain solid strip keeps the transparent header readable --}}
+    <div class="room-header-spacer"></div>
     <div class="tg-breadcrumb-list-2-wrap">
         <div class="container">
             <div class="row">
