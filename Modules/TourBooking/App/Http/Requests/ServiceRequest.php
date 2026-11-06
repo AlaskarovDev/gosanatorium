@@ -140,6 +140,7 @@ class ServiceRequest extends FormRequest
             'cancellation_policy' => 'nullable|array',
             'is_featured' => 'nullable|boolean',
             'is_popular' => 'nullable|boolean',
+            'youtube_url' => ['nullable', 'string', 'max:255', 'regex:~^https?://(www\.|m\.)?(youtube\.com|youtu\.be|youtube-nocookie\.com)/~i'],
             'results' => 'nullable|array',
             'results.*' => 'nullable|string|max:255',
             'badges' => 'nullable|array',

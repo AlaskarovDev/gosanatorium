@@ -74,6 +74,7 @@
 @foreach ($gstdMedia->skip(1)->take(3) as $img)<img src="{{ asset($img->file_path) }}" alt="">@endforeach
 </div>
 </div>
+@include('partials.sanatorium-video-block')
 <div class="gstd-tabs-bar">
 <button class="gstd-tab active" onclick="gstdTab('overview',this)">Обзор</button>
 <button class="gstd-tab" onclick="gstdTab('treatment',this)">Лечение</button>
