@@ -179,10 +179,12 @@
 <div class="gstd-price-num">875 <span style="font-size:20px;color:#9ca3af">AZN</span></div>
 <div class="gstd-price-per">за 7 ночей · 1 человек · все процедуры включены</div>
 <div class="gstd-price-divider"></div>
+<div class="availability-note">📅 Бронирование доступно — без предоплаты, отмена бесплатно</div>
 <div class="gstd-date-group"><div class="gstd-date-lbl">Дата заезда</div><input type="date" class="gstd-date-inp" id="gstdCheckin"></div>
 <div class="gstd-date-group"><div class="gstd-date-lbl">Дата выезда</div><input type="date" class="gstd-date-inp" id="gstdCheckout"></div>
 <div class="gstd-nights-row"><span class="gstd-nights-lbl">Ночей</span><span class="gstd-nights-val" id="gstdNights">7</span></div>
 <div class="gstd-guests-row"><span class="gstd-guests-lbl">Гостей</span><div class="gstd-guests-ctrl"><button class="gstd-gcbtn" onclick="gstdGuests(-1)">−</button><span class="gstd-gcval" id="gstdGuests">1</span><button class="gstd-gcbtn" onclick="gstdGuests(1)">+</button></div></div>
+@include('partials.sanatorium-urgency-block')
 <button class="gstd-book-btn">Забронировать</button>
 <a href="https://wa.me/994519158894" class="gstd-wa-btn"><i class="fab fa-whatsapp"></i> Спросить в WhatsApp</a>
 <div class="gstd-guarantees">
