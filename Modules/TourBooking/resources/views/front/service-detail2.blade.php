@@ -175,7 +175,7 @@
 </div>
 </div>
 <div class="gstd-sidebar">
-<div class="gstd-price-card">
+<div class="gstd-price-card" id="booking">
 <div class="gstd-price-from">Стоимость тура от</div>
 <div class="gstd-price-num">875 <span style="font-size:20px;color:#9ca3af">AZN</span></div>
 <div class="gstd-price-per">за 7 ночей · 1 человек · все процедуры включены</div>
@@ -186,6 +186,7 @@
 <div class="gstd-nights-row"><span class="gstd-nights-lbl">Ночей</span><span class="gstd-nights-val" id="gstdNights">7</span></div>
 <div class="gstd-guests-row"><span class="gstd-guests-lbl">Гостей</span><div class="gstd-guests-ctrl"><button class="gstd-gcbtn" onclick="gstdGuests(-1)">−</button><span class="gstd-gcval" id="gstdGuests">1</span><button class="gstd-gcbtn" onclick="gstdGuests(1)">+</button></div></div>
 @include('partials.sanatorium-urgency-block')
+@include('partials.sanatorium-sticky-book')
 <button class="gstd-book-btn">Забронировать</button>
 <a href="https://wa.me/994519158894" class="gstd-wa-btn"><i class="fab fa-whatsapp"></i> Спросить в WhatsApp</a>
 <div class="gstd-guarantees">
