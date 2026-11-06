@@ -510,6 +510,7 @@ public function destroyRoom(ServiceRoom $room): RedirectResponse
     {
 
         $data = $request->validated();
+        $data['room_count'] = $data['room_count'] ?? 0;
 
         // Handle JSON fields (included & excluded are now rich text HTML, not JSON)
         $jsonFields = ['facilities', 'rules', 'safety', 'social_links'];
@@ -685,6 +686,7 @@ public function destroyRoom(ServiceRoom $room): RedirectResponse
     public function update(ServiceRequest $request, Service $service): RedirectResponse
     {
         $data = $request->validated();
+        $data['room_count'] = $data['room_count'] ?? $service->room_count ?? 0;
 
         $lang_code = $request->lang_code ?? 'ru';
 
