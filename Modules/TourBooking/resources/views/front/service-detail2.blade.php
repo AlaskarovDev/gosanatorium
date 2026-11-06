@@ -117,6 +117,7 @@
 <div class="gstd-proc-item"><div class="gstd-proc-icon"><i class="fas fa-dumbbell"></i></div><div><div class="gstd-proc-name">ЛФК</div><div class="gstd-proc-desc">Лечебная физическая культура</div></div></div>
 </div>
 <h2 class="gstd-section-title" style="margin-top:28px">Программы лечения</h2>
+@include('partials.sanatorium-packages-comparison')
 <table class="gstd-pkg-table">
 <thead><tr><th>Программа</th><th>7 ночей</th><th>10 ночей</th><th>14 ночей</th></tr></thead>
 <tbody>
