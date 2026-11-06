@@ -16,7 +16,7 @@
 <div class="announcement-bar" id="announcementBar">
   <div class="announcement-bar__content">
     <span class="announcement-bar__fire">🔥</span>
-    <span class="announcement-bar__text">Специальные акции: Gold Naftalan — 5 ночей + 2 в подарок · Гашалты — скидка 10% · Sun City — скидка до 10%</span>
+    <span class="announcement-bar__text">Специальные акции: Gold Naftalan — 5 ночей + 2 в подарок · Гашалты — скидка 10% · Sun City — скидка до 10% · Парк Нафталан — скидка 15%</span>
     <a href="/ru/akcii" class="announcement-bar__link">Смотреть все акции →</a>
   </div>
   <button type="button" class="announcement-bar__close" onclick="closeAnnouncementBar()" aria-label="Закрыть">✕</button>
