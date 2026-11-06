@@ -75,6 +75,7 @@ final class Service extends Model
         'is_popular',
         'badges',
         'results',
+        'youtube_url',
         'show_on_homepage',
         'status',
         'video_url',
@@ -490,4 +491,20 @@ public function getMinRoomPriceAttribute(): ?float
 {
     return $this->hasMany(ServiceTreatmentItem::class)->orderBy('display_order');
 }
+
+    /**
+     * YouTube video ID extracted from youtube_url (watch, youtu.be, embed, shorts, live links).
+     */
+    public function getYoutubeIdAttribute(): ?string
+    {
+        $url = trim((string) $this->youtube_url);
+        if ($url === '') {
+            return null;
+        }
+        if (preg_match('~(?:youtube(?:-nocookie)?\.com/(?:watch\?(?:.*&)?v=|embed/|shorts/|live/|v/)|youtu\.be/)([A-Za-z0-9_-]{11})~i', $url, $m)) {
+            return $m[1];
+        }
+
+        return null;
+    }
 }

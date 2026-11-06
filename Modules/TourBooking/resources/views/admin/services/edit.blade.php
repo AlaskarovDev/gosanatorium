@@ -1376,6 +1376,7 @@
                                             {{-- Çoxlu etiket (badge) — admin idarə edir --}}
                                             @include('tourbooking::admin.services._badges_field', ['existingBadges' => $service->badges ?? []])
                                             @include('tourbooking::admin.services._results_field', ['existingResults' => $service->results ?? []])
+                                            @include('tourbooking::admin.services._youtube_field', ['existingYoutubeUrl' => $service->youtube_url])
                                         </div>
                                     </div>
 
