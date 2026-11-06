@@ -1377,6 +1377,7 @@
                                             @include('tourbooking::admin.services._badges_field', ['existingBadges' => $service->badges ?? []])
                                             @include('tourbooking::admin.services._results_field', ['existingResults' => $service->results ?? []])
                                             @include('tourbooking::admin.services._youtube_field', ['existingYoutubeUrl' => $service->youtube_url])
+                                            @include('tourbooking::admin.services._suitability_field', ['existingSuitable' => $service->suitable_for ?? [], 'existingNotSuitable' => $service->not_suitable_for ?? []])
                                         </div>
                                     </div>
 
