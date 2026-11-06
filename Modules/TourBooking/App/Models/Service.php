@@ -511,4 +511,39 @@ public function getMinRoomPriceAttribute(): ?float
 
         return null;
     }
+
+    /**
+     * Count one page view for today (stored per day so a rolling 7-day total can be shown).
+     */
+    public function recordView(): void
+    {
+        try {
+            $today = now()->toDateString();
+            $updated = \Illuminate\Support\Facades\DB::table('service_daily_views')
+                ->where('service_id', $this->id)->where('viewed_on', $today)
+                ->increment('views');
+            if (!$updated) {
+                \Illuminate\Support\Facades\DB::table('service_daily_views')->insertOrIgnore([
+                    'service_id' => $this->id, 'viewed_on' => $today, 'views' => 1,
+                ]);
+            }
+        } catch (\Throwable $e) {
+            // table not migrated yet - never break the page
+        }
+    }
+
+    /**
+     * Page views over the last 7 days (today included).
+     */
+    public function getViewsCountAttribute(): int
+    {
+        try {
+            return (int) \Illuminate\Support\Facades\DB::table('service_daily_views')
+                ->where('service_id', $this->id)
+                ->where('viewed_on', '>=', now()->subDays(6)->toDateString())
+                ->sum('views');
+        } catch (\Throwable $e) {
+            return 0;
+        }
+    }
 }

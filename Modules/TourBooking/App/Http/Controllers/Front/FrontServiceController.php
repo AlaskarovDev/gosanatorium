@@ -512,6 +512,10 @@ final class FrontServiceController extends Controller
             ->withExists('myWishlist')
             ->firstOrFail();
 
+        if (!request()->isMethod('GET') || !preg_match('/bot|crawl|spider|slurp|preview|curl|wget/i', (string) request()->userAgent()) ) {
+            $service->recordView();
+        }
+
         $amenities = [];
         if (is_array($service->amenities) && $service->amenities) {
             $amenities = AmenityTranslation::select('id', 'name')->whereIn('id', $service->amenities ?? [])->get();
