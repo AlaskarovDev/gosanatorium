@@ -2525,8 +2525,8 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
     const CURRENCY_POSITION = @json(session('currency')['currency_position'] ?? default_currency()['currency_position']);
 
     function formatCurrencyDynamic(amount) {
-        amount = parseFloat(amount) * CURRENCY_RATE;
-        let formatted = amount.toLocaleString('en-US', {minimumFractionDigits: 0, maximumFractionDigits: 0});
+        amount = (parseFloat(amount) || 0) * CURRENCY_RATE;
+        let formatted = amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
         switch(CURRENCY_POSITION) {
             case 'before_price': return CURRENCY_ICON + formatted;
