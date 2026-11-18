@@ -2191,6 +2191,38 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
     }
     .booking-modal .confirm-booking-btn { border-radius: 10px; font-size: 16px; padding: 0 16px; }
     .booking-modal .price-row.total { font-size: 16px; }
+    /* X button: header stays pinned while the sheet scrolls, 44px tap target */
+    .booking-modal .modal-header {
+        position: sticky; top: 0; z-index: 30; background: #fff;
+        margin: 0 -20px 16px; padding: 8px 20px 12px;
+    }
+    .booking-modal .modal-close-btn {
+        width: 44px; height: 44px; margin-right: -8px;
+        font-size: 22px; color: #374151; background: #f3f4f6;
+        -webkit-tap-highlight-color: transparent;
+    }
+    .booking-modal .modal-close-btn:hover, .booking-modal .modal-close-btn:active { background: #e5e7eb; color: #111827; }
+    /* iOS Safari: 95vh is taller than the visible area (URL bar), so the sheet top hid behind it */
+    @supports (height: 100dvh) { .booking-modal { max-height: calc(100dvh - 16px); } }
+}
+/* While the booking modal is open, hide floating UI that sits on top of it */
+body.booking-modal-open .tg-mobile-bottom-nav,
+body.booking-modal-open div[data-pf-id] { display: none !important; }
+
+/* Mobile room card: never wider than the screen (Safari grid min-content fix) */
+@media (max-width: 991px) {
+    .room-selection-wrapper .room-card { max-width: 100%; min-width: 0; box-sizing: border-box; }
+    .room-selection-wrapper .room-list-col.is-wide .room-card-inner,
+    .room-selection-wrapper .room-card-inner { grid-template-columns: minmax(0, 1fr) !important; }
+    .room-selection-wrapper .room-card-inner > * { min-width: 0; }
+    .room-selection-wrapper .room-image-col, .room-selection-wrapper .room-details-col { max-width: 100%; box-sizing: border-box; }
+    .room-selection-wrapper .room-description { overflow-wrap: anywhere; word-break: break-word; }
+    .room-selection-wrapper .rc-amenities { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px 8px; }
+    .room-selection-wrapper .rc-amenities .rc-amenity { width: auto; min-width: 0; }
+    .room-selection-wrapper .rc-amenity span { overflow-wrap: anywhere; }
+}
+@media (max-width: 480px) {
+    .room-selection-wrapper .rc-amenities { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
 </style>
 @endpush
@@ -2676,10 +2708,12 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
 
         var overlay = document.getElementById('bookingModal');
         overlay.classList.remove('closing');
+        overlay.style.removeProperty('bottom'); // mobile chat-lift script must not shrink the sheet (X went off-screen)
         overlay.classList.add('active');
         overlay.querySelector('.booking-modal').style.transform = '';
         document.body.classList.add('booking-modal-open');
         document.body.style.overflow = 'hidden';
+        try { if (window.Tawk_API && typeof Tawk_API.hideWidget === 'function') Tawk_API.hideWidget(); } catch (e) {}
     };
 
     function renderOptionalExtras() {
@@ -2718,6 +2752,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
             overlay.classList.remove('active', 'closing');
             document.body.classList.remove('booking-modal-open');
             document.body.style.overflow = '';
+            try { if (window.Tawk_API && typeof Tawk_API.showWidget === 'function') Tawk_API.showWidget(); } catch (e) {}
         }, 250);
     };
     

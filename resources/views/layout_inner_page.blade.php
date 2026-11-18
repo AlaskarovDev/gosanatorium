@@ -686,7 +686,7 @@
 
     var OFFSET = 80;
     var SKIP_IDS = ['mobileAppTabbar','doctorModal','header-sticky','mobileTabs','mobileFloatingHeader','loading'];
-    var SKIP_CLASSES = ['mobile-app-tabbar','mobile-floating-header','tg-header__area','tgmenu-offcanvas','cookie_consent_modal','doctor-modal-overlay','tg-header-height'];
+    var SKIP_CLASSES = ['mobile-app-tabbar','mobile-floating-header','tg-header__area','tgmenu-offcanvas','cookie_consent_modal','doctor-modal-overlay','tg-header-height','booking-modal-overlay','filter-backdrop'];
 
     function shouldSkip(el) {
         if (!el || !el.tagName) return true;
