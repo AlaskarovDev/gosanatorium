@@ -102,6 +102,8 @@ final class Service extends Model
         'airport_distance_km',
         'child_min_age',
         'child_discount',
+        'meal_plan',
+        'min_stay_nights',
     ];
 
     /**

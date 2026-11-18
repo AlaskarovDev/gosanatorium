@@ -822,6 +822,10 @@
 <input class="crancy__item-input" type="number"  name="procedures_per_day" value="{{ old('procedures_per_day', $service->procedures_per_day) }}"></div></div>
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Питание включено (сравнение)</label>
 <select class="crancy__item-input" name="meals_included"><option value="">—</option><option value="1" @selected((string) old('meals_included', $service->meals_included) === '1')>Да</option><option value="0" @selected((string) old('meals_included', $service->meals_included) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Питание (текст на странице номеров)</label>
+<input class="crancy__item-input" type="text" maxlength="255" name="meal_plan" placeholder="3-разовое питание с лечением" value="{{ old('meal_plan', $service->meal_plan) }}"></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Минимальный срок лечения, ночей</label>
+<input class="crancy__item-input" type="number" min="1" max="60" name="min_stay_nights" placeholder="1" value="{{ old('min_stay_nights', $service->min_stay_nights) }}"></div></div>
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Анализы при заезде (сравнение)</label>
 <select class="crancy__item-input" name="tests_included"><option value="">—</option><option value="1" @selected((string) old('tests_included', $service->tests_included) === '1')>Да</option><option value="0" @selected((string) old('tests_included', $service->tests_included) === '0')>Нет</option></select></div></div>
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Осмотр врача (сравнение)</label>
@@ -1484,6 +1488,8 @@
                                                                                 }
                                                                             @endphp
                                                                             @php
+                                                                                $occPricing ??= new \Modules\TourBooking\App\Services\RoomPricing();
+                                                                                $roomOccupancy = \Modules\TourBooking\App\Services\RoomPricing::tableReady() ? $occPricing->grid($room) : [];
                                                                                 $roomSeasonPrices = $room->seasonPrices->mapWithKeys(fn($sp) => [$sp->season_id => [
                                                                                     'mode' => $sp->mode,
                                                                                     'custom_percentage' => $sp->custom_percentage,
@@ -1510,6 +1516,7 @@
 data-room-features="{{ is_array($room->features) ? implode(', ', $room->features) : $room->features }}"
                                                                                     data-room-images='{!! json_encode($roomGalleryImages) !!}'
                                                                                     data-room-season-prices='{!! json_encode($roomSeasonPrices) !!}'
+                                                                                    data-room-occupancy='{!! json_encode((object) $roomOccupancy) !!}'
                                                                                     data-room-base-price-for="{{ $room->base_price_for ?? $room->max_guests ?? 2 }}"
                                                                                     data-room-extras='{!! json_encode($roomExtrasData) !!}'
                                                                                     data-room-low-stock-show="{{ $room->low_stock_show ? 1 : 0 }}"
@@ -2032,6 +2039,9 @@ data-room-features="{{ is_array($room->features) ? implode(', ', $room->features
                                 @include('tourbooking::admin._partials.room_extras', ['extras' => collect(), 'namePrefix' => 'extras', 'idSuffix' => 'add'])
                             </div>
                             <div class="col-12 mt-2">
+                                @include('tourbooking::admin._partials.occupancy_prices', ['idSuffix' => 'add'])
+                            </div>
+                            <div class="col-12 mt-2">
                                 @include('tourbooking::admin._partials.season_prices', ['entity' => null])
                             </div>
                         </div>
@@ -2206,6 +2216,9 @@ data-room-features="{{ is_array($room->features) ? implode(', ', $room->features
                             </div>
                             <div class="col-12 mt-3 mb-2" id="editRoomExtrasWrap">
                                 @include('tourbooking::admin._partials.room_extras', ['extras' => collect(), 'namePrefix' => 'extras', 'idSuffix' => 'edit'])
+                            </div>
+                            <div class="col-12 mt-2" id="editRoomOccupancyWrap">
+                                @include('tourbooking::admin._partials.occupancy_prices', ['idSuffix' => 'edit'])
                             </div>
                             <div class="col-12 mt-2" id="editRoomSeasonPricesWrap">
                                 @include('tourbooking::admin._partials.season_prices', ['entity' => null])
@@ -2782,6 +2795,14 @@ $('#edit_features_textarea').val(featuresText);
                         }
                     }
 
+                    // Populate the price grid (season × adults) for this room
+                    var occGrid = $(this).data('room-occupancy') || {};
+                    $('#editRoomOccupancyWrap input.occ-input').each(function() {
+                        var row = occGrid[this.dataset.occKey] || {};
+                        var v = row[this.dataset.occAdults];
+                        this.value = (v === undefined || v === null) ? '' : Number(v).toFixed(2);
+                    });
+
                     // Populate season prices for this room
                     var seasonPrices = $(this).data('room-season-prices') || {};
                     $('#editRoomSeasonPricesWrap select.season-mode').each(function() {
@@ -2827,6 +2848,7 @@ $('#edit_features_textarea').val(featuresText);
                     if (editGalleryInput) editGalleryInput.files = editGalleryDT.files;
                     editGalleryPreview.innerHTML = '';
                     updateEditGalleryCount();
+                    $('#editRoomOccupancyWrap input.occ-input').val('');
                     // Reset season prices
                     $('#editRoomSeasonPricesWrap select.season-mode').each(function() {
                         $(this).val('default');
