@@ -289,11 +289,11 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="d-flex" href="tel:+1238889999">
+                                        <a class="d-flex" href="tel:+994519158894">
                                             <span class="mr-15">
                                                 <i class="fa-sharp text-white fa-solid fa-phone"></i>
                                             </span>
-                                            +123 888 9999
+                                            +994 51 915 88 94
                                         </a>
                                     </li>
                                     <li class="d-flex">

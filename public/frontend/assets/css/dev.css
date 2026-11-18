@@ -1292,3 +1292,14 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 
 /* Mandatory infection tests notice (Park Naftalan) */
 .gs-infection-notice { background:#fff7e6; border:1px solid #f5b841; border-left:4px solid #f59e0b; color:#7a4b00; border-radius:8px; padding:12px 14px; margin:0 0 16px; font-size:14px; line-height:1.5; }
+
+/* Blog tags: plain labels (no dead links) */
+.tg-blog-sidebar-tag-list ul li .gs-blog-tag {
+  font-weight: 400;
+  font-size: 14px;
+  color: var(--tg-theme-primary);
+  background: #f0e9ff;
+  border-radius: 5px;
+  padding: 4px 12px;
+  display: inline-block;
+}
