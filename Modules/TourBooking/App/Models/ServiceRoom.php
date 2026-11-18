@@ -106,6 +106,14 @@ class ServiceRoom extends Model
     }
 
     /**
+     * Per-night prices by season and number of adults (see RoomPricing).
+     */
+    public function occupancyPrices(): HasMany
+    {
+        return $this->hasMany(RoomOccupancyPrice::class, 'room_id');
+    }
+
+    /**
      * Today's effective per-night price after any active seasonal rule.
      */
     public function getCurrentPricePerNightAttribute(): ?float

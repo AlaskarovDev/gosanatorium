@@ -16,6 +16,7 @@ use Illuminate\Support\Facades\Log;
 use Modules\TourBooking\App\Models\Booking;
 use Modules\TourBooking\App\Models\Service;
 use Modules\TourBooking\App\Models\ServiceRoom;
+use Modules\TourBooking\App\Services\RoomPricing;
 use Carbon\Carbon;
 
 final class GuestBookingController extends Controller
@@ -65,7 +66,27 @@ final class GuestBookingController extends Controller
         // Calculate price (including extras) with seasonal pricing
         $pricePerNight = 0;
         $extrasBreakdown = collect();
-        if ($room) {
+        $quote = null;
+        if ($room && (int) $room->service_id === (int) $service->id) {
+            // Same calculation as the room selection page: per night by season, for this number of adults
+            $room->load(RoomPricing::eagerLoads());
+            $quote = (new RoomPricing())->quote($room, $checkInDate, $checkOutDate, min(4, $adults));
+        }
+
+        if ($quote) {
+            $nights = $quote['nights'];
+            $pricePerNight = $quote['per_night'];
+            $totalPrice = $quote['total'];
+            $extras = ($room->activeExtras ?: collect())->keyBy('id');
+            foreach ($optionalIds as $exId) {
+                $ex = $extras->get($exId);
+                if ($ex && $ex->type === 'optional') {
+                    $totalPrice += (float) $ex->price * $nights;
+                    $extrasBreakdown->push(['name' => $ex->name, 'amount' => (float) $ex->price]);
+                }
+            }
+            $totalPrice = round($totalPrice, 2);
+        } elseif ($room) {
             $basePrice = $room->discount_price ?? $room->price_per_night;
             if (method_exists($room, 'priceForDate')) {
                 $seasonal = $room->current_price_per_night;
@@ -107,7 +128,9 @@ final class GuestBookingController extends Controller
         } else {
             $pricePerNight = $service->discount_price ?? $service->full_price ?? $service->price_per_person;
         }
-        $totalPrice = $pricePerNight * $nights;
+        if (! $quote) {
+            $totalPrice = $pricePerNight * $nights;
+        }
 
         return view('tourbooking::front.bookings.guest-booking-form', [
             'service' => $service,

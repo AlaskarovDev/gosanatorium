@@ -6,6 +6,7 @@ namespace Modules\TourBooking\App\Http\Controllers\Front;
 
 use App\Enums\Language;
 use App\Http\Controllers\Controller;
+use Carbon\Carbon;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,6 +24,7 @@ use Modules\TourBooking\App\Models\ServiceSlugHistory;
 use Modules\TourBooking\App\Models\ServiceType;
 use Modules\TourBooking\App\Repositories\ServiceRepository;
 use Modules\TourBooking\App\Repositories\ServiceTypeRepository;
+use Modules\TourBooking\App\Services\RoomPricing;
 
 final class FrontServiceController extends Controller
 {
@@ -40,7 +42,7 @@ final class FrontServiceController extends Controller
         return redirect('/');
     }
     
-    public function roomSelection(string $slug)
+    public function roomSelection(Request $request, string $slug)
     {
         $service = Service::where('slug', $slug)
             ->where('status', true)
@@ -52,11 +54,94 @@ final class FrontServiceController extends Controller
         if (!$service->rooms || $service->rooms->isEmpty()) {
             return redirect()->route('front.tourbooking.guest-booking-form', $slug);
         }
-        
-        $nights = request('nights', 1);
-        $rooms = $service->rooms;
-        
-        return view('tourbooking::front.rooms.room-selection', compact('service', 'rooms', 'nights'));
+
+        $allRooms = $service->rooms;
+        $allRooms->load(RoomPricing::eagerLoads());
+
+        $minStay = max(1, (int) ($service->min_stay_nights ?? 1));
+        [$search, $searchError] = $this->parseRoomSearch($request, $minStay);
+
+        $rooms = $allRooms;
+        $quotes = [];
+        if ($search) {
+            $rooms = $allRooms->filter(fn ($room) => ((int) ($room->max_guests ?: 2)) >= $search['guests'])->values();
+            if ($search['min_stay_ok']) {
+                $pricing = new RoomPricing();
+                foreach ($rooms as $room) {
+                    $quotes[$room->id] = $pricing->quote($room, $search['checkin'], $search['checkout'], $search['adults']);
+                }
+            }
+        }
+
+        $nights = $search['nights'] ?? 1;
+
+        return view('tourbooking::front.rooms.room-selection', compact(
+            'service', 'rooms', 'allRooms', 'nights', 'search', 'searchError', 'quotes', 'minStay'
+        ));
+    }
+
+    /**
+     * Read ?checkin=Y-m-d&checkout=Y-m-d&adults=2&children=0&ages=5,10 from the URL.
+     *
+     * @return array{0: array|null, 1: string|null} [search, error message]
+     */
+    private function parseRoomSearch(Request $request, int $minStay): array
+    {
+        if (! $request->filled('checkin') && ! $request->filled('checkout')) {
+            return [null, null];
+        }
+
+        $parse = function ($v) {
+            if (! is_string($v) || ! preg_match('/^\d{4}-\d{2}-\d{2}$/', $v)) {
+                return null;
+            }
+            try {
+                $d = Carbon::createFromFormat('!Y-m-d', $v);
+            } catch (\Throwable) {
+                return null;
+            }
+            return ($d && $d->format('Y-m-d') === $v) ? $d : null;
+        };
+
+        $checkin = $parse($request->query('checkin'));
+        $checkout = $parse($request->query('checkout'));
+        if (! $checkin || ! $checkout) {
+            return [null, 'Укажите даты приезда и отъезда.'];
+        }
+        if ($checkin->lt(Carbon::today())) {
+            return [null, 'Дата приезда не может быть в прошлом. Выберите другие даты.'];
+        }
+        if ($checkout->lte($checkin)) {
+            return [null, 'Дата отъезда должна быть позже даты приезда (минимум 1 ночь).'];
+        }
+        $nights = (int) $checkin->diffInDays($checkout);
+        if ($nights > 90) {
+            return [null, 'Максимальный срок онлайн-бронирования — 90 ночей. Для длительного проживания свяжитесь с нами.'];
+        }
+
+        $adults = min(4, max(1, (int) $request->query('adults', 2)));
+        $children = min(3, max(0, (int) $request->query('children', 0)));
+        $ages = [];
+        $rawAges = $request->query('ages');
+        if (is_string($rawAges) && $rawAges !== '') {
+            foreach (explode(',', $rawAges) as $a) {
+                if (is_numeric(trim($a))) {
+                    $ages[] = min(17, max(0, (int) trim($a)));
+                }
+            }
+        }
+        $ages = array_slice($ages, 0, $children);
+
+        return [[
+            'checkin'     => $checkin,
+            'checkout'    => $checkout,
+            'nights'      => $nights,
+            'adults'      => $adults,
+            'children'    => $children,
+            'ages'        => $ages,
+            'guests'      => $adults + $children,
+            'min_stay_ok' => $nights >= $minStay,
+        ], null];
     }
 
     public function filterRooms(Request $request, string $slug)

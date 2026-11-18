@@ -2224,6 +2224,117 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
 @media (max-width: 480px) {
     .room-selection-wrapper .rc-amenities { grid-template-columns: repeat(2, minmax(0, 1fr)); }
 }
+
+/* ========== ROOM SEARCH (dates + guests → prices) ========== */
+.rs-search-section { background: #fff; padding: 16px 0 4px; }
+.rs-search-info { display: flex; align-items: center; gap: 10px; color: #4b5563; font-size: 14px; margin: 0 0 12px; }
+.rs-search-info i { color: var(--rs-primary); }
+.rs-search {
+    display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1.25fr) auto; gap: 12px; align-items: start;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 2px 14px rgba(15,23,42,.08); padding: 14px;
+}
+.rs-field { position: relative; min-width: 0; }
+.rs-field-label { display: block; font-size: 12px; font-weight: 600; color: #6b7280; margin: 0 0 6px; text-transform: none; }
+.rs-field-box {
+    display: flex; align-items: center; gap: 10px; width: 100%; min-height: 50px; padding: 0 14px; border: 1.5px solid #cbd5e1; border-radius: 10px;
+    background: #fff; color: #111827; font-size: 15px; text-align: left; cursor: pointer; transition: border-color .2s;
+}
+.rs-field-box:hover, .rs-field-box:focus-within, .rs-field-box.is-open { border-color: var(--rs-primary); }
+.rs-field-box i { color: var(--rs-primary); flex-shrink: 0; }
+.rs-field-box input { border: 0; outline: 0; background: transparent; width: 100%; min-width: 0; font-size: 15px; color: #111827; cursor: pointer; padding: 0; }
+.rs-field-box input::placeholder { color: #9ca3af; }
+.rs-field-box .rs-guests-text { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.rs-field-sub { font-size: 13px; color: #6b7280; margin-top: 6px; min-height: 18px; }
+.rs-field-sub strong { color: #111827; font-weight: 600; }
+.rs-field-sub i { color: var(--rs-success); margin-right: 4px; }
+.rs-field.has-error .rs-field-box { border-color: var(--rs-danger); }
+.rs-submit {
+    align-self: start; margin-top: 24px; height: 50px; padding: 0 26px; border: 0; border-radius: 10px; background: var(--rs-primary); color: #fff;
+    font-size: 16px; font-weight: 700; white-space: nowrap; cursor: pointer; display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+}
+.rs-submit:hover { filter: brightness(1.08); }
+.rs-guests-panel {
+    display: none; position: absolute; z-index: 60; top: calc(100% - 18px); left: 0; right: 0; min-width: 280px;
+    background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; box-shadow: 0 12px 32px rgba(15,23,42,.18); padding: 14px 16px;
+}
+.rs-guests-panel.is-open { display: block; }
+.rs-g-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 8px 0; }
+.rs-g-row + .rs-g-row { border-top: 1px solid #f1f5f9; }
+.rs-g-label { font-size: 15px; color: #111827; font-weight: 600; }
+.rs-g-label small { display: block; font-size: 12px; color: #6b7280; font-weight: 400; }
+.rs-g-ctrl { display: flex; align-items: center; gap: 10px; }
+.rs-g-ctrl button {
+    width: 36px; height: 36px; border-radius: 50%; border: 1.5px solid #cbd5e1; background: #fff; color: #111827; font-size: 18px; line-height: 1;
+    display: inline-flex; align-items: center; justify-content: center; cursor: pointer;
+}
+.rs-g-ctrl button:disabled { opacity: .35; cursor: not-allowed; }
+.rs-g-ctrl span { min-width: 18px; text-align: center; font-weight: 700; font-size: 16px; }
+.rs-ages { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; padding: 4px 0 8px; }
+.rs-ages:empty { display: none; }
+.rs-ages label { display: block; font-size: 12px; color: #6b7280; margin-bottom: 3px; }
+.rs-ages select { width: 100%; height: 38px; border: 1.5px solid #cbd5e1; border-radius: 8px; padding: 0 8px; font-size: 14px; background: #fff; }
+.rs-g-done { width: 100%; margin-top: 8px; height: 42px; border: 0; border-radius: 8px; background: #eef6fb; color: var(--rs-primary); font-weight: 700; cursor: pointer; }
+.rs-search-msg { display: flex; gap: 10px; align-items: flex-start; border-radius: 10px; padding: 12px 16px; font-size: 14px; margin: 12px 0 0; }
+.rs-search-msg i { margin-top: 2px; }
+.rs-search-msg--warn { background: #fff7ed; border: 1px solid #fed7aa; color: #9a3412; }
+.rs-search-msg--ok { background: #f0f9ff; border: 1px solid #bae6fd; color: #075985; }
+.rs-search-msg--err { background: #fef2f2; border: 1px solid #fecaca; color: #991b1b; }
+.rs-no-fit { text-align: center; padding: 36px 20px; background: #fff; border: 1px solid #e5e7eb; border-radius: 12px; }
+.rs-no-fit p { color: #374151; font-size: 16px; margin: 0 auto 16px; max-width: 520px; }
+.rs-wa-btn { display: inline-flex; align-items: center; gap: 8px; background: #25d366; color: #fff !important; padding: 12px 22px; border-radius: 10px; font-weight: 700; text-decoration: none; }
+.rs-wa-btn:hover { filter: brightness(1.05); }
+.flatpickr-calendar.rs-range-cal { z-index: 10050 !important; }
+
+/* Room card price after search */
+.room-selection-wrapper .room-card .rc-price-line--quote,
+.room-selection-wrapper .room-card .rc-price-line--request,
+.room-selection-wrapper .room-card .rc-price-line--hidden { text-align: left !important; }
+.room-selection-wrapper .room-card .rc-price-line--quote .current-price {
+    display: block !important; text-align: left !important; font-size: 30px !important; letter-spacing: -0.5px !important; line-height: 1.15 !important; margin-top: 2px;
+}
+.room-selection-wrapper .room-card .rc-total-for {
+    font-size: 15px; font-weight: 600; letter-spacing: 0; white-space: nowrap; color: #374151; -webkit-text-fill-color: #374151;
+}
+.room-selection-wrapper .room-card .rc-per-night {
+    display: block !important; text-align: left !important; text-transform: none !important; letter-spacing: 0 !important;
+    margin: 4px 0 0 !important; font-size: 14px !important; font-weight: 400 !important; color: #6b7280 !important;
+}
+.room-selection-wrapper .room-card .rc-guests-line { font-size: 13px; color: #4b5563; margin-top: 6px; }
+.room-selection-wrapper .room-card .rc-guests-line i { color: #9ca3af; margin-right: 4px; }
+.room-selection-wrapper .room-card .rc-children-note { font-size: 12px; color: #9a3412; margin-top: 4px; }
+.room-selection-wrapper .room-card .rc-request-price { font-size: 22px; font-weight: 800; color: #111827; line-height: 1.2; }
+.room-selection-wrapper .room-card .rc-hidden-price-note { font-size: 14px; color: #6b7280; }
+.room-selection-wrapper .room-card .rc-hidden-price-note i { color: var(--rs-primary); margin-right: 6px; }
+.room-selection-wrapper .room-card .select-room-btn.rc-ask-btn {
+    background: #fff !important; color: var(--rs-primary) !important; border: 2px solid var(--rs-primary) !important; box-shadow: none !important; text-decoration: none;
+}
+.room-selection-wrapper .room-card .select-room-btn.rc-ask-btn:hover { background: #eef6fb !important; filter: none; }
+.room-selection-wrapper .room-card .select-room-btn.rc-ask-btn--wa { border-color: #25d366 !important; color: #128c4b !important; }
+.room-selection-wrapper .room-card .select-room-btn.rc-ask-btn--wa:hover { background: #effcf4 !important; }
+@media (max-width: 767px) {
+    .room-selection-wrapper .room-card .rc-price-line--quote .current-price { font-size: 22px !important; }
+    .room-selection-wrapper .room-card .rc-total-for { font-size: 13px; }
+    .room-selection-wrapper .room-card .rc-per-night { font-size: 12px !important; margin-top: 2px !important; }
+    .room-selection-wrapper .room-card .rc-guests-line { font-size: 12px; margin-top: 2px; }
+    .room-selection-wrapper .room-card .rc-price-line { padding: 8px 0; min-width: 0; }
+    .room-selection-wrapper .room-card .rc-request-price { font-size: 17px; }
+    .room-selection-wrapper .room-card .rc-hidden-price-note { font-size: 12px; line-height: 1.3; }
+    .room-selection-wrapper .room-card .room-price-col .select-room-btn.rc-ask-btn::after { content: none; }
+}
+.booking-modal .rs-modal-locked .date-input-group { background: #f3f4f6; cursor: default; }
+.booking-modal .rs-modal-locked .date-input { cursor: default; }
+.booking-modal .rs-change-search { display: inline-block; margin-top: 8px; font-size: 13px; color: var(--rs-primary); background: none; border: 0; padding: 0; text-decoration: underline; cursor: pointer; }
+
+@media (max-width: 991px) {
+    .rs-search { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .rs-submit { width: 100%; margin-top: 0; }
+    .rs-guests-panel { min-width: 0; position: static; margin-top: 8px; box-shadow: 0 4px 14px rgba(15,23,42,.1); }
+}
+@media (max-width: 767px) {
+    .rs-search-section { padding: 12px 0 0; }
+    .rs-search { padding: 12px; box-shadow: 0 1px 8px rgba(15,23,42,.08); }
+    .rs-search-info { font-size: 13px; }
+}
 </style>
 @endpush
 
@@ -2266,10 +2377,80 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
     <section class="room-header-section">
         <div class="container">
             <h1 class="header-title">{{ $service->translation->title }}</h1>
-            <div class="header-info-alert">
-                <i class="fa-solid fa-circle-info"></i>
-                <span>Найдено <strong>{{ $rooms->count() }}</strong> номеров. Выберите номер и укажите даты проживания.</span>
-            </div>
+        </div>
+    </section>
+
+    {{-- ПОИСК: даты + гости → цены --}}
+    @php
+        $rsS = $search ?? null;
+        $rsNightsW = function ($n) { $n = abs((int) $n) % 100; $n1 = $n % 10; if ($n > 10 && $n < 20) return 'ночей'; if ($n1 > 1 && $n1 < 5) return 'ночи'; if ($n1 == 1) return 'ночь'; return 'ночей'; };
+        $rsDaysW = function ($n) { $n = abs((int) $n) % 100; $n1 = $n % 10; if ($n > 10 && $n < 20) return 'дней'; if ($n1 > 1 && $n1 < 5) return 'дня'; if ($n1 == 1) return 'день'; return 'дней'; };
+        $rsGuestsW = function ($n) { $n = abs((int) $n) % 100; return ($n % 10 == 1 && $n != 11) ? 'гостя' : 'гостей'; }; // «для N гостей»
+        $rsRoomsW = function ($n) { $n = abs((int) $n) % 100; $n1 = $n % 10; if ($n > 10 && $n < 20) return 'номеров'; if ($n1 > 1 && $n1 < 5) return 'номера'; if ($n1 == 1) return 'номер'; return 'номеров'; };
+        $rsMeal = trim((string) ($service->meal_plan ?? ''));
+        if ($rsMeal === '' && !empty($service->meals_included)) { $rsMeal = 'Питание включено'; }
+        $rsAdults = $rsS['adults'] ?? 2;
+        $rsChildren = $rsS['children'] ?? 0;
+        $rsAges = $rsS['ages'] ?? [];
+        $rsTitle = $service->translation->title ?? $service->title ?? '';
+    @endphp
+    <section class="rs-search-section" id="roomSearch">
+        <div class="container">
+            <p class="rs-search-info"><i class="fa-solid fa-circle-info"></i><span>Укажите даты и количество гостей, чтобы увидеть свободные номера и их стоимость.</span></p>
+            <form class="rs-search" id="roomSearchForm" method="GET" action="{{ url()->current() }}" novalidate>
+                <div class="rs-field" id="rsDatesField">
+                    <label class="rs-field-label" for="rsDates">Дата приезда, дата отъезда</label>
+                    <div class="rs-field-box">
+                        <i class="fa-regular fa-calendar"></i>
+                        <input type="text" id="rsDates" placeholder="Выберите даты" readonly autocomplete="off"
+                               value="{{ $rsS ? $rsS['checkin']->format('d.m.Y') . ' — ' . $rsS['checkout']->format('d.m.Y') : '' }}">
+                    </div>
+                    <div class="rs-field-sub" id="rsNightsInfo">@if($rsS){{ $rsS['nights'] }} {{ $rsNightsW($rsS['nights']) }} / {{ $rsS['nights'] + 1 }} {{ $rsDaysW($rsS['nights'] + 1) }}@endif</div>
+                    <input type="hidden" name="checkin" id="rsCheckin" value="{{ $rsS ? $rsS['checkin']->format('Y-m-d') : '' }}">
+                    <input type="hidden" name="checkout" id="rsCheckout" value="{{ $rsS ? $rsS['checkout']->format('Y-m-d') : '' }}">
+                </div>
+                <div class="rs-field" id="rsGuestsField">
+                    <span class="rs-field-label">Гости</span>
+                    <button type="button" class="rs-field-box" id="rsGuestsBtn" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa-solid fa-user-group"></i>
+                        <span class="rs-guests-text" id="rsGuestsText">Номеров: 1 · Взрослых: {{ $rsAdults }} · Детей: {{ $rsChildren }}</span>
+                        <i class="fa-solid fa-chevron-down" style="color:#9ca3af;font-size:12px"></i>
+                    </button>
+                    <div class="rs-field-sub">@if($rsMeal !== '')<i class="fa-solid fa-utensils"></i>{{ $rsMeal }}@endif</div>
+                    <div class="rs-guests-panel" id="rsGuestsPanel" role="dialog" aria-label="Гости">
+                        <div class="rs-g-row">
+                            <div class="rs-g-label">Взрослые<small>от 18 лет</small></div>
+                            <div class="rs-g-ctrl">
+                                <button type="button" data-rs-step="adults" data-rs-delta="-1" aria-label="Меньше взрослых">−</button>
+                                <span id="rsAdultsVal">{{ $rsAdults }}</span>
+                                <button type="button" data-rs-step="adults" data-rs-delta="1" aria-label="Больше взрослых">+</button>
+                            </div>
+                        </div>
+                        <div class="rs-g-row">
+                            <div class="rs-g-label">Дети<small>0–17 лет</small></div>
+                            <div class="rs-g-ctrl">
+                                <button type="button" data-rs-step="children" data-rs-delta="-1" aria-label="Меньше детей">−</button>
+                                <span id="rsChildrenVal">{{ $rsChildren }}</span>
+                                <button type="button" data-rs-step="children" data-rs-delta="1" aria-label="Больше детей">+</button>
+                            </div>
+                        </div>
+                        <div class="rs-ages" id="rsAges"></div>
+                        <button type="button" class="rs-g-done" id="rsGuestsDone">Готово</button>
+                    </div>
+                    <input type="hidden" name="adults" id="rsAdults" value="{{ $rsAdults }}">
+                    <input type="hidden" name="children" id="rsChildren" value="{{ $rsChildren }}">
+                    <input type="hidden" name="ages" id="rsAgesInput" value="{{ implode(',', $rsAges) }}" @if(!$rsChildren) disabled @endif>
+                </div>
+                <button type="submit" class="rs-submit" id="rsSubmit"><i class="fa-solid fa-magnifying-glass"></i>Показать цены</button>
+            </form>
+
+            @if(!empty($searchError))
+                <div class="rs-search-msg rs-search-msg--err"><i class="fa-solid fa-circle-exclamation"></i><span>{{ $searchError }}</span></div>
+            @elseif($rsS && !$rsS['min_stay_ok'])
+                <div class="rs-search-msg rs-search-msg--warn"><i class="fa-solid fa-triangle-exclamation"></i><span>Минимальный срок лечения в этом санатории — {{ $minStay }} {{ $rsNightsW($minStay) }}. Измените даты, чтобы увидеть цены.</span></div>
+            @elseif($rsS && $rooms->count() > 0)
+                <div class="rs-search-msg rs-search-msg--ok" id="rsFoundMsg"><i class="fa-solid fa-circle-check"></i><span>Найдено <strong>{{ $rooms->count() }}</strong> {{ $rsRoomsW($rooms->count()) }} для {{ $rsS['guests'] }} {{ $rsGuestsW($rsS['guests']) }} на {{ $rsS['nights'] }} {{ $rsNightsW($rsS['nights']) }}</span></div>
+            @endif
         </div>
     </section>
 
@@ -2282,6 +2463,8 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             <i class="fa-solid fa-arrow-down-wide-short"></i> Сортировка
         </button>
         @php $bedTypes = $rooms->pluck('bed_type')->filter()->unique(); @endphp
+        @php $rsHasPrices = !empty($search) && ($search['min_stay_ok'] ?? false) && collect($quotes ?? [])->filter()->isNotEmpty(); @endphp
+
         @foreach($bedTypes as $bed)
             <button class="mobile-filter-chip mobile-bed-chip" data-bed="{{ $bed }}" onclick="toggleMobileBedFilter(this)">
                 <i class="fa-solid fa-bed"></i> {{ $bed }}
@@ -2300,7 +2483,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             </button>
         </div>
         
-        <div class="filter-group">
+        <div class="filter-group" @if(!$rsHasPrices) style="display:none" @endif>
             <div class="filter-group-title">Цена за ночь</div>
             <div class="price-range-inputs">
                 <input type="number" id="mPriceMin" class="price-input" placeholder="От">
@@ -2338,7 +2521,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
                             <i class="fa-solid fa-sliders me-2"></i>Фильтры
                         </h3>
                         
-                        <div class="filter-group">
+                        <div class="filter-group" @if(!$rsHasPrices) style="display:none" @endif>
                             <div class="filter-group-title">Цена за ночь</div>
                             <div class="price-range-inputs">
                                 <input type="number" id="priceMin" class="price-input" placeholder="От">
@@ -2388,8 +2571,10 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
                             <span id="resultsCount" class="results-count">{{ $rooms->count() }} номеров найдено</span>
                             <select id="sortSelect" class="sort-select" onchange="applyFilters()">
                                 <option value="default">По умолчанию</option>
+                                @if($rsHasPrices)
                                 <option value="price_asc">Цена: по возрастанию</option>
                                 <option value="price_desc">Цена: по убыванию</option>
+                                @endif
                                 <option value="size_desc">Площадь: по убыванию</option>
                                 <option value="guests_desc">Вместимость: по убыванию</option>
                             </select>
@@ -2412,7 +2597,20 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
                     </div>
                     <noscript><style>#roomSkeleton{display:none!important}#roomListContainer{display:block!important}</style></noscript>
                     <div id="roomListContainer" class="rc-pending">
-                        @include('tourbooking::front.rooms._room_list', ['rooms' => $rooms])
+                        @if(!empty($search) && $rooms->isEmpty())
+                            @php
+                                $rsNoFitText = 'Здравствуйте! Подберите, пожалуйста, размещение. Санаторий: ' . $rsTitle
+                                    . '. Даты: ' . $search['checkin']->format('d.m.Y') . ' — ' . $search['checkout']->format('d.m.Y')
+                                    . '. Гости: ' . $search['adults'] . ' взр., ' . $search['children'] . ' дет.'
+                                    . (!empty($search['ages']) ? ' (возраст: ' . implode(', ', $search['ages']) . ')' : '') . '.';
+                            @endphp
+                            <div class="rs-no-fit">
+                                <p>Для такого количества гостей подходящих номеров нет. Попробуйте разместиться в 2 номерах или свяжитесь с нами.</p>
+                                <a class="rs-wa-btn" href="https://wa.me/994519158894?text={{ rawurlencode($rsNoFitText) }}" target="_blank" rel="noopener"><i class="fa-brands fa-whatsapp"></i>Написать в WhatsApp</a>
+                            </div>
+                        @else
+                            @include('tourbooking::front.rooms._room_list', ['rooms' => $rooms])
+                        @endif
                     </div>
                 </div>
 
@@ -2620,6 +2818,20 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
 
     const isMobile = window.innerWidth <= 991;
 
+    // Search from the URL (server-side): dates + guests the prices on the cards were calculated for
+    @php
+        $rsSearchJs = !empty($search) ? [
+            'checkin' => $search['checkin']->format('Y-m-d'),
+            'checkout' => $search['checkout']->format('Y-m-d'),
+            'nights' => $search['nights'],
+            'adults' => $search['adults'],
+            'children' => $search['children'],
+            'ages' => $search['ages'],
+        ] : null;
+    @endphp
+    const RS_SEARCH = {!! json_encode($rsSearchJs) !!};
+    function rsParseDate(s) { var p = String(s).split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }
+
     // ========== BOOKING MODAL ==========
     let bookingData = {
         roomId: null, roomName: '', roomThumb: '',
@@ -2668,7 +2880,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         initLightbox();
     });
     
-    window.openBookingModal = function(roomId, roomName, roomThumb, price, maxGuests, basePriceFor, extras) {
+    window.openBookingModal = function(roomId, roomName, roomThumb, price, maxGuests, basePriceFor, extras, quote) {
         bookingData.roomId = roomId;
         bookingData.roomName = roomName;
         bookingData.roomThumb = roomThumb;
@@ -2681,17 +2893,37 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         bookingData.checkIn = null;
         bookingData.checkOut = null;
         bookingData.selectedOptional = {};
+        bookingData.quoteTotal = null;
+        bookingData.quoteNights = 0;
+        var useQuote = !!(quote && RS_SEARCH && quote.total > 0);
+        if (useQuote) {
+            // Same dates, guests and price as on the room card
+            bookingData.quoteTotal = parseFloat(quote.total);
+            bookingData.quoteNights = parseInt(quote.nights, 10) || RS_SEARCH.nights;
+            bookingData.adults = RS_SEARCH.adults;
+            bookingData.children = RS_SEARCH.children;
+            bookingData.checkIn = rsParseDate(RS_SEARCH.checkin);
+            bookingData.checkOut = rsParseDate(RS_SEARCH.checkout);
+        }
 
         document.getElementById('modalRoomName').textContent = 'Бронирование — ' + roomName;
         document.getElementById('selectedRoomId').value = roomId;
         document.getElementById('selectedRoomPrice').value = price;
         document.getElementById('selectedRoomMaxGuests').value = maxGuests;
         document.getElementById('adultsCount').textContent = bookingData.adults;
-        document.getElementById('childrenCount').textContent = '0';
+        document.getElementById('childrenCount').textContent = bookingData.children;
 
         // Render base hint
         var hint = document.getElementById('modalBaseHint');
-        if (hint) {
+        var modalBody = document.querySelector('#bookingModal .modal-body');
+        if (modalBody) modalBody.classList.toggle('rs-modal-locked', useQuote);
+        if (hint && useQuote) {
+            hint.style.display = '';
+            hint.querySelector('.hint-text').innerHTML =
+                'Цена рассчитана для выбранных дат и гостей.' +
+                (bookingData.children > 0 ? ' Стоимость для детей уточнит менеджер.' : '') +
+                '<br><button type="button" class="rs-change-search" onclick="rsChangeSearch()">Изменить даты или гостей</button>';
+        } else if (hint) {
             hint.style.display = '';
             hint.querySelector('.hint-text').innerHTML =
                 'Базовая цена <strong>' + priceHtml(price) + '</strong> ' +
@@ -2702,8 +2934,17 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         // Render optional extras checkboxes
         renderOptionalExtras();
 
-        checkInPicker.clear();
-        checkOutPicker.clear();
+        if (useQuote) {
+            checkInPicker.setDate(bookingData.checkIn, false);
+            checkOutPicker.setDate(bookingData.checkOut, false);
+            checkInPicker.set('clickOpens', false);
+            checkOutPicker.set('clickOpens', false);
+        } else {
+            checkInPicker.set('clickOpens', true);
+            checkOutPicker.set('clickOpens', true);
+            checkInPicker.clear();
+            checkOutPicker.clear();
+        }
         calculatePrice();
 
         var overlay = document.getElementById('bookingModal');
@@ -2756,7 +2997,14 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         }, 250);
     };
     
+    // Dates/guests are chosen in the search bar: close the modal and go back to it
+    window.rsChangeSearch = function() {
+        closeBookingModal();
+        setTimeout(function() { if (window.rsOpenSearch) window.rsOpenSearch(); }, 280);
+    };
+
     window.updateCounter = function(type, delta) {
+        if (bookingData.quoteTotal !== null) return; // locked to the searched guests
         const max = bookingData.maxGuests;
         if (type === 'adults') {
             let v = bookingData.adults + delta;
@@ -2777,9 +3025,10 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
     function calculatePrice() {
         let nights = 0;
         if (bookingData.checkIn && bookingData.checkOut) {
-            nights = Math.ceil((bookingData.checkOut - bookingData.checkIn) / (1000 * 60 * 60 * 24));
+            nights = Math.round((bookingData.checkOut - bookingData.checkIn) / (1000 * 60 * 60 * 24));
         }
         bookingData.nights = nights;
+        if (bookingData.quoteTotal !== null) return calculateQuotePrice();
 
         // Calculate extras
         var basePriceFor = bookingData.basePriceFor || 2;
@@ -2848,10 +3097,45 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         document.getElementById('childrenPlus').disabled = total >= maxG;
     }
     
+    // Price from the search (same as the room card) + optional add-ons per night
+    function calculateQuotePrice() {
+        var nights = bookingData.quoteNights;
+        bookingData.nights = nights;
+        var optionalPerNight = 0;
+        var breakdownHtml = '';
+        Object.keys(bookingData.selectedOptional || {}).forEach(function(k) {
+            var ex = bookingData.selectedOptional[k];
+            if (!ex) return;
+            optionalPerNight += parseFloat(ex.price);
+            breakdownHtml += '<div class="price-row"><span class="extra-name"><i class="fa-solid fa-star"></i> ' +
+                ex.name + '</span><span class="extra-amount">+' + priceHtml(ex.price) + ' / ночь</span></div>';
+        });
+        var summaryExtras = document.getElementById('summaryExtras');
+        if (summaryExtras) summaryExtras.innerHTML = breakdownHtml;
+
+        bookingData.total = Math.round((bookingData.quoteTotal + optionalPerNight * nights) * 100) / 100;
+        setPrice(document.getElementById('summaryNightPrice'), bookingData.pricePerNight);
+        var nightsEl = document.getElementById('summaryNights');
+        nightsEl.textContent = nights + ' ' + getNightsWord(nights);
+        nightsEl.classList.remove('is-zero');
+        var gt = bookingData.adults + ' взр.';
+        if (bookingData.children > 0) gt += ', ' + bookingData.children + ' дет.';
+        document.getElementById('summaryGuests').textContent = gt;
+        setPrice(document.getElementById('summaryTotal'), bookingData.total);
+        updateCurrencyNote();
+        var confirmBtn = document.getElementById('confirmBookingBtn');
+        confirmBtn.disabled = false;
+        confirmBtn.innerHTML = '<i class="fa-regular fa-calendar-check"></i> Перейти к бронированию →';
+        ['adultsMinus', 'adultsPlus', 'childrenMinus', 'childrenPlus'].forEach(function(id) {
+            document.getElementById(id).disabled = true;
+        });
+    }
+
     function getNightsWord(n) {
-        if (n === 0) return 'ночей';
-        if (n === 1) return 'ночь';
-        if (n >= 2 && n <= 4) return 'ночи';
+        var m = Math.abs(n) % 100, m1 = m % 10;
+        if (m > 10 && m < 20) return 'ночей';
+        if (m1 > 1 && m1 < 5) return 'ночи';
+        if (m1 === 1) return 'ночь';
         return 'ночей';
     }
     
@@ -2877,7 +3161,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             '&adults=' + bookingData.adults +
             '&children=' + bookingData.children +
             '&nights=' + bookingData.nights +
-            '&total=' + bookingData.total +
+            '&total=' + bookingData.total.toFixed(2) +
             optParam;
     };
     
@@ -2966,8 +3250,10 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
     // ========== ROOM SELECTION ==========
     function initRoomSelection() {
         document.getElementById('roomListContainer').addEventListener('click', function(e) {
+            const askBtn = e.target.closest('[data-ask-price]');
+            if (askBtn) { e.preventDefault(); if (window.rsOpenSearch) window.rsOpenSearch(); return; }
             const btn = e.target.closest('.select-room-btn');
-            if (!btn || btn.disabled) return;
+            if (!btn || btn.disabled || btn.tagName === 'A') return;
 
             const card = btn.closest('.room-card');
             const roomId = btn.dataset.roomId;
@@ -2975,13 +3261,14 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             const price = parseFloat(btn.dataset.roomPrice || card.dataset.price || 0);
             const maxGuests = parseInt(btn.dataset.maxGuests || card.dataset.guests || 4);
             const basePriceFor = parseInt(btn.dataset.basePriceFor || maxGuests);
+            const quote = btn.dataset.quoteTotal ? { total: parseFloat(btn.dataset.quoteTotal), nights: parseInt(btn.dataset.quoteNights, 10) } : null;
             let extras = [];
             try { extras = JSON.parse(btn.dataset.extras || '[]'); } catch (err) { extras = []; }
             let roomThumb = '';
             const thumbImg = card.querySelector('.room-image-col img');
             if (thumbImg) roomThumb = thumbImg.src;
 
-            openBookingModal(roomId, roomName, roomThumb, price, maxGuests, basePriceFor, extras);
+            openBookingModal(roomId, roomName, roomThumb, price, maxGuests, basePriceFor, extras, quote);
         });
     }
     
@@ -3063,8 +3350,12 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
     };
 
     // Sort toggle for mobile
-    let mobileSortOptions = ['default', 'price_asc', 'price_desc', 'size_desc'];
-    let mobileSortLabels = ['По умолчанию', 'Цена ↑', 'Цена ↓', 'Площадь ↓'];
+    @php
+        $rsSortOpts = $rsHasPrices ? ['default', 'price_asc', 'price_desc', 'size_desc'] : ['default', 'size_desc'];
+        $rsSortLabels = $rsHasPrices ? ['По умолчанию', 'Цена ↑', 'Цена ↓', 'Площадь ↓'] : ['По умолчанию', 'Площадь ↓'];
+    @endphp
+    let mobileSortOptions = {!! json_encode($rsSortOpts) !!};
+    let mobileSortLabels = {!! json_encode($rsSortLabels, JSON_UNESCAPED_UNICODE) !!};
     let mobileSortIndex = 0;
 
     window.toggleMobileSort = function() {
@@ -3286,6 +3577,155 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         if (m) return 'https://player.vimeo.com/video/' + m[1] + '?autoplay=1';
         return url;
     }
+})();
+</script>
+<script>
+// ========== ROOM SEARCH BAR: dates + guests → «Показать цены» ==========
+(function () {
+    'use strict';
+    var form = document.getElementById('roomSearchForm');
+    if (!form) return;
+    var inEl = document.getElementById('rsCheckin'), outEl = document.getElementById('rsCheckout');
+    var nightsInfo = document.getElementById('rsNightsInfo');
+    var datesField = document.getElementById('rsDatesField');
+    var state = {
+        adults: parseInt(document.getElementById('rsAdults').value, 10) || 2,
+        children: parseInt(document.getElementById('rsChildren').value, 10) || 0,
+        ages: (document.getElementById('rsAgesInput').value || '').split(',').filter(function (v) { return v !== ''; }).map(Number)
+    };
+    function word(n, one, few, many) {
+        var m = Math.abs(n) % 100, m1 = m % 10;
+        if (m > 10 && m < 20) return many;
+        if (m1 > 1 && m1 < 5) return few;
+        if (m1 === 1) return one;
+        return many;
+    }
+    function ymd(d) { return d.getFullYear() + '-' + String(d.getMonth() + 1).padStart(2, '0') + '-' + String(d.getDate()).padStart(2, '0'); }
+    function nightsBetween(a, b) { return Math.round((Date.UTC(b.getFullYear(), b.getMonth(), b.getDate()) - Date.UTC(a.getFullYear(), a.getMonth(), a.getDate())) / 86400000); }
+
+    // --- Dates (one range picker) ---
+    var locale = Object.assign({}, (window.flatpickr && flatpickr.l10ns && flatpickr.l10ns.ru) || {}, { rangeSeparator: ' — ' });
+    var defaults = (inEl.value && outEl.value) ? [inEl.value, outEl.value] : [];
+    var picker = flatpickr('#rsDates', {
+        mode: 'range',
+        dateFormat: 'd.m.Y',
+        minDate: 'today',
+        locale: locale,
+        disableMobile: true,
+        showMonths: window.innerWidth >= 768 ? 2 : 1,
+        defaultDate: defaults.length ? defaults.map(function (v) { var p = v.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }) : null,
+        onReady: function (_, __, fp) { fp.calendarContainer.classList.add('rs-range-cal'); },
+        onChange: function (dates, _, fp) {
+            datesField.classList.remove('has-error');
+            if (dates.length === 2 && nightsBetween(dates[0], dates[1]) < 1) {
+                // Check-out must be after check-in (minimum 1 night)
+                fp.setDate([dates[0]], false);
+                dates = [dates[0]];
+            }
+            if (dates.length === 2) {
+                inEl.value = ymd(dates[0]);
+                outEl.value = ymd(dates[1]);
+                var n = nightsBetween(dates[0], dates[1]);
+                nightsInfo.textContent = n + ' ' + word(n, 'ночь', 'ночи', 'ночей') + ' / ' + (n + 1) + ' ' + word(n + 1, 'день', 'дня', 'дней');
+            } else {
+                inEl.value = ''; outEl.value = '';
+                nightsInfo.textContent = dates.length === 1 ? 'Выберите дату отъезда' : '';
+            }
+        },
+        onClose: function (dates, _, fp) {
+            if (dates.length === 1) { // only check-in picked: keep the previous full range if there was one
+                if (defaults.length === 2 && !inEl.value) {
+                    fp.setDate(defaults.map(function (v) { var p = v.split('-'); return new Date(+p[0], +p[1] - 1, +p[2]); }), true);
+                }
+            }
+        }
+    });
+    document.querySelector('#rsDatesField .rs-field-box').addEventListener('click', function (e) {
+        if (e.target.id !== 'rsDates') picker.open();
+    });
+
+    // --- Guests ---
+    var btn = document.getElementById('rsGuestsBtn'), panel = document.getElementById('rsGuestsPanel');
+    var agesBox = document.getElementById('rsAges');
+    var LIMITS = { adults: [1, 4], children: [0, 3] };
+    function renderGuests() {
+        document.getElementById('rsAdultsVal').textContent = state.adults;
+        document.getElementById('rsChildrenVal').textContent = state.children;
+        document.getElementById('rsAdults').value = state.adults;
+        document.getElementById('rsChildren').value = state.children;
+        document.getElementById('rsGuestsText').textContent = 'Номеров: 1 · Взрослых: ' + state.adults + ' · Детей: ' + state.children;
+        panel.querySelectorAll('[data-rs-step]').forEach(function (b) {
+            var k = b.dataset.rsStep, d = +b.dataset.rsDelta;
+            b.disabled = (state[k] + d) < LIMITS[k][0] || (state[k] + d) > LIMITS[k][1];
+        });
+        state.ages = state.ages.slice(0, state.children);
+        agesBox.innerHTML = '';
+        for (var i = 0; i < state.children; i++) {
+            var wrap = document.createElement('div');
+            var id = 'rsAge' + i;
+            var html = '<label for="' + id + '">Возраст ребёнка ' + (i + 1) + '</label><select id="' + id + '" data-i="' + i + '"><option value="">—</option>';
+            for (var a = 0; a <= 17; a++) html += '<option value="' + a + '"' + (state.ages[i] === a ? ' selected' : '') + '>' + a + ' ' + word(a, 'год', 'года', 'лет') + '</option>';
+            wrap.innerHTML = html + '</select>';
+            agesBox.appendChild(wrap);
+        }
+        agesBox.querySelectorAll('select').forEach(function (sel) {
+            sel.addEventListener('change', function () {
+                var i = +sel.dataset.i;
+                state.ages[i] = sel.value === '' ? undefined : +sel.value;
+                sel.style.borderColor = '';
+            });
+        });
+    }
+    function openPanel(open) {
+        panel.classList.toggle('is-open', open);
+        btn.classList.toggle('is-open', open);
+        btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+    }
+    btn.addEventListener('click', function () { openPanel(!panel.classList.contains('is-open')); });
+    document.getElementById('rsGuestsDone').addEventListener('click', function () { openPanel(false); });
+    panel.addEventListener('click', function (e) {
+        var b = e.target.closest('[data-rs-step]');
+        if (!b || b.disabled) return;
+        var k = b.dataset.rsStep;
+        state[k] = Math.min(LIMITS[k][1], Math.max(LIMITS[k][0], state[k] + (+b.dataset.rsDelta)));
+        renderGuests();
+    });
+    document.addEventListener('click', function (e) {
+        if (panel.classList.contains('is-open') && !e.target.closest('#rsGuestsField')) openPanel(false);
+    });
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') openPanel(false); });
+    renderGuests();
+
+    // --- Submit ---
+    form.addEventListener('submit', function (e) {
+        if (!inEl.value || !outEl.value) {
+            e.preventDefault();
+            datesField.classList.add('has-error');
+            nightsInfo.textContent = 'Выберите даты приезда и отъезда';
+            picker.open();
+            return;
+        }
+        var missing = null;
+        agesBox.querySelectorAll('select').forEach(function (sel) { if (sel.value === '' && !missing) missing = sel; });
+        if (missing) {
+            e.preventDefault();
+            openPanel(true);
+            missing.style.borderColor = 'var(--rs-danger)';
+            missing.focus();
+            return;
+        }
+        var agesInput = document.getElementById('rsAgesInput');
+        agesInput.value = state.ages.slice(0, state.children).join(',');
+        agesInput.disabled = state.children === 0;
+    });
+
+    // «Узнать цену» on a room card: go to the search bar and open the date picker
+    window.rsOpenSearch = function () {
+        var sec = document.getElementById('roomSearch');
+        var top = sec.getBoundingClientRect().top + window.pageYOffset - 90;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+        setTimeout(function () { picker.open(); }, 450);
+    };
 })();
 </script>
 @endpush

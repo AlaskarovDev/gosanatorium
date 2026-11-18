@@ -31,6 +31,7 @@ use Modules\TourBooking\App\Models\Review;
 use Modules\TourBooking\App\Models\ServiceRoom;
 use Modules\TourBooking\App\Models\ServiceRoomMedia;
 use Modules\TourBooking\App\Models\ServiceTreatmentItem;
+use Modules\TourBooking\App\Services\RoomPricing;
 
 final class ServiceController extends Controller
 {
@@ -199,7 +200,7 @@ public function storeRoom(Request $request, Service $service): RedirectResponse
 
     $request->validate($rules, $messages);
 
-    $data = $request->except(['_token', 'thumbnail', 'images', 'features', 'extras', 'season_prices']);
+    $data = $request->except(['_token', 'thumbnail', 'images', 'features', 'extras', 'season_prices', 'occupancy_prices']);
     $data['service_id'] = $service->id;
     $data['status'] = $request->boolean('status');
     $data['low_stock_show'] = $request->boolean('low_stock_show');
@@ -272,6 +273,7 @@ public function storeRoom(Request $request, Service $service): RedirectResponse
     }
 
     $room->syncSeasonPrices($request->input('season_prices'));
+    RoomPricing::syncGrid($room, $request->input('occupancy_prices'));
     $this->syncRoomExtras($room, $request->input('extras'));
 
     $notify_message = trans('translate.Room added successfully');
@@ -353,7 +355,7 @@ public function updateRoom(Request $request, ServiceRoom $room): RedirectRespons
 
     $request->validate($rules, $messages);
 
-    $data = $request->except(['_token', '_method', 'thumbnail', 'images', 'features', 'remove_thumbnail', 'remove_images', 'extras', 'season_prices']);
+    $data = $request->except(['_token', '_method', 'thumbnail', 'images', 'features', 'remove_thumbnail', 'remove_images', 'extras', 'season_prices', 'occupancy_prices']);
     $data['status'] = $request->boolean('status');
     $data['low_stock_show'] = $request->boolean('low_stock_show');
     $data['is_popular'] = $request->boolean('is_popular');
@@ -467,6 +469,7 @@ public function updateRoom(Request $request, ServiceRoom $room): RedirectRespons
     }
 
     $room->syncSeasonPrices($request->input('season_prices'));
+    RoomPricing::syncGrid($room, $request->input('occupancy_prices'));
     $this->syncRoomExtras($room, $request->input('extras'));
 
     $notify_message = trans('translate.Room updated successfully');
@@ -509,6 +512,16 @@ public function destroyRoom(ServiceRoom $room): RedirectResponse
      */
     private function applyNumericDefaults(array $data, ?Service $service = null): array
     {
+        // Room-search fields: drop them until the database update (migration) has added the columns
+        foreach (['min_stay_nights', 'meal_plan'] as $column) {
+            if (array_key_exists($column, $data) && ! \Illuminate\Support\Facades\Schema::hasColumn('services', $column)) {
+                unset($data[$column]);
+            }
+        }
+        if (array_key_exists('min_stay_nights', $data) && ($data['min_stay_nights'] === '' || (int) $data['min_stay_nights'] < 1)) {
+            $data['min_stay_nights'] = null;
+        }
+
         $defaults = [
             'room_count' => 0,
             'adult_count' => 1,

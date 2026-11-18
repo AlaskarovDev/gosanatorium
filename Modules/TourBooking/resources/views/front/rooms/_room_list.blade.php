@@ -1,11 +1,6 @@
 @forelse($rooms as $room)
     @php
         $roomName = $room->name ?? $room->room_name ?? 'Номер';
-        $baseCurrentPrice = $room->discount_price ?? $room->price_per_night ?? 0;
-        $currentPrice = method_exists($room, 'priceForDate') ? ($room->current_price_per_night ?? $baseCurrentPrice) : $baseCurrentPrice;
-        $originalPrice = $room->price_per_night ?? 0;
-        $hasDiscount = $room->discount_price && $room->discount_price < $room->price_per_night;
-        $discountPercent = $hasDiscount ? round((($originalPrice - $currentPrice) / $originalPrice) * 100) : 0;
         
         $features = [];
         if (!empty($room->features)) {
@@ -75,8 +70,11 @@
         };
     @endphp
     
+    @php
+        $rcQuote = (($search['min_stay_ok'] ?? false) ? ($quotes[$room->id] ?? null) : null);
+    @endphp
     <div class="room-card" 
-         data-price="{{ $currentPrice }}" 
+         data-price="{{ $rcQuote ? number_format($rcQuote['per_night'], 2, '.', '') : 0 }}" 
          data-guests="{{ $maxGuests }}" 
          data-size="{{ $roomSize }}"
          data-bed="{{ $bedType }}">
@@ -132,9 +130,9 @@
                 @endif
 
                 {{-- Mobile: Discount badge on image --}}
-                @if($hasDiscount)
+                @if($rcQuote && $rcQuote['has_discount'])
                     <div class="mobile-discount-badge">
-                        -{{ $discountPercent }}%
+                        -{{ $rcQuote['discount_percent'] }}%
                     </div>
                 @endif
                 
@@ -255,18 +253,55 @@
                 @endif
 
             <!-- Цена -->
+            @php
+                $rsSearch = $search ?? null;
+                $rsPriced = $rsSearch && ($rsSearch['min_stay_ok'] ?? false);
+                $rsQuote = $rsPriced ? ($quotes[$room->id] ?? null) : null;
+                $rsNightsWord = function ($n) {
+                    $n = abs((int) $n) % 100; $n1 = $n % 10;
+                    if ($n > 10 && $n < 20) return 'ночей';
+                    if ($n1 > 1 && $n1 < 5) return 'ночи';
+                    if ($n1 == 1) return 'ночь';
+                    return 'ночей';
+                };
+                $rsAdultsWord = fn ($n) => $n == 1 ? 'взрослый' : 'взрослых';
+                $rsChildrenWord = fn ($n) => $n == 1 ? 'ребёнок' : 'детей';
+            @endphp
             <div class="room-price-col">
-                <div class="rc-price-line">
-                @if($hasDiscount)
-                    <div class="discount-tag">
-                        <i class="fa-solid fa-tag me-1"></i>{{ $discountPercent }}% скидка
+                @if($rsQuote)
+                    <div class="rc-price-line rc-price-line--quote">
+                        @if($rsQuote['has_discount'])
+                            <div class="discount-tag">
+                                <i class="fa-solid fa-tag me-1"></i>{{ $rsQuote['discount_percent'] }}% скидка
+                            </div>
+                            <div class="old-price">{!! currency_span($rsQuote['list_total']) !!}</div>
+                        @endif
+                        <div class="current-price rc-total-price">{!! currency_span($rsQuote['total']) !!} <span class="rc-total-for">за {{ $rsQuote['nights'] }} {{ $rsNightsWord($rsQuote['nights']) }}</span></div>
+                        <div class="price-note rc-per-night">≈ {!! currency_span($rsQuote['per_night']) !!} за ночь</div>
+                        <div class="rc-guests-line"><i class="fa-solid fa-user-group"></i> {{ $rsSearch['adults'] }} {{ $rsAdultsWord($rsSearch['adults']) }}, {{ $rsSearch['children'] }} {{ $rsChildrenWord($rsSearch['children']) }}</div>
+                        @if($rsSearch['children'] > 0)
+                            <div class="rc-children-note">Стоимость для детей уточнит менеджер</div>
+                        @endif
                     </div>
-                    <div class="old-price">{!! currency_span($originalPrice) !!}</div>
+                @elseif($rsPriced)
+                    @php
+                        $rsWaText = 'Здравствуйте! Хочу узнать цену. Санаторий: ' . ($service->translation->title ?? $service->title ?? '')
+                            . '. Номер: ' . $roomName
+                            . '. Даты: ' . $rsSearch['checkin']->format('d.m.Y') . ' — ' . $rsSearch['checkout']->format('d.m.Y')
+                            . ' (' . $rsSearch['nights'] . ' ' . $rsNightsWord($rsSearch['nights']) . ')'
+                            . '. Гости: ' . $rsSearch['adults'] . ' ' . $rsAdultsWord($rsSearch['adults'])
+                            . ', ' . $rsSearch['children'] . ' ' . $rsChildrenWord($rsSearch['children'])
+                            . (!empty($rsSearch['ages']) ? ' (возраст: ' . implode(', ', $rsSearch['ages']) . ')' : '') . '.';
+                    @endphp
+                    <div class="rc-price-line rc-price-line--request">
+                        <div class="rc-request-price">Цена по запросу</div>
+                        <div class="rc-guests-line"><i class="fa-solid fa-user-group"></i> {{ $rsSearch['adults'] }} {{ $rsAdultsWord($rsSearch['adults']) }}, {{ $rsSearch['children'] }} {{ $rsChildrenWord($rsSearch['children']) }}</div>
+                    </div>
+                @else
+                    <div class="rc-price-line rc-price-line--hidden">
+                        <div class="rc-hidden-price-note"><i class="fa-regular fa-calendar"></i> Укажите даты и гостей, чтобы увидеть цену</div>
+                    </div>
                 @endif
-                
-                <div class="current-price">{!! currency_span($currentPrice) !!}</div>
-                <div class="price-note">за ночь</div>
-                </div>
                 
                 @php
                     // Nişanın görünməsi və mətni admin paneldən idarə olunur.
@@ -281,7 +316,6 @@
                 @endif
                 
                 @php
-                    $roomBasePriceFor = $room->base_price_for ?? $maxGuests ?? 2;
                     if ($room->relationLoaded('activeExtras')) {
                         $roomExtrasCol = $room->activeExtras;
                     } elseif ($room->relationLoaded('extras')) {
@@ -291,8 +325,9 @@
                     } else {
                         $roomExtrasCol = collect();
                     }
+                    // Only optional add-ons: adult/child prices are now part of the occupancy price.
                     $roomExtrasJson = json_encode(
-                        $roomExtrasCol->map(fn($x) => [
+                        $roomExtrasCol->where('type', 'optional')->map(fn($x) => [
                             'id' => $x->id,
                             'name' => $x->name,
                             'type' => $x->type,
@@ -301,21 +336,31 @@
                         JSON_HEX_APOS | JSON_HEX_QUOT
                     );
                 @endphp
-                @if($quantity > 0)
+                @if($quantity <= 0)
+                    <button type="button" class="select-room-btn" disabled>
+                        <i class="fa-solid fa-ban me-2"></i>Распродано
+                    </button>
+                @elseif($rsQuote)
                     <button type="button"
                             class="select-room-btn"
                             data-room-id="{{ $room->id }}"
                             data-room-name="{{ $roomName }}"
-                            data-room-price="{{ $currentPrice }}"
+                            data-room-price="{{ number_format($rsQuote['per_night'], 2, '.', '') }}"
+                            data-quote-total="{{ number_format($rsQuote['total'], 2, '.', '') }}"
+                            data-quote-nights="{{ $rsQuote['nights'] }}"
                             data-max-guests="{{ $maxGuests }}"
-                            data-base-price-for="{{ $roomBasePriceFor }}"
                             data-extras='{!! $roomExtrasJson !!}'
                             data-room-thumb="{{ $thumbnailUrl ?? '' }}">
                         <i class="fa-regular fa-calendar-check"></i>Забронировать
                     </button>
+                @elseif($rsPriced)
+                    <a class="select-room-btn rc-ask-btn rc-ask-btn--wa" target="_blank" rel="noopener"
+                       href="https://wa.me/994519158894?text={{ rawurlencode($rsWaText) }}">
+                        <i class="fa-brands fa-whatsapp"></i>Узнать цену
+                    </a>
                 @else
-                    <button type="button" class="select-room-btn" disabled>
-                        <i class="fa-solid fa-ban me-2"></i>Распродано
+                    <button type="button" class="select-room-btn rc-ask-btn" data-ask-price="1">
+                        <i class="fa-regular fa-calendar"></i>Узнать цену
                     </button>
                 @endif
             </div>
