@@ -68,13 +68,13 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/naftalan-protivopokazaniya', [HomeController::class, 'contraindications'])->name('contraindications');
     Route::get('/{locale}/naftalan-protivopokazaniya', [HomeController::class, 'contraindications'])->where('locale', 'ru|az|en')->name('contraindications.locale');
     Route::get('/{locale}/naftalan-produkty', [App\Http\Controllers\NaftalanProductsController::class, 'index'])->where('locale', 'ru|az|en')->name('naftalan.products');
+    // Promotions: one URL scheme /{locale}/akcii and /{locale}/akcii/{slug} (locale prefix is handled by SetLocaleFromUrl).
     Route::get('/akcii', [App\Http\Controllers\AkciiController::class, 'index'])->name('akcii.frontend.index');
-    Route::get('/{locale}/akcii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('akcii.frontend.index.locale');
-    Route::get('/{locale}/akczii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('akczii.frontend.index.locale');
-    Route::get('/{locale}/aktsii', [App\Http\Controllers\AkciiController::class, 'index'])->where('locale', 'ru|az|en')->name('aktsii.frontend.index.locale');
-    Route::get('/aktsii', [App\Http\Controllers\AkciiController::class, 'index'])->name('aktsii.frontend.index');
-    Route::get('/{locale}/akczii/{slug}', [App\Http\Controllers\AkciiController::class, 'show'])->where('locale', 'ru|az|en')->name('akczii.show.locale');
-    Route::get('/akczii/{slug}', [App\Http\Controllers\AkciiController::class, 'show'])->name('akczii.show');
+    Route::get('/akcii/{slug}', [App\Http\Controllers\AkciiController::class, 'show'])->name('akcii.show');
+    // Old promotion URLs → 301
+    Route::get('/aktsii/{any?}', fn () => redirect(url('/akcii'), 301))->where('any', '.*')->name('aktsii.frontend.index');
+    Route::get('/akczii', fn () => redirect(url('/akcii'), 301))->name('akczii.frontend.index');
+    Route::get('/akczii/{slug}', fn ($slug) => redirect(url('/akcii/' . $slug), 301))->name('akczii.show');
     Route::get('/pricing', [HomeController::class, 'pricing'])->name('pricing');
 
     Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');

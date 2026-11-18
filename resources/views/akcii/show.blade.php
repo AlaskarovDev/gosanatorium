@@ -5,14 +5,18 @@
     $img = $akcia->image ?: ($svc?->thumbnail?->file_path);
     $sanName = $akcia->sanatorium_name ?: ($svc?->translation?->title);
     $pct = $akcia->discount_label;
-    $expired = $akcia->valid_until && $akcia->valid_until->isPast() && !$akcia->valid_until->isToday();
+    $expired = $akcia->is_expired;
+    $countdown = $akcia->countdown_label;
     $sanUrl = $svc && $svc->slug ? route('front.tourbooking.services.show', ['slug' => $svc->slug]) : null;
 @endphp
 
 @section('title')
     <title>{{ $akcia->title }} | GoSanatorium.com</title>
     <meta name="title" content="{{ $akcia->title }} | GoSanatorium.com">
-    <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags((string) ($akcia->description ?: $akcia->title)), 160) }}">
+    <meta name="description" content="{{ $akcia->shortText(155) ?: $akcia->title }}">
+    @if ($expired)
+    <meta name="robots" content="noindex, follow">
+    @endif
 @endsection
 
 @push('style_section')
@@ -47,7 +51,8 @@
                     @if ($expired)
                         Акция завершилась {{ $akcia->valid_until->locale('ru')->translatedFormat('j F Y') }}
                     @else
-                        Действует @if ($akcia->valid_from)с {{ $akcia->valid_from->locale('ru')->translatedFormat('j F Y') }} @endifдо: {{ $akcia->valid_until->locale('ru')->translatedFormat('j F Y') }}
+                        Действует @if ($akcia->valid_from)с {{ $akcia->valid_from->locale('ru')->translatedFormat('j F Y') }} @endifдо {{ $akcia->valid_until->locale('ru')->translatedFormat('j F Y') }}
+                        @if ($countdown) · <b>{{ $countdown }}</b>@endif
                     @endif
                 </div>
             @endif
@@ -71,7 +76,7 @@
                 @endif
             </div>
             <a class="akcia-cta" href="{{ $sanUrl ?: route('front.tourbooking.services') }}">Забронировать со скидкой</a>
-            <a class="akcia-back" href="/ru/aktsii">← Все акции</a>
+            <a class="akcia-back" href="{{ url('/akcii') }}">← Все акции</a>
         </div>
     </section>
 @endsection

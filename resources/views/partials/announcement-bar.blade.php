@@ -1,3 +1,15 @@
+@php
+    // Same data source as /akcii and the homepage cards: only active, started, not expired offers.
+    try {
+        $gsAnnItems = \Illuminate\Support\Facades\Cache::remember('announcement_bar_' . \App\Models\Akcii::today()->toDateString(), 600, function () {
+            return \App\Models\Akcii::visible()->with('service.translation')->get()
+                ->sortByDesc('is_hot')->take(4)->map(fn ($a) => $a->banner_label)->filter()->values()->all();
+        });
+    } catch (\Throwable $e) {
+        $gsAnnItems = [];
+    }
+@endphp
+@if (!empty($gsAnnItems))
 <style>
 .announcement-bar{background:linear-gradient(90deg,#1a7c2f 0%,#2e9e47 100%);color:#fff;padding:10px 20px;display:flex;align-items:center;justify-content:center;gap:12px;position:relative;z-index:10000;font-size:13px}
 .announcement-bar__content{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;padding-right:30px}
@@ -16,8 +28,8 @@
 <div class="announcement-bar" id="announcementBar">
   <div class="announcement-bar__content">
     <span class="announcement-bar__fire">🔥</span>
-    <span class="announcement-bar__text">Специальные акции: Gold Naftalan — 5 ночей + 2 в подарок · Гашалты — скидка 10% · Sun City — скидка до 10% · Парк Нафталан — скидка 15%</span>
-    <a href="/ru/akcii" class="announcement-bar__link">Смотреть все акции →</a>
+    <span class="announcement-bar__text">Специальные акции: {{ implode(' · ', $gsAnnItems) }}</span>
+    <a href="{{ url('/akcii') }}" class="announcement-bar__link">Смотреть все акции →</a>
   </div>
   <button type="button" class="announcement-bar__close" onclick="closeAnnouncementBar()" aria-label="Закрыть">✕</button>
 </div>
@@ -56,3 +68,4 @@
   };
 })();
 </script>
+@endif

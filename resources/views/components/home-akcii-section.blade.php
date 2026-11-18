@@ -23,7 +23,7 @@
                 @include('partials.akcii-card', ['item' => $item])
             @endforeach
         </div>
-        <div class="hakcii-more"><a href="/ru/aktsii">Все акции →</a></div>
+        <div class="hakcii-more"><a href="{{ url('/akcii') }}">Все акции →</a></div>
     </div>
 </section>
 @include('partials.akcii-script')
