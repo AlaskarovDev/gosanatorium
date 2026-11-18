@@ -2154,6 +2154,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
     font-size: 16px; font-weight: 700; color: #111827;
 }
 .booking-modal .price-row.total .price-value { font-size: 22px; font-weight: 700; color: var(--rs-primary); }
+.booking-modal .summary-currency-note { margin-top: 8px; font-size: 12px; line-height: 1.4; color: #64748b; text-align: right; }
 .booking-modal .nights-badge { background: none; color: inherit; padding: 0; font-size: 14px; font-weight: 400; border-radius: 0; }
 .booking-modal .nights-badge.is-zero { background: #f59e0b; color: #fff; padding: 2px 10px; border-radius: 999px; font-size: 12px; font-weight: 600; }
 
@@ -2473,6 +2474,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
                         <span>Итого к оплате</span>
                         <span class="price-value" id="summaryTotal">{{ currency(0) }}</span>
                     </div>
+                    <div class="summary-currency-note" id="summaryCurrencyNote" style="display:none"></div>
                 </div>
             </div>
         </div>
@@ -2524,7 +2526,13 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
     const CURRENCY_RATE = parseFloat(@json(session('currency')['currency_rate'] ?? default_currency()['currency_rate']));
     const CURRENCY_POSITION = @json(session('currency')['currency_position'] ?? default_currency()['currency_position']);
 
+    // Booking amounts are in the base currency (USD). Prefer the header currency switcher
+    // (visitor's choice, same as room cards); fall back to the session currency.
     function formatCurrencyDynamic(amount) {
+        if (typeof window.gsFormatUsd === 'function') {
+            var clientFormatted = window.gsFormatUsd(amount);
+            if (clientFormatted !== null) return clientFormatted;
+        }
         amount = (parseFloat(amount) || 0) * CURRENCY_RATE;
         let formatted = amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
 
@@ -2536,6 +2544,47 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
             default: return CURRENCY_ICON + formatted;
         }
     }
+
+    function formatBaseCurrency(amount) {
+        amount = (parseFloat(amount) || 0) * CURRENCY_RATE;
+        let formatted = amount.toLocaleString('en-US', {minimumFractionDigits: 2, maximumFractionDigits: 2});
+        switch(CURRENCY_POSITION) {
+            case 'before_price_with_space': return CURRENCY_ICON + ' ' + formatted;
+            case 'after_price': return formatted + CURRENCY_ICON;
+            case 'after_price_with_space': return formatted + ' ' + CURRENCY_ICON;
+            default: return CURRENCY_ICON + formatted;
+        }
+    }
+
+    // Price markup that the currency switcher re-renders live (data-price-usd)
+    function priceHtml(amount) {
+        var usd = parseFloat(amount) || 0;
+        return '<span class="js-price" data-price-usd="' + usd.toFixed(2) + '">' + formatCurrencyDynamic(usd) + '</span>';
+    }
+
+    function setPrice(el, amount) {
+        if (!el) return;
+        var usd = parseFloat(amount) || 0;
+        el.dataset.priceUsd = usd.toFixed(2);
+        el.textContent = formatCurrencyDynamic(usd);
+    }
+
+    function isConverted() {
+        return typeof window.gsCurrencyCode === 'function' && window.gsCurrencyCode() !== 'USD';
+    }
+
+    function updateCurrencyNote() {
+        var note = document.getElementById('summaryCurrencyNote');
+        if (!note) return;
+        if (isConverted() && bookingData.total > 0) {
+            note.innerHTML = 'Пересчёт ориентировочный. Сумма бронирования в USD: <strong>' + formatBaseCurrency(bookingData.total) + '</strong>';
+            note.style.display = '';
+        } else {
+            note.style.display = 'none';
+        }
+    }
+
+    document.addEventListener('gs:currency-change', updateCurrencyNote);
 
     const isMobile = window.innerWidth <= 991;
 
@@ -2613,7 +2662,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
         if (hint) {
             hint.style.display = '';
             hint.querySelector('.hint-text').innerHTML =
-                'Базовая цена <strong>' + formatCurrencyDynamic(price) + '</strong> ' +
+                'Базовая цена <strong>' + priceHtml(price) + '</strong> ' +
                 'указана для <strong>' + bookingData.basePriceFor + ' гостя(ей)</strong>. ' +
                 'Дополнительные взрослые/дети добавятся ниже автоматически.';
         }
@@ -2652,7 +2701,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
                     '<input type="checkbox" id="rs-ex-' + ex.id + '" data-extra-id="' + ex.id + '" data-extra-price="' + ex.price + '" data-extra-name="' + (ex.name || '').replace(/"/g, '&quot;') + '">' +
                     '<label for="rs-ex-' + ex.id + '">' + (ex.name || '') + '</label>' +
                 '</div>' +
-                '<span class="extra-price">+' + formatCurrencyDynamic(ex.price) + ' / ночь</span>';
+                '<span class="extra-price">+' + priceHtml(ex.price) + ' / ночь</span>';
             row.querySelector('input').addEventListener('change', function(e) {
                 bookingData.selectedOptional[ex.id] = e.target.checked ? ex : null;
                 calculatePrice();
@@ -2714,7 +2763,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
             extrasPerNight += amt;
             breakdownHtml += '<div class="price-row"><span class="extra-name"><i class="fa-solid fa-user-plus"></i>' +
                 ' ' + extraAdults + ' × ' + adultExtra.name + '</span>' +
-                '<span class="extra-amount">+' + formatCurrencyDynamic(amt) + '</span></div>';
+                '<span class="extra-amount">+' + priceHtml(amt) + '</span></div>';
         } else if (extraAdults > 0) {
             breakdownHtml += '<div class="price-row text-warning"><span>' + extraAdults + ' доп. взрослый(е)</span><span>—</span></div>';
         }
@@ -2724,7 +2773,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
             extrasPerNight += amtC;
             breakdownHtml += '<div class="price-row"><span class="extra-name"><i class="fa-solid fa-child"></i>' +
                 ' ' + extraChildren + ' × ' + childExtra.name + '</span>' +
-                '<span class="extra-amount">+' + formatCurrencyDynamic(amtC) + '</span></div>';
+                '<span class="extra-amount">+' + priceHtml(amtC) + '</span></div>';
         }
 
         // Optional selected
@@ -2733,7 +2782,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
             if (!ex) return;
             extrasPerNight += parseFloat(ex.price);
             breakdownHtml += '<div class="price-row"><span class="extra-name"><i class="fa-solid fa-star"></i> ' +
-                ex.name + '</span><span class="extra-amount">+' + formatCurrencyDynamic(ex.price) + '</span></div>';
+                ex.name + '</span><span class="extra-amount">+' + priceHtml(ex.price) + '</span></div>';
         });
 
         var summaryExtras = document.getElementById('summaryExtras');
@@ -2743,7 +2792,7 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
         bookingData.totalPerNight = totalPerNight;
         bookingData.total = nights * totalPerNight;
 
-        document.getElementById('summaryNightPrice').textContent = formatCurrencyDynamic(bookingData.pricePerNight);
+        setPrice(document.getElementById('summaryNightPrice'), bookingData.pricePerNight);
         var nightsEl = document.getElementById('summaryNights');
         nightsEl.textContent = nights > 0 ? nights : '0 ' + getNightsWord(0);
         nightsEl.classList.toggle('is-zero', nights === 0);
@@ -2751,7 +2800,8 @@ body.booking-modal-open .wa-float-btn { display: none !important; }
         let gt = bookingData.adults + ' взр.';
         if (bookingData.children > 0) gt += ', ' + bookingData.children + ' дет.';
         document.getElementById('summaryGuests').textContent = gt;
-        document.getElementById('summaryTotal').textContent = formatCurrencyDynamic(bookingData.total);
+        setPrice(document.getElementById('summaryTotal'), bookingData.total);
+        updateCurrencyNote();
         var confirmBtn = document.getElementById('confirmBookingBtn');
         confirmBtn.disabled = !(nights > 0);
         confirmBtn.innerHTML = nights > 0 ? '<i class="fa-regular fa-calendar-check"></i> Перейти к бронированию →' : 'Выберите даты';
