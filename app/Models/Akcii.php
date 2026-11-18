@@ -37,6 +37,13 @@ class Akcii extends Model
         'is_active' => 'boolean',
     ];
 
+    protected static function booted(): void
+    {
+        $forget = fn () => \Illuminate\Support\Facades\Cache::forget('announcement_bar_' . static::today()->toDateString());
+        static::saved($forget);
+        static::deleted($forget);
+    }
+
     public function scopeActive($query)
     {
         return $query->where('is_active', true)->orderBy('sort_order')->orderBy('created_at', 'desc');
@@ -50,9 +57,17 @@ class Akcii extends Model
     /**
      * Active, started and not expired promotions; soonest expiring first.
      */
+    /**
+     * Promotions are dated in Baku time; end date is inclusive.
+     */
+    public static function today(): \Carbon\Carbon
+    {
+        return now('Asia/Baku')->startOfDay();
+    }
+
     public function scopeVisible($query)
     {
-        $today = now()->toDateString();
+        $today = static::today()->toDateString();
 
         return $query->where('is_active', true)
             ->where(function ($q) use ($today) {
@@ -64,6 +79,76 @@ class Akcii extends Model
             ->orderByRaw('valid_until IS NULL')
             ->orderBy('valid_until')
             ->orderBy('sort_order');
+    }
+
+    /**
+     * Whole days left until the end date (0 = last day), null when there is no end date.
+     */
+    public function getDaysLeftAttribute(): ?int
+    {
+        if (!$this->valid_until) {
+            return null;
+        }
+        $end = \Carbon\Carbon::parse($this->valid_until->toDateString(), 'Asia/Baku')->startOfDay();
+
+        return (int) static::today()->diffInDays($end, false);
+    }
+
+    public function getIsExpiredAttribute(): bool
+    {
+        return $this->days_left !== null && $this->days_left < 0;
+    }
+
+    /**
+     * «Осталось N дней» / «Последний день акции» (null when no end date or expired).
+     */
+    public function getCountdownLabelAttribute(): ?string
+    {
+        $d = $this->days_left;
+        if ($d === null || $d < 0) {
+            return null;
+        }
+        if ($d === 0) {
+            return 'Последний день акции';
+        }
+        $n = $d + 1; // end date is inclusive: today + N remaining days
+        $m10 = $n % 10;
+        $m100 = $n % 100;
+        $word = ($m100 >= 11 && $m100 <= 14) ? 'дней' : ($m10 === 1 ? 'день' : (($m10 >= 2 && $m10 <= 4) ? 'дня' : 'дней'));
+
+        return 'Осталось ' . $n . ' ' . $word;
+    }
+
+    /**
+     * Card text: plain text cut at a word boundary.
+     */
+    public function shortText(int $limit = 110): string
+    {
+        $text = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags((string) $this->description), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
+        if (mb_strlen($text) <= $limit) {
+            return $text;
+        }
+        $cut = mb_substr($text, 0, $limit);
+        $space = mb_strrpos($cut, ' ');
+        if ($space !== false && $space > $limit * 0.6) {
+            $cut = mb_substr($cut, 0, $space);
+        }
+
+        return rtrim($cut, " ,.;:—-•") . '…';
+    }
+
+    /**
+     * Short label for the top announcement bar, e.g. «Парк Нафталан — скидка 15%».
+     */
+    public function getBannerLabelAttribute(): string
+    {
+        $name = trim(preg_replace('/\s*\(.*?\)\s*/u', ' ', (string) ($this->sanatorium_name ?: $this->service?->translation?->title)));
+        $pct = $this->discount_label;
+        if ($name !== '' && $pct) {
+            return $name . ' — скидка ' . $pct . '%';
+        }
+
+        return (string) $this->title;
     }
 
     public function getDiscountLabelAttribute(): ?int
@@ -80,7 +165,7 @@ class Akcii extends Model
 
     public function getDetailUrlAttribute(): string
     {
-        return $this->slug ? route('akczii.show', ['slug' => $this->slug]) : $this->url;
+        return $this->slug ? route('akcii.show', ['slug' => $this->slug]) : $this->url;
     }
 
     public function getUrlAttribute(): string

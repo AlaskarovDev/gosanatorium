@@ -6,10 +6,11 @@
     $name = $item->sanatorium_name ?: ($svc?->translation?->title);
     $rating = $svc && (float) $svc->rating_general > 0 ? number_format((float) $svc->rating_general, 1) : null;
     $pct = $item->discount_label;
-    $showTimer = !$ph && $item->is_hot && $item->valid_until;
+    $countdown = $ph ? null : $item->countdown_label;
+    $sanUrl = !$ph && $svc && $svc->slug ? $item->url : null;
 @endphp
 <div class="gsp-card promo-card {{ $ph ? 'gsp-card--placeholder' : '' }}"
-     @if ($showTimer) data-gsp-deadline="{{ $item->valid_until->copy()->endOfDay()->toIso8601String() }}" @endif>
+     @if (!$ph && $item->valid_until) data-gsp-deadline="{{ \Carbon\Carbon::parse($item->valid_until->toDateString(), 'Asia/Baku')->endOfDay()->toIso8601String() }}" @endif>
     <div class="gsp-media promo-card__media">
         @if ($img)
             <img class="gsp-img promo-card__image" src="{{ asset($img) }}" alt="{{ $name ?: $item->title }}" loading="lazy">
@@ -29,11 +30,11 @@
     </div>
     <div class="gsp-body promo-card__body">
         @if ($name)
-            <div class="gsp-san promo-card__sanatorium">{{ $name }} @if ($rating)<span class="gsp-rating">★ {{ $rating }}</span>@endif</div>
+            <div class="gsp-san promo-card__sanatorium">@if ($sanUrl)<a href="{{ $sanUrl }}">{{ $name }}</a>@else{{ $name }}@endif @if ($rating)<span class="gsp-rating">★ {{ $rating }}</span>@endif</div>
         @endif
         <div class="gsp-title promo-card__title">{{ $item->title }}</div>
         @if ($item->description)
-            <p class="gsp-desc promo-card__desc">{{ \Illuminate\Support\Str::limit(trim(preg_replace('/\s+/u', ' ', strip_tags($item->description))), 100) }}</p>
+            <p class="gsp-desc promo-card__desc">{{ $ph ? $item->description : $item->shortText(110) }}</p>
         @endif
         @if (!$ph && ($item->original_price || $item->discounted_price))
             <div class="gsp-prices">
@@ -43,15 +44,12 @@
                 <span class="gsp-new">${{ rtrim(rtrim(number_format($item->discounted_price ?: $item->original_price, 2, '.', ''), '0'), '.') }}/ночь</span>
             </div>
         @endif
-        @if (!$ph && $item->valid_from && $item->valid_until)
-            <div class="gsp-valid promo-card__date">До: {{ $item->valid_until->locale('ru')->translatedFormat('j F Y') }}</div>
-        @elseif (!$ph && $item->valid_until)
-            <div class="gsp-valid promo-card__date">До: {{ $item->valid_until->locale('ru')->translatedFormat('j F Y') }}</div>
+        @if (!$ph && $item->valid_until)
+            <div class="gsp-valid promo-card__date">До {{ $item->valid_until->locale('ru')->translatedFormat('j F Y') }}</div>
         @endif
-        @if ($showTimer)
-            <div class="gsp-timer">Осталось: <b data-gsp-timer>…</b></div>
+        @if ($countdown)
+            <div class="gsp-timer">{{ $countdown }}</div>
         @endif
-        <div class="gsp-expired">Предложение истекло</div>
-        <a class="gsp-btn promo-card__btn" href="{{ !$ph && $item->slug ? $item->detail_url : '/ru/aktsii' }}">Подробнее →</a>
+        <a class="gsp-btn promo-card__btn" href="{{ !$ph && $item->slug ? $item->detail_url : url('/akcii') }}">Подробнее →</a>
     </div>
 </div>

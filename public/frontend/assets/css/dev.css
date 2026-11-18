@@ -1303,3 +1303,7 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
   padding: 4px 12px;
   display: inline-block;
 }
+
+/* Promotions: sanatorium name links to the sanatorium page */
+.gsp-san a{color:inherit;text-decoration:none}
+.gsp-san a:hover{text-decoration:underline}

@@ -1,20 +1,26 @@
 @once
 <script>
 (function () {
-    function plural(n, f) { var m = n % 10, h = n % 100; return f[(h > 10 && h < 20) ? 2 : m === 1 ? 0 : (m > 1 && m < 5) ? 1 : 2]; }
+    // Countdown text is rendered on the server («Осталось N дней» / «Последний день акции»).
+    // Here we only mark a card as finished if the page stays open past the end of the offer (Baku time).
     function tick() {
         var now = Date.now();
         document.querySelectorAll('[data-gsp-deadline]').forEach(function (card) {
-            var left = new Date(card.getAttribute('data-gsp-deadline')).getTime() - now;
-            if (isNaN(left)) return;
-            if (left <= 0) { card.classList.add('gsp-card--expired'); return; }
-            var m = Math.floor(left / 60000), d = Math.floor(m / 1440), h = Math.floor((m % 1440) / 60), mi = m % 60;
-            var el = card.querySelector('[data-gsp-timer]');
-            if (el) el.textContent = d + ' ' + plural(d, ['день', 'дня', 'дней']) + ' ' + h + ' ' + plural(h, ['час', 'часа', 'часов']) + ' ' + mi + ' ' + plural(mi, ['минута', 'минуты', 'минут']);
+            if (card.classList.contains('gsp-card--expired')) return;
+            var end = new Date(card.getAttribute('data-gsp-deadline')).getTime();
+            if (isNaN(end) || end > now) return;
+            card.classList.add('gsp-card--expired');
+            var body = card.querySelector('.gsp-body');
+            if (body && !body.querySelector('.gsp-expired')) {
+                var el = document.createElement('div');
+                el.className = 'gsp-expired';
+                el.textContent = 'Акция завершена';
+                body.appendChild(el);
+            }
         });
     }
     function init() {
-        tick(); setInterval(tick, 1000);
+        tick(); setInterval(tick, 60000);
         document.querySelectorAll('[data-gsp-carousel]').forEach(function (c) {
             var track = c.querySelector('.gsp-track');
             c.querySelectorAll('[data-gsp-dir]').forEach(function (b) {
