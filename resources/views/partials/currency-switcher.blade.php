@@ -135,6 +135,7 @@
         updateButton();
         renderModal();
         updateAllPrices();
+        notifyChange();
         closeCurrencyModal();
     }
 
@@ -149,13 +150,24 @@
     };
     window.updateAllPrices = updateAllPrices;
     window.selectCurrency = selectCurrency;
+    // Shared formatter for JS-rendered prices (e.g. booking modal). Returns null until rates are loaded.
+    window.gsFormatUsd = function (usd) {
+        var conv = convertPrice(parseFloat(usd) || 0, selectedCurrency);
+        return conv === null ? null : formatPrice(conv, selectedCurrency);
+    };
+    window.gsCurrencyCode = function () {
+        return (selectedCurrency === 'USD' || exchangeRates[selectedCurrency]) ? selectedCurrency : 'USD';
+    };
+    function notifyChange() {
+        try { document.dispatchEvent(new CustomEvent('gs:currency-change', { detail: { code: selectedCurrency } })); } catch (e) {}
+    }
 
     document.addEventListener('keydown', function (e) { if (e.key === 'Escape') window.closeCurrencyModal(); });
 
     function loadRates() {
         fetch('/api/exchange-rates', { headers: { 'Accept': 'application/json' } })
             .then(function (r) { return r.json(); })
-            .then(function (data) { exchangeRates = data || {}; updateAllPrices(); })
+            .then(function (data) { exchangeRates = data || {}; updateAllPrices(); notifyChange(); })
             .catch(function () {});
     }
 
