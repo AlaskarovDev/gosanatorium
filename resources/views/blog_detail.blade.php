@@ -90,18 +90,21 @@
                                 <ul>
                                     @if ($blog->tags)
                                         @foreach (json_decode($blog->tags) as $blog_tag)
-                                            <li><a href="javascript:;">#{{ $blog_tag->value }}</a></li>
+                                            <li><span class="gs-blog-tag">#{{ $blog_tag->value }}</span></li>
                                         @endforeach
                                     @endif
                                 </ul>
                             </div>
                             <div class="tg-blog-details-social mb-10">
-                                <span>Share:</span>
-                                <a  target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ route('blog', $blog->slug) }}&t={{ $blog->title }}"><i class="fa-brands fa-facebook-f"></i></a>
-                                <a target="_blank" href="https://twitter.com/share?text={{ $blog->title }}&url={{ route('blog', $blog->slug) }}"><i class="fa-brands fa-twitter"></i></a>
-                                <a target="_blank" href="https://www.instagram.com/?url={{ route('blog', $blog->slug) }}"><i class="fa-brands fa-instagram"></i></a>
-                                <a target="_blank" href="https://www.linkedin.com/shareArticle?mini=true&url={{ route('blog', $blog->slug) }}&title={{ $blog->title }}"><i class="fa-brands fa-pinterest-p"></i></a>
-                                <a href="#"><i class="fa-brands fa-youtube"></i></a>
+                                @php
+                                    $gsShareUrl = urlencode(route('blog', $blog->slug));
+                                    $gsShareTitle = urlencode($blog->title);
+                                @endphp
+                                <span>{{ __('translate.Share') }}:</span>
+                                <a target="_blank" rel="noopener" aria-label="WhatsApp" href="https://wa.me/?text={{ $gsShareTitle }}%20{{ $gsShareUrl }}"><i class="fa-brands fa-whatsapp"></i></a>
+                                <a target="_blank" rel="noopener" aria-label="Telegram" href="https://t.me/share/url?url={{ $gsShareUrl }}&text={{ $gsShareTitle }}"><i class="fa-brands fa-telegram"></i></a>
+                                <a target="_blank" rel="noopener" aria-label="VK" href="https://vk.com/share.php?url={{ $gsShareUrl }}&title={{ $gsShareTitle }}"><i class="fa-brands fa-vk"></i></a>
+                                <a target="_blank" rel="noopener" aria-label="Facebook" href="https://www.facebook.com/sharer/sharer.php?u={{ $gsShareUrl }}"><i class="fa-brands fa-facebook-f"></i></a>
                             </div>
                         </div>
                         <div class="tg-tour-about-cus-review-wrap tg-blog-details-review mb-25">
@@ -147,11 +150,6 @@
                                         </div>
                                     @endif
                                     <div class="col-lg-12">
-                                        <div class="review-checkbox d-flex align-items-center mb-25">
-                                            <input class="tg-checkbox" type="checkbox" id="australia">
-                                            <label for="australia" class="tg-label">Save my name, email, and website in
-                                                this browser for the next time I comment.</label>
-                                        </div>
                                         <button type="submit" class="tg-btn tg-btn-switch-animation">
                                             <span class="d-flex align-items-center justify-content-center">
                                                 <span class="btn-text">{{ __('translate.Post Comment') }}</span>

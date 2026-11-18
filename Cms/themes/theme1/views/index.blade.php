@@ -122,7 +122,7 @@
     <span class="gssticky-label">Как забронировать</span>
   </a>
 
-  <a href="#" class="gssticky-item" id="gsStickyValuta">
+  <a href="#section-currency" class="gssticky-item" id="gsStickyValuta">
     <div class="gssticky-icon">
       <svg viewBox="0 0 24 24"><path d="M7.5 21 3 16.5 7.5 12v3H15v3H7.5v3zM16.5 12v-3H9V6h7.5V3L21 7.5 16.5 12z" transform="translate(0 1)"/></svg>
     </div>

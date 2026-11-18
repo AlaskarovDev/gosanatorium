@@ -1668,9 +1668,7 @@
                             <span class="gscon-spec-tag">Бальнеология</span>
                         </div>
                         @if($custom_page->video_url)
-                        <a href="#" class="gscon-video-btn" data-bs-toggle="modal" data-bs-target="#videoModal"><i class="fas fa-play-circle"></i> Посмотреть видео</a>
-                        @else
-                        <a href="#" class="gscon-video-btn"><i class="fas fa-play-circle"></i> Посмотреть видео</a>
+                        <button type="button" class="gscon-video-btn" data-bs-toggle="modal" data-bs-target="#videoModal"><i class="fas fa-play-circle"></i> Посмотреть видео</button>
                         @endif
                     </div>
                 </div>

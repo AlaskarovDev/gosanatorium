@@ -1,4 +1,4 @@
-<section class="gscurrate-section">
+<section class="gscurrate-section" id="section-currency">
 <style>
 .gscurrate-section{background:#1a2340!important;padding:40px 20px!important;text-align:center!important}
 .gscurrate-title{color:#fff!important;font-size:20px!important;font-weight:700!important;letter-spacing:1px!important;text-transform:uppercase!important;margin:0 0 24px!important}
