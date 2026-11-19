@@ -5,9 +5,10 @@
                     $gsUrl = route('front.tourbooking.services.show', ['slug' => $service?->slug]);
                     $gsCount = (int) ($service?->active_reviews_count ?? 0);
                     $gsRating = (float) ($service?->active_reviews_avg_rating ?? 0);
-                    $gsRaw = $service->is_per_person
-                        ? $service->price_per_person
-                        : ($service->discount_price ?: $service->full_price);
+                    $gsRaw = $service->gs_from_price
+                        ?? ($service->is_per_person
+                            ? $service->price_per_person
+                            : ($service->discount_price ?: $service->full_price));
                 @endphp
                 <div class="gscard-item type-{{ $service->service_type_id }}">
                     <div class="gscard-card">
@@ -45,9 +46,9 @@
                                     <span class="gscard-reviews">{{ app()->getLocale() === 'ru' ? 'Нет отзывов' : 'No reviews' }}</span>
                                 @endif
                             </div>
-                            <h4 class="gscard-title">
+                            <{{ $gsTitleTag ?? 'h4' }} class="gscard-title">
                                 <a href="{{ $gsUrl }}">{{ $service?->translation?->title }}</a>
-                            </h4>
+                            </{{ $gsTitleTag ?? 'h4' }}>
                             @if ($gsAddr = gscardAddress($service))
                                 <div class="gscard-address">
                                     <i class="fa-solid fa-location-dot"></i> {{ $gsAddr }}
@@ -59,7 +60,11 @@
                                     <div class="gscard-price">{{ app()->getLocale() === 'ru' ? 'от' : 'from' }} {!! currency_span($gsRaw) !!}</div>
                                     <div class="gscard-per">{{ app()->getLocale() === 'ru' ? 'за ночь' : 'per night' }}</div>
                                 </div>
-                                <a class="gscard-cta" href="{{ $gsUrl }}">{{ app()->getLocale() === 'ru' ? 'Подробнее' : 'Details' }} &rarr;</a>
+                                @if (!empty($gsRoomCta))
+                                    <a class="gscard-cta" href="{{ route('front.tourbooking.rooms.selection', $service->slug) }}">{{ app()->getLocale() === 'ru' ? 'Выбрать номер' : 'Choose a room' }} &rarr;</a>
+                                @else
+                                    <a class="gscard-cta" href="{{ $gsUrl }}">{{ app()->getLocale() === 'ru' ? 'Подробнее' : 'Details' }} &rarr;</a>
+                                @endif
                             </div>
                         </div>
                     </div>

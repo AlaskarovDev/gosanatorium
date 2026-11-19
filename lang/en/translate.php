@@ -1794,4 +1794,13 @@
 'Date discounts are not enabled yet: the database update must be applied.' => 'Date discounts are not enabled yet: the database update must be applied.',
 'Choose a sanatorium on the left to add a discount for chosen dates. Inside those dates the room prices of this sanatorium drop by the percent automatically; after the end date the normal prices return.' => 'Choose a sanatorium on the left to add a discount for chosen dates. Inside those dates the room prices of this sanatorium drop by the percent automatically; after the end date the normal prices return.',
 'Inside these dates every room price of this sanatorium drops by the percent automatically. Other sanatoriums are not affected.' => 'Inside these dates every room price of this sanatorium drops by the percent automatically. Other sanatoriums are not affected.',
+'Example' => 'Example',
+'Destination page content' => 'Destination page content',
+'Shown on the destination page (list of sanatoriums of this city). Empty fields use automatic texts.' => 'Shown on the destination page (list of sanatoriums of this city). Empty fields use automatic texts.',
+'Intro text (above the list)' => 'Intro text (above the list)',
+'SEO text (below the list)' => 'SEO text (below the list)',
+'Hero image' => 'Hero image',
+'Add question' => 'Add question',
+'Destination page fields are not enabled yet: the database update must be applied.' => 'Destination page fields are not enabled yet: the database update must be applied.',
+'Empty: generated automatically (city, number of sanatoriums, minimum price).' => 'Empty: generated automatically (city, number of sanatoriums, minimum price).',
 );

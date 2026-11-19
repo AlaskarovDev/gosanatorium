@@ -187,16 +187,16 @@
             </div>
             <div class="offCanvas__side-info mb-30">
                 <div class="contact-list mb-30">
-                    <h4>Office Address</h4>
+                    <p class="contact-list__label">Office Address</p>
                     <p>123/A, Miranda City Likaoli <br> Prikano, Dope</p>
                 </div>
                 <div class="contact-list mb-30">
-                    <h4>Phone Number</h4>
+                    <p class="contact-list__label">Phone Number</p>
                     <p>+0989 7876 9865 9</p>
                     <p>+(090) 8765 86543 85</p>
                 </div>
                 <div class="contact-list mb-30">
-                    <h4>Email Address</h4>
+                    <p class="contact-list__label">Email Address</p>
                     <p>info@example.com</p>
                     <p>example.mail@hum.com</p>
                 </div>

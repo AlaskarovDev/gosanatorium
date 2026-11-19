@@ -319,7 +319,10 @@ final class FrontServiceController extends Controller
 
         $services = $query->latest()->paginate(12)->withQueryString();
 
-        $serviceTypes = ServiceType::where('status', true)->get();
+        // «Трансферы» is a service, not a type of accommodation (Task 4).
+        $serviceTypes = ServiceType::where('status', true)->get()
+            ->reject(fn ($t) => mb_stripos((string) $t->name, 'трансфер') !== false || stripos((string) $t->name, 'transfer') !== false)
+            ->values();
         $destinations = Destination::where('status', true)->get();
 
         // Dropdown üçün bütün sanatoriyaların siyahısı
@@ -329,10 +332,8 @@ final class FrontServiceController extends Controller
             ->orderBy('created_at', 'desc')
             ->get();
 
-        // Amenities siyahısı
-        $amenities = Amenity::where('status', true)
-            ->with('translation')
-            ->get();
+        // Amenities: one checkbox per name; duplicates are merged (value = all their ids).
+        $amenities = $this->uniqueAmenities();
 
         // Dil siyahısı
         $languages = collect();
@@ -438,12 +439,20 @@ final class FrontServiceController extends Controller
             });
         }
 
-        // ── Amenity filter ──
+        // ── Amenity filter ── (a value may hold several ids of one merged amenity: "93,104")
         if ($request->filled('amenity_ids')) {
             $amenityIds = $request->input('amenity_ids');
             if (is_array($amenityIds) && count($amenityIds) > 0) {
                 foreach ($amenityIds as $amenityId) {
-                    $query->whereJsonContains('amenities', $amenityId);
+                    $ids = array_values(array_filter(array_map('trim', explode(',', (string) $amenityId)), 'strlen'));
+                    $query->where(function ($q) use ($ids) {
+                        foreach ($ids as $id) {
+                            $q->orWhereJsonContains('amenities', $id);
+                            if (ctype_digit($id)) {
+                                $q->orWhereJsonContains('amenities', (int) $id);
+                            }
+                        }
+                    });
                 }
             }
         }
@@ -759,65 +768,54 @@ final class FrontServiceController extends Controller
     }
 
     /**
+     * Active amenities with one entry per (case-insensitive) name.
+     * The checkbox value of a merged entry lists all ids: "93,104".
+     */
+    private function uniqueAmenities()
+    {
+        return Amenity::where('status', true)
+            ->with('translation')
+            ->get()
+            ->filter(fn ($a) => $a->translation)
+            ->groupBy(fn ($a) => mb_strtolower(trim((string) $a->translation->name)))
+            ->map(function ($group) {
+                $first = $group->first();
+                $first->translation->setAttribute('filter_value', $group->pluck('translation.id')->implode(','));
+
+                return $first;
+            })
+            ->values();
+    }
+
+    /**
      * Təmiz SEO URL: /hotels/{slug}
      *
      * Destination slug-una görə həmin bölgənin sanatoriya/otellərini adi servis
      * listing görünüşündə göstərir. Köhnə texniki URL-in
      * (/tour-booking/services?destination_id=..&destination=..) təmiz qarşılığıdır.
      */
-    public function hotelsByDestination(string $slug): ViewResponse
+    public function hotelsByDestination(Request $request, string $slug): ViewResponse
     {
         $destination = Destination::where('slug', $slug)
             ->where('status', true)
             ->firstOrFail();
 
-        $services = Service::where('status', true)
-            ->where('destination_id', $destination->id)
-            ->with(['thumbnail', 'serviceType', 'translation'])
-            ->latest()
-            ->paginate(12)
-            ->withQueryString();
+        // Task 4: server-side cards (visible in the HTML for search engines), real filters and sorting.
+        $listing = new \Modules\TourBooking\App\Services\DestinationListing($destination);
+        $result = $listing->paginate($request);
+        $seo = $listing->seo($result['all']);
 
-        $serviceTypes = ServiceType::where('status', true)->get();
-        $destinations = Destination::where('status', true)->get();
-
-        // Dropdown üçün bütün sanatoriyaların siyahısı
-        $allServicesList = Service::where('status', true)
-            ->with('translation:id,service_id,title')
-            ->select('id', 'slug', 'destination_id')
-            ->orderBy('created_at', 'desc')
-            ->get();
-
-        // Amenities siyahısı
-        $amenities = Amenity::where('status', true)
-            ->with('translation')
-            ->get();
-
-        // Dil siyahısı
-        $languages = collect();
-        try {
-            $languages = collect(Language::cases())->map(function ($lang) {
-                return (object) [
-                    'name' => $lang->value,
-                    'value' => $lang->name,
-                ];
-            });
-        } catch (\Throwable $e) {
-            $languages = collect();
-        }
-
-        // View filtr panelində bu istiqaməti seçilmiş göstərə bilsin deyə
-        $selectedDestination = $destination;
-
-        return view('tourbooking::front.services', compact(
-            'services',
-            'serviceTypes',
-            'destinations',
-            'amenities',
-            'languages',
-            'allServicesList',
-            'selectedDestination'
-        ));
+        return view('tourbooking::front.destination-hotels', [
+            'destination' => $destination,
+            'listing' => $listing,
+            'services' => $result['items'],
+            'filters' => $result['filters'],
+            'filtersActive' => $result['active'],
+            'totalCount' => $result['all']->count(),
+            'seo' => $seo,
+            'faqItems' => method_exists($destination, 'faqItems') ? $destination->faqItems() : [],
+            'sorts' => \Modules\TourBooking\App\Services\DestinationListing::SORTS,
+        ]);
     }
 
     /**

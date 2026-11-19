@@ -402,7 +402,7 @@
             margin-bottom: 20px;
         }
 
-        .fl-header h3 { font-size: 20px; margin: 0; }
+        .fl-header h3, .fl-header .fl-header-title { font-size: 20px; margin: 0; font-family: 'Playfair Display', serif; font-weight: 600; }
 
         .fl-reset {
             display: inline-flex;
@@ -781,7 +781,7 @@
                             <div class="fl-card">
 
                                 <div class="fl-header">
-                                    <h3>Фильтры</h3>
+                                    <div class="fl-header-title">Фильтры</div>
                                     <button class="fl-reset"
                                             x-show="isFilterChanged || isBookingFilterChanged"
                                             @click="resetFilters()">
@@ -839,7 +839,7 @@
                                         @foreach ($amenities as $key => $amenity)
                                             <li x-show="show || {{ $key }} < 4" x-transition>
                                                 <label class="fl-check">
-                                                    <input value="{{ $amenity?->translation?->id }}"
+                                                    <input value="{{ $amenity?->translation?->filter_value ?? $amenity?->translation?->id }}"
                                                            x-model="filters.amenity_ids" type="checkbox">
                                                     <span class="fl-box"><i class="fa-solid fa-check"></i></span>
                                                     <span class="fl-check-text">{{ $amenity?->translation?->name }}</span>

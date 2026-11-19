@@ -1814,4 +1814,13 @@
 'Date discounts are not enabled yet: the database update must be applied.' => 'Скидки по датам ещё не включены: нужно обновить базу данных.',
 'Choose a sanatorium on the left to add a discount for chosen dates. Inside those dates the room prices of this sanatorium drop by the percent automatically; after the end date the normal prices return.' => 'Выберите санаторий слева и добавьте скидку на нужные даты. В эти даты цены номеров санатория автоматически снижаются на указанный процент, после окончания возвращаются обычные цены.',
 'Inside these dates every room price of this sanatorium drops by the percent automatically. Other sanatoriums are not affected.' => 'В эти даты все цены номеров этого санатория автоматически снижаются на указанный процент. Другие санатории не затрагиваются.',
+'Example' => 'Пример',
+'Destination page content' => 'Контент страницы направления',
+'Shown on the destination page (list of sanatoriums of this city). Empty fields use automatic texts.' => 'Показывается на странице направления (список санаториев города). Если поле пустое, используется автоматический текст.',
+'Intro text (above the list)' => 'Вступительный текст (над списком)',
+'SEO text (below the list)' => 'SEO-текст (под списком)',
+'Hero image' => 'Картинка в шапке',
+'Add question' => 'Добавить вопрос',
+'Destination page fields are not enabled yet: the database update must be applied.' => 'Поля страницы направления ещё не включены: нужно обновить базу данных.',
+'Empty: generated automatically (city, number of sanatoriums, minimum price).' => 'Если пусто, формируется автоматически (город, число санаториев, минимальная цена).',
 );

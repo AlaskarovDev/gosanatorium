@@ -1307,3 +1307,6 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 /* Promotions: sanatorium name links to the sanatorium page */
 .gsp-san a{color:inherit;text-decoration:none}
 .gsp-san a:hover{text-decoration:underline}
+
+/* Offcanvas contact labels: <p> instead of <h4> (Task 4/12), same look */
+.offCanvas__side-info .contact-list p.contact-list__label{color:var(--tg-common-black);font-weight:700;font-size:18px;line-height:1.3;margin-bottom:6px}

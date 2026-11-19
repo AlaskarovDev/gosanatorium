@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Schema;
 use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Destination;
 use Modules\TourBooking\App\Models\Service;
@@ -144,10 +145,62 @@ final class DestinationController extends Controller
         $validated['meta_description'] = $request->meta_description ?? null;
         $validated['tags'] = $request->tags ?? null;
 
+        $this->fillSeoContent($request, $validated, $destination);
+
         $destination->update($validated);
 
         return redirect()->route('admin.tourbooking.destinations.index')
             ->with('success', 'Destination updated successfully.');
+    }
+
+    /**
+     * Task 4: H1, intro text, SEO text, FAQ and hero image of the destination page.
+     * Skipped until the migration has added the columns, so the form keeps working.
+     *
+     * @param array<string, mixed> $validated
+     */
+    private function fillSeoContent(Request $request, array &$validated, ?Destination $destination = null): void
+    {
+        if (!Schema::hasColumn('destinations', 'h1')) {
+            return;
+        }
+
+        $request->validate([
+            'h1' => 'nullable|string|max:255',
+            'intro_text' => 'nullable|string',
+            'seo_text' => 'nullable|string',
+            'faq_q' => 'nullable|array',
+            'faq_q.*' => 'nullable|string|max:500',
+            'faq_a' => 'nullable|array',
+            'faq_a.*' => 'nullable|string|max:5000',
+            'hero_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:4096',
+        ]);
+
+        $validated['h1'] = trim((string) $request->input('h1', '')) ?: null;
+        $validated['intro_text'] = $request->input('intro_text') ?: null;
+        $validated['seo_text'] = $request->input('seo_text') ?: null;
+
+        $questions = (array) $request->input('faq_q', []);
+        $answers = (array) $request->input('faq_a', []);
+        $faq = [];
+        foreach ($questions as $i => $q) {
+            $q = trim((string) $q);
+            $a = trim((string) ($answers[$i] ?? ''));
+            if ($q !== '' || $a !== '') {
+                $faq[] = ['q' => $q, 'a' => $a];
+            }
+        }
+        $validated['faq'] = $faq ?: null;
+
+        if ($request->hasFile('hero_image')) {
+            if ($destination && $destination->hero_image) {
+                FileUploadHelper::deleteImage($destination->hero_image);
+            }
+            $validated['hero_image'] = FileUploadHelper::uploadImage($request->file('hero_image'), 'destination');
+        } elseif ($request->boolean('remove_hero_image') && $destination && $destination->hero_image) {
+            FileUploadHelper::deleteImage($destination->hero_image);
+            $validated['hero_image'] = null;
+        }
     }
 
     /**
