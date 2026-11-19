@@ -5,126 +5,115 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Modules\Blog\App\Models\Blog;
-use Modules\Team\App\Models\Team;
 use Modules\Page\App\Models\CustomPage;
-use Modules\Ecommerce\Entities\Product;
+use App\Models\Akcii;
+use Modules\TourBooking\App\Models\Disease;
 use Modules\TourBooking\App\Models\Service;
 use Modules\TourBooking\App\Models\Destination;
 
 class SitemapController extends Controller
 {
     /**
-     * All sitemap URLs are emitted under the /ru/ prefix to match the canonical
-     * strategy. EN/AZ alternates are exposed via hreflang tags on each page.
+     * Task 16: every indexable RU URL, in the canonical format (App\Support\CanonicalUrl).
+     * Built on request from the database, so new/updated sanatoriums, posts and promotions
+     * appear immediately (no cron needed). lastmod = real updated_at; static pages have no lastmod.
+     * Not included: booking steps, search/sort/comparison URLs, admin/user pages, template demo pages
+     * (team, products, pricing) and URLs that redirect.
      */
     public function index()
     {
         $urls = [];
+        $latest = fn ($items) => collect($items)->pluck('updated_at')->filter()->max();
 
-        // Home
-        $urls[] = $this->makeEntry('/', '1.0', 'daily');
+        $services = class_exists(Service::class)
+            ? Service::where('status', true)->whereNotNull('slug')->where('slug', '!=', '')->select('slug', 'updated_at')->get()
+            : collect();
+        $blogs = class_exists(Blog::class)
+            ? Blog::where('status', 1)->select('slug', 'updated_at')->get()
+            : collect();
 
-        // Static frontend pages
-        $staticPaths = [
-            ['path' => 'about-us',         'priority' => '0.8', 'changefreq' => 'monthly'],
-            ['path' => 'blogs',            'priority' => '0.8', 'changefreq' => 'weekly'],
-            ['path' => 'faq',              'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['path' => 'pricing',          'priority' => '0.7', 'changefreq' => 'monthly'],
-            ['path' => 'teams',            'priority' => '0.6', 'changefreq' => 'monthly'],
-            ['path' => 'contact-us',       'priority' => '0.6', 'changefreq' => 'yearly'],
-            ['path' => 'privacy-policy',   'priority' => '0.3', 'changefreq' => 'yearly'],
-            ['path' => 'terms-conditions', 'priority' => '0.3', 'changefreq' => 'yearly'],
-        ];
+        // Home + catalog
+        $urls[] = $this->makeEntry('/', '1.0', 'daily', $latest($services->concat($blogs)));
+        $urls[] = $this->makeEntry('sanatoriyi', '0.9', 'daily', $latest($services));
 
-        foreach ($staticPaths as $item) {
-            $urls[] = $this->makeEntry($item['path'], $item['priority'], $item['changefreq']);
+        // Static pages
+        foreach ([
+            ['about-us', '0.6', 'monthly'],
+            ['contact-us', '0.6', 'yearly'],
+            ['faq', '0.6', 'monthly'],
+            ['bez-predoplaty', '0.7', 'monthly'],
+            ['naftalan-protivopokazaniya', '0.6', 'monthly'],
+            ['blogs', '0.7', 'weekly'],
+            ['privacy-policy', '0.2', 'yearly'],
+            ['terms-conditions', '0.2', 'yearly'],
+        ] as [$path, $priority, $freq]) {
+            $urls[] = $this->makeEntry($path, $priority, $freq);
         }
 
-        // TourBooking — static landing pages
-        $tourbookingStatic = [
-            ['path' => 'tour-booking',              'priority' => '0.9', 'changefreq' => 'daily'],
-            ['path' => 'tour-booking/services',     'priority' => '0.9', 'changefreq' => 'daily'],
-        ];
-
-        foreach ($tourbookingStatic as $item) {
-            $urls[] = $this->makeEntry($item['path'], $item['priority'], $item['changefreq']);
-        }
-
-        // Destination landing pages — təmiz URL (/hotels/{slug})
-        // Yalnız ana səhifədə görünən (featured) və slug-u olan istiqamətlər.
+        // Destinations (/hotels/{slug}) — the ones shown on the home page
         if (class_exists(Destination::class)) {
-            Destination::where('status', true)
-                ->where('is_featured', true)
-                ->whereNotNull('slug')
-                ->where('slug', '!=', '')
-                ->select('slug', 'updated_at')
-                ->get()
-                ->each(function ($destination) use (&$urls) {
-                    $urls[] = $this->makeEntry('hotels/' . $destination->slug, '0.8', 'weekly', $destination->updated_at);
+            Destination::where('status', true)->where('is_featured', true)
+                ->whereNotNull('slug')->where('slug', '!=', '')
+                ->select('slug', 'updated_at')->get()
+                ->each(function ($d) use (&$urls) {
+                    $urls[] = $this->makeEntry('hotels/' . $d->slug, '0.8', 'weekly', $d->updated_at);
                 });
+        }
+
+        // Sanatoriums
+        foreach ($services as $service) {
+            $urls[] = $this->makeEntry($service->slug, '0.9', 'weekly', $service->updated_at);
+        }
+
+        // Treatment directions + disease pages + catalog filtered by disease (own canonical, Task 7/15)
+        if (class_exists(Disease::class)) {
+            $diseases = Disease::active()->whereNotNull('slug')->where('slug', '!=', '')->get();
+            $urls[] = $this->makeEntry('napravleniya-lecheniya', '0.7', 'monthly', $latest($diseases));
+            $urls[] = $this->makeEntry('bolezni', '0.7', 'monthly', $latest($diseases));
+            foreach ($diseases as $disease) {
+                $urls[] = $this->makeEntry('bolezni/' . $disease->slug, '0.7', 'weekly', $disease->updated_at);
+                $urls[] = $this->makeEntry('sanatoriyi', '0.7', 'weekly', $disease->updated_at, ['disease' => $disease->slug]);
+            }
+        }
+
+        // Promotions
+        if (class_exists(Akcii::class)) {
+            $akcii = Akcii::visible()->whereNotNull('slug')->where('slug', '!=', '')->get();
+            $urls[] = $this->makeEntry('akcii', '0.7', 'weekly', $latest($akcii));
+            foreach ($akcii as $akcia) {
+                $urls[] = $this->makeEntry('akcii/' . $akcia->slug, '0.6', 'weekly', $akcia->updated_at);
+            }
         }
 
         // Blog posts
-        if (class_exists(Blog::class)) {
-            Blog::where('status', 1)
-                ->select('slug', 'updated_at')
-                ->get()
-                ->each(function ($blog) use (&$urls) {
-                    $urls[] = $this->makeEntry('blog/' . $blog->slug, '0.7', 'weekly', $blog->updated_at);
-                });
+        foreach ($blogs as $blog) {
+            $urls[] = $this->makeEntry('blog/' . $blog->slug, '0.6', 'monthly', $blog->updated_at);
         }
 
-        // Teams
-        if (class_exists(Team::class)) {
-            Team::select('slug', 'updated_at')
-                ->get()
-                ->each(function ($team) use (&$urls) {
-                    $urls[] = $this->makeEntry('team/' . $team->slug, '0.5', 'monthly', $team->updated_at);
-                });
-        }
-
-        // Custom pages
+        // Custom pages (consultation, transfers, video) — published only
         if (class_exists(CustomPage::class)) {
-            CustomPage::select('slug', 'updated_at')
-                ->get()
+            CustomPage::where('status', 1)->select('slug', 'updated_at')->get()
                 ->each(function ($page) use (&$urls) {
                     $urls[] = $this->makeEntry('custom-page/' . $page->slug, '0.5', 'monthly', $page->updated_at);
                 });
         }
 
-        // E-commerce products (kept for compatibility)
-        if (class_exists(Product::class) && \Route::has('product.view')) {
-            Product::where('status', 1)
-                ->select('slug', 'updated_at')
-                ->get()
-                ->each(function ($product) use (&$urls) {
-                    $urls[] = $this->makeEntry('product/' . $product->slug, '0.7', 'weekly', $product->updated_at);
-                });
-        }
-
-        // TourBooking — services (sanatoriums, hotels, tours, etc.)
-        if (class_exists(Service::class)) {
-            Service::where('status', true)
-                ->select('slug', 'updated_at')
-                ->get()
-                ->each(function ($service) use (&$urls) {
-                    $urls[] = $this->makeEntry($service->slug, '0.9', 'weekly', $service->updated_at);
-                });
-        }
+        // One entry per URL
+        $urls = collect($urls)->unique('loc')->values()->all();
 
         return Response::make($this->buildXml($urls), 200, [
             'Content-Type' => 'application/xml; charset=UTF-8',
         ]);
     }
 
-    private function makeEntry(string $path, string $priority, string $changefreq, $updatedAt = null): array
+    private function makeEntry(string $path, string $priority, string $changefreq, $updatedAt = null, array $query = []): array
     {
         // Task 15: same format as the canonical tag (https, non-www, /ru, no trailing slash).
-        $loc  = \App\Support\CanonicalUrl::to($path, 'ru');
+        $loc  = \App\Support\CanonicalUrl::to($path, 'ru') . ($query ? '?' . http_build_query($query) : '');
 
         return [
             'loc'        => $loc,
-            'lastmod'    => $updatedAt ? $updatedAt->toAtomString() : now()->toAtomString(),
+            'lastmod'    => $updatedAt ? \Illuminate\Support\Carbon::parse($updatedAt)->toAtomString() : null,
             'changefreq' => $changefreq,
             'priority'   => $priority,
         ];
@@ -138,7 +127,9 @@ class SitemapController extends Controller
         foreach ($urls as $u) {
             $xml .= "  <url>\n";
             $xml .= '    <loc>' . htmlspecialchars($u['loc'], ENT_XML1) . "</loc>\n";
-            $xml .= '    <lastmod>' . $u['lastmod'] . "</lastmod>\n";
+            if ($u['lastmod']) {
+                $xml .= '    <lastmod>' . $u['lastmod'] . "</lastmod>\n";
+            }
             $xml .= '    <changefreq>' . $u['changefreq'] . "</changefreq>\n";
             $xml .= '    <priority>' . $u['priority'] . "</priority>\n";
             $xml .= "  </url>\n";

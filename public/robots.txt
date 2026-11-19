@@ -1,12 +1,14 @@
 User-agent: *
 Allow: /
 
+# Admin and account pages
 Disallow: /admin
 Disallow: /admin/
 Disallow: /agency
 Disallow: /agency/
 Disallow: /user
 Disallow: /user/
+Disallow: /*/user/
 Disallow: /login
 Disallow: /register
 Disallow: /logout
@@ -23,4 +25,17 @@ Disallow: /currency-switcher
 Disallow: /theme/
 Disallow: /store-blog-comment/
 
-Sitemap: /sitemap.xml
+# Booking steps and search results
+Disallow: /*/tour-booking/search
+Disallow: /*/tour-booking/book/
+Disallow: /*/tour-booking/room-booking-success/
+Disallow: /*/services/*/book
+Disallow: /*/services/booking-confirmation/
+
+# Sorted lists (canonical points to the clean URL)
+Disallow: /*?sort=
+Disallow: /*&sort=
+
+# CSS, JS and images are not blocked
+
+Sitemap: https://gosanatorium.com/sitemap.xml
