@@ -2358,15 +2358,18 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             <div class="row">
                 <div class="col-12">
                     <div class="tg-breadcrumb-list-2">
-                        <ul>
-                            <li><a href="{{ url('/') }}">Главная</a></li>
-                            <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
-                            <li><a href="{{ route('front.tourbooking.services') }}">Услуги</a></li>
-                            <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
-                            <li><a href="{{ route('front.tourbooking.services.show', $service->slug) }}">{{ $service->translation->title }}</a></li>
-                            <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
-                            <li><span>Выберите номер</span></li>
+                        @php $crumbs = \App\Support\Breadcrumbs::forRooms($service); @endphp
+                        <ul aria-label="breadcrumb">
+                            @foreach ($crumbs as $crumb)
+                                @if (! $loop->first)<li><i class="fa-sharp fa-solid fa-angle-right" aria-hidden="true"></i></li>@endif
+                                @if ($crumb['url'])
+                                    <li><a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a></li>
+                                @else
+                                    <li><span aria-current="page">{{ $crumb['name'] }}</span></li>
+                                @endif
+                            @endforeach
                         </ul>
+                        @include('partials.breadcrumb_trail', ['crumbs' => $crumbs])
                     </div>
                 </div>
             </div>

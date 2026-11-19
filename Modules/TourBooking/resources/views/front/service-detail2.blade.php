@@ -52,7 +52,9 @@
     $gstdMainImg = isset($gstdMedia[0]) ? asset($gstdMedia[0]->file_path) : 'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=900&q=80';
 @endphp
 <div class="gstd-wrap"><div class="container">
-<div class="gstd-breadcrumb"><a href="/ru">Главная</a><span>›</span><a href="/ru/hotels">Санатории</a><span>›</span><span>{{ $gstdTitle }}</span></div>
+@php $crumbs = \App\Support\Breadcrumbs::forService($service); @endphp
+<nav class="gstd-breadcrumb" aria-label="breadcrumb">@foreach ($crumbs as $crumb)@if (! $loop->first)<span>›</span>@endif @if ($crumb['url'])<a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a>@else<span aria-current="page">{{ $crumb['name'] }}</span>@endif @endforeach</nav>
+@include('partials.breadcrumb_trail', ['crumbs' => $crumbs])
 <div class="gstd-htop">
 <div><h1 class="gstd-hname">{{ $gstdTitle }}</h1>
 @include('tourbooking::front.services.badges', ['service' => $service, 'limit' => 10])

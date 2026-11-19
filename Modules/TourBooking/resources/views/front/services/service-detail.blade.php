@@ -1948,7 +1948,7 @@
         <div class="hero__content">
             <div class="container">
                 <nav class="hero__breadcrumb" data-aos="fade-up" data-aos-delay="100">
-                    <a href="{{ url('home') }}">Главная</a>
+                    <a href="{{ localize_front_url('/') }}">Главная</a>
                     <i class="fa-solid fa-chevron-right"></i>
                     <a href="{{ route('front.tourbooking.services') }}">Услуги</a>
                     <i class="fa-solid fa-chevron-right"></i>

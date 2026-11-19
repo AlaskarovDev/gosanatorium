@@ -3074,13 +3074,18 @@
 
         <div class="hero__content">
             <div class="container">
-                <nav class="hero__breadcrumb" data-aos="fade-up" data-aos-delay="100">
-                    <a href="{{ url('home') }}">Главная</a>
-                    <i class="fa-solid fa-chevron-right"></i>
-                    <a href="{{ route('front.tourbooking.services') }}">Услуги</a>
-                    <i class="fa-solid fa-chevron-right"></i>
-                    <span>{{ $service?->translation?->title }}</span>
+                @php $crumbs = \App\Support\Breadcrumbs::forService($service); @endphp
+                <nav class="hero__breadcrumb" aria-label="breadcrumb" data-aos="fade-up" data-aos-delay="100">
+                    @foreach ($crumbs as $crumb)
+                        @if (! $loop->first)<i class="fa-solid fa-chevron-right" aria-hidden="true"></i>@endif
+                        @if ($crumb['url'])
+                            <a href="{{ $crumb['url'] }}">{{ $crumb['name'] }}</a>
+                        @else
+                            <span aria-current="page">{{ $crumb['name'] }}</span>
+                        @endif
+                    @endforeach
                 </nav>
+                @include('partials.breadcrumb_trail', ['crumbs' => $crumbs])
 
                 <h1 class="hero__title" data-aos="fade-up" data-aos-delay="200">
                     {{ $service?->translation?->title }}
