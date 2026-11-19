@@ -4,15 +4,7 @@
     <title>{{ $seo_setting->seo_title }}</title>
     <meta name="title" content="{{ $seo_setting->seo_title }}" />
     <meta name="description" content="Статьи о санаторно-курортном лечении, Нафталане и Грузии. Советы по выбору санатория, подготовке к лечению и здоровому образу жизни." />
-    {{-- noindex silindi (istifadəçi istəyi ilə). Canonical saxlanılır ki, search/filter
-         səhifələri əsas /blogs-a yönəlsin. --}}
-    @if (request()->filled('search') || request()->filled('category'))
-        <link rel="canonical" href="{{ route('blogs') }}" />
-    @elseif(request()->has('page') && request()->page > 1)
-        <link rel="canonical" href="{{ route('blogs') }}?page={{ (int) request()->page }}" />
-    @else
-        <link rel="canonical" href="{{ route('blogs') }}" />
-    @endif
+    {{-- Task 15: canonical is printed once by partials.canonical / SEOMeta --}}
 @endsection
 
 @section('front-content')

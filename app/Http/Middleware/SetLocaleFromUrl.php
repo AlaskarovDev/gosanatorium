@@ -21,6 +21,23 @@ class SetLocaleFromUrl
 
         $path = $request->getPathInfo();
 
+        // Task 15: one URL format — non-www host and no trailing slash, each with a single 301.
+        if (in_array($request->getMethod(), ['GET', 'HEAD'], true)) {
+            $host = $request->getHost();
+            $isWww = stripos($host, 'www.') === 0;
+            $hasSlash = $path !== '/' && substr($path, -1) === '/';
+            if ($isWww || $hasSlash) {
+                $cleanHost = $isWww ? substr($host, 4) : $host;
+                $cleanPath = $hasSlash ? (rtrim($path, '/') ?: '/') : $path;
+                if ($cleanPath === '/') {
+                    $cleanPath = '/ru'; // home is /ru — avoid a second hop
+                }
+                $qs = $request->server->get('QUERY_STRING', '');
+
+                return redirect()->away('https://' . $cleanHost . $cleanPath . ($qs !== '' ? '?' . $qs : ''), 301);
+            }
+        }
+
         // Admin/agency dil prefiksiz qalır: /az/admin → /admin
         if (preg_match('#^/(' . $pattern . ')/(admin|agency)(/|$)#', $path)) {
             $stripped = preg_replace('#^/(' . $pattern . ')#', '', $path);
