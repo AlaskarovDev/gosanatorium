@@ -456,7 +456,7 @@ if (!function_exists('render_menu_item')) {
         // Menu titles are shared by all languages; the FAQ item is stored as "Faq".
         if (strcasecmp(trim($itemTitle), 'faq') === 0
             && (request()->attributes->get('display_lang') ?: app()->getLocale()) === 'ru') {
-            $itemTitle = 'Вопросы и ответы';
+            $itemTitle = 'Вопросы'; // short: the header row has no room for «Вопросы и ответы»
         }
         $title = $args['link_before'] . $itemTitle . $args['link_after'];
         $item_output .= $args['before'] . '<a' . $attributes . '>';
