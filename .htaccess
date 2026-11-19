@@ -7,8 +7,10 @@
 
 RewriteRule ^update - [L]
 
-    # Permanent redirect of duplicated language prefix: /ru/ru/xxx -> /ru/xxx
+    # Permanent redirect of duplicated language prefix: /ru/ru/xxx -> /ru/xxx (same for az, en)
     RewriteRule ^ru/ru(/.*)?$ /ru$1 [L,R=301]
+    RewriteRule ^az/az(/.*)?$ /az$1 [L,R=301]
+    RewriteRule ^en/en(/.*)?$ /en$1 [L,R=301]
 
 
 
