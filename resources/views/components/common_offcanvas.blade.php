@@ -9,15 +9,15 @@
         </div>
         <div class="offCanvas__side-info mb-30">
             <div class="contact-list mb-30">
-                <h4>{{ __('translate.Office Address') }}</h4>
+                <p class="contact-list__label">{{ __('translate.Office Address') }}</p>
                 <p>{{ $footer->address }}</p>
             </div>
             <div class="contact-list mb-30">
-                <h4>{{ __('translate.Phone Number') }}</h4>
+                <p class="contact-list__label">{{ __('translate.Phone Number') }}</p>
                 <p>{{ $footer->phone }}</p>
             </div>
             <div class="contact-list mb-30">
-                <h4>{{ __('translate.Email Address') }}</h4>
+                <p class="contact-list__label">{{ __('translate.Email Address') }}</p>
                 <p>{{ $footer->email }}</p>
             </div>
         </div>

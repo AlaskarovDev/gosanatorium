@@ -37,7 +37,12 @@ final class Destination extends Model
         'meta_description',
         'user_id',
         'svg_image',
-        'tags'
+        'tags',
+        'h1',
+        'intro_text',
+        'seo_text',
+        'faq',
+        'hero_image',
     ];
 
     /**
@@ -50,7 +55,27 @@ final class Destination extends Model
         'is_featured' => 'boolean',
         'show_on_homepage' => 'boolean',
         'ordering' => 'integer',
+        'faq' => 'array',
     ];
+
+    /**
+     * FAQ items that have both a question and an answer.
+     *
+     * @return array<int, array{q: string, a: string}>
+     */
+    public function faqItems(): array
+    {
+        $items = [];
+        foreach ((array) ($this->faq ?? []) as $row) {
+            $q = trim((string) ($row['q'] ?? ''));
+            $a = trim((string) ($row['a'] ?? ''));
+            if ($q !== '' && $a !== '') {
+                $items[] = ['q' => $q, 'a' => $a];
+            }
+        }
+
+        return $items;
+    }
 
     /**
      * Get services for this destination.
