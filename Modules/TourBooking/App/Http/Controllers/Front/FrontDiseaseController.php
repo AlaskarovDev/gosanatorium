@@ -6,6 +6,7 @@ namespace Modules\TourBooking\App\Http\Controllers\Front;
 
 use App\Http\Controllers\Controller;
 use App\Traits\UsesSeoMeta;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Modules\TourBooking\App\Models\Service;
@@ -27,8 +28,25 @@ final class FrontDiseaseController extends Controller
         return view('tourbooking::front.diseases.index', compact('diseases'));
     }
 
-    public function show(string $slug): View
+    /** /napravleniya-lecheniya: all treatment directions with a short text. */
+    public function directions(): View
     {
+        $diseases = Disease::active()->ordered()->get();
+
+        $this->applySeo('treatment-directions', [
+            'title'       => 'Направления лечения в санаториях Азербайджана и Грузии',
+            'description' => 'Направления лечения: суставы, кожа, неврология, гинекология, урология, ЖКТ, диабет и другие. Выберите направление и подберите санаторий.',
+        ]);
+
+        return view('tourbooking::front.diseases.directions', compact('diseases'));
+    }
+
+    public function show(string $slug): View|RedirectResponse
+    {
+        if (isset(Disease::LEGACY_SLUGS[$slug])) {
+            return redirect(url('/bolezni/' . Disease::LEGACY_SLUGS[$slug]), 301);
+        }
+
         $disease = Disease::active()->where('slug', $slug)->firstOrFail();
 
         $services = $disease->sanatoriums()
@@ -40,29 +58,23 @@ final class FrontDiseaseController extends Controller
         return view('tourbooking::front.diseases.show', compact('disease', 'services'));
     }
 
-    /** Short filter codes used in the search widget => disease slugs in the database. */
-    private const DISEASE_CODES = [
-        'joints' => 'sustavy',
-        'skin'   => 'psoriaz',
-        'neuro'  => 'nevrologiya',
-        'gyneco' => 'urologiya',
-        'gastro' => 'zhkt',
-        'endo'   => 'diabet',
-    ];
-
     /**
      * All sanatoriums (/ru/sanatoriyi), optionally filtered by
-     * ?disease=joints|skin|neuro|gyneco|gastro|endo (or a disease slug), ?budget_min / ?budget_max (USD),
+     * ?disease={slug} (old codes joints/skin/gyneco/psoriaz… are 301-redirected), ?budget_min / ?budget_max (USD),
      * ?nights=7|10|14|21|other, ?destination_id.
      */
-    public function sanatoriums(Request $request): View
+    public function sanatoriums(Request $request): View|RedirectResponse
     {
         $slug = trim((string) $request->query('disease', ''));
         if ($slug === 'all') {
             $slug = '';
         }
-        $dbSlug = self::DISEASE_CODES[$slug] ?? $slug;
-        $disease = $dbSlug !== '' ? Disease::active()->where('slug', $dbSlug)->first() : null;
+        if (isset(Disease::LEGACY_SLUGS[$slug])) {
+            $query = array_merge($request->query(), ['disease' => Disease::LEGACY_SLUGS[$slug]]);
+
+            return redirect(url('/sanatoriyi') . '?' . http_build_query($query), 301);
+        }
+        $disease = $slug !== '' ? Disease::active()->where('slug', $slug)->first() : null;
 
         $budgetMin = $request->query('budget_min');
         $budgetMax = $request->query('budget_max');
@@ -132,7 +144,7 @@ final class FrontDiseaseController extends Controller
         $services = $query->latest('services.created_at')->paginate(200)->withQueryString();
 
         $this->applySeo('sanatoriums', [
-            'title'       => $disease ? $disease->name . ' — санатории' : 'Все санатории',
+            'title'       => $disease ? $disease->h1 : 'Все санатории',
             'description' => 'Каталог санаториев Нафталана и Грузии: цены, лечение, отзывы.',
         ]);
 

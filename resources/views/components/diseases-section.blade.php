@@ -1,42 +1,43 @@
 @php
     $isRu = app()->getLocale() === 'ru';
     $base = ($isRu ? '/ru' : '/en') . '/sanatoriyi';
+    $dirUrl = ($isRu ? '/ru' : '/en') . '/napravleniya-lecheniya';
     $stroke = 'fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"';
     $diseaseCards = [
         [
             'name' => $isRu ? 'Суставы и опорно-двигательный аппарат' : 'Joints & Musculoskeletal System',
             'sub' => $isRu ? 'Артрит, артроз, остеохондроз, подагра' : 'Arthritis, arthrosis, osteochondrosis, gout',
-            'key' => 'joints',
+            'key' => 'sustavy',
             'svg' => '<circle cx="7" cy="6" r="2.5"/><circle cx="17" cy="18" r="2.5"/><path d="M8.8 7.8l6.4 8.4"/><path d="M4 3.5l-1 1M10 3l1 1M20 20.5l1-1M14 21l-1-1"/>',
         ],
         [
             'name' => $isRu ? 'Кожные заболевания (псориаз, экзема)' : 'Skin Diseases (psoriasis, eczema)',
             'sub' => $isRu ? 'Псориаз, экзема, нейродермит' : 'Psoriasis, eczema, neurodermatitis',
-            'key' => 'skin',
+            'key' => 'kozha',
             'svg' => '<path d="M12 3c3.5 4.5 6 7.5 6 11a6 6 0 0 1-12 0c0-3.5 2.5-6.5 6-11z"/><path d="M9.5 14.5a2.5 2.5 0 0 0 2.5 2.5"/>',
         ],
         [
             'name' => $isRu ? 'Неврология' : 'Neurology',
             'sub' => $isRu ? 'Межпозвоночные грыжи, радикулит, невриты' : 'Spinal hernias, radiculitis, neuritis',
-            'key' => 'neuro',
+            'key' => 'nevrologiya',
             'svg' => '<path d="M9.5 4A3.5 3.5 0 0 0 6 7.5v.3A3.2 3.2 0 0 0 4 10.8c0 1 .4 1.8 1 2.4A3.3 3.3 0 0 0 6 18a3.5 3.5 0 0 0 6 1V5.5A2.5 2.5 0 0 0 9.5 4z"/><path d="M14.5 4A3.5 3.5 0 0 1 18 7.5v.3a3.2 3.2 0 0 1 2 3c0 1-.4 1.8-1 2.4A3.3 3.3 0 0 1 18 18a3.5 3.5 0 0 1-6 1"/><path d="M12 9h-2M12 14h2"/>',
         ],
         [
             'name' => $isRu ? 'Гинекология' : 'Gynecology',
             'sub' => $isRu ? 'Нарушения цикла, воспалительные заболевания' : 'Cycle disorders, inflammatory diseases',
-            'key' => 'gyneco',
+            'key' => 'ginekologiya',
             'svg' => '<circle cx="12" cy="8" r="4.5"/><path d="M12 12.5V21M9 17.5h6"/>',
         ],
         [
             'name' => $isRu ? 'Заболевания ЖКТ' : 'Digestive Diseases',
             'sub' => $isRu ? 'Гастрит, колит, заболевания печени' : 'Gastritis, colitis, liver diseases',
-            'key' => 'gastro',
+            'key' => 'zhkt',
             'svg' => '<path d="M8 3v5a4 4 0 0 0 4 4h1a3.5 3.5 0 0 1 0 7h-3"/><path d="M8 3h5a3 3 0 0 1 0 6"/><circle cx="7" cy="19" r="2"/>',
         ],
         [
-            'name' => $isRu ? 'Другие заболевания' : 'Other Diseases',
-            'sub' => $isRu ? 'Сердце, дыхание, эндокринология, реабилитация' : 'Heart, respiratory, endocrine, rehabilitation',
-            'key' => 'all',
+            'name' => $isRu ? 'Все направления лечения' : 'All treatment directions',
+            'sub' => $isRu ? 'Урология, диабет, сердце, дыхание и другие' : 'Urology, diabetes, heart, respiratory and more',
+            'key' => '',
             'svg' => '<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><path d="M12 8v8M8 12h8"/>',
         ],
     ];
@@ -63,7 +64,7 @@
         <h2 class="home-diseases-title">{{ $isRu ? 'Найти по заболеванию' : 'Find by Condition' }}</h2>
         <div class="home-diseases-grid">
             @foreach ($diseaseCards as $card)
-                <a href="{{ $base }}?disease={{ $card['key'] }}" class="home-dc-card">
+                <a href="{{ $card['key'] !== '' ? $base . '?disease=' . $card['key'] : $dirUrl }}" class="home-dc-card">
                     <span class="home-dc-icon"><svg viewBox="0 0 24 24" {!! $stroke !!} aria-hidden="true">{!! $card['svg'] !!}</svg></span>
                     <h3 class="home-dc-name">{{ $card['name'] }}</h3>
                     <p class="home-dc-sub">{{ $card['sub'] }}</p>

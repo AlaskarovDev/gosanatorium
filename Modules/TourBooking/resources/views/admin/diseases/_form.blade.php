@@ -17,6 +17,16 @@
     @foreach (['ru' => 'RU', 'az' => 'AZ', 'en' => 'EN'] as $code => $label)
         <div class="col-12 col-md-4">
             <div class="crancy__item-form--group mg-top-form-20">
+                <label class="crancy__item-label">H1 ({{ $label }})</label>
+                <input class="crancy__item-input" type="text" name="h1_{{ $code }}" value="{{ old('h1_' . $code, $disease?->{'h1_' . $code}) }}" maxlength="255" placeholder="{{ $code === 'ru' ? 'Санатории для лечения суставов' : '' }}">
+                @error('h1_' . $code) <span class="text-danger">{{ $message }}</span> @enderror
+            </div>
+        </div>
+    @endforeach
+
+    @foreach (['ru' => 'RU', 'az' => 'AZ', 'en' => 'EN'] as $code => $label)
+        <div class="col-12 col-md-4">
+            <div class="crancy__item-form--group mg-top-form-20">
                 <label class="crancy__item-label">{{ __('translate.Description') }} ({{ $label }})</label>
                 <textarea class="crancy__item-input crancy__item-textarea" name="description_{{ $code }}" rows="4" maxlength="5000">{{ old('description_' . $code, $disease?->{'description_' . $code}) }}</textarea>
                 @error('description_' . $code) <span class="text-danger">{{ $message }}</span> @enderror

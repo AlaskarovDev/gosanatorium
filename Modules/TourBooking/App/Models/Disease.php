@@ -15,6 +15,9 @@ final class Disease extends Model
         'name_ru',
         'name_az',
         'name_en',
+        'h1_ru',
+        'h1_az',
+        'h1_en',
         'image',
         'description_ru',
         'description_az',
@@ -75,6 +78,31 @@ final class Disease extends Model
     public function getNameAttribute(): string
     {
         return (string) $this->localized('name');
+    }
+
+    /** Main slugs of the treatment directions (menu, homepage cards, /napravleniya-lecheniya). */
+    public const MAIN_SLUGS = ['sustavy', 'kozha', 'nevrologiya', 'ginekologiya', 'urologiya', 'zhkt', 'diabet'];
+
+    /** Old filter values => current slugs (301-redirected). */
+    public const LEGACY_SLUGS = [
+        'joints' => 'sustavy',
+        'skin' => 'kozha',
+        'psoriaz' => 'kozha',
+        'gyneco' => 'ginekologiya',
+        'neuro' => 'nevrologiya',
+        'gastro' => 'zhkt',
+        'endo' => 'diabet',
+    ];
+
+    /** H1 of the filtered sanatorium list, e.g. «Санатории для лечения суставов». */
+    public function getH1Attribute(): string
+    {
+        $h1 = $this->localized('h1');
+        if (filled($h1)) {
+            return (string) $h1;
+        }
+
+        return (self::pageLang() === 'ru' ? 'Санатории: ' : (self::pageLang() === 'az' ? 'Sanatoriyalar: ' : 'Sanatoriums: ')) . $this->name;
     }
 
     public function getDescriptionAttribute(): ?string

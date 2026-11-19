@@ -1,7 +1,7 @@
 @extends('layout_inner_page')
 
 @section('title')
-    <title>{{ $disease->name }} | Санатории</title>
+    <title>{{ $disease->h1 }}</title>
     <meta name="title" content="{{ $disease->name }}">
     <meta name="description" content="{{ \Illuminate\Support\Str::limit(strip_tags($disease->description ?? $disease->name), 160) }}">
 @endsection
@@ -39,7 +39,7 @@
                 <a href="{{ route('diseases.index') }}">{{ \Modules\TourBooking\App\Models\Disease::t('Sanatoriums by Treatment Profile') }}</a>
                 <span> / {{ $disease->name }}</span>
             </div>
-            <h1>{{ $disease->name }}</h1>
+            <h1>{{ $disease->h1 }}</h1>
             @if ($disease->description)
                 <p>{{ \Illuminate\Support\Str::limit(strip_tags($disease->description), 400) }}</p>
             @endif

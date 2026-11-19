@@ -375,6 +375,7 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/sravnenie', [\Modules\TourBooking\App\Http\Controllers\Front\FrontCompareController::class, 'index'])->name('sanatoriums.compare');
     Route::get('/bolezni', [FrontDiseaseController::class, 'index'])->name('diseases.index.alias');
     Route::get('/napravleniya', [FrontDiseaseController::class, 'index'])->name('diseases.index.napravleniya');
+    Route::get('/napravleniya-lecheniya', [FrontDiseaseController::class, 'directions'])->name('diseases.directions');
     Route::get('/bolezni/{slug}', [FrontDiseaseController::class, 'show'])->name('diseases.show.alias');
 });
 
