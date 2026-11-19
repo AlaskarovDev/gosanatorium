@@ -12,6 +12,17 @@
 @endsection
 
 @push('style_section')
+    {{-- Task 14: Hotel + FAQPage JSON-LD (from the database) --}}
+    @php
+        $sdReviews = isset($paginatedReviews) ? $paginatedReviews->getCollection() : collect();
+        $sdHotel = \App\Support\StructuredData::hotel($service, $sdReviews, $avgRating ? (float) $avgRating : null, $amenities ?? [], isset($paginatedReviews) ? $paginatedReviews->total() : null);
+        $sdFaqQ = $service->itineraries->filter(fn ($it) => str_ends_with(trim((string) $it?->title), '?'));
+        $sdFaq = ($sdFaqQ->count() > 0 && $sdFaqQ->count() * 2 >= $service->itineraries->count())
+            ? \App\Support\StructuredData::faq($service->itineraries->map(fn ($it) => ['q' => $it->title, 'a' => $it->description])->all())
+            : null;
+    @endphp
+    {!! \App\Support\StructuredData::script($sdHotel) !!}
+    {!! \App\Support\StructuredData::script($sdFaq) !!}
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">

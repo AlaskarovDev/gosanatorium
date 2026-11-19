@@ -21,6 +21,7 @@
 
     <!-- Site Title -->
     @include('partials.seo_head')
+    @include('partials.schema_localbusiness')
 
     <!-- Müasir Font -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

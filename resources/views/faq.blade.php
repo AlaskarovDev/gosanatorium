@@ -76,6 +76,7 @@
 <div class="gsfaq-stats"><div class="gsfaq-stat"><div class="gsfaq-stat-num">30+</div><div class="gsfaq-stat-lbl">Ответов</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">{{ company_fact('partners_count') }}</div><div class="gsfaq-stat-lbl">Санаториев</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">{{ company_fact('working_hours') }}</div><div class="gsfaq-stat-lbl">Поддержка</div></div></div>
 </div></div></section>
 
+@php ob_start(); @endphp
 <section class="gsfaq-main"><div class="container"><div class="gsfaq-layout">
 <div class="gsfaq-sidebar"><div class="gsfaq-cat-list">
 <button class="gsfaq-cat-btn active" onclick="gsfaqCat('all',this)"><span class="gsfaq-cat-icon">📋</span><span class="gsfaq-cat-text">Все вопросы</span><span class="gsfaq-cat-count">30</span></button>
@@ -149,6 +150,9 @@
 </div></div>
 
 </div></div></div></section>
+@php $gsfaqHtml = ob_get_clean(); echo $gsfaqHtml; @endphp
+{{-- Task 14: FAQPage JSON-LD from the questions shown on this page --}}
+{!! \App\Support\StructuredData::script(\App\Support\StructuredData::faq(\App\Support\StructuredData::faqFromHtml($gsfaqHtml, 'gsfaq-qtext', 'gsfaq-ans'))) !!}
 
 <section class="gsfaq-cta"><div class="container"><div class="gsfaq-cta-inner">
 <h2 class="gsfaq-cta-title">Не нашли ответ на свой вопрос?</h2>
