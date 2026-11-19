@@ -11,32 +11,8 @@
 @endsection
 
 @push('style_section')
-@php
-    $ldTitle = $service?->translation?->title ?? $service->title ?? '';
-    $ldDesc = \Illuminate\Support\Str::limit(trim(strip_tags((string) ($service?->translation?->short_description ?: $service?->translation?->description ?: ''))), 300);
-    $ldThumb = $service->media->where('is_thumbnail', 1)->first() ?? $service->media->first();
-    $ldSchema = [
-        '@context' => 'https://schema.org',
-        '@type' => 'LodgingBusiness',
-        'name' => $ldTitle,
-        'description' => $ldDesc,
-        'url' => url()->current(),
-        'address' => [
-            '@type' => 'PostalAddress',
-            'addressLocality' => (string) ($service->location ?: ($service->destination?->name ?? '')),
-        ],
-        'priceRange' => '$$',
-    ];
-    if ($ldThumb) { $ldSchema['image'] = asset($ldThumb->file_path); }
-    $ldCountry = $service->destination?->country ?? null;
-    if (is_string($ldCountry) && $ldCountry !== '') { $ldSchema['address']['addressCountry'] = $ldCountry; }
-    $ldCount = (int) ($service->active_reviews_count ?? 0);
-    $ldRating = round((float) ($service->active_reviews_avg_rating ?? 0), 1);
-    if ($ldCount > 0 && $ldRating > 0) {
-        $ldSchema['aggregateRating'] = ['@type' => 'AggregateRating', 'ratingValue' => (string) $ldRating, 'reviewCount' => (string) $ldCount];
-    }
-@endphp
-<script type="application/ld+json">{!! json_encode($ldSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
+{{-- Task 14: Hotel JSON-LD from the database --}}
+{!! \App\Support\StructuredData::script(\App\Support\StructuredData::hotel($service, isset($paginatedReviews) ? $paginatedReviews->getCollection() : collect(), ($avgRating ?? null) ? (float) $avgRating : null, $amenities ?? [], isset($paginatedReviews) ? $paginatedReviews->total() : null)) !!}
 @endpush
 
 @section('front-content')

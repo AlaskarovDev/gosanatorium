@@ -11,7 +11,7 @@
             '@type' => 'ListItem',
             'position' => $i + 1,
             'name' => $c['name'],
-            'item' => $c['url'] ? url($c['url']) : url()->current(),
+            'item' => \App\Support\StructuredData::abs($c['url'] ?: null),
         ]))->all(),
     ], JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>
 @endif

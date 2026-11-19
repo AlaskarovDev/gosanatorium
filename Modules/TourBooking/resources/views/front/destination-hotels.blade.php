@@ -215,8 +215,8 @@
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
             'itemListElement' => [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Главная', 'item' => url(localize_front_url('/'))],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Санатории', 'item' => url($sanatoriyiUrl)],
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Главная', 'item' => \App\Support\StructuredData::abs(localize_front_url('/'))],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'Санатории', 'item' => \App\Support\StructuredData::abs($sanatoriyiUrl)],
                 ['@type' => 'ListItem', 'position' => 3, 'name' => $listing->city(), 'item' => $pageUrl],
             ],
         ], [

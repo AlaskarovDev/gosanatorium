@@ -80,4 +80,18 @@
             @endif
         </div>
     </section>
+
+    {{-- Task 14: ItemList + BreadcrumbList JSON-LD --}}
+    @php
+        $sdCrumbs = [\App\Support\Breadcrumbs::home()];
+        if ($disease) {
+            $sdCrumbs[] = ['name' => 'Направления лечения', 'url' => localize_front_url('/napravleniya-lecheniya')];
+            $sdCrumbs[] = ['name' => (string) $disease->name, 'url' => null];
+        } else {
+            $sdCrumbs[] = ['name' => 'Санатории', 'url' => null];
+        }
+        $sdOffset = method_exists($services, 'firstItem') ? ($services->firstItem() ?? 1) : 1;
+    @endphp
+    @include('partials.breadcrumb_trail', ['crumbs' => $sdCrumbs])
+    {!! \App\Support\StructuredData::script(\App\Support\StructuredData::itemList($disease ? (string) $disease->name : 'Санатории', method_exists($services, 'getCollection') ? $services->getCollection() : $services, $sdOffset)) !!}
 @endsection
