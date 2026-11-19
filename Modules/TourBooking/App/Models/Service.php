@@ -103,6 +103,7 @@ final class Service extends Model
         'child_min_age',
         'child_discount',
         'meal_plan',
+        'price_basis',
         'min_stay_nights',
     ];
 

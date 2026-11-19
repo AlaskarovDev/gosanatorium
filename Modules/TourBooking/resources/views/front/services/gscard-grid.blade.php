@@ -5,10 +5,7 @@
                     $gsUrl = route('front.tourbooking.services.show', ['slug' => $service?->slug]);
                     $gsCount = (int) ($service?->active_reviews_count ?? 0);
                     $gsRating = (float) ($service?->active_reviews_avg_rating ?? 0);
-                    $gsRaw = $service->gs_from_price
-                        ?? ($service->is_per_person
-                            ? $service->price_per_person
-                            : ($service->discount_price ?: $service->full_price));
+                    $gsRaw = \Modules\TourBooking\App\Services\FromPrice::for($service);
                 @endphp
                 <div class="gscard-item type-{{ $service->service_type_id }}">
                     <div class="gscard-card">
@@ -58,7 +55,7 @@
                             <div class="gscard-footer">
                                 <div class="gscard-price-wrap">
                                     <div class="gscard-price">{{ app()->getLocale() === 'ru' ? 'от' : 'from' }} {!! currency_span($gsRaw) !!}</div>
-                                    <div class="gscard-per">{{ app()->getLocale() === 'ru' ? 'за ночь' : 'per night' }}</div>
+                                    <div class="gscard-per">{{ \Modules\TourBooking\App\Services\FromPrice::shortLabel($service) }}</div>
                                 </div>
                                 @if (!empty($gsRoomCta))
                                     <a class="gscard-cta" href="{{ route('front.tourbooking.rooms.selection', $service->slug) }}">{{ app()->getLocale() === 'ru' ? 'Выбрать номер' : 'Choose a room' }} &rarr;</a>

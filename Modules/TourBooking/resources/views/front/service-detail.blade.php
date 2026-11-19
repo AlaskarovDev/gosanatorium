@@ -3,7 +3,7 @@
 @section('title')
     <title>{{ $service?->translation?->title }} | Услуги</title>
     <meta name="title" content="{{ $service?->translation?->title }}">
-    <meta name="description" content="{{ Str::limit(strip_tags($service?->translation?->short_description), 160) }}">
+    <meta name="description" content="{{ Str::limit(strip_tags(\Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->short_description, $service)), 160) }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 @endsection
 
@@ -1923,7 +1923,8 @@
             letter-spacing: 0.3px;
         }
 
-        .room-select-btn__price-unit { font-size: 13px; font-weight: 500; color: var(--text-muted); }
+        .room-select-btn__price-unit { display: block; font-size: 12px; font-weight: 500; color: var(--text-muted); letter-spacing: 0; line-height: 1.3; }
+        .feature-card--price .feature-card__note { color: rgba(255,255,255,.9); font-size: 12px; font-weight: 500; line-height: 1.3; margin-top: 2px; }
 
         .room-select-btn__arrow {
             width: 46px;
@@ -3260,12 +3261,9 @@
                     <div class="feature-card__content">
                         <div class="feature-card__label">От</div>
                         <div class="feature-card__value">
-                            @if($service?->is_per_person)
-                                {!! currency_span($service->current_price_per_person ?? $service?->price_per_person) !!}
-                            @else
-                                {!! currency_span($service->current_price ?? $service->discount_price ?? $service->full_price) !!}
-                            @endif
+                            {!! currency_span(\Modules\TourBooking\App\Services\FromPrice::for($service)) !!}
                         </div>
+                        <div class="feature-card__note">{{ \Modules\TourBooking\App\Services\FromPrice::label($service) }}</div>
                     </div>
                 </div>
             </div>
@@ -3284,7 +3282,7 @@
                         <div class="card__icon"><i class="fa-regular fa-compass"></i></div>
                         <h3 class="card__title">О туре</h3>
                         <div class="card__text">
-                            {!! $service?->translation?->short_description !!}
+                            {!! \Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->short_description, $service) !!}
                         </div>
                     </div>
 
@@ -3294,7 +3292,7 @@
                             <div class="card__icon"><i class="fa-regular fa-file-lines"></i></div>
                             <h3 class="card__title">Описание</h3>
                             <div class="card__text">
-                                {!! $service?->translation?->description !!}
+                                {!! \Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->description, $service) !!}
                             </div>
                         </div>
                     @endif
@@ -3536,12 +3534,8 @@
                                     <div class="room-select-btn__price-area">
                                         <span class="room-select-btn__price-label">От</span>
                                         <span class="room-select-btn__price-value">
-                                            @if($service?->is_per_person)
-                                                {!! currency_span($service->current_price_per_person ?? $service?->price_per_person) !!}
-                                            @else
-                                                {!! currency_span($service->current_price ?? $service->discount_price ?? $service->full_price) !!}
-                                            @endif
-                                            <span class="room-select-btn__price-unit">/ ночь</span>
+                                            {!! currency_span(\Modules\TourBooking\App\Services\FromPrice::for($service)) !!}
+                                            <span class="room-select-btn__price-unit">{{ \Modules\TourBooking\App\Services\FromPrice::label($service) }}</span>
                                         </span>
                                     </div>
                                     <div class="room-select-btn__arrow">
@@ -3562,11 +3556,8 @@
                                     <div class="room-select-btn__price-area">
                                         <span class="room-select-btn__price-label">От</span>
                                         <span class="room-select-btn__price-value">
-                                            @if($service?->is_per_person)
-                                                {!! currency_span($service->current_price_per_person ?? $service?->price_per_person) !!}
-                                            @else
-                                                {!! currency_span($service->current_price ?? $service->discount_price ?? $service->full_price) !!}
-                                            @endif
+                                            {!! currency_span(\Modules\TourBooking\App\Services\FromPrice::for($service)) !!}
+                                            <span class="room-select-btn__price-unit">{{ \Modules\TourBooking\App\Services\FromPrice::label($service) }}</span>
                                         </span>
                                     </div>
                                     <div class="room-select-btn__arrow">

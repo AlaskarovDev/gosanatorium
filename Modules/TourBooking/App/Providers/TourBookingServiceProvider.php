@@ -22,6 +22,23 @@ class TourBookingServiceProvider extends ServiceProvider
         $this->registerConfig();
         $this->registerViews();
         $this->loadMigrationsFrom(module_path($this->moduleName, 'Database/migrations'));
+        $this->registerFromPriceRefresh();
+    }
+
+    /** Task 10: recalculate the «от» price whenever a room, price, season or sanatorium changes. */
+    protected function registerFromPriceRefresh(): void
+    {
+        $flush = static fn () => \Modules\TourBooking\App\Services\FromPrice::flush();
+        foreach ([
+            \Modules\TourBooking\App\Models\Service::class,
+            \Modules\TourBooking\App\Models\ServiceRoom::class,
+            \Modules\TourBooking\App\Models\RoomOccupancyPrice::class,
+            \Modules\TourBooking\App\Models\Season::class,
+            \Modules\TourBooking\App\Models\SeasonPrice::class,
+        ] as $model) {
+            $model::saved($flush);
+            $model::deleted($flush);
+        }
     }
 
     /**

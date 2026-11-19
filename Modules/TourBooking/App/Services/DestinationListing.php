@@ -91,21 +91,9 @@ final class DestinationListing
             ->withAvg('activeReviews', 'rating')
             ->get();
 
-        // Cheapest active room per sanatorium (room discount price if set), one query.
-        $roomMin = \Modules\TourBooking\App\Models\ServiceRoom::query()
-            ->whereIn('service_id', $services->pluck('id'))
-            ->where('status', true)
-            ->selectRaw('service_id, MIN(COALESCE(NULLIF(discount_price, 0), price_per_night)) as min_price')
-            ->groupBy('service_id')
-            ->pluck('min_price', 'service_id');
-
+        // «от» price: one calculation for the whole site (Task 10).
         foreach ($services as $service) {
-            $room = $roomMin[$service->id] ?? null;
-            $fallback = $service->is_per_person
-                ? $service->price_per_person
-                : ($service->discount_price ?: $service->full_price);
-            $from = $room !== null && (float) $room > 0 ? (float) $room : (float) $fallback;
-            $service->setAttribute('gs_from_price', $from > 0 ? $from : null);
+            $service->setAttribute('gs_from_price', FromPrice::for($service));
         }
 
         return $services;
