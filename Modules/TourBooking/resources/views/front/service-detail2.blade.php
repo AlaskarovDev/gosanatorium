@@ -32,7 +32,7 @@
     $ldCountry = $service->destination?->country ?? null;
     if (is_string($ldCountry) && $ldCountry !== '') { $ldSchema['address']['addressCountry'] = $ldCountry; }
     $ldCount = (int) ($service->active_reviews_count ?? 0);
-    $ldRating = (float) ($service->rating_general ?? 0);
+    $ldRating = round((float) ($service->active_reviews_avg_rating ?? 0), 1);
     if ($ldCount > 0 && $ldRating > 0) {
         $ldSchema['aggregateRating'] = ['@type' => 'AggregateRating', 'ratingValue' => (string) $ldRating, 'reviewCount' => (string) $ldCount];
     }

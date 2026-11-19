@@ -4,7 +4,9 @@
     $img = $item->image ?: ($svc?->thumbnail?->file_path);
     $img = is_string($img) && $img !== '' ? $img : null;
     $name = $item->sanatorium_name ?: ($svc?->translation?->title);
-    $rating = $svc && (float) $svc->rating_general > 0 ? number_format((float) $svc->rating_general, 1) : null;
+    // Rating only from published reviews (5-point scale)
+    $rvAvg = $svc ? \Modules\TourBooking\App\Models\Review::where('service_id', $svc->id)->where('status', true)->avg('rating') : null;
+    $rating = $rvAvg ? number_format((float) $rvAvg, 1) : null;
     $pct = $item->discount_label;
     $countdown = $ph ? null : $item->countdown_label;
     $sanUrl = !$ph && $svc && $svc->slug ? $item->url : null;

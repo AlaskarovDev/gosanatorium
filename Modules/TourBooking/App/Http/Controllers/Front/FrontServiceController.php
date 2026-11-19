@@ -632,8 +632,10 @@ final class FrontServiceController extends Controller
             if (!is_array($attributes)) continue;
 
             foreach ($attributes as $attr) {
-                $category = $attr['category'];
-                $rating = floatval($attr['rating']);
+                $category = $attr['category'] ?? null;
+                $rating = floatval($attr['rating'] ?? 0);
+                // Only sub-scores that were actually entered for the review
+                if (!$category || $rating <= 0) continue;
 
                 if (!isset($categories[$category])) {
                     $categories[$category] = ['total' => 0, 'count' => 0];
@@ -647,7 +649,7 @@ final class FrontServiceController extends Controller
         $averageRatings = collect($categories)->map(function ($data, $category) {
             $avg = $data['total'] / $data['count'];
             return [
-                'category' => $category,
+                'category' => Review::subScoreLabel((string) $category),
                 'average' => round($avg, 1),
                 'percent' => round(($avg / 5) * 100),
             ];
