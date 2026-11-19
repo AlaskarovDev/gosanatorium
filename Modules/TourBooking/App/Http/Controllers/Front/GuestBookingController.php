@@ -70,7 +70,7 @@ final class GuestBookingController extends Controller
         if ($room && (int) $room->service_id === (int) $service->id) {
             // Same calculation as the room selection page: per night by season, for this number of adults
             $room->load(RoomPricing::eagerLoads());
-            $quote = (new RoomPricing())->quote($room, $checkInDate, $checkOutDate, min(4, $adults));
+            $quote = (new RoomPricing())->quote($room, $checkInDate, $checkOutDate, min(4, $adults), $children);
         }
 
         if ($quote) {

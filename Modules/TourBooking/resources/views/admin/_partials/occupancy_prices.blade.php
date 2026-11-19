@@ -1,5 +1,5 @@
 {{--
-    Room price grid: rows = seasons (+ base price outside seasons), columns = 1/2/3/4 adults.
+    Room price grid: rows = seasons (+ base price outside seasons), columns = 1/2/3/4 adults + price of one child.
     Price is per room per night, before the room discount. Empty cell = «Цена по запросу» on the site.
     Vars: $idSuffix ('add' | 'edit'). Values are filled by JS from data-room-occupancy on the edit button.
 --}}
@@ -16,7 +16,7 @@
 @endphp
 <div class="card mt-3 occ-grid-card" id="occGrid-{{ $idSuffix }}">
     <div class="card-header bg-light">
-        <strong>Цены по количеству взрослых</strong>
+        <strong>Цены по количеству взрослых и для детей</strong>
         <small class="text-muted ms-2">цена за номер за ночь, до скидки; пустая ячейка = «Цена по запросу» на сайте</small>
     </div>
     <div class="card-body">
@@ -31,6 +31,7 @@
                             @for($a = 1; $a <= 4; $a++)
                                 <th style="width:120px">{{ $a }} {{ $a === 1 ? 'взрослый' : 'взрослых' }}</th>
                             @endfor
+                            <th style="width:120px">1 ребёнок</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -50,6 +51,13 @@
                                                placeholder="—">
                                     </td>
                                 @endfor
+                                <td>
+                                    <input type="number" step="0.01" min="0" inputmode="decimal"
+                                           class="form-control form-control-sm occ-input occ-input-child"
+                                           name="occupancy_prices[{{ $row['key'] }}][0]"
+                                           data-occ-key="{{ $row['key'] }}" data-occ-adults="0"
+                                           placeholder="—">
+                                </td>
                             </tr>
                         @endforeach
                     </tbody>
@@ -57,7 +65,9 @@
             </div>
             <small class="text-muted d-block">
                 Каждая ночь считается по цене своего сезона. Скидка номера (поле «Цена со скидкой») применяется к этим ценам.
-                Если таблица пустая, используется «Цена за ночь» как цена для 2 взрослых.
+                Если таблица пустая, используется «Цена за ночь» как цена для 2 взрослых.<br>
+                «1 ребёнок» — цена за одного ребёнка за ночь, добавляется к цене взрослых за каждого ребёнка.
+                Если в сезоне пусто, берётся детская цена из строки «Базовая цена»; если пусто и там, стоимость детей уточняет менеджер.
             </small>
         @endunless
     </div>

@@ -279,7 +279,7 @@
                         <div class="current-price rc-total-price">{!! currency_span($rsQuote['total']) !!} <span class="rc-total-for">за {{ $rsQuote['nights'] }} {{ $rsNightsWord($rsQuote['nights']) }}</span></div>
                         <div class="price-note rc-per-night">≈ {!! currency_span($rsQuote['per_night']) !!} за ночь</div>
                         <div class="rc-guests-line"><i class="fa-solid fa-user-group"></i> {{ $rsSearch['adults'] }} {{ $rsAdultsWord($rsSearch['adults']) }}, {{ $rsSearch['children'] }} {{ $rsChildrenWord($rsSearch['children']) }}</div>
-                        @if($rsSearch['children'] > 0)
+                        @if($rsSearch['children'] > 0 && empty($rsQuote['child_priced']))
                             <div class="rc-children-note">Стоимость для детей уточнит менеджер</div>
                         @endif
                     </div>
@@ -348,6 +348,7 @@
                             data-room-price="{{ number_format($rsQuote['per_night'], 2, '.', '') }}"
                             data-quote-total="{{ number_format($rsQuote['total'], 2, '.', '') }}"
                             data-quote-nights="{{ $rsQuote['nights'] }}"
+                            data-quote-child-priced="{{ !empty($rsQuote['child_priced']) ? 1 : 0 }}"
                             data-max-guests="{{ $maxGuests }}"
                             data-extras='{!! $roomExtrasJson !!}'
                             data-room-thumb="{{ $thumbnailUrl ?? '' }}">
