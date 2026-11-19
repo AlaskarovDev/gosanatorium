@@ -19,7 +19,7 @@ use Modules\TourBooking\App\Models\ServiceRoom;
  * and the room search shows them.
  *
  * Price basis (admin, per sanatorium, services.price_basis):
- *  - person: «за ночь с человека» = cheapest price per adult (room price for N adults / N);
+ *  - person: «за ночь с человека» = cheapest double-room price / 2 (1-adult price for single rooms);
  *  - room:   «за номер (2 гостя) за ночь» = cheapest room price for 2 adults (1 for single rooms).
  *
  * Sanatoriums without priced rooms keep the old service price (price_per_person / discount / full).
@@ -141,7 +141,7 @@ final class FromPrice
 
         $compute = fn () => self::compute(Service::query()->where('status', true)->pluck('id')->all());
         try {
-            $key = 'gs_from_price:' . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
+            $key = 'gs_from_price:v2:' . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
 
             return self::$map = Cache::remember($key, now()->addHours(6), $compute);
         } catch (\Throwable) {
@@ -211,10 +211,12 @@ final class FromPrice
                     $candidates[] = (float) $price;
                 }
             } else {
-                foreach ($row as $adults => $price) {
-                    if ((int) $adults >= 1 && (float) $price > 0) {
-                        $candidates[] = (float) $price / (int) $adults;
-                    }
+                // Per person = double-room price / 2 (1-adult price for single rooms). Prices for
+                // 3+ adults are not divided: an extra-bed share is not a price a guest can book.
+                if (isset($row[2]) && (float) $row[2] > 0) {
+                    $candidates[] = (float) $row[2] / 2;
+                } elseif (isset($row[1]) && (float) $row[1] > 0) {
+                    $candidates[] = (float) $row[1];
                 }
             }
             foreach ($candidates as $c) {
@@ -336,7 +338,7 @@ final class FromPrice
         };
 
         try {
-            $key = 'gs_season_block:' . md5($destinationSlugPrefix . json_encode($windows)) . ':'
+            $key = 'gs_season_block:v2:' . md5($destinationSlugPrefix . json_encode($windows)) . ':'
                 . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
 
             return Cache::remember($key, now()->addHours(6), $compute);
