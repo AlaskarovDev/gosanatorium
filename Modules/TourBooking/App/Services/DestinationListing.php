@@ -52,7 +52,8 @@ final class DestinationListing
     /** «Нафталан - Азербайджан» → «Нафталан». */
     public function city(): string
     {
-        $name = (string) ($this->destination->city ?: $this->destination->name);
+        // The «city» column holds theme leftovers (Paris, Rome …), so the name is the source.
+        $name = (string) ($this->destination->name ?: $this->destination->city);
         $parts = preg_split('/\s*[-|–—,]\s*/u', trim($name));
 
         return trim((string) ($parts[0] ?? $name));
