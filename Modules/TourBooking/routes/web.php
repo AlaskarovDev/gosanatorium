@@ -19,6 +19,7 @@ use Modules\TourBooking\App\Http\Controllers\Admin\TransferRouteController;
 use Modules\TourBooking\App\Http\Controllers\Admin\TransferVehicleController;
 use Modules\TourBooking\App\Http\Controllers\Admin\TransferBookingController;
 use Modules\TourBooking\App\Http\Controllers\Admin\SeasonController;
+use Modules\TourBooking\App\Http\Controllers\Admin\DateDiscountController;
 use Modules\TourBooking\App\Http\Controllers\Front\FrontTransferController;
 
 use Modules\TourBooking\App\Http\Controllers\Front\FrontBookingController;
@@ -202,6 +203,12 @@ Route::delete('services/treatment-items/{treatmentItem}', [ServiceController::cl
     Route::get('seasons/calendar-feed', [SeasonController::class, 'calendar'])->name('seasons.calendar');
     Route::post('seasons/check-overlap', [SeasonController::class, 'checkOverlap'])->name('seasons.check-overlap');
     Route::resource('seasons', SeasonController::class)->except(['show']);
+
+    // Date discounts per sanatorium (Скидки по датам)
+    Route::get('date-discounts', [DateDiscountController::class, 'index'])->name('date-discounts.index');
+    Route::post('date-discounts/{service}', [DateDiscountController::class, 'store'])->name('date-discounts.store');
+    Route::put('date-discounts/item/{discount}', [DateDiscountController::class, 'update'])->name('date-discounts.update');
+    Route::delete('date-discounts/item/{discount}', [DateDiscountController::class, 'destroy'])->name('date-discounts.destroy');
 });
 
 
