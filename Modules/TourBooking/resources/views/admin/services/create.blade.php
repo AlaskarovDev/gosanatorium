@@ -918,6 +918,8 @@
                 tinymce.init({
                     selector: '.summernote',
                     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+                    // Task 12: section headings in content — H2 for sections, H3 for sub-sections (H1 is the page name)
+                    block_formats: 'Paragraph=p; Heading 2 (H2)=h2; Heading 3 (H3)=h3; Heading 4 (H4)=h4',
                     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
                     tinycomments_mode: 'embedded',
                     tinycomments_author: 'Author name',

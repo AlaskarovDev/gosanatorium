@@ -1324,3 +1324,12 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
         display: none !important;
     }
 }
+
+/* Task 12: labels that look like headings but are not headings (widgets, sidebars, modals).
+   :where() keeps specificity at 0, so every component class still wins. */
+:where(.gs-h3, .gs-h4, .gs-h5, .gs-h6) { color: var(--tg-common-black); font-weight: 700; line-height: 1.1; margin-top: 0; margin-bottom: .5rem; }
+:where(.gs-h3) { font-size: 24px; }
+:where(.gs-h4) { font-size: 18px; }
+:where(.gs-h5) { font-size: 17px; }
+:where(.gs-h6) { font-size: 16px; }
+h3.gs-h4 { font-size: 18px; }

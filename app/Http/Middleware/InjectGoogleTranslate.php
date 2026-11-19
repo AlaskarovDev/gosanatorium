@@ -184,7 +184,7 @@ JS;
     box-shadow:0 30px 90px rgba(0,0,0,.35); padding:24px 28px;
   }
   #lang_modal .lm-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:18px; }
-  #lang_modal .lm-top h3 { margin:0; font-size:22px; font-weight:700; color:#1d2540; }
+  #lang_modal .lm-top h3, #lang_modal .lm-top .lm-title { margin:0; font-size:22px; font-weight:700; color:#1d2540; }
   #lang_modal_close {
     width:36px; height:36px; border-radius:8px; border:1px solid #e3e7ef; background:#fff;
     font-size:20px; line-height:1; cursor:pointer; color:#4a5670;
@@ -217,7 +217,7 @@ CSS;
 <div id="lang_modal_overlay">
   <div id="lang_modal">
     <div class="lm-top">
-      <h3>Выберите язык</h3>
+      <div class="lm-title">Выберите язык</div>
       <button id="lang_modal_close" type="button" aria-label="Close">&times;</button>
     </div>
     <div class="lm-grid">{$items}</div>

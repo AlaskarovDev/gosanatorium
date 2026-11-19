@@ -1,6 +1,6 @@
 <div class="tg-blog-sidebar top-sticky mb-30">
   <div class="tg-blog-sidebar-search tg-blog-sidebar-box mb-40">
-      <h5 class="tg-blog-sidebar-title mb-15">{{ __('translate.Search') }}</h5>
+      <div class="gs-h5 tg-blog-sidebar-title mb-15">{{ __('translate.Search') }}</div>
       <div class="tg-blog-sidebar-form">
           <form action="{{ route('blogs') }}">
               <input type="text" placeholder="{{ __('translate.Type here . . .') }}"
@@ -25,7 +25,7 @@
       </div>
   </div>
   <div class="tg-blog-categories tg-blog-sidebar-box mb-40">
-      <h5 class="tg-blog-sidebar-title mb-5">{{ __('translate.Categories') }}</h5>
+      <div class="gs-h5 tg-blog-sidebar-title mb-5">{{ __('translate.Categories') }}</div>
       <div class="tg-blog-categories-list">
           <ul>
               @foreach ($blog_categories as $blog_category)
@@ -46,7 +46,7 @@
       </div>
   </div>
   <div class="tg-blog-post tg-blog-sidebar-box mb-40">
-      <h5 class="tg-blog-sidebar-title mb-25">{{ __('translate.Recent Posts') }}</h5>
+      <div class="gs-h5 tg-blog-sidebar-title mb-25">{{ __('translate.Recent Posts') }}</div>
       @foreach ($latest_blogs as $latest_blog)
           <div class="tg-blog-post-item d-flex align-items-center mb-30">
               <div class="tg-blog-post-thumb mr-15">

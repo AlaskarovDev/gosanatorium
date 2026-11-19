@@ -18,9 +18,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="tg-listing-section-title text-center mb-35">
-                    <h5 class="tg-section-subtitle gscard-label wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".5s">
+                    <div class="gs-h5 tg-section-subtitle gscard-label wow fadeInUp" data-wow-delay=".3s" data-wow-duration=".5s">
                         {{ getTranslatedValue($theme1_tour_package, 'sub_title') }}
-                    </h5>
+                    </div>
                     <h2 class="mb-15 gscard-heading wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".6s">
                         {{ app()->getLocale() === 'ru' ? 'Санатории Азербайджана и Грузии' : 'Sanatoriums of Azerbaijan and Georgia' }}
                     </h2>
@@ -112,9 +112,9 @@
                                     <span class="gscard-reviews">{{ app()->getLocale() === 'ru' ? 'Нет отзывов' : 'No reviews' }}</span>
                                 @endif
                             </div>
-                            <h4 class="gscard-title">
+                            <h3 class="gscard-title">
                                 <a href="{{ $gsUrl }}">{{ $service?->translation?->title }}</a>
-                            </h4>
+                            </h3>
                             @if ($gsAddr = gscardAddress($service))
                                 <div class="gscard-address">
                                     <i class="fa-solid fa-location-dot"></i> {{ $gsAddr }}

@@ -5,14 +5,16 @@
     <div class="container">
         <div class="row align-items-end">
             <div class="col-lg-9">
+                @unless ($gsHideHeader ?? false)
                 <div class="tg-location-section-title mb-40">
-                    <h5 class="tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
+                    <div class="gs-h5 tg-section-subtitle mb-15 wow fadeInUp" data-wow-delay=".4s" data-wow-duration=".9s">
                         {{ __('translate.Most Popular Tour Packages') }}
-                    </h5>
+                    </div>
                     <h2 class="mb-15 wow fadeInUp" data-wow-delay=".5s" data-wow-duration=".9s">
                         {{ __('translate.Our Popular Tours') }}
                     </h2>
                 </div>
+                @endunless
             </div>
             <div class="col-lg-3">
                 <div class="tg-location-3-btn text-end wow fadeInUp mb-40" data-wow-delay=".6s" data-wow-duration=".9s">
@@ -87,10 +89,10 @@
                                         </div>
                                     </div>
                                     <div class="tg-listing-card-content p-relative">
-                                        <h4 class="tg-listing-card-title mb-5"><a
+                                        <h3 class="gs-h4 tg-listing-card-title mb-5"><a
                                                 href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
                                                 {{ Str::limit($service?->translation?->title, 45) }}
-                                            </a></h4>
+                                            </a></h3>
 
                                         @if ($service?->location)
                                             <span class="tg-listing-card-duration-map d-inline-block">

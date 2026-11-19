@@ -3284,7 +3284,7 @@
                     {{-- About --}}
                     <div class="card" data-aos="fade-up" id="section-about">
                         <div class="card__icon"><i class="fa-regular fa-compass"></i></div>
-                        <h3 class="card__title">О туре</h3>
+                        <h2 class="card__title">О санатории</h2>
                         <div class="card__text">
                             {!! \Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->short_description, $service) !!}
                         </div>
@@ -3294,7 +3294,7 @@
                     @if($service?->translation?->description)
                         <div class="card" data-aos="fade-up">
                             <div class="card__icon"><i class="fa-regular fa-file-lines"></i></div>
-                            <h3 class="card__title">Описание</h3>
+                            <h2 class="card__title">Описание</h2>
                             <div class="card__text">
                                 {!! \Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->description, $service) !!}
                             </div>
@@ -3309,7 +3309,7 @@
                         @endphp
                        <div class="card" data-aos="fade-up" id="section-treatment">
                             <div class="card__icon"><i class="fa-regular fa-spa"></i></div>
-                            <h3 class="card__title">{{ $treatmentSectionTitle }}</h3>
+                            <h2 class="card__title">{{ $treatmentSectionTitle }}</h2>
 
                             <div class="treatment-gallery">
                                 @foreach($treatmentItems as $item)
@@ -3339,7 +3339,11 @@
                     @if($service?->itineraries && $service?->itineraries->count() > 0)
                         <div class="card" data-aos="fade-up" id="section-itinerary">
                             <div class="card__icon"><i class="fa-regular fa-map"></i></div>
-                            <h3 class="card__title">Программа тура</h3>
+                            @php
+                                $gsItinQ = $service->itineraries->filter(fn ($it) => str_ends_with(trim((string) $it?->title), '?'))->count();
+                                $gsItinIsFaq = $gsItinQ > 0 && $gsItinQ * 2 >= $service->itineraries->count();
+                            @endphp
+                            <h2 class="card__title">{{ $gsItinIsFaq ? 'Частые вопросы' : 'Программа тура' }}</h2>
                             @if($service?->tour_plan_sub_title)
                                 <p class="card__subtitle">{{ $service?->tour_plan_sub_title }}</p>
                             @endif
@@ -3349,7 +3353,7 @@
                                     <div class="itinerary-item @if($loop->first) active @endif">
                                         <div class="itinerary-header" onclick="toggleItinerary(this)">
 <span class="itinerary-day">{{ $itinerary?->day_display }}</span>
-                                            <h4 class="itinerary-title">{{ $itinerary?->title }}</h4>
+                                            <h3 class="itinerary-title">{{ $itinerary?->title }}</h3>
                                             <div class="itinerary-toggle"><i class="fa-solid fa-chevron-down"></i></div>
                                         </div>
                                         <div class="itinerary-body">
@@ -3400,7 +3404,7 @@
                     {{-- Reviews --}}
                     <div class="card" data-aos="fade-up" id="section-reviews" x-data="reviewForm()">
                         <div class="card__icon"><i class="fa-regular fa-star"></i></div>
-                        <h3 class="card__title">Отзывы</h3>
+                        <h2 class="card__title">Отзывы</h2>
 
                         @if($reviews->count() > 0)
                             <div class="reviews-header">
@@ -3447,7 +3451,7 @@
                                         <div class="review-content">
                                             <div class="review-header">
                                                 <div>
-                                                    <h5 class="review-author">{{ $review->displayName() }}@if($rvPlace)<span class="review-place">, {{ $rvPlace }}</span>@endif</h5>
+                                                    <div class="gs-h5 review-author">{{ $review->displayName() }}@if($rvPlace)<span class="review-place">, {{ $rvPlace }}</span>@endif</div>
                                                     <span class="review-date">{{ \Carbon\Carbon::parse($review->created_at)->format('d.m.Y') }}@if($rvStay) · Отдых: {{ $rvStay }}@endif</span>
                                                     @if($review->is_verified)
                                                         <span class="review-verified"><i class="fa-solid fa-circle-check"></i> Подтверждённый гость</span>
@@ -3488,7 +3492,7 @@
                         @endif
 
                         <div class="review-form">
-                            <h4 class="review-form__title">Написать отзыв</h4>
+                            <h3 class="review-form__title">Написать отзыв</h3>
 
                             <div class="rating-grid">
                                 <template x-for="(category, index) in categories" :key="category.name">
@@ -3603,7 +3607,7 @@
                                     <div class="sidebar-doctor__badge">
                                         <i class="fa-solid fa-headset"></i> Поддержка
                                     </div>
-                                    <h5 class="sidebar-doctor__heading">Служба поддержки клиентов</h5>
+                                    <div class="gs-h5 sidebar-doctor__heading">Служба поддержки клиентов</div>
                                 </div>
 
                                 {{-- Body --}}
@@ -3619,7 +3623,7 @@
                                         <div class="sidebar-doctor__online"></div>
                                     </div>
 
-                                    <h6 class="sidebar-doctor__name">{{ $service->doctor_name }}</h6>
+                                    <div class="gs-h6 sidebar-doctor__name">{{ $service->doctor_name }}</div>
 
                                     @if($service->doctor_position)
                                         <p class="sidebar-doctor__position">{{ $service->doctor_position }}</p>
@@ -3647,7 +3651,7 @@
                             <div class="doctor-modal-overlay" id="doctorModal">
                                 <div class="doctor-modal">
                                     <div class="doctor-modal__header">
-                                        <h5 class="doctor-modal__header-title">Связаться с консультантом</h5>
+                                        <div class="gs-h5 doctor-modal__header-title">Связаться с консультантом</div>
                                         <button class="doctor-modal__close" onclick="closeDoctorModal()">
                                             <i class="fa-solid fa-xmark"></i>
                                         </button>
@@ -3716,7 +3720,7 @@
                                             <div class="doctor-modal__success-icon">
                                                 <i class="fa-solid fa-check"></i>
                                             </div>
-                                            <h5>Заявка отправлена!</h5>
+                                            <div class="gs-h5">Заявка отправлена!</div>
                                             <p>Наш консультант свяжется с вами в ближайшее время.</p>
                                         </div>
                                     </div>
@@ -3775,7 +3779,7 @@
                                     <div class="sidebar-included__icon">
                                         <i class="fa-solid fa-list-check"></i>
                                     </div>
-                                    <h5 class="sidebar-included__title">Что включено</h5>
+                                    <div class="gs-h5 sidebar-included__title">Что включено</div>
                                 </div>
                                 <div class="sidebar-included__grid">
                                     @if($service?->included)
@@ -3933,7 +3937,7 @@
                                     <div class="sidebar-amenities__icon">
                                         <i class="fa-solid fa-concierge-bell"></i>
                                     </div>
-                                    <h5 class="sidebar-amenities__title">Удобства</h5>
+                                    <div class="gs-h5 sidebar-amenities__title">Удобства</div>
                                 </div>
                                 <ul class="sidebar-amenities__list">
                                     @foreach($amenities as $amenity)
@@ -3953,7 +3957,7 @@
                                     <div class="sidebar-included__icon" style="background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);">
                                         <i class="fa-solid fa-location-dot" style="color: #2563eb;"></i>
                                     </div>
-                                    <h5 class="sidebar-included__title">Расположение</h5>
+                                    <div class="gs-h5 sidebar-included__title">Расположение</div>
                                 </div>
                                 @if($service?->google_map_sub_title)
                                     <p style="font-size: 14px; color: var(--text-secondary); margin-bottom: 14px;">{{ $service?->google_map_sub_title }}</p>
@@ -3991,7 +3995,7 @@
                 <h2 class="popular-section__title">Вам также понравится</h2>
                 <p class="popular-section__subtitle">Откройте для себя похожие туры</p>
             </div>
-            @include('tourbooking::front.services.popular-services')
+            @include('tourbooking::front.services.popular-services', ['gsHideHeader' => true])
         </div>
     </section>
 

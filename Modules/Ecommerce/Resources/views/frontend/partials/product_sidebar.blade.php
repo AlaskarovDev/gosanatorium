@@ -1,7 +1,7 @@
 <div class="tg-shop-sidebar top-sticky mb-50">
     <form action="{{ route('product.shop') }}" method="GET">
         <div class="tg-blog-sidebar-search tg-blog-sidebar-box mb-40">
-            <h5 class="tg-blog-sidebar-title mb-15">{{ __('translate.Search') }}</h5>
+            <div class="gs-h5 tg-blog-sidebar-title mb-15">{{ __('translate.Search') }}</div>
             <div class="tg-blog-sidebar-form">
                 <input type="text" name="search" value="{{ request()->get('search') }}"
                     placeholder="{{ __('translate.Type here . . .') }}">
@@ -23,7 +23,7 @@
             </div>
         </div>
         <div class="tg-blog-categories tg-blog-sidebar-box mb-40">
-            <h5 class="tg-blog-sidebar-title mb-5">{{ __('translate.Categories') }}</h5>
+            <div class="gs-h5 tg-blog-sidebar-title mb-5">{{ __('translate.Categories') }}</div>
             <div class="tg-blog-categories-list mt-15">
                 @foreach ($categories as $category)
                     <div class="shop_sidebar_item_box mb-10 border-bottom pb-2">
@@ -39,7 +39,7 @@
             </div>
         </div>
         <div class="tg-blog-categories tg-blog-sidebar-box mb-40">
-            <h5 class="tg-blog-sidebar-title mb-5">{{ __('translate.Brands') }}</h5>
+            <div class="gs-h5 tg-blog-sidebar-title mb-5">{{ __('translate.Brands') }}</div>
             <div class="tg-blog-categories-list mt-15">
                 @foreach ($brands as $brand)
                     <div class="shop_sidebar_item_box mb-10 border-bottom pb-2">
@@ -55,7 +55,7 @@
             </div>
         </div>
         <div class="tg-blog-post tg-blog-sidebar-box tg-shop-product-list-widget mb-40">
-            <h5 class="tg-blog-sidebar-title mb-25">{{ __('translate.Best Selling Products') }}</h5>
+            <div class="gs-h5 tg-blog-sidebar-title mb-25">{{ __('translate.Best Selling Products') }}</div>
 
             @foreach ($bestSellingProducts as $bp)
                 <div class="tg-blog-post-item d-flex align-items-center mb-20">
