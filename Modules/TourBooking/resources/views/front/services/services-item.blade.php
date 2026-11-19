@@ -12,7 +12,7 @@
 
                                 @if ($service?->is_new == 1)
                                     <span class="tg-listing-item-price-discount shape"
-                                        style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">New</span>
+                                        style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">{{ __('translate.New') }}</span>
                                 @endif
 
                                 @if ($service?->discount_price)
@@ -53,8 +53,7 @@
                             <div class="gs-compare-wrap"><button type="button" class="gs-compare-btn" data-slug="{{ $service->slug }}" data-title="{{ $service?->translation?->title }}" aria-pressed="false"><span class="gs-compare-box"></span><span class="gs-compare-label">Сравнить</span></button></div>
                             <div class="tg-listing-avai d-flex align-items-center justify-content-between">
                                 <a class="tg-listing-avai-btn"
-                                    href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">Check
-                                    Availability</a>
+                                    href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">{{ __('translate.Check Availability') }}</a>
                                 <div @class([
                                     'tg-listing-item-wishlist',
                                     'active' => $service?->my_wishlist_exists == 1,

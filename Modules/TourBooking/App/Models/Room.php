@@ -151,19 +151,34 @@ final class Room extends Model
     protected function bedTypeDisplay(): Attribute
     {
         return Attribute::make(
-            get: function () {
-                $types = [
-                    'single' => 'Single Bed',
-                    'double' => 'Double Bed',
-                    'king' => 'King Size Bed',
-                    'queen' => 'Queen Size Bed',
-                    'twin' => 'Twin Beds',
-                    'bunk' => 'Bunk Beds',
-                ];
-
-                return $types[$this->bed_type] ?? $this->bed_type;
-            }
+            get: fn () => self::bedTypeLabel($this->bed_type)
         );
+    }
+
+    /**
+     * Bed type label in the page language. Stored values are codes ("twin")
+     * or English labels ("Twin Beds").
+     */
+    public static function bedTypeLabel($bedType): string
+    {
+        $types = [
+            'single' => 'Single Bed',
+            'double' => 'Double Bed',
+            'king' => 'King Size Bed',
+            'queen' => 'Queen Size Bed',
+            'twin' => 'Twin Beds',
+            'bunk' => 'Bunk Beds',
+        ];
+
+        $label = $types[$bedType] ?? (string) $bedType;
+        if ($label === '') {
+            return $label;
+        }
+
+        $key = 'translate.' . $label;
+        $translated = __($key);
+
+        return is_string($translated) && $translated !== $key ? $translated : $label;
     }
 
     /**

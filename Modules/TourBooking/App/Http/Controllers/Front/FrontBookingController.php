@@ -539,6 +539,7 @@ public function getRoomPopupData(Service $service): JsonResponse
                     }
                 }
                 $room->base_price_for = $room->base_price_for ?: ($room->max_guests ?: 2);
+                $room->bed_type_label = \Modules\TourBooking\App\Models\Room::bedTypeLabel($room->bed_type);
                 $room->setRelation('extras', $room->activeExtras->map(fn($x) => [
                     'id'    => $x->id,
                     'name'  => $x->name,

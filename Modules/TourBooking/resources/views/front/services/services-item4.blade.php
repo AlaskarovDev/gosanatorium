@@ -12,7 +12,7 @@
 
                                 @if ($service?->is_new == 1)
                                     <span class="tg-listing-item-price-discount shape"
-                                        style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">New</span>
+                                        style="background-image: url('{{ asset('frontend/assets/img/shape/price-shape-2.png') }}')">{{ __('translate.New') }}</span>
                                 @endif
 
                                 @if ($service?->discount_price)
@@ -123,8 +123,7 @@
                                     {!! $service->price_display !!}
                                 </div>
                                 <a class="tg-listing-avai-btn"
-                                    href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">Check
-                                    Availability</a>
+                                    href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">{{ __('translate.Check Availability') }}</a>
                             </div>
                         </div>
                     </div>

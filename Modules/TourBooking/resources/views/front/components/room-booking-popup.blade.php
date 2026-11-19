@@ -349,7 +349,7 @@
                 var basePrice = parseFloat(room.discount_price || room.price_per_night) || 0;
                 var capacity = room.max_guests || 2;
                 var basePriceFor = room.base_price_for || capacity;
-                var bedType = room.bed_type ? '<span><i class="fa fa-bed me-1"></i>' + room.bed_type + '</span>' : '';
+                var bedType = room.bed_type ? '<span><i class="fa fa-bed me-1"></i>' + (room.bed_type_label || room.bed_type) + '</span>' : '';
                 var sizeBadge = room.room_size ? '<span><i class="fa fa-ruler-combined me-1"></i>' + room.room_size + ' m²</span>' : '';
 
                 var card = document.createElement('div');

@@ -167,7 +167,7 @@
                     @endif
                     @if($bedType)
                         <span class="spec-badge">
-                            <i class="fa-solid fa-bed"></i>{{ $bedType }}
+                            <i class="fa-solid fa-bed"></i>{{ \Modules\TourBooking\App\Models\Room::bedTypeLabel($room->bed_type) }}
                         </span>
                     @endif
                     @if($maxGuests)

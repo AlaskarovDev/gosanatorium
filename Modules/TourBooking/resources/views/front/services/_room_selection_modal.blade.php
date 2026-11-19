@@ -6,7 +6,7 @@
                 <h5 class="modal-title" id="roomSelectionModalLabel">
                     <i class="fa-solid fa-bed me-2"></i>{{ __('translate.Select Your Room') }}
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ __('translate.Close') }}"></button>
             </div>
             <div class="modal-body" style="max-height: 70vh; overflow-y: auto;">
                 {{-- Date Selection --}}
@@ -23,9 +23,21 @@
                     </div>
                     <div class="col-md-3 col-6 mb-2">
                         <label class="form-label fw-bold">{{ __('translate.Guests') }}</label>
+                        @php
+                            $guestWord = function ($n) {
+                                $n = (int) $n;
+                                if (app()->getLocale() !== 'ru') {
+                                    return $n === 1 ? 'Guest' : 'Guests';
+                                }
+                                $m10 = $n % 10; $m100 = $n % 100;
+                                if ($m10 === 1 && $m100 !== 11) return 'гость';
+                                if ($m10 >= 2 && $m10 <= 4 && ($m100 < 12 || $m100 > 14)) return 'гостя';
+                                return 'гостей';
+                            };
+                        @endphp
                         <select class="form-select" id="modal_guests">
                             @for($i = 1; $i <= 10; $i++)
-                                <option value="{{ $i }}" {{ $i == 2 ? 'selected' : '' }}>{{ $i }} {{ $i == 1 ? 'Guest' : 'Guests' }}</option>
+                                <option value="{{ $i }}" {{ $i == 2 ? 'selected' : '' }}>{{ $i }} {{ $guestWord($i) }}</option>
                             @endfor
                         </select>
                     </div>
@@ -82,11 +94,11 @@
                                             @endif
                                             @if($room->bed_type)
                                                 <span class="badge bg-light text-dark me-1 mb-1">
-                                                    <i class="fa-solid fa-bed me-1"></i>{{ $room->bed_type }}
+                                                    <i class="fa-solid fa-bed me-1"></i>{{ \Modules\TourBooking\App\Models\Room::bedTypeLabel($room->bed_type) }}
                                                 </span>
                                             @endif
                                             <span class="badge bg-light text-dark mb-1">
-                                                <i class="fa-solid fa-user me-1"></i>{{ $room->max_guests }} Guests
+                                                <i class="fa-solid fa-user me-1"></i>{{ $room->max_guests }} {{ $guestWord($room->max_guests) }}
                                             </span>
                                         </div>
 
@@ -104,7 +116,7 @@
                                                     </span>
                                                 @endforeach
                                                 @if(count($room->features) > 4)
-                                                    <span class="text-muted small">+{{ count($room->features) - 4 }} more</span>
+                                                    <span class="text-muted small">+{{ count($room->features) - 4 }} {{ __('translate.more') }}</span>
                                                 @endif
                                             </div>
                                         @endif
@@ -126,10 +138,10 @@
                                             <span class="h4 text-primary d-block room-base-price" data-price="{{ $effectivePrice }}">
                                                 {!! currency_span($effectivePrice) !!}
                                             </span>
-                                            <small class="text-muted">/ per night</small>
+                                            <small class="text-muted">/ {{ __('translate.per night') }}</small>
                                             
                                             <div class="room-total-price mt-2">
-                                                <strong>Total: </strong>
+                                                <strong>{{ __('translate.Total') }}: </strong>
                                                 <span class="total-price-value text-success fw-bold">
                                                     {!! currency_span($effectivePrice) !!}
                                                 </span>
@@ -139,7 +151,7 @@
                                                     data-room-id="{{ $room->id }}"
                                                     data-room-name="{{ $room->name }}"
                                                     data-room-price="{{ $effectivePrice }}">
-                                                <i class="fa-solid fa-check me-1"></i>Select
+                                                <i class="fa-solid fa-check me-1"></i>{{ __('translate.Select') }}
                                             </button>
                                         </div>
                                     </div>
@@ -148,13 +160,13 @@
                         </div>
                     @empty
                         <div class="alert alert-info text-center">
-                            <i class="fa-solid fa-info-circle me-2"></i>No rooms available
+                            <i class="fa-solid fa-info-circle me-2"></i>{{ __('translate.No rooms available') }}
                         </div>
                     @endforelse
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ __('translate.Close') }}</button>
             </div>
         </div>
     </div>
@@ -337,7 +349,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Validate dates
             if (!checkIn || !checkOut) {
-                alert('Please select check-in and check-out dates');
+                alert(@json(__('translate.Please select check-in and check-out dates')));
                 return;
             }
 
