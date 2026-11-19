@@ -1655,7 +1655,7 @@
                         <div class="gscon-doctor-role">Главный врач · Дерматовенеролог</div>
                         <div class="gscon-doctor-edu">Азербайджанский Медицинский Университет, 2006</div>
                         <div class="gscon-doctor-stats">
-                            <div class="gscon-stat-box"><div class="gscon-stat-num">15+</div><div class="gscon-stat-lbl">лет опыта</div></div>
+                            <div class="gscon-stat-box"><div class="gscon-stat-num">{{ company_fact('experience_years') }}</div><div class="gscon-stat-lbl">лет опыта</div></div>
                             <div class="gscon-stat-box"><div class="gscon-stat-num">5 000+</div><div class="gscon-stat-lbl">пациентов</div></div>
                             <div class="gscon-stat-box"><div class="gscon-stat-num">98%</div><div class="gscon-stat-lbl">успешных случаев</div></div>
                         </div>
@@ -1716,7 +1716,7 @@
                         @if($custom_page->banner_title)<h1 class="def-banner__headline">{{ $custom_page->banner_title }}</h1>@endif
                         @if($custom_page->banner_description)<p class="def-banner__desc">{{ $custom_page->banner_description }}</p>@endif
                         <div class="def-stats">
-                            <div class="def-stat"><span class="def-stat__num">15+</span><span class="def-stat__lbl">лет опыта</span></div>
+                            <div class="def-stat"><span class="def-stat__num">{{ company_fact('experience_years') }}</span><span class="def-stat__lbl">лет опыта</span></div>
                             <div class="def-stat__sep"></div>
                             <div class="def-stat"><span class="def-stat__num">5000+</span><span class="def-stat__lbl">пациентов</span></div>
                             <div class="def-stat__sep"></div>

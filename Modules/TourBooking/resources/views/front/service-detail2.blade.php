@@ -94,11 +94,11 @@
 <div class="gstd-desc-text">{!! $service?->translation?->description ?? $service->description ?? '' !!}</div>
 @include('partials.sanatorium-results-block')
 <div class="gstd-highlights">
-<div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Без предоплаты — оплата при заезде</span></div>
-<div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Бесплатная отмена бронирования</span></div>
+<div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">{{ company_fact('prepayment_policy') }}</span></div>
+<div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">{{ \Illuminate\Support\Str::ucfirst(company_fact('cancellation_short')) }}</span></div>
 <div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Трансфер из аэропорта</span></div>
 <div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Русскоязычный персонал</span></div>
-<div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Поддержка 24/7</span></div>
+<div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Поддержка {{ company_fact('working_hours') }}</span></div>
 <div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">Медицинская консультация бесплатно</span></div>
 </div>
 </div>
@@ -164,7 +164,7 @@
 <div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Пользование бассейном и SPA</span></div>
 <div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Wi-Fi на всей территории</span></div>
 <div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Медицинская документация</span></div>
-<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Поддержка GoSanatorium 24/7</span></div>
+<div class="gstd-inc-item"><div class="gstd-inc-check"><i class="fas fa-check"></i></div><span class="gstd-inc-text">Поддержка GoSanatorium {{ company_fact('working_hours') }}</span></div>
 </div></div>
 <div class="gstd-panel" id="gstd-reviews">
 <div class="gstd-review-empty">
@@ -180,7 +180,7 @@
 <div class="gstd-price-num">875 <span style="font-size:20px;color:#9ca3af">AZN</span></div>
 <div class="gstd-price-per">за 7 ночей · 1 человек · все процедуры включены</div>
 <div class="gstd-price-divider"></div>
-<div class="availability-note">📅 Бронирование доступно — без предоплаты, отмена бесплатно</div>
+<div class="availability-note">📅 Бронирование доступно — без предоплаты, {{ company_fact('cancellation_short') }}</div>
 <div class="gstd-date-group"><div class="gstd-date-lbl">Дата заезда</div><input type="date" class="gstd-date-inp" id="gstdCheckin"></div>
 <div class="gstd-date-group"><div class="gstd-date-lbl">Дата выезда</div><input type="date" class="gstd-date-inp" id="gstdCheckout"></div>
 <div class="gstd-nights-row"><span class="gstd-nights-lbl">Ночей</span><span class="gstd-nights-val" id="gstdNights">7</span></div>
@@ -192,7 +192,7 @@
 <div class="gstd-guarantees">
 <span class="gstd-guarantee"><i class="fas fa-ban"></i> Без предоплаты</span>
 <span class="gstd-guarantee"><i class="fas fa-shield-alt"></i> Бесплатная отмена</span>
-<span class="gstd-guarantee"><i class="fas fa-headset"></i> Поддержка 24/7</span>
+<span class="gstd-guarantee"><i class="fas fa-headset"></i> Поддержка {{ company_fact('working_hours') }}</span>
 </div>
 </div>
 <div class="gstd-consult-card">

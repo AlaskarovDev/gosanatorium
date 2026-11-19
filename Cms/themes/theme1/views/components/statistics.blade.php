@@ -3,22 +3,22 @@
 
     $stats = [
         [
-            'value' => getTranslatedValue($statistics, 'stat_1_value') ?: '10+',
+            'value' => company_fact('experience_years'), // Task 9: current year − founded_year
             'label' => getTranslatedValue($statistics, 'stat_1_label') ?: 'Лет опыта',
             'icon' => 'fa-calendar-check',
         ],
         [
-            'value' => getTranslatedValue($statistics, 'stat_2_value') ?: '28765+',
+            'value' => company_fact('clients_count'),
             'label' => getTranslatedValue($statistics, 'stat_2_label') ?: 'Довольных клиентов',
             'icon' => 'fa-users',
         ],
         [
-            'value' => getTranslatedValue($statistics, 'stat_3_value') ?: '50+',
+            'value' => company_fact('partners_count'), // active sanatoriums in the catalog
             'label' => getTranslatedValue($statistics, 'stat_3_label') ?: 'Санаториев-партнёров',
             'icon' => 'fa-heart',
         ],
         [
-            'value' => getTranslatedValue($statistics, 'stat_4_value') ?: '1900+',
+            'value' => company_fact('reviews_count'), // published reviews
             'label' => getTranslatedValue($statistics, 'stat_4_label') ?: 'Отзывов и оценок',
             'icon' => 'fa-star',
         ],

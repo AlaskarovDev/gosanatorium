@@ -3,7 +3,7 @@
 @section('title')
     <title>{{ $seo_setting->seo_title }}</title>
     <meta name="title" content="{{ $seo_setting->seo_title }}">
-    <meta name="description" content="{!! strip_tags(clean($seo_setting->seo_description)) !!}">
+    <meta name="description" content="{!! strip_tags(clean(company_text($seo_setting->seo_description))) !!}">
 @endsection
 
 @section('front-content')
@@ -24,7 +24,7 @@
     <div class="ab-col ab-col--left">
       <div class="ab-box">
         <div class="ab-box__icon">🕐</div>
-        <h3 class="ab-box__title">Работаем 24/7</h3>
+        <h3 class="ab-box__title">{{ company_fact('working_hours_text') }}</h3>
         <p class="ab-box__text">На связи до, во время и после поездки. Ответим за 15 минут в любое время.</p>
       </div>
       <div class="ab-box">
@@ -43,12 +43,12 @@
     <div class="ab-col ab-col--center">
       <span class="ab-tag">Кто мы</span>
       <h2 class="ab-center__title">Помогаем найти<br>правильный санаторий</h2>
-      <p class="ab-center__text">GoSanatorium появился в 2018 году после того, как наши основатели сами прошли лечение в Нафталане. Мы увидели, как сложно людям без медицинских знаний выбрать подходящий санаторий — и решили это изменить.</p>
+      <p class="ab-center__text">GoSanatorium появился в {{ company_facts()->foundedYear() }} году после того, как наши основатели сами прошли лечение в Нафталане. Мы увидели, как сложно людям без медицинских знаний выбрать подходящий санаторий — и решили это изменить.</p>
       <p class="ab-center__text">Сегодня мы помогаем клиентам из России, Казахстана, Узбекистана и других стран СНГ находить санаторий под их диагноз — бесплатно и с поддержкой на каждом шагу.</p>
       <div class="ab-stats">
-        <div class="ab-stat"><span class="ab-stat__n">50+</span><span class="ab-stat__l">санаториев</span></div>
-        <div class="ab-stat"><span class="ab-stat__n">8 лет</span><span class="ab-stat__l">на рынке</span></div>
-        <div class="ab-stat"><span class="ab-stat__n">1900+</span><span class="ab-stat__l">отзывов</span></div>
+        <div class="ab-stat"><span class="ab-stat__n">{{ company_fact('partners_count') }}</span><span class="ab-stat__l">санаториев</span></div>
+        <div class="ab-stat"><span class="ab-stat__n">{{ company_facts()->experienceText() }}</span><span class="ab-stat__l">на рынке</span></div>
+        <div class="ab-stat"><span class="ab-stat__n">{{ company_fact('reviews_count') }}</span><span class="ab-stat__l">отзывов</span></div>
       </div>
     </div>
 
@@ -79,7 +79,7 @@
   <div class="ab-cta__wrap">
     <h2 class="ab-cta__title">Готовы подобрать санаторий под ваш диагноз?</h2>
     <p class="ab-cta__sub">Ответим в течение 15 минут — бесплатно.</p>
-    <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20забронировать%20санаторий." class="ab-cta__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
+    <a href="{{ company_fact('whatsapp_url') }}?text=Здравствуйте!%20Хочу%20забронировать%20санаторий." class="ab-cta__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
   </div>
 </div>
 

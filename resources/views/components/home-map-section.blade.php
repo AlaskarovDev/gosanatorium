@@ -32,8 +32,8 @@
 </style>
 <div class="gsmapblock-header"><h2 class="gsmapblock-title">Карта санаториев</h2></div>
 <div class="gsmapblock-tabs" role="tablist">
-  <button type="button" class="gsmapblock-tab gsmapblock-tab-az gsmapblock-active" id="gsmapblock-tab-az" onclick="gsmapSwitch('az')"><span>Азербайджан</span><span class="gsmapblock-pill">17</span></button>
-  <button type="button" class="gsmapblock-tab gsmapblock-tab-ge" id="gsmapblock-tab-ge" onclick="gsmapSwitch('ge')"><span>Грузия</span><span class="gsmapblock-pill">5</span></button>
+  <button type="button" class="gsmapblock-tab gsmapblock-tab-az gsmapblock-active" id="gsmapblock-tab-az" onclick="gsmapSwitch('az')"><span>Азербайджан</span><span class="gsmapblock-pill">{{ company_facts()->countryCount('Азербайджан') }}</span></button>
+  <button type="button" class="gsmapblock-tab gsmapblock-tab-ge" id="gsmapblock-tab-ge" onclick="gsmapSwitch('ge')"><span>Грузия</span><span class="gsmapblock-pill">{{ company_facts()->countryCount('Грузия') }}</span></button>
 </div>
 <div class="gsmapblock-panel gsmapblock-active" id="gsmapblock-panel-az">
   <div class="gsmapblock-list" id="gsmapblock-list-az"></div>

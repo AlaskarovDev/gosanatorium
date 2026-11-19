@@ -3,7 +3,7 @@
 @section('title')
     <title>{{ $seo_setting->seo_title }}</title>
     <meta name="title" content="{{ $seo_setting->seo_title }}">
-    <meta name="description" content="{!! strip_tags(clean($seo_setting->seo_description)) !!}">
+    <meta name="description" content="{!! strip_tags(clean(company_text($seo_setting->seo_description))) !!}">
 @endsection
 
 @section('front-content')
@@ -73,7 +73,7 @@
 <h1 class="gsfaq-hero-title">Ответы на ваши вопросы</h1>
 <p class="gsfaq-hero-sub">Всё что нужно знать о бронировании, лечении, трансфере и оплате</p>
 <div class="gsfaq-search-wrap"><input type="text" class="gsfaq-search" id="gsfaqSearch" placeholder="Поиск по вопросам..." oninput="gsfaqFilter(this.value)"><span class="gsfaq-search-icon"><i class="fas fa-search"></i></span></div>
-<div class="gsfaq-stats"><div class="gsfaq-stat"><div class="gsfaq-stat-num">30+</div><div class="gsfaq-stat-lbl">Ответов</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">50+</div><div class="gsfaq-stat-lbl">Санаториев</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">24/7</div><div class="gsfaq-stat-lbl">Поддержка</div></div></div>
+<div class="gsfaq-stats"><div class="gsfaq-stat"><div class="gsfaq-stat-num">30+</div><div class="gsfaq-stat-lbl">Ответов</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">{{ company_fact('partners_count') }}</div><div class="gsfaq-stat-lbl">Санаториев</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">{{ company_fact('working_hours') }}</div><div class="gsfaq-stat-lbl">Поддержка</div></div></div>
 </div></div></section>
 
 <section class="gsfaq-main"><div class="container"><div class="gsfaq-layout">
@@ -91,15 +91,15 @@
 <div class="gsfaq-group" data-cat="booking">
 <div class="gsfaq-group-header"><div class="gsfaq-group-icon"><i class="fas fa-calendar-check"></i></div><h2 class="gsfaq-group-title">Бронирование и компания</h2></div>
 <div class="gsfaq-accordion">
-<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">1</div><div class="gsfaq-qtext">Чем GoSanatorium отличается от других сайтов?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Мы подбираем санаторий под ваш диагноз, организуем трансфер и консультацию врача, и поддерживаем клиента 24/7.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">1</div><div class="gsfaq-qtext">Чем GoSanatorium отличается от других сайтов?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Мы подбираем санаторий под ваш диагноз, организуем трансфер и консультацию врача, и поддерживаем клиента на каждом шаге ({{ company_fact('working_hours') }}).</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">2</div><div class="gsfaq-qtext">Сколько санаториев в каталоге?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Более 50 в Чехии, Грузии и Азербайджане. Каталог регулярно пополняется.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">3</div><div class="gsfaq-qtext">Работаете только с жителями Азербайджана?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет, работаем с клиентами из любой страны: России, Казахстана, Узбекистана и других.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">4</div><div class="gsfaq-qtext">Как забронировать санаторий?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Онлайн через сайт или по телефону. После подтверждения придёт письмо с деталями бронирования.</div></div>
-<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">5</div><div class="gsfaq-qtext">Нужна ли предоплата?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет. Оплата производится в санатории при заезде. Карта нужна только как гарантия.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">5</div><div class="gsfaq-qtext">Нужна ли предоплата?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет. {{ company_fact('prepayment_policy') }}. {{ company_fact('payment_methods') }}. Карта нужна только как гарантия.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">6</div><div class="gsfaq-qtext">Можно забронировать санаторий вне каталога?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да. Позвоните нам, и мы проверим возможность бронирования.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">7</div><div class="gsfaq-qtext">Есть ли скидки для групп?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, условия обсуждаются индивидуально. Свяжитесь с нами для специального предложения.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">8</div><div class="gsfaq-qtext">Что происходит после заявки?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Связываемся с санаторием и присылаем подтверждение, обычно в течение нескольких часов.</div></div>
-<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">9</div><div class="gsfaq-qtext">Можно ли отменить бронирование?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, без финансовых потерь при соблюдении сроков. Уведомить нужно письменно.</div></div>
+<div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">9</div><div class="gsfaq-qtext">Можно ли отменить бронирование?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да. {{ company_fact('cancellation_full') }} Уведомить нужно письменно.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">10</div><div class="gsfaq-qtext">Есть ли программа лояльности?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Да, для повторных гостей действуют особые условия и привилегии.</div></div>
 <div class="gsfaq-item" onclick="gsfaqToggle(this)"><div class="gsfaq-q"><div class="gsfaq-qnum">11</div><div class="gsfaq-qtext">Нужно ли платить GoSanatorium за услуги?</div><div class="gsfaq-qarrow"><i class="fas fa-chevron-down"></i></div></div><div class="gsfaq-ans">Нет. Подбор, консультация и помощь с бронированием абсолютно бесплатны.</div></div>
 </div></div>
@@ -154,8 +154,8 @@
 <h2 class="gsfaq-cta-title">Не нашли ответ на свой вопрос?</h2>
 <p class="gsfaq-cta-sub">Наши специалисты готовы ответить бесплатно</p>
 <div class="gsfaq-cta-btns">
-<a href="https://wa.me/994519158894" class="gsfaq-btn-white"><i class="fab fa-whatsapp"></i> Написать в WhatsApp</a>
-<a href="tel:+994519158894" class="gsfaq-btn-outline"><i class="fas fa-phone"></i> +994 51 915 88 94</a>
+<a href="{{ company_fact('whatsapp_url') }}" class="gsfaq-btn-white"><i class="fab fa-whatsapp"></i> Написать в WhatsApp</a>
+<a href="{{ company_fact('phone_main_tel') }}" class="gsfaq-btn-outline"><i class="fas fa-phone"></i> {{ company_fact('phone_main') }}</a>
 </div>
 </div></div></section>
 <script>

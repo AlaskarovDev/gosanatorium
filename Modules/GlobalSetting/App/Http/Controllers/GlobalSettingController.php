@@ -642,6 +642,41 @@ class GlobalSettingController extends Controller
         return redirect()->back()->with($notify_message);
     }
 
+    public function company_facts()
+    {
+        $fields = \App\Services\CompanyFacts::FIELDS;
+        $values = \App\Services\CompanyFacts::adminValues();
+        $facts = company_facts();
+
+        return view('globalsetting::company_facts', compact('fields', 'values', 'facts'));
+    }
+
+    public function company_facts_update(Request $request)
+    {
+        $fields = \App\Services\CompanyFacts::FIELDS;
+
+        $rules = [];
+        foreach ($fields as $key => [$label, $default, $type]) {
+            $rules[$key] = $type === 'textarea' ? 'nullable|string|max:3000' : 'nullable|string|max:255';
+        }
+        $rules['founded_year'] = 'required|integer|min:1990|max:' . date('Y');
+        $request->validate($rules);
+
+        foreach ($fields as $key => $meta) {
+            $setting = GlobalSetting::where('key', \App\Services\CompanyFacts::PREFIX . $key)->first() ?? new GlobalSetting();
+            $setting->key = \App\Services\CompanyFacts::PREFIX . $key;
+            $setting->value = trim((string) $request->input($key, ''));
+            $setting->save();
+        }
+
+        $this->set_cache_setting();
+        \App\Services\CompanyFacts::flush();
+
+        $notify_message = trans('translate.Updated successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->back()->with($notify_message);
+    }
+
     public function maintenance_mode()
     {
 

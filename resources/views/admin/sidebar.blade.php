@@ -664,7 +664,7 @@
 
 
                 <li
-                    class="{{ Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'active' : '' }}">
+                    class="{{ Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.company-facts') || Route::is('admin.admin-login-image') ? 'active' : '' }}">
                     <a href="#!" class="collapsed" data-bs-toggle="collapse"
                         data-bs-target="#menu-item__apps"><span class="menu-bar__text">
                             <span class="crancy-menu-icon crancy-svg-icon__v1">
@@ -682,7 +682,7 @@
                             <span class="menu-bar__name">{{ __('translate.Website Setup') }}</span></span> <span
                             class="crancy__toggle"></span></a></span>
                     <!-- Dropdown Menu -->
-                    <div class="collapse crancy__dropdown {{ Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.admin-login-image') ? 'show' : '' }}"
+                    <div class="collapse crancy__dropdown {{ Route::is('admin.cookie-consent') || Route::is('admin.error-image') || Route::is('admin.login-image') || Route::is('admin.breadcrumb') || Route::is('admin.social-login') || Route::is('admin.default-avatar') || Route::is('admin.maintenance-mode') || Route::is('admin.company-facts') || Route::is('admin.admin-login-image') ? 'show' : '' }}"
                         id="menu-item__apps" data-bs-parent="#CrancyMenu">
                         <ul class="menu-bar__one-dropdown">
                             <li><a href="{{ route('admin.cookie-consent') }}"><span class="menu-bar__text"><span
@@ -712,6 +712,10 @@
 
                             <li><a href="{{ route('admin.default-avatar') }}"><span class="menu-bar__text"><span
                                             class="menu-bar__name">{{ __('translate.Default Avatar') }}</span></span></a>
+                            </li>
+
+                            <li><a href="{{ route('admin.company-facts') }}"><span class="menu-bar__text"><span
+                                            class="menu-bar__name">Факты компании</span></span></a>
                             </li>
 
                             <li><a href="{{ route('admin.maintenance-mode') }}"><span class="menu-bar__text"><span
