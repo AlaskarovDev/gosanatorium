@@ -144,7 +144,7 @@ final class FrontDiseaseController extends Controller
         $services = $query->latest('services.created_at')->paginate(200)->withQueryString();
 
         $this->applySeo('sanatoriums', [
-            'title'       => $disease ? $disease->h1 : 'Все санатории',
+            'title'       => $disease ? $disease->h1 : \Modules\TourBooking\App\Services\SeoText::catalogTitle(),
             'description' => 'Каталог санаториев Нафталана и Грузии: цены, лечение, отзывы.',
         ]);
 

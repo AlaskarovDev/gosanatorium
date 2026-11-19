@@ -2,9 +2,8 @@
 
 @section('title')
     @php
-        $metaTitle = $service?->translation?->seo_title ?: ($service?->translation?->title ?? 'Санаторий');
-        $metaDesc = trim(strip_tags(\Modules\TourBooking\App\Services\FromPrice::fill((string) ($service?->translation?->seo_description ?: $service?->translation?->short_description ?: $service?->translation?->description ?: ''), $service)));
-        $metaDesc = $metaDesc !== '' ? \Illuminate\Support\Str::limit(preg_replace('/\s+/u', ' ', $metaDesc), 155) : $metaTitle . ' — бронирование без предоплаты на GoSanatorium.com';
+        $metaTitle = \Modules\TourBooking\App\Services\SeoText::serviceTitle($service);
+        $metaDesc = \Modules\TourBooking\App\Services\SeoText::serviceDescription($service);
     @endphp
     <title>{{ $metaTitle }}</title>
     <meta name="title" content="{{ $metaTitle }}">
