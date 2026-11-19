@@ -587,3 +587,26 @@ function currency_span($amount)
         '<span class="js-price" data-price-usd="' . $raw . '">' . e(currency($amount)) . '</span>'
     );
 }
+
+if (!function_exists('company_facts')) {
+    /** Company facts and policies — one source of truth (Admin → Company facts). */
+    function company_facts(): \App\Services\CompanyFacts
+    {
+        return \App\Services\CompanyFacts::instance();
+    }
+}
+
+if (!function_exists('company_fact')) {
+    function company_fact(string $key): string
+    {
+        return \App\Services\CompanyFacts::instance()->get($key);
+    }
+}
+
+if (!function_exists('company_text')) {
+    /** Text from the admin with company facts filled in ({working_hours}, {phone} …). */
+    function company_text(?string $value): string
+    {
+        return \App\Services\CompanyFacts::instance()->text($value);
+    }
+}

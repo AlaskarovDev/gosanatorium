@@ -48,7 +48,7 @@
           <svg class="hfaq-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
         </button>
         <div class="hfaq-answer">
-          <p>Напишите нам в WhatsApp или оставьте заявку — наш специалист <strong>бесплатно</strong> подберёт санаторий именно под ваш диагноз. Работаем 24/7, ответим за 15 минут.</p>
+          <p>Напишите нам в WhatsApp или оставьте заявку — наш специалист <strong>бесплатно</strong> подберёт санаторий именно под ваш диагноз. {{ company_fact('working_hours_text') }}, ответим за 15 минут.</p>
         </div>
       </div>
 
@@ -118,7 +118,7 @@ function hfaqOpen(btn){var item=btn.parentElement;var isOpen=item.classList.cont
       "name": "Как подобрать санаторий под мой диагноз?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Напишите нам в WhatsApp или оставьте заявку — наш специалист бесплатно подберёт санаторий именно под ваш диагноз. Работаем 24/7, ответим за 15 минут."
+        "text": "Напишите нам в WhatsApp или оставьте заявку — наш специалист бесплатно подберёт санаторий именно под ваш диагноз. {{ company_fact('working_hours_text') }}, ответим за 15 минут."
       }
     },
     {

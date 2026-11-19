@@ -3,7 +3,7 @@
 @section('title')
     <title>{{ $seo_setting->seo_title }}</title>
     <meta name="title" content="{{ $seo_setting->seo_title }}">
-    <meta name="description" content="{!! strip_tags(clean($seo_setting->seo_description)) !!}">
+    <meta name="description" content="{!! strip_tags(clean(company_text($seo_setting->seo_description))) !!}">
 @endsection
 
 @section('front-content')
@@ -23,25 +23,25 @@
       <div class="ct-card__icon">💬</div>
       <h3 class="ct-card__title">WhatsApp</h3>
       <p class="ct-card__text">Напишите нам — ответим сразу</p>
-      <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20подобрать%20санаторий." class="ct-card__btn ct-card__btn--green" target="_blank" rel="noopener">Написать</a>
+      <a href="{{ company_fact('whatsapp_url') }}?text=Здравствуйте!%20Хочу%20подобрать%20санаторий." class="ct-card__btn ct-card__btn--green" target="_blank" rel="noopener">Написать</a>
     </div>
     <div class="ct-card">
       <div class="ct-card__icon">✈️</div>
       <h3 class="ct-card__title">Telegram</h3>
       <p class="ct-card__text">Удобно писать из любой страны</p>
-      <a href="https://t.me/gosanatorium" class="ct-card__btn ct-card__btn--blue" target="_blank" rel="noopener">Написать</a>
+      <a href="{{ company_fact('telegram_url') }}" class="ct-card__btn ct-card__btn--blue" target="_blank" rel="noopener">Написать</a>
     </div>
     <div class="ct-card">
       <div class="ct-card__icon">📞</div>
       <h3 class="ct-card__title">Баку (Азербайджан)</h3>
-      <p class="ct-card__text">+994 51 915 88 94</p>
-      <a href="tel:+994519158894" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
+      <p class="ct-card__text">{{ company_fact('phone_main') }}</p>
+      <a href="{{ company_fact('phone_main_tel') }}" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
     </div>
     <div class="ct-card">
       <div class="ct-card__icon">📞</div>
       <h3 class="ct-card__title">Тбилиси (Грузия)</h3>
-      <p class="ct-card__text">+995 568 10 27 44</p>
-      <a href="tel:+995568102744" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
+      <p class="ct-card__text">{{ company_fact('phone_second') }}</p>
+      <a href="{{ company_fact('phone_second_tel') }}" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
     </div>
   </div>
 </div>
@@ -52,9 +52,9 @@
     <div class="ct-consultant__avatar">👩‍⚕️</div>
     <div class="ct-consultant__text">
       <p class="ct-consultant__name">Специалист GoSanatorium</p>
-      <p class="ct-consultant__desc">Подберём санаторий под ваш диагноз бесплатно. Работаем 24/7 — перезвоним и проконсультируем.</p>
+      <p class="ct-consultant__desc">Подберём санаторий под ваш диагноз бесплатно. {{ company_fact('working_hours_text') }} — перезвоним и проконсультируем.</p>
     </div>
-    <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20получить%20консультацию." class="ct-consultant__btn" target="_blank" rel="noopener">Получить консультацию</a>
+    <a href="{{ company_fact('whatsapp_url') }}?text=Здравствуйте!%20Хочу%20получить%20консультацию." class="ct-consultant__btn" target="_blank" rel="noopener">Получить консультацию</a>
   </div>
 </div>
 
@@ -67,24 +67,24 @@
         <div class="ct-office__flag">🇦🇿</div>
         <div>
           <h4 class="ct-office__city">Баку, Азербайджан</h4>
-          <p class="ct-office__detail">GoSanatorium MMC</p>
-          <p class="ct-office__detail">📞 <a href="tel:+994519158894">+994 51 915 88 94</a></p>
-          <p class="ct-office__detail">⏰ Работаем 24/7</p>
+          <p class="ct-office__detail">{{ company_fact('legal_name') }}</p>
+          <p class="ct-office__detail">📞 <a href="{{ company_fact('phone_main_tel') }}">{{ company_fact('phone_main') }}</a></p>
+          <p class="ct-office__detail">⏰ {{ company_fact('working_hours_text') }}</p>
         </div>
       </div>
       <div class="ct-office ct-office--mt">
         <div class="ct-office__flag">🇬🇪</div>
         <div>
           <h4 class="ct-office__city">Тбилиси, Грузия</h4>
-          <p class="ct-office__detail">GoSanatorium MMC</p>
-          <p class="ct-office__detail">📞 <a href="tel:+995568102744">+995 568 10 27 44</a></p>
-          <p class="ct-office__detail">⏰ Работаем 24/7</p>
+          <p class="ct-office__detail">{{ company_fact('legal_name') }}</p>
+          <p class="ct-office__detail">📞 <a href="{{ company_fact('phone_second_tel') }}">{{ company_fact('phone_second') }}</a></p>
+          <p class="ct-office__detail">⏰ {{ company_fact('working_hours_text') }}</p>
         </div>
       </div>
       <div class="ct-social">
         <p class="ct-social__label">Мы в мессенджерах:</p>
-        <a href="https://wa.me/994519158894" class="ct-social__link" target="_blank" rel="noopener">WhatsApp</a>
-        <a href="https://t.me/gosanatorium" class="ct-social__link" target="_blank" rel="noopener">Telegram</a>
+        <a href="{{ company_fact('whatsapp_url') }}" class="ct-social__link" target="_blank" rel="noopener">WhatsApp</a>
+        <a href="{{ company_fact('telegram_url') }}" class="ct-social__link" target="_blank" rel="noopener">Telegram</a>
       </div>
     </div>
     <div class="ct-offices__map">
@@ -107,7 +107,7 @@
         <li>✅ Бесплатная консультация</li>
         <li>✅ Без предоплаты</li>
         <li>✅ Ответим за 15 минут</li>
-        <li>✅ Работаем 24/7</li>
+        <li>✅ {{ company_fact('working_hours_text') }}</li>
       </ul>
     </div>
     <form class="ct-form" id="contact-form" action="{{ route('store-contact-message') }}" method="POST">
@@ -155,7 +155,7 @@
   <div class="ct-cta__wrap">
     <h2 class="ct-cta__title">Предпочитаете WhatsApp?</h2>
     <p class="ct-cta__sub">Напишите нам прямо сейчас — подберём санаторий бесплатно</p>
-    <a href="https://wa.me/994519158894?text=Здравствуйте!%20Хочу%20подобрать%20санаторий." class="ct-cta__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
+    <a href="{{ company_fact('whatsapp_url') }}?text=Здравствуйте!%20Хочу%20подобрать%20санаторий." class="ct-cta__btn" target="_blank" rel="noopener">Написать в WhatsApp</a>
   </div>
 </div>
 

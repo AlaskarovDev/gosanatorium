@@ -37,6 +37,6 @@
     <a href="/ru/custom-page/consultant" class="hcons-btn">
       Получить бесплатную консультацию
     </a>
-    <p class="hcons-note">Работаем ежедневно · Нафталан · Боржоми · Цхалтубо · Саирме</p>
+    <p class="hcons-note">{{ company_fact('working_hours_text') }} · Нафталан · Боржоми · Цхалтубо · Саирме</p>
   </div>
 </div>

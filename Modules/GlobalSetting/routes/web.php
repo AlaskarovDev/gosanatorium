@@ -52,6 +52,9 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin
             Route::get('default-avatar', 'default_avatar')->name('default-avatar');
             Route::put('default-avatar-update', 'default_avatar_update')->name('default-avatar-update');
 
+            Route::get('company-facts', 'company_facts')->name('company-facts');
+            Route::put('company-facts-update', 'company_facts_update')->name('company-facts-update');
+
             Route::get('maintenance-mode', 'maintenance_mode')->name('maintenance-mode');
             Route::put('maintenance-mode-update', 'maintenance_mode_update')->name('maintenance-mode-update');
 
