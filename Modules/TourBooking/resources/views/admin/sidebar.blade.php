@@ -172,6 +172,22 @@
     </a>
 </li>
 
+{{-- Date discounts per sanatorium --}}
+<li class="{{ Route::is('admin.tourbooking.date-discounts.*') ? 'active' : '' }}">
+    <a class="collapsed" href="{{ route('admin.tourbooking.date-discounts.index') }}">
+        <span class="menu-bar__text">
+            <span class="crancy-menu-icon crancy-svg-icon__v1">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M19 5L5 19" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                    <circle cx="7" cy="7" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                    <circle cx="17" cy="17" r="2.5" stroke="currentColor" stroke-width="1.5"/>
+                </svg>
+            </span>
+            <span class="menu-bar__name">{{ __('translate.Date Discounts') }}</span>
+        </span>
+    </a>
+</li>
+
 {{-- Bookings --}}
 <li class="{{ Route::is('admin.tourbooking.bookings.index') ? 'active' : '' }}">
     <a class="collapsed" href="{{ route('admin.tourbooking.bookings.index') }}">

@@ -173,6 +173,9 @@
                                                                 <li><a class="dropdown-item"
                                                                         href="{{ route('admin.tourbooking.services.media', $service->id) }}">{{ __('translate.Media Gallery') }}</a>
                                                                 </li>
+                                                                <li><a class="dropdown-item"
+                                                                        href="{{ route('admin.tourbooking.date-discounts.index', ['service_id' => $service->id]) }}">{{ __('translate.Date Discounts') }}</a>
+                                                                </li>
                                                                <li><hr class="dropdown-divider"></li>
 
                                                             </ul>

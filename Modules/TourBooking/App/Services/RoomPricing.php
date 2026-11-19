@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Schema;
 use Modules\TourBooking\App\Models\RoomOccupancyPrice;
 use Modules\TourBooking\App\Models\Season;
 use Modules\TourBooking\App\Models\SeasonPrice;
+use Modules\TourBooking\App\Models\ServiceDateDiscount;
 use Modules\TourBooking\App\Models\ServiceRoom;
 
 /**
@@ -18,7 +19,8 @@ use Modules\TourBooking\App\Models\ServiceRoom;
  *
  * Prices live in room_occupancy_prices (season_id null = base price for nights outside every season).
  * Each night takes the price of the season it belongs to, then the room discount
- * (discount_price vs price_per_night) is applied. A missing price means "price on request".
+ * (discount_price vs price_per_night) is applied, then the sanatorium's date discount for that night
+ * (service_date_discounts, admin "Скидки по датам"). A missing price means "price on request".
  *
  * Rooms without any occupancy rows (or before the migration ran) fall back to the old
  * single price: price_per_night for 2 adults (1 for single rooms) with the old season rules.
@@ -31,6 +33,11 @@ final class RoomPricing
     public const CHILD = RoomOccupancyPrice::CHILD;
 
     private static ?bool $tableReady = null;
+
+    private static ?bool $discountsReady = null;
+
+    /** @var array<int, Collection<int, ServiceDateDiscount>> active date discounts per service id */
+    private array $dateDiscounts = [];
 
     /** @var Collection<int, Season> all seasons, keyed by id */
     private Collection $seasons;
@@ -58,6 +65,42 @@ final class RoomPricing
         }
 
         return self::$tableReady;
+    }
+
+    public static function discountsReady(): bool
+    {
+        if (self::$discountsReady === null) {
+            try {
+                self::$discountsReady = Schema::hasTable('service_date_discounts');
+            } catch (\Throwable) {
+                self::$discountsReady = false;
+            }
+        }
+
+        return self::$discountsReady;
+    }
+
+    /** Date discount (percent) of the sanatorium for one night, 0 when none. */
+    public function dateDiscountFor(int $serviceId, CarbonInterface $date): float
+    {
+        if (! self::discountsReady()) {
+            return 0.0;
+        }
+        if (! isset($this->dateDiscounts[$serviceId])) {
+            $this->dateDiscounts[$serviceId] = ServiceDateDiscount::query()
+                ->where('service_id', $serviceId)
+                ->where('status', true)
+                ->orderBy('start_date')
+                ->get();
+        }
+        $d = $date->toDateString();
+        foreach ($this->dateDiscounts[$serviceId] as $discount) {
+            if ($discount->start_date->toDateString() <= $d && $discount->end_date->toDateString() >= $d) {
+                return max(0.0, min(100.0, (float) $discount->percentage));
+            }
+        }
+
+        return 0.0;
     }
 
     /** Relations to eager load on ServiceRoom before calling grid()/quote() for many rooms. */
@@ -209,6 +252,7 @@ final class RoomPricing
 
         $children = max(0, $children);
         $childPriced = $children > 0;
+        $hasDateDiscount = false;
         $total = 0.0;
         $listTotal = 0.0;
         $detail = [];
@@ -230,7 +274,11 @@ final class RoomPricing
                 }
             }
             $list += $childList;
-            $pay = round($list * $ratio, 2);
+            $datePct = $this->dateDiscountFor((int) $room->service_id, $night);
+            if ($datePct > 0) {
+                $hasDateDiscount = true;
+            }
+            $pay = round($list * $ratio * (1 - $datePct / 100), 2);
             $listTotal += $list;
             $total += $pay;
             $detail[] = [
@@ -238,6 +286,7 @@ final class RoomPricing
                 'season' => $season?->name,
                 'list'   => $list,
                 'children_list' => $childList,
+                'date_discount' => $datePct,
                 'price'  => $pay,
             ];
         }
@@ -253,8 +302,12 @@ final class RoomPricing
             'total'            => $total,
             'list_total'       => $listTotal,
             'per_night'        => round($total / $nights, 2),
-            'has_discount'     => $ratio < 1 && $listTotal > $total,
-            'discount_percent' => self::discountPercent($room),
+            'has_discount'     => ($ratio < 1 || $hasDateDiscount) && $listTotal > $total,
+            // With a date discount the badge shows the real saving of the whole stay.
+            'discount_percent' => $hasDateDiscount && $listTotal > 0
+                ? (int) round((1 - $total / $listTotal) * 100)
+                : self::discountPercent($room),
+            'date_discount'    => $hasDateDiscount,
             'nights_detail'    => $detail,
         ];
     }
