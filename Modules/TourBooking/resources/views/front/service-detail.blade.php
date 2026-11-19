@@ -1624,6 +1624,13 @@
 
         .review-avatar img { width: 100%; height: 100%; object-fit: cover; }
         .review-content { flex: 1; min-width: 0; }
+        .review-avatar--initials { display: flex; align-items: center; justify-content: center; background: var(--accent); color: #fff; font-weight: 700; font-size: 18px; letter-spacing: .5px; }
+        .review-place { font-weight: 400; color: var(--text-muted); }
+        .review-verified { display: inline-flex; align-items: center; gap: 5px; margin-left: 8px; font-size: 12px; font-weight: 600; color: #15803d; }
+        .review-orig-toggle { margin-top: 6px; padding: 0; border: 0; background: none; color: var(--accent); font-size: 13px; cursor: pointer; text-decoration: underline; }
+        .review-subscores { display: flex; flex-wrap: wrap; gap: 4px 14px; margin: 10px 0 0; padding: 0; list-style: none; font-size: 13px; color: var(--text-muted); }
+        .review-subscores strong { color: var(--text-primary); }
+        [x-cloak] { display: none !important; }
 
         .review-header {
             display: flex;
@@ -1737,6 +1744,8 @@
                 border-width: 2px;
             }
 
+            .review-avatar--initials { font-size: 15px; }
+            .review-verified { display: flex; margin: 4px 0 0; font-size: 11px; }
             .review-author { font-size: 14px; }
             .review-date { font-size: 11px; }
             .review-text { font-size: 13px; }
@@ -3090,7 +3099,7 @@
                             @endforeach
                         </div>
                         <span class="hero__reviews">
-                            ({{ $reviews->count() }} {{ $reviews->count() > 1 ? 'отзывов' : 'отзыв' }})
+                            ({{ \Modules\TourBooking\App\Models\Review::countLabel($reviews->count()) }})
                         </span>
                     </div>
                 </div>
@@ -3379,11 +3388,12 @@
                                     <div class="reviews-score__number">{{ number_format($avgRating, 1) }}</div>
                                     <div class="reviews-score__stars">
                                         @foreach(range(1, 5) as $star)
-                                            <i class="fa-solid fa-star"></i>
+                                            <i class="fa-solid fa-star" @if(round((float) $avgRating) < $star) style="opacity:.3" @endif></i>
                                         @endforeach
                                     </div>
-                                    <div class="reviews-score__count">{{ $reviews->count() }} отзывов</div>
+                                    <div class="reviews-score__count">{{ \Modules\TourBooking\App\Models\Review::countLabel($reviews->count()) }}</div>
                                 </div>
+                                @if(count($averageRatings))
                                 <div class="reviews-bars">
                                     @foreach($averageRatings as $item)
                                         <div class="review-bar">
@@ -3395,27 +3405,57 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                @endif
                             </div>
 
                             <ul class="reviews-list">
                                 @foreach($paginatedReviews as $review)
+                                    @php
+                                        $rvAvatar = $review->avatarUrl();
+                                        $rvPlace = $review->displayPlace();
+                                        $rvStay = $review->stayMonthLabel();
+                                        $rvTranslated = $review->hasTranslation();
+                                    @endphp
                                     <li class="review-item">
-                                        <div class="review-avatar">
-                                            <img src="{{ asset($review->user->image ?? 'frontend/assets/img/shape/placeholder.png') }}" alt="" loading="lazy">
+                                        <div class="review-avatar @if(!$rvAvatar) review-avatar--initials @endif">
+                                            @if($rvAvatar)
+                                                <img src="{{ $rvAvatar }}" alt="{{ $review->displayName() }}" loading="lazy">
+                                            @else
+                                                <span aria-hidden="true">{{ $review->initials() }}</span>
+                                            @endif
                                         </div>
                                         <div class="review-content">
                                             <div class="review-header">
                                                 <div>
-                                                    <h5 class="review-author">{{ $review->user->name }}</h5>
-                                                    <span class="review-date">{{ \Carbon\Carbon::parse($review->created_at)->format('d.m.Y') }}</span>
+                                                    <h5 class="review-author">{{ $review->displayName() }}@if($rvPlace)<span class="review-place">, {{ $rvPlace }}</span>@endif</h5>
+                                                    <span class="review-date">{{ \Carbon\Carbon::parse($review->created_at)->format('d.m.Y') }}@if($rvStay) · Отдых: {{ $rvStay }}@endif</span>
+                                                    @if($review->is_verified)
+                                                        <span class="review-verified"><i class="fa-solid fa-circle-check"></i> Подтверждённый гость</span>
+                                                    @endif
                                                 </div>
-                                                <div class="review-rating">
+                                                <div class="review-rating" aria-label="Оценка {{ (float) $review->rating }} из 5">
                                                     @foreach(range(1, 5) as $star)
-                                                        <i class="fa-solid fa-star @if($review->rating >= $star) active @endif"></i>
+                                                        <i class="fa-solid fa-star @if(round((float) $review->rating) >= $star) active @endif"></i>
                                                     @endforeach
                                                 </div>
                                             </div>
-                                            <p class="review-text">{{ $review->review }}</p>
+                                            @if($rvTranslated)
+                                                <div x-data="{ orig: false }">
+                                                    <p class="review-text" x-show="!orig">{{ $review->review_ru }}</p>
+                                                    <p class="review-text" x-show="orig" x-cloak lang="{{ $review->language && $review->language !== 'other' ? $review->language : '' }}">{{ $review->review }}</p>
+                                                    <button type="button" class="review-orig-toggle" @click="orig = !orig" x-text="orig ? 'Показать перевод' : 'Показать оригинал'">Показать оригинал</button>
+                                                </div>
+                                            @else
+                                                <p class="review-text">{{ $review->review }}</p>
+                                            @endif
+                                            @php $rvSubs = $review->subScores(); @endphp
+                                            @if(count($rvSubs))
+                                                <ul class="review-subscores">
+                                                    @foreach($rvSubs as $sub)
+                                                        <li>{{ $sub['label'] }}: <strong>{{ rtrim(rtrim(number_format($sub['rating'], 1), '0'), '.') }}</strong></li>
+                                                    @endforeach
+                                                </ul>
+                                            @endif
                                         </div>
                                     </li>
                                 @endforeach
@@ -4711,10 +4751,10 @@ window.closeDoctorModal = function() {
             return {
                 categories: [
                     { name: 'Location', label: 'Расположение', rating: 0 },
-                    { name: 'Price', label: 'Цена', rating: 0 },
+                    { name: 'Price', label: 'Цена/качество', rating: 0 },
                     { name: 'Amenities', label: 'Удобства', rating: 0 },
                     { name: 'Rooms', label: 'Номера', rating: 0 },
-                    { name: 'Services', label: 'Сервис', rating: 0 }
+                    { name: 'Services', label: 'Обслуживание', rating: 0 }
                 ],
                 hoverRating: 0,
                 hoverIndex: null,

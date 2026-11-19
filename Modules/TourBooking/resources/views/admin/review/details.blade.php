@@ -30,116 +30,148 @@
                                     </div>
                                 </div>
 
-                                <!-- crancy Table -->
-                                <div id="crancy-table__main_wrapper" class=" dt-bootstrap5 no-footer">
+                                @php
+                                    $subValues = collect((array) ($review->rating_attributes ?? []))->mapWithKeys(fn ($a) => [($a['category'] ?? '') => $a['rating'] ?? null])->all();
+                                @endphp
+                                <form action="{{ route('admin.tourbooking.reviews.update', $review->id) }}" method="POST" class="mg-top-30" id="reviewForm">
+                                    @csrf
+                                    @method('PUT')
 
-                                    <table class="crancy-table__main crancy-table__main-v3 no-footer">
+                                    <div class="row">
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.User') }}</label>
+                                                <p class="mb-0"><a href="{{ route('admin.user-show', $review->user_id) }}">{{ html_decode($review?->user?->name) }}</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Service') }}</label>
+                                                <p class="mb-0"><a href="{{ route('front.tourbooking.services.show', $review->service->slug) }}" target="_blank">{{ $review?->service?->translation?->title }}</a></p>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Crated at') }}</label>
+                                                <p class="mb-0">{{ $review->created_at->format('d.m.Y') }} · {{ $review->rating }} {{ __('translate.star') }}</p>
+                                            </div>
+                                        </div>
 
-                                        <!-- crancy Table Body -->
-                                        <tbody class="crancy-table__body review-detials">
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Review country') }}</label>
+                                                <input class="crancy__item-input" type="text" name="country" maxlength="100"
+                                                    value="{{ old('country', $review->country ?: $review->user?->country) }}" placeholder="Россия">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Review city') }}</label>
+                                                <input class="crancy__item-input" type="text" name="city" maxlength="100"
+                                                    value="{{ old('city', $review->city) }}" placeholder="Москва">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Review language') }}</label>
+                                                <select class="crancy__item-input" name="language">
+                                                    <option value="">—</option>
+                                                    @foreach (\Modules\TourBooking\App\Models\Review::LANGUAGES as $code => $label)
+                                                        <option value="{{ $code }}" @selected(old('language', $review->language) === $code)>{{ $label }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Stay month') }}</label>
+                                                <input class="crancy__item-input" type="month" name="stay_month"
+                                                    value="{{ old('stay_month', $review->stay_month) }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-4 col-md-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Booking ID (optional)') }}</label>
+                                                <input class="crancy__item-input" type="text" name="booking_reference" maxlength="64"
+                                                    value="{{ old('booking_reference', $review->booking_reference ?: $review->booking_id) }}">
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-6">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Verified guest') }}</label>
+                                                <div class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
+                                                    <label class="crancy__item-switch">
+                                                        <input name="is_verified" type="checkbox" value="1" {{ old('is_verified', $review->is_verified) ? 'checked' : '' }}>
+                                                        <span class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-2 col-md-3 col-6">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Published') }}</label>
+                                                <div class="crancy-ptabs__notify-switch crancy-ptabs__notify-switch--two">
+                                                    <label class="crancy__item-switch">
+                                                        <input name="status" type="checkbox" value="1" {{ old('status', $review->status) ? 'checked' : '' }}>
+                                                        <span class="crancy__item-switch--slide crancy__item-switch--round"></span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
 
-                                            <tr class="odd">
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ __('translate.User') }}</h4>
-                                                </td>
+                                        <div class="col-lg-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Original text') }} *</label>
+                                                <textarea class="crancy__item-input" name="review" rows="7" style="height:auto;min-height:170px" required>{{ old('review', $review->review) }}</textarea>
+                                            </div>
+                                        </div>
+                                        <div class="col-lg-6 col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Russian translation') }}</label>
+                                                <textarea class="crancy__item-input" name="review_ru" rows="7" style="height:auto;min-height:170px">{{ old('review_ru', $review->review_ru) }}</textarea>
+                                                <small class="text-muted">{{ __('translate.Russian translation hint') }}</small>
+                                            </div>
+                                        </div>
 
+                                        <div class="col-12">
+                                            <div class="crancy__item-form--group mg-top-form-20">
+                                                <label class="crancy__item-label">{{ __('translate.Overall rating') }} *</label>
+                                                <select class="crancy__item-input" name="rating" style="max-width:160px">
+                                                    @foreach ([5, 4.5, 4, 3.5, 3, 2.5, 2, 1.5, 1] as $r)
+                                                        <option value="{{ $r }}" @selected((float) old('rating', $review->rating) == $r)>{{ $r }}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
 
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title"><a
-                                                            href="{{ route('admin.user-show', $review->user_id) }}">
-                                                            {{ html_decode($review?->user?->name) }}</a></h4>
-                                                </td>
-                                            </tr>
+                                        <div class="col-12">
+                                            <label class="crancy__item-label mg-top-form-20">{{ __('translate.Sub-scores (optional)') }}</label>
+                                            <div class="row">
+                                                @foreach (\Modules\TourBooking\App\Models\Review::SUB_SCORE_LABELS as $key => $label)
+                                                    <div class="col-lg col-md-4 col-6">
+                                                        <div class="crancy__item-form--group">
+                                                            <label class="crancy__item-label" style="font-weight:400">{{ $label }}</label>
+                                                            <select class="crancy__item-input" name="sub[{{ $key }}]">
+                                                                <option value="">—</option>
+                                                                @foreach ([5, 4, 3, 2, 1] as $r)
+                                                                    <option value="{{ $r }}" @selected((string) old('sub.' . $key, isset($subValues[$key]) ? (int) $subValues[$key] : '') === (string) $r)>{{ $r }}</option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                @endforeach
+                                            </div>
+                                        </div>
+                                    </div>
 
-
-                                            <tr class="odd">
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ __('translate.Product') }}
-                                                    </h4>
-                                                </td>
-
-
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title"><a
-                                                            href="{{ route('front.tourbooking.services.show', $review->service->slug) }}">{{ $review?->service?->translation?->title }}</a>
-                                                    </h4>
-                                                </td>
-
-                                            </tr>
-
-                                            <tr class="odd">
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ __('translate.Crated at') }}
-                                                    </h4>
-                                                </td>
-
-
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">
-                                                        {{ $review->created_at->format('d F Y') }}
-                                                    </h4>
-                                                </td>
-
-                                            </tr>
-
-                                            <tr class="odd">
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ __('translate.Review') }}
-                                                    </h4>
-                                                </td>
-
-
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">
-                                                        {{ html_decode($review->review) }}
-                                                    </h4>
-                                                </td>
-
-                                            </tr>
-
-                                            <tr class="odd">
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ __('translate.Rating') }}
-                                                    </h4>
-                                                </td>
-
-
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">
-                                                        {{ $review->rating }} {{ __('translate.star') }}
-                                                    </h4>
-                                                </td>
-
-                                            </tr>
-
-                                            <tr class="odd">
-
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-                                                    <h4 class="crancy-table__product-title">{{ __('translate.Action') }}
-                                                    </h4>
-                                                </td>
-
-                                                <td class="crancy-table__column-2 crancy-table__data-2">
-
-                                                    <a onclick="itemDeleteConfrimation({{ $review->id }})"
-                                                        href="javascript:;" data-bs-toggle="modal"
-                                                        data-bs-target="#exampleModal"
-                                                        class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i>
-                                                        {{ __('translate.Delete') }}</a>
-
-                                                    @if ($review->status == '0')
-                                                        <a href="javascript:;" data-bs-toggle="modal"
-                                                            data-bs-target="#reviewApproval"
-                                                            class="crancy-btn approval_button"><i class="fas fa-check"></i>
-                                                            {{ __('translate.Make Approval') }}</a>
-                                                    @endif
-                                                </td>
-                                            </tr>
-                                        </tbody>
-                                        <!-- End crancy Table Body -->
-                                    </table>
-                                </div>
-                                <!-- End crancy Table -->
+                                    <div class="mg-top-30 d-flex gap-2 flex-wrap">
+                                        <button type="submit" class="crancy-btn"><i class="fas fa-save"></i> {{ __('translate.Save') }}</button>
+                                        <a href="{{ route('admin.tourbooking.reviews.index') }}" class="crancy-btn" style="background:#64748b">{{ __('translate.Review List') }}</a>
+                                        <a onclick="itemDeleteConfrimation({{ $review->id }})" href="javascript:;" data-bs-toggle="modal"
+                                            data-bs-target="#exampleModal" class="crancy-btn delete_danger_btn"><i class="fas fa-trash"></i>
+                                            {{ __('translate.Delete') }}</a>
+                                    </div>
+                                </form>
                             </div>
 
                         </div>

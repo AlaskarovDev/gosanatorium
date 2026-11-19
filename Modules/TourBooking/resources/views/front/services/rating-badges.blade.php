@@ -1,35 +1,18 @@
 @php
-    $slugRatings = [
-        'chinar-hotel-spa-naftalan-2026' => [9.6, 9.7, 50],
-        'garabagh-resort-spa-naftalan-2026' => [9.4, 9.5, 38],
-        'gashalti-health-hotel-naftalan-2026' => [9.3, 9.4, 31],
-        'sun-city-hotel-spa-naftalan-lechenie-2026' => [9.1, 9.2, 24],
-        'naftalan-central-wellness-sanatorii' => [8.9, 9.0, 19],
-        'naftalan-central-wellness-resort-2026' => [8.9, 9.0, 19],
-        'borjomi-palace-sanatoriy-2026' => [9.2, 9.3, 22],
-        'tskaltubo-spa-resort' => [9.0, 9.1, 17],
-        'maricel-naftalan-center-baku-lechenie-2026' => [8.8, 9.0, 12],
-        'maricel-naftalan-center-baku-2026' => [8.8, 9.0, 12],
-    ];
-    $ratingData = $slugRatings[$service->slug ?? ''] ?? [8.8, 9.0, 12];
-    $rGeneral = number_format($ratingData[0], 1);
-    $rTreat = number_format($ratingData[1], 1);
-    $rCount = $ratingData[2];
-
-    // If the sanatorium has real published reviews, show exactly their average (5-point scale)
-    // and count, so the header always matches the reviews block.
+    // Rating and count come only from published reviews (status = 1), 5-point scale.
+    // No published reviews → no badge (no made-up numbers).
     $realCount = $service->active_reviews_count ?? null;
     $realAvg = $service->active_reviews_avg_rating ?? null;
-    if ($realCount === null || $realAvg === null) {
+    if ($realCount === null || ($realCount > 0 && $realAvg === null)) {
         $realCount = \Modules\TourBooking\App\Models\Review::where('service_id', $service->id ?? 0)->where('status', true)->count();
         $realAvg = $realCount > 0 ? \Modules\TourBooking\App\Models\Review::where('service_id', $service->id)->where('status', true)->avg('rating') : null;
     }
     $useReal = (int) $realCount > 0 && $realAvg !== null;
-    if ($useReal) {
-        $rGeneral = number_format((float) $realAvg, 1);
-        $rCount = (int) $realCount;
-    }
+    $rGeneral = $useReal ? number_format((float) $realAvg, 1) : null;
+    $rCount = (int) $realCount;
+    $rCountLabel = \Modules\TourBooking\App\Models\Review::countLabel($rCount);
 @endphp
+@if ($useReal)
 @if (str_contains($class ?? '', 'gs-rating-badges--card'))
 <div style="position:absolute;top:10px;right:10px;z-index:10;display:flex;flex-direction:column;align-items:center;gap:2px;">
     <div style="display:flex;gap:4px;">
@@ -37,14 +20,8 @@
             <div style="font-size:18px;font-weight:700;">{{ $rGeneral }}</div>
             <div style="font-size:10px;opacity:0.9;">Общий</div>
         </div>
-        @if (!$useReal)
-        <div style="background:#26A69A;color:#fff;border-radius:6px;width:48px;padding:6px 4px;text-align:center;line-height:1.2;">
-            <div style="font-size:18px;font-weight:700;">{{ $rTreat }}</div>
-            <div style="font-size:10px;opacity:0.9;">Лечение</div>
-        </div>
-        @endif
     </div>
-    <div style="font-size:11px;color:#fff;background:rgba(0,0,0,0.45);border-radius:4px;padding:2px 5px;margin-top:2px;">{{ $rCount }} отзывов{{ $useReal ? ' · из 5' : '' }}</div>
+    <div style="font-size:11px;color:#fff;background:rgba(0,0,0,0.45);border-radius:4px;padding:2px 5px;margin-top:2px;">{{ $rCountLabel }} · из 5</div>
 </div>
 @else
 <div class="gs-rating-badges {{ $class ?? '' }}">
@@ -53,13 +30,8 @@
             <div style="font-size:20px;font-weight:700;">{{ $rGeneral }}</div>
             <div style="font-size:11px;opacity:0.9;">Общий</div>
         </div>
-        @if (!$useReal)
-        <div style="background:#26A69A;color:#fff;border-radius:6px;width:48px;padding:6px 4px;text-align:center;line-height:1.2;">
-            <div style="font-size:20px;font-weight:700;">{{ $rTreat }}</div>
-            <div style="font-size:11px;opacity:0.9;">Лечение</div>
-        </div>
-        @endif
     </div>
-    <div style="font-size:12px;color:#888;margin-top:4px;text-align:center;">Отзывы гостей: {{ $rCount }}</div>
+    <div style="font-size:12px;color:#888;margin-top:4px;text-align:center;">Отзывы гостей: {{ $rCount }} · из 5</div>
 </div>
+@endif
 @endif

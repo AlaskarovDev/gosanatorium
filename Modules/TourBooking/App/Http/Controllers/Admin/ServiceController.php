@@ -1565,9 +1565,10 @@ if ($request->hasFile('doctor_image')) {
 
     public function review_list()
     {
-        $reviews = Review::with('service')->latest()->get();
+        $reviews = Review::with(['service', 'user'])->latest()->get();
+        $duplicates = \Modules\TourBooking\App\Services\ReviewExport::duplicates($reviews);
 
-        return view('tourbooking::admin.review.index', ['reviews' => $reviews]);
+        return view('tourbooking::admin.review.index', ['reviews' => $reviews, 'duplicates' => $duplicates]);
     }
 
     public function review_detail($id)
@@ -1576,6 +1577,60 @@ if ($request->hasFile('doctor_image')) {
         $review = Review::with('service')->findOrFail($id);
 
         return view('tourbooking::admin.review.details', ['review' => $review]);
+    }
+
+    public function review_update(\Illuminate\Http\Request $request, $id)
+    {
+        $review = Review::findOrFail($id);
+
+        $data = $request->validate([
+            'review' => 'required|string|max:10000',
+            'review_ru' => 'nullable|string|max:10000',
+            'country' => 'nullable|string|max:100',
+            'city' => 'nullable|string|max:100',
+            'language' => 'nullable|string|in:' . implode(',', array_keys(Review::LANGUAGES)),
+            'stay_month' => ['nullable', 'regex:/^\d{4}-(0[1-9]|1[0-2])$/'],
+            'booking_reference' => 'nullable|string|max:64',
+            'rating' => 'required|numeric|min:1|max:5',
+            'sub' => 'nullable|array',
+            'sub.*' => 'nullable|integer|min:1|max:5',
+        ]);
+
+        // Sub-scores: keep only the ones actually entered
+        $attributes = [];
+        foreach (Review::SUB_SCORE_LABELS as $key => $label) {
+            $value = $request->input('sub.' . $key);
+            if ($value !== null && $value !== '') {
+                $attributes[] = ['category' => $key, 'rating' => (int) $value];
+            }
+        }
+
+        $review->update([
+            'review' => $data['review'],
+            'review_ru' => $data['review_ru'] ?? null,
+            'country' => $data['country'] ?? null,
+            'city' => $data['city'] ?? null,
+            'language' => $data['language'] ?? null,
+            'stay_month' => $data['stay_month'] ?? null,
+            'booking_reference' => $data['booking_reference'] ?? null,
+            'rating' => $data['rating'],
+            'rating_attributes' => $attributes ?: null,
+            'is_verified' => $request->boolean('is_verified'),
+            'status' => $request->boolean('status'),
+        ]);
+
+        return redirect()->route('admin.tourbooking.reviews.detail', $review->id)
+            ->with(['message' => __('translate.Updated Successfully'), 'alert-type' => 'success']);
+    }
+
+    public function review_export()
+    {
+        $reviews = Review::with(['service.translation', 'user'])->orderBy('service_id')->orderBy('created_at')->get();
+        $path = \Modules\TourBooking\App\Services\ReviewExport::build($reviews);
+
+        return response()->download($path, 'reviews-' . now('Asia/Baku')->format('Y-m-d') . '.xlsx', [
+            'Content-Type' => 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+        ])->deleteFileAfterSend(true);
     }
 
     public function review_delete($id)

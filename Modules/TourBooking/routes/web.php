@@ -195,6 +195,8 @@ Route::delete('services/treatment-items/{treatmentItem}', [ServiceController::cl
 
     // Reviews
     Route::get('reviews', [ServiceController::class, 'review_list'])->name('reviews.index');
+    Route::get('reviews/export', [ServiceController::class, 'review_export'])->name('reviews.export');
+    Route::put('review/update/{id}', [ServiceController::class, 'review_update'])->name('reviews.update');
     Route::get('review/detail/{id}', [ServiceController::class, 'review_detail'])->name('reviews.detail');
     Route::delete('review/delete/{id}', [ServiceController::class, 'review_delete'])->name('reviews.delete');
     Route::put('review/approve/{id}', [ServiceController::class, 'review_approve'])->name('reviews.approve');

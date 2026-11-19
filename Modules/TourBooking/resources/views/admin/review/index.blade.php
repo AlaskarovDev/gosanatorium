@@ -27,6 +27,9 @@
                                             <h4 class="crancy-product-card__title">{{ __('translate.Review List') }}</h4>
 
                                         </div>
+                                        <div class="create_new_btn_inline_box">
+                                            <a href="{{ route('admin.tourbooking.reviews.export') }}" class="crancy-btn"><i class="fas fa-file-excel"></i> {{ __('translate.Export to Excel') }}</a>
+                                        </div>
                                     </div>
                                 </div>
 
@@ -73,7 +76,7 @@
                                                 <tr class="odd">
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
-                                                        <h4 class="crancy-table__product-title">{{ ++$index }}</a>
+                                                        <h4 class="crancy-table__product-title">#{{ $review->id }}</a>
                                                         </h4>
                                                     </td>
 
@@ -81,6 +84,9 @@
                                                         <h4 class="crancy-table__product-title"><a
                                                                 href="{{ route('admin.user-show', $review->user_id) }}">{{ html_decode($review->user?->name) }}</a>
                                                         </h4>
+                                                        @if ($review->displayPlace())<small class="text-muted d-block">{{ $review->displayPlace() }}</small>@endif
+                                                        @if ($review->is_verified)<span class="crancy-badge bg-success" style="font-size:11px">{{ __('translate.Verified guest') }}</span>@endif
+                                                        @if (isset($duplicates[$review->id]))<span class="crancy-badge bg-warning text-dark" style="font-size:11px" title="{{ __('translate.Repeats in') }}: #{{ implode(', #', $duplicates[$review->id]['ids']) }}">{{ __('translate.Repeated text') }}: #{{ implode(', #', array_slice($duplicates[$review->id]['ids'], 0, 5)) }}{{ count($duplicates[$review->id]['ids']) > 5 ? '…' : '' }}</span>@endif
                                                     </td>
 
                                                     <td class="crancy-table__column-2 crancy-table__data-2">
