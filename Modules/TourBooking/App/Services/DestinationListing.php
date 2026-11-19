@@ -63,7 +63,10 @@ final class DestinationListing
     {
         $country = trim((string) $this->destination->country);
         if ($country !== '') {
-            return $country;
+            // «Нафталан - Азербайджан» → «Азербайджан»
+            $parts = preg_split('/\s*[-|–—,]\s*/u', $country);
+
+            return trim((string) end($parts));
         }
         $parts = preg_split('/\s*[-|–—,]\s*/u', trim((string) $this->destination->name));
 
