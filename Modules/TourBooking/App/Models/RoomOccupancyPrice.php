@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 /**
  * Per-night price of a room for a given season and number of adults.
  * season_id = null is the base price used for nights outside every season.
+ * adults = 0 (CHILD) is the price of one child per night.
  *
  * @property int $room_id
  * @property int|null $season_id
@@ -19,6 +20,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 final class RoomOccupancyPrice extends Model
 {
     public const MAX_ADULTS = 4;
+
+    /** adults = 0 row holds the price of one child per night. */
+    public const CHILD = 0;
 
     protected $table = 'room_occupancy_prices';
 

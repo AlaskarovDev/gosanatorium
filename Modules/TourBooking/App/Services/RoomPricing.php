@@ -27,6 +27,9 @@ final class RoomPricing
 {
     public const BASE = 'base';
 
+    /** Grid column for the price of one child per night (stored as adults = 0). */
+    public const CHILD = RoomOccupancyPrice::CHILD;
+
     private static ?bool $tableReady = null;
 
     /** @var Collection<int, Season> all seasons, keyed by id */
@@ -95,6 +98,7 @@ final class RoomPricing
 
     /**
      * Price grid of a room: [ 'base' | seasonId => [ adults => list price per night ] ].
+     * Column 0 (self::CHILD) is the price of one child per night.
      */
     public function grid(ServiceRoom $room): array
     {
@@ -185,11 +189,13 @@ final class RoomPricing
 
     /**
      * Price of a stay, night by night. Returns null when a night has no price for these adults
-     * ("price on request").
+     * ("price on request"). Children are added with the room's child price of that season
+     * (base child price when the season has none); without any child price children are not charged
+     * and child_priced is false (the site then says the manager will tell the child price).
      *
      * @return array{nights:int,total:float,list_total:float,per_night:float,has_discount:bool,discount_percent:int,adults:int,nights_detail:array}|null
      */
-    public function quote(ServiceRoom $room, CarbonInterface $checkIn, CarbonInterface $checkOut, int $adults): ?array
+    public function quote(ServiceRoom $room, CarbonInterface $checkIn, CarbonInterface $checkOut, int $adults, int $children = 0): ?array
     {
         $checkIn = Carbon::parse($checkIn->toDateString());
         $checkOut = Carbon::parse($checkOut->toDateString());
@@ -201,6 +207,8 @@ final class RoomPricing
         $grid = $this->grid($room);
         $ratio = self::ratioFor($room);
 
+        $children = max(0, $children);
+        $childPriced = $children > 0;
         $total = 0.0;
         $listTotal = 0.0;
         $detail = [];
@@ -212,6 +220,16 @@ final class RoomPricing
             if ($list === null) {
                 return null;
             }
+            $childList = 0.0;
+            if ($children > 0) {
+                $one = $grid[$key][self::CHILD] ?? $grid[self::BASE][self::CHILD] ?? null;
+                if ($one === null) {
+                    $childPriced = false;
+                } else {
+                    $childList = $one * $children;
+                }
+            }
+            $list += $childList;
             $pay = round($list * $ratio, 2);
             $listTotal += $list;
             $total += $pay;
@@ -219,6 +237,7 @@ final class RoomPricing
                 'date'   => $night->toDateString(),
                 'season' => $season?->name,
                 'list'   => $list,
+                'children_list' => $childList,
                 'price'  => $pay,
             ];
         }
@@ -229,6 +248,8 @@ final class RoomPricing
         return [
             'nights'           => $nights,
             'adults'           => $adults,
+            'children'         => $children,
+            'child_priced'     => $childPriced,
             'total'            => $total,
             'list_total'       => $listTotal,
             'per_night'        => round($total / $nights, 2),
@@ -256,7 +277,7 @@ final class RoomPricing
             if ($seasonId !== null && $seasonId <= 0) {
                 continue;
             }
-            for ($adults = 1; $adults <= RoomOccupancyPrice::MAX_ADULTS; $adults++) {
+            for ($adults = self::CHILD; $adults <= RoomOccupancyPrice::MAX_ADULTS; $adults++) {
                 if (! array_key_exists($adults, $row)) {
                     continue;
                 }

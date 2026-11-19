@@ -68,7 +68,7 @@ final class FrontServiceController extends Controller
             if ($search['min_stay_ok']) {
                 $pricing = new RoomPricing();
                 foreach ($rooms as $room) {
-                    $quotes[$room->id] = $pricing->quote($room, $search['checkin'], $search['checkout'], $search['adults']);
+                    $quotes[$room->id] = $pricing->quote($room, $search['checkin'], $search['checkout'], $search['adults'], $search['children']);
                 }
             }
         }

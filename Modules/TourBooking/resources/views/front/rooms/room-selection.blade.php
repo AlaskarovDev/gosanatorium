@@ -2895,6 +2895,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         bookingData.selectedOptional = {};
         bookingData.quoteTotal = null;
         bookingData.quoteNights = 0;
+        bookingData.quoteChildPriced = !!(quote && quote.childPriced);
         var useQuote = !!(quote && RS_SEARCH && quote.total > 0);
         if (useQuote) {
             // Same dates, guests and price as on the room card
@@ -2921,7 +2922,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             hint.style.display = '';
             hint.querySelector('.hint-text').innerHTML =
                 'Цена рассчитана для выбранных дат и гостей.' +
-                (bookingData.children > 0 ? ' Стоимость для детей уточнит менеджер.' : '') +
+                (bookingData.children > 0 ? (bookingData.quoteChildPriced ? ' Стоимость для детей включена.' : ' Стоимость для детей уточнит менеджер.') : '') +
                 '<br><button type="button" class="rs-change-search" onclick="rsChangeSearch()">Изменить даты или гостей</button>';
         } else if (hint) {
             hint.style.display = '';
@@ -3261,7 +3262,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             const price = parseFloat(btn.dataset.roomPrice || card.dataset.price || 0);
             const maxGuests = parseInt(btn.dataset.maxGuests || card.dataset.guests || 4);
             const basePriceFor = parseInt(btn.dataset.basePriceFor || maxGuests);
-            const quote = btn.dataset.quoteTotal ? { total: parseFloat(btn.dataset.quoteTotal), nights: parseInt(btn.dataset.quoteNights, 10) } : null;
+            const quote = btn.dataset.quoteTotal ? { total: parseFloat(btn.dataset.quoteTotal), nights: parseInt(btn.dataset.quoteNights, 10), childPriced: btn.dataset.quoteChildPriced === '1' } : null;
             let extras = [];
             try { extras = JSON.parse(btn.dataset.extras || '[]'); } catch (err) { extras = []; }
             let roomThumb = '';
