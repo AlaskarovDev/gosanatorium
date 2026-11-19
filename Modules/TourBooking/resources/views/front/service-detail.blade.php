@@ -1,9 +1,13 @@
 @extends('layout_inner_page')
 
 @section('title')
-    <title>{{ $service?->translation?->title }} | Услуги</title>
-    <meta name="title" content="{{ $service?->translation?->title }}">
-    <meta name="description" content="{{ Str::limit(strip_tags(\Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->short_description, $service)), 160) }}">
+    @php
+        $metaTitle = \Modules\TourBooking\App\Services\SeoText::serviceTitle($service);
+        $metaDesc = \Modules\TourBooking\App\Services\SeoText::serviceDescription($service);
+    @endphp
+    <title>{{ $metaTitle }}</title>
+    <meta name="title" content="{{ $metaTitle }}">
+    <meta name="description" content="{{ $metaDesc }}">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 @endsection
 

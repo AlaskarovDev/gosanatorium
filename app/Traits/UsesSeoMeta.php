@@ -29,8 +29,11 @@ trait UsesSeoMeta
         $title       = $filled($seo?->seo_title) ? $seo->seo_title : ($defaults['title'] ?? config('app.name'));
         $description = $filled($seo?->seo_description) ? $seo->seo_description : ($defaults['description'] ?? '');
         $keywords    = $filled($seo?->seo_keywords) ? $seo->seo_keywords : ($defaults['keywords'] ?? '');
+        // Task 11: plain text only (no tags / HTML entities), description max 160 chars at a word boundary
+        $title       = \Modules\TourBooking\App\Services\SeoText::title($title);
+        $description = \Modules\TourBooking\App\Services\SeoText::description($description);
         $ogTitle     = $filled($seo?->og_title) ? $seo->og_title : $title;
-        $ogDesc      = $filled($seo?->og_description) ? $seo->og_description : $description;
+        $ogDesc      = $filled($seo?->og_description) ? \Modules\TourBooking\App\Services\SeoText::description($seo->og_description, 200) : $description;
         $ogImage     = $filled($seo?->og_image) ? $seo->og_image : (!empty($defaults['image']) ? $defaults['image'] : asset('images/og-default.jpg'));
         if (!preg_match('#^https?://#i', $ogImage)) {
             $ogImage = asset($ogImage);
@@ -40,7 +43,10 @@ trait UsesSeoMeta
 
         SEOMetaFacade::setTitle($title, false);
         SEOMetaFacade::setDescription($description);
-        SEOMetaFacade::setKeywords($keywords);
+        if ($filled($keywords)) {
+            // no empty <meta name="keywords">
+            SEOMetaFacade::setKeywords($keywords);
+        }
         SEOMetaFacade::setRobots($robots);
         SEOMetaFacade::setCanonical($canonical);
 

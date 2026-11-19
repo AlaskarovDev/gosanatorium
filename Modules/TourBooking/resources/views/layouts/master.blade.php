@@ -10,7 +10,7 @@
     <title>TourBooking Module - {{ config('app.name', 'Laravel') }}</title>
 
     <meta name="description" content="{{ $description ?? '' }}">
-    <meta name="keywords" content="{{ $keywords ?? '' }}">
+    @if (!empty($keywords))<meta name="keywords" content="{{ $keywords }}">@endif
     <meta name="author" content="{{ $author ?? '' }}">
 
     <!-- Fonts -->
