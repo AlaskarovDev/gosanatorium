@@ -3231,8 +3231,26 @@
                     <div class="feature-card">
                         <div class="feature-card__icon"><i class="fa-regular fa-globe"></i></div>
                         <div class="feature-card__content">
-                            <div class="feature-card__label">Языки</div>
-                            <div class="feature-card__value">{{ implode(', ', $service?->languages) }}</div>
+                            @php
+                                // Language names are stored in English ("English, German, Russian").
+                                $staffLangRu = [
+                                    'russian' => 'русский', 'english' => 'английский', 'german' => 'немецкий',
+                                    'azerbaijani' => 'азербайджанский', 'azeri' => 'азербайджанский', 'turkish' => 'турецкий',
+                                    'georgian' => 'грузинский', 'french' => 'французский', 'spanish' => 'испанский',
+                                    'italian' => 'итальянский', 'arabic' => 'арабский', 'persian' => 'персидский',
+                                    'farsi' => 'персидский', 'hebrew' => 'иврит', 'uzbek' => 'узбекский',
+                                    'kazakh' => 'казахский', 'ukrainian' => 'украинский', 'chinese' => 'китайский',
+                                    'polish' => 'польский', 'armenian' => 'армянский',
+                                ];
+                                $staffLangs = collect($service?->languages)
+                                    ->map(fn ($l) => trim((string) $l))->filter()
+                                    ->map(fn ($l) => $staffLangRu[mb_strtolower($l)] ?? $l)
+                                    ->unique()
+                                    ->sortBy(fn ($l) => $l === 'русский' ? 0 : 1, SORT_REGULAR)
+                                    ->values();
+                            @endphp
+                            <div class="feature-card__label">Персонал говорит</div>
+                            <div class="feature-card__value">{{ $staffLangs->implode(', ') }}</div>
                         </div>
                     </div>
                 @endif

@@ -2467,7 +2467,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
 
         @foreach($bedTypes as $bed)
             <button class="mobile-filter-chip mobile-bed-chip" data-bed="{{ $bed }}" onclick="toggleMobileBedFilter(this)">
-                <i class="fa-solid fa-bed"></i> {{ $bed }}
+                <i class="fa-solid fa-bed"></i> {{ \Modules\TourBooking\App\Models\Room::bedTypeLabel($bed) }}
             </button>
         @endforeach
     </div>
@@ -2545,7 +2545,7 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
                             @foreach($bedTypes as $bed)
                                 <div class="filter-checkbox">
                                     <input type="checkbox" id="bed{{ Str::slug($bed) }}" class="filter-cb" data-filter="beds" value="{{ $bed }}">
-                                    <label for="bed{{ Str::slug($bed) }}">{{ $bed }}</label>
+                                    <label for="bed{{ Str::slug($bed) }}">{{ \Modules\TourBooking\App\Models\Room::bedTypeLabel($bed) }}</label>
                                 </div>
                             @endforeach
                         </div>
