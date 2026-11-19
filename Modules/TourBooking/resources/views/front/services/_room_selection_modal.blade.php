@@ -135,12 +135,6 @@
                                                 </span>
                                             </div>
 
-                                            @if($room->quantity <= 3 && $room->quantity > 0)
-                                                <small class="text-danger d-block mt-1">
-                                                    <i class="fa-solid fa-fire me-1"></i>Only {{ $room->quantity }} left!
-                                                </small>
-                                            @endif
-
                                             <button type="button" class="btn btn-primary w-100 mt-2 select-room-btn"
                                                     data-room-id="{{ $room->id }}"
                                                     data-room-name="{{ $room->name }}"
