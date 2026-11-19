@@ -237,7 +237,8 @@ class HomeController extends Controller
 
         $blog_comments = BlogComment::where('blog_id', $blog->id)->where('status', 1)->latest()->get();
 
-        $breadcrumb_title = trans('translate.Blog Details');
+        $breadcrumb_title = 'Блог';
+        $breadcrumb_items = \App\Support\Breadcrumbs::forBlog($blog);
 
         $latest_blogs = Blog::with('author')->where('status', 1)->take(5)->get();
 
@@ -260,6 +261,7 @@ class HomeController extends Controller
             'blog' => $blog,
             'blog_comments' => $blog_comments,
             'breadcrumb_title' => $breadcrumb_title,
+            'breadcrumb_items' => $breadcrumb_items,
             'latest_blogs' => $latest_blogs,
             'blog_categories' => $blog_categories,
             'tags_array' => $tags_array,
@@ -505,7 +507,7 @@ class HomeController extends Controller
             $requestedTheme = $request->query('theme');
 
             if (!$requestedTheme || !theme()->exists($requestedTheme)) {
-                return redirect()->route('home');
+                return redirect()->route('home', [], 301); // Task 13: /ru/home → /ru permanently
             }
 
             // Create temporary theme instance

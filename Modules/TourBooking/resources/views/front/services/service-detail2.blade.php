@@ -17,7 +17,7 @@
                     <div class="col-12">
                         <div class="tg-breadcrumb-list-2 tg-breadcrumb-list-3">
                             <ul>
-                                <li><a href="{{ url('home') }}">{{ __('translate.Home') }}</a></li>
+                                <li><a href="{{ localize_front_url('/') }}">{{ __('translate.Home') }}</a></li>
                                 <li><i class="fa-sharp fa-solid fa-angle-right"></i></li>
                                 <li><a href="{{ route('front.tourbooking.services') }}">{{ __('translate.Services') }}</a>
                                 </li>
