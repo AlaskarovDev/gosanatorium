@@ -38,7 +38,8 @@ trait UsesSeoMeta
         if (!preg_match('#^https?://#i', $ogImage)) {
             $ogImage = asset($ogImage);
         }
-        $canonical   = $filled($seo?->canonical_url) ? $seo->canonical_url : url()->current();
+        // Task 15: one format (https, non-www, /ru, no trailing slash, ?page=N kept, sort/filters dropped)
+        $canonical   = $filled($seo?->canonical_url) ? $seo->canonical_url : \App\Support\CanonicalUrl::current();
         $robots      = $seo?->robots ?? 'index,follow';
 
         SEOMetaFacade::setTitle($title, false);

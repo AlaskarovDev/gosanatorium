@@ -1,23 +1,13 @@
 @php
-    $host = request()->getSchemeAndHttpHost();
-    $path = request()->getPathInfo();
+    // Task 15: same format as canonical (https, non-www, no trailing slash, ?page=N kept).
+    $canonicalUrl = \App\Support\CanonicalUrl::current();
+    $qs = parse_url($canonicalUrl, PHP_URL_QUERY);
+    $basePath = \App\Support\CanonicalUrl::basePath();
+    $suffix = $qs ? '?' . $qs : '';
 
-    // Locale prefiksini təmizləyirik (middleware adətən prefiksi artıq kəsir,
-    // amma /ru, /az birbaşa gələrsə də təmizlənsin).
-    $basePath = preg_replace('#^/(ru|az)(?=/|$)#', '', $path);
-    if (!is_string($basePath) || $basePath === '') {
-        $basePath = '/';
-    }
-    $basePath = rtrim($basePath, '/');
-
-    // Bütün hreflang URL-ləri canonical ilə eyni formada olmalıdır:
-    //  - hər zaman locale prefiksi (/ru, /az, /en) ilə → 301 redirect olmasın (final 200)
-    //  - hər zaman sonda "/" ilə                        → canonical ilə üst-üstə düşsün
-    $localizedPath = ($basePath === '' ? '/' : $basePath . '/');
-
-    $ruUrl = $host . '/ru' . $localizedPath;
-    $azUrl = $host . '/az' . $localizedPath;
-    $enUrl = $host . '/en' . $localizedPath;
+    $ruUrl = \App\Support\CanonicalUrl::to($basePath, 'ru') . $suffix;
+    $azUrl = \App\Support\CanonicalUrl::to($basePath, 'az') . $suffix;
+    $enUrl = \App\Support\CanonicalUrl::to($basePath, 'en') . $suffix;
 @endphp
 <link rel="alternate" hreflang="ru" href="{{ $ruUrl }}" />
 <link rel="alternate" hreflang="en" href="{{ $enUrl }}" />

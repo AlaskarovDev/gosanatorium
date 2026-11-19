@@ -119,10 +119,8 @@ class SitemapController extends Controller
 
     private function makeEntry(string $path, string $priority, string $changefreq, $updatedAt = null): array
     {
-        $path = trim($path, '/');
-        // Canonical URL-lər hər zaman sonda "/" ilə bitir, ona görə sitemap-dakı
-        // URL-ləri də eyniləşdiririk (əks halda "Non-canonical page in sitemap" xəbərdarlığı çıxır).
-        $loc  = rtrim(url('/ru' . ($path !== '' ? '/' . $path : '')), '/') . '/';
+        // Task 15: same format as the canonical tag (https, non-www, /ru, no trailing slash).
+        $loc  = \App\Support\CanonicalUrl::to($path, 'ru');
 
         return [
             'loc'        => $loc,
