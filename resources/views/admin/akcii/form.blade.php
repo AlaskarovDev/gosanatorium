@@ -110,6 +110,13 @@
                                                 </div>
                                                 <div class="col-md-6">
                                                     <div class="crancy__item-form--group mg-top-form-20">
+                                                        <label class="crancy__item-label" for="is_new_year">New Year offer (бейдж «🎁 Новогоднее предложение»)</label>
+                                                        <input type="hidden" name="is_new_year" value="0">
+                                                        <input type="checkbox" id="is_new_year" name="is_new_year" value="1" {{ old('is_new_year', \App\Services\NewYearMode::isNewYearAkcii($akcii)) ? 'checked' : '' }}>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <div class="crancy__item-form--group mg-top-form-20">
                                                         <label class="crancy__item-label">Sanatorium name (optional, overrides dropdown)</label>
                                                         <input class="crancy__item-input" type="text" name="sanatorium_name" value="{{ old('sanatorium_name', $akcii->sanatorium_name) }}">
                                                         @error('sanatorium_name') <span class="text-danger">{{ $message }}</span> @enderror

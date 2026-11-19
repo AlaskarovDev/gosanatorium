@@ -24,6 +24,9 @@
         @elseif ($item->is_hot && ($item->badge_text ?? '') !== '🔥')
             <span class="gsp-flag gsp-flag--hot">Горящее предложение 🔥</span>
         @endif
+        @if (!$ph && \App\Services\NewYearMode::showBadge($item))
+            <span class="ny-badge">🎁 Новогоднее предложение</span>
+        @endif
         @if (!empty($item->badge_text))
             <span class="gsp-pct promo-card__badge">{{ $item->badge_text }}</span>
         @elseif ($pct)
