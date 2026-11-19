@@ -153,9 +153,8 @@
             <div class="room-details-col">
                 <div class="rc-title-row">
                     <h3 class="room-name">{{ $roomName }}</h3>
-                    @if($quantity === 1)
-                        <span class="rc-badge rc-badge--last">Последний номер</span>
-                    @elseif(!empty($room->is_popular))
+                    {{-- Task 5: no scarcity label until real availability exists (Task 42) --}}
+                    @if(!empty($room->is_popular))
                         <span class="rc-badge rc-badge--popular">Популярный</span>
                     @endif
                 </div>
