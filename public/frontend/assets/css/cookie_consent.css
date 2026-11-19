@@ -21,7 +21,8 @@
 }
 
 /* Başlıq gizli — minimalist */
-.cookie_consent_modal h5 {
+.cookie_consent_modal h5,
+.cookie_consent_modal .cookie-title {
     display: none !important;
 }
 

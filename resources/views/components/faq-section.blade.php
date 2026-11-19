@@ -28,7 +28,7 @@
   <div class="hfaq-container">
     <div class="hfaq-head">
       <p class="hfaq-subtitle">У Вас Есть Вопросы? Мы Собрали Ответы</p>
-      <h2 class="hfaq-title">Часто Задаваемые Вопросы</h2>
+      <h2 class="hfaq-title">Часто задаваемые вопросы</h2>
     </div>
     <div class="hfaq-list">
 

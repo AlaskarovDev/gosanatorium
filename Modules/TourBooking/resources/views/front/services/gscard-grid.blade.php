@@ -43,9 +43,9 @@
                                     <span class="gscard-reviews">{{ app()->getLocale() === 'ru' ? 'Нет отзывов' : 'No reviews' }}</span>
                                 @endif
                             </div>
-                            <{{ $gsTitleTag ?? 'h4' }} class="gscard-title">
+                            <{{ $gsTitleTag ?? 'h2' }} class="gscard-title">
                                 <a href="{{ $gsUrl }}">{{ $service?->translation?->title }}</a>
-                            </{{ $gsTitleTag ?? 'h4' }}>
+                            </{{ $gsTitleTag ?? 'h2' }}>
                             @if ($gsAddr = gscardAddress($service))
                                 <div class="gscard-address">
                                     <i class="fa-solid fa-location-dot"></i> {{ $gsAddr }}

@@ -14,7 +14,7 @@
 .gscurrate-val{color:#2ec4a9!important;font-size:18px!important;font-weight:700!important;min-width:80px!important;text-align:right!important}
 .gscurrate-updated{color:rgba(255,255,255,0.3)!important;font-size:12px!important;margin-top:16px!important}
 </style>
-<h3 class="gscurrate-title">Конвертер валют</h3>
+<div class="gscurrate-title">Конвертер валют</div>
 <div class="gscurrate-input-row">
   <label for="gcAmount">Введите сумму:</label>
   <input type="number" class="gscurrate-amount" id="gcAmount" value="1" min="0">

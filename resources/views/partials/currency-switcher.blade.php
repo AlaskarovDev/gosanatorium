@@ -11,7 +11,7 @@
 <div class="currency-modal-overlay notranslate" translate="no" id="currencyModal" style="display:none" onclick="if(event.target===this)closeCurrencyModal()">
     <div class="currency-modal" role="dialog" aria-modal="true">
         <div class="currency-modal__header">
-            <h3>{{ $csRu ? 'Выберите валюту' : 'Select currency' }}</h3>
+            <div class="currency-modal__title">{{ $csRu ? 'Выберите валюту' : 'Select currency' }}</div>
             <button type="button" class="currency-modal__close" onclick="closeCurrencyModal()" aria-label="Close">✕</button>
         </div>
         <p class="currency-modal__note">
@@ -32,7 +32,7 @@
 .currency-modal-overlay{position:fixed;inset:0;background:rgba(15,23,42,.6);z-index:100000;align-items:flex-start;justify-content:center;padding:40px 16px;overflow-y:auto}
 .currency-modal{background:#fff;border-radius:20px;width:100%;max-width:900px;padding:28px 32px 32px;box-shadow:0 20px 60px rgba(0,0,0,.3);color:#1e293b;font-family:'Poppins',sans-serif}
 .currency-modal__header{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
-.currency-modal__header h3{margin:0;font-size:28px;font-weight:700}
+.currency-modal__header h3,.currency-modal__title{color:#1e293b;line-height:1.1;margin:0;font-size:28px;font-weight:700}
 .currency-modal__close{width:40px;height:40px;border:1px solid #e2e8f0;background:#fff;border-radius:8px;font-size:18px;cursor:pointer;color:#1e293b}
 .currency-modal__note{color:#64748b;font-size:15px;line-height:1.5;margin:0 0 20px}
 .currency-modal__section-title{font-weight:700;font-size:16px;margin:18px 0 10px}
@@ -46,7 +46,7 @@
 .currency-item__check{display:none;color:#1a56db;font-size:20px;font-weight:700}
 .currency-item.is-active .currency-item__check{display:block}
 @media (max-width:900px){.currency-modal__grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
-@media (max-width:520px){.currency-modal{padding:20px 16px}.currency-modal__header h3{font-size:22px}.currency-modal__grid{grid-template-columns:1fr}.currency-btn{padding:6px 8px;font-size:12px}}
+@media (max-width:520px){.currency-modal{padding:20px 16px}.currency-modal__header h3,.currency-modal__title{color:#1e293b;line-height:1.1;font-size:22px}.currency-modal__grid{grid-template-columns:1fr}.currency-btn{padding:6px 8px;font-size:12px}}
 </style>
 
 <script>

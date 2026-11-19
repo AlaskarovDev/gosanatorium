@@ -86,7 +86,7 @@
 
                         <div class="tg-blog-details-tag mb-40 d-flex flex-wrap justify-content-between align-items-center">
                             <div class="tg-blog-sidebar-tag-list d-flex flex-wrap align-items-center">
-                                <h5 class="tg-blog-sidebar-title mr-10">{{ __('translate.Tags') }}:</h5>
+                                <div class="gs-h5 tg-blog-sidebar-title mr-10">{{ __('translate.Tags') }}:</div>
                                 <ul>
                                     @if ($blog->tags)
                                         @foreach (json_decode($blog->tags) as $blog_tag)
