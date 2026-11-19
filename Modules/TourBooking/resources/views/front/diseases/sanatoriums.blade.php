@@ -1,8 +1,8 @@
 @extends('layout_inner_page')
 
 @section('title')
-    <title>{{ $disease ? $disease->name . ' | Санатории' : 'Все санатории' }}</title>
-    <meta name="title" content="{{ $disease ? $disease->name : 'Все санатории' }}">
+    <title>{{ $disease ? $disease->h1 : 'Все санатории' }}</title>
+    <meta name="title" content="{{ $disease ? $disease->h1 : 'Все санатории' }}">
     <meta name="description" content="{{ $disease ? \Illuminate\Support\Str::limit(strip_tags($disease->description ?? $disease->name), 160) : 'Все санатории Нафталана и Грузии на одном сайте. Сравните цены, процедуры и отзывы. Более 22 санаториев. Бронирование без предоплаты.' }}">
 @endsection
 
@@ -41,10 +41,14 @@
             <div class="tg-breadcrumb">
                 <a href="{{ route('home') }}">{{ __('translate.Home') }}</a>
                 <span> / </span>
-                <a href="{{ route('diseases.index') }}">{{ \Modules\TourBooking\App\Models\Disease::t('Sanatoriums by Treatment Profile') }}</a>
-                <span> / {{ $disease ? $disease->name : 'Все санатории' }}</span>
+                @if ($disease)
+                    <a href="{{ localize_front_url('/napravleniya-lecheniya') }}">{{ (request()->attributes->get('display_lang') ?: app()->getLocale()) === 'ru' ? 'Направления лечения' : 'Treatment directions' }}</a>
+                    <span> / {{ $disease->name }}</span>
+                @else
+                    <span>Все санатории</span>
+                @endif
             </div>
-            <h1>{{ $disease ? $disease->name : 'Все санатории' }}</h1>
+            <h1>{{ $disease ? $disease->h1 : 'Все санатории' }}</h1>
             @if ($disease && $disease->description)
                 <p>{{ \Illuminate\Support\Str::limit(strip_tags($disease->description), 400) }}</p>
             @endif

@@ -304,7 +304,7 @@ if (!function_exists('render_sanatorium_nav_items')) {
         $path = '/' . trim(request()->getPathInfo(), '/');
         $isList = preg_match('#^/sanatoriyi/?$#', $path) === 1;
         $hasDisease = request()->query('disease') !== null && request()->query('disease') !== '';
-        $onDiseases = $hasDisease || preg_match('#^/(diseases|bolezni)(/|$)#', $path) === 1;
+        $onDiseases = $hasDisease || preg_match('#^/(diseases|bolezni|napravleniya-lecheniya)(/|$)#', $path) === 1;
 
         // Sanatoriums (alphabetical)
         $sanatoriums = \Illuminate\Support\Facades\Cache::remember('nav_sanatoriums_' . app()->getLocale(), 600, function () {
@@ -330,26 +330,28 @@ if (!function_exists('render_sanatorium_nav_items')) {
 
         $diseases = $ru ? [
             'sustavy' => 'Заболевания суставов (артрит, артроз, подагра)',
-            'psoriaz' => 'Кожные заболевания (псориаз, экзема, нейродермит)',
+            'kozha' => 'Кожные заболевания (псориаз, экзема, нейродермит)',
             'nevrologiya' => 'Неврологические заболевания',
-            'urologiya' => 'Гинекологические заболевания',
+            'ginekologiya' => 'Гинекологические заболевания',
+            'urologiya' => 'Урологические заболевания',
             'zhkt' => 'Заболевания ЖКТ',
-            'diabet' => 'Эндокринология',
+            'diabet' => 'Диабет и эндокринология',
         ] : [
             'sustavy' => 'Joint diseases (arthritis, arthrosis, gout)',
-            'psoriaz' => 'Skin diseases (psoriasis, eczema, neurodermatitis)',
+            'kozha' => 'Skin diseases (psoriasis, eczema, neurodermatitis)',
             'nevrologiya' => 'Neurological diseases',
-            'urologiya' => 'Gynecological diseases',
+            'ginekologiya' => 'Gynecological diseases',
+            'urologiya' => 'Urological diseases',
             'zhkt' => 'Digestive diseases',
-            'diabet' => 'Endocrinology',
+            'diabet' => 'Diabetes and endocrinology',
         ];
-        $dChildren = [];
+        $dChildren = [['title' => $ru ? 'Все направления' : 'All directions', 'url' => '/napravleniya-lecheniya'], ['divider' => true]];
         foreach ($diseases as $slug => $label) {
             $dChildren[] = ['title' => $label, 'url' => '/sanatoriyi?disease=' . $slug];
         }
 
         return render_nav_dropdown($ru ? 'Санатории' : 'Sanatoriums', '/sanatoriyi', $children, $onSanatorium, 'nav-sanatoriums', true)
-            . render_nav_dropdown($ru ? 'Направления лечения' : 'Treatment directions', '#', $dChildren, $onDiseases, 'nav-treatments', false);
+            . render_nav_dropdown($ru ? 'Направления лечения' : 'Treatment directions', '/napravleniya-lecheniya', $dChildren, $onDiseases, 'nav-treatments', false);
     }
 }
 
