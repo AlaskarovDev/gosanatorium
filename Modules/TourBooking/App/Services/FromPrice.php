@@ -13,16 +13,14 @@ use Modules\TourBooking\App\Models\ServiceRoom;
 /**
  * Task 10: the «от $X» price of a sanatorium, calculated from room prices (no manual field).
  *
- * From price = the cheapest active room price of the current or an upcoming season
- * (and the base price when some date of the next 12 months is outside every season),
- * after the room discount. Date discounts («Скидки по датам») are not counted: they are temporary
+ * From price = the price typed in admin «Pricing Details» (price per person, or discount / full price),
+ * shown exactly as typed. Only when Pricing Details is empty: the cheapest active room price of the
+ * current or an upcoming season, after the room discount. Date discounts («Скидки по датам») are not counted: they are temporary
  * and the room search shows them.
  *
  * Price basis (admin, per sanatorium, services.price_basis):
- *  - person: «за ночь с человека» = cheapest double-room price / 2 (1-adult price for single rooms);
- *  - room:   «за номер (2 гостя) за ночь» = cheapest room price for 2 adults (1 for single rooms).
- *
- * Sanatoriums without priced rooms keep the old service price (price_per_person / discount / full).
+ *  - person: «за ночь с человека» (room fallback: 1-adult price, never divided);
+ *  - room:   «за номер (2 гостя) за ночь» (room fallback: price for 2 adults).
  * Results are cached per day; the cache is dropped whenever a room, price, season or sanatorium is saved.
  */
 final class FromPrice
@@ -141,7 +139,7 @@ final class FromPrice
 
         $compute = fn () => self::compute(Service::query()->where('status', true)->pluck('id')->all());
         try {
-            $key = 'gs_from_price:v2:' . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
+            $key = 'gs_from_price:v3:' . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
 
             return self::$map = Cache::remember($key, now()->addHours(6), $compute);
         } catch (\Throwable) {
@@ -176,24 +174,32 @@ final class FromPrice
             if (! $service) {
                 continue;
             }
-            $basis = self::basis($service);
-            $min = null;
-            foreach ($rooms->get($id, collect()) as $room) {
-                $price = self::roomFrom($pricing, $room, $keys, $basis);
-                if ($price !== null && ($min === null || $price < $min)) {
-                    $min = $price;
-                }
-            }
+            // The price typed in admin «Pricing Details» is shown as is (no division, no recalculation).
+            $min = self::adminPrice($service);
             if ($min === null) {
-                $fallback = (float) ($service->is_per_person
-                    ? $service->price_per_person
-                    : ($service->discount_price ?: $service->full_price));
-                $min = $fallback > 0 ? $fallback : null;
+                // Pricing Details empty: cheapest room price as typed (1 adult, or 2 adults for «за номер»).
+                $basis = self::basis($service);
+                foreach ($rooms->get($id, collect()) as $room) {
+                    $price = self::roomFrom($pricing, $room, $keys, $basis);
+                    if ($price !== null && ($min === null || $price < $min)) {
+                        $min = $price;
+                    }
+                }
             }
             $out[$id] = $min !== null ? round($min, 2) : null;
         }
 
         return $out;
+    }
+
+    /** Price from admin «Pricing Details»: per-person price, or discount price / full price. */
+    public static function adminPrice(Service $service): ?float
+    {
+        $value = (float) ($service->is_per_person
+            ? ($service->price_per_person ?: ($service->discount_price ?: $service->full_price))
+            : ($service->discount_price ?: $service->full_price));
+
+        return $value > 0 ? $value : null;
     }
 
     /** Cheapest price of one room over the given grid rows, after the room discount. */
@@ -211,11 +217,8 @@ final class FromPrice
                     $candidates[] = (float) $price;
                 }
             } else {
-                // Per person = double-room price / 2 (1-adult price for single rooms). Prices for
-                // 3+ adults are not divided: an extra-bed share is not a price a guest can book.
-                if (isset($row[2]) && (float) $row[2] > 0) {
-                    $candidates[] = (float) $row[2] / 2;
-                } elseif (isset($row[1]) && (float) $row[1] > 0) {
+                // Per person = 1-adult price as typed in admin (never divided).
+                if (isset($row[1]) && (float) $row[1] > 0) {
                     $candidates[] = (float) $row[1];
                 }
             }
@@ -338,7 +341,7 @@ final class FromPrice
         };
 
         try {
-            $key = 'gs_season_block:v2:' . md5($destinationSlugPrefix . json_encode($windows)) . ':'
+            $key = 'gs_season_block:v3:' . md5($destinationSlugPrefix . json_encode($windows)) . ':'
                 . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
 
             return Cache::remember($key, now()->addHours(6), $compute);

@@ -828,7 +828,7 @@
 @php $fpBasis = old('price_basis', \Modules\TourBooking\App\Services\FromPrice::basis($service)); $fpPrice = \Modules\TourBooking\App\Services\FromPrice::for($service); @endphp
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Цена «от» указана</label>
 <select class="crancy__item-input" name="price_basis">@foreach (\Modules\TourBooking\App\Services\FromPrice::bases() as $fpKey => $fpLabel)<option value="{{ $fpKey }}" @selected($fpBasis === $fpKey)>{{ $fpLabel }}</option>@endforeach</select>
-<small class="d-block mt-1 text-muted" id="fp-current">Сейчас на сайте: от {{ $fpPrice !== null ? currency($fpPrice) : '—' }} — считается автоматически по самой низкой цене номеров (текущий и следующие сезоны). В текстах можно писать {min_price}.</small></div></div>
+<small class="d-block mt-1 text-muted" id="fp-current">Сейчас на сайте: от {{ $fpPrice !== null ? currency($fpPrice) : '—' }} — берётся из «Pricing Details» (если пусто — самая низкая цена номеров). В текстах можно писать {min_price}.</small></div></div>
 @endif
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Минимальный срок лечения, ночей</label>
 <input class="crancy__item-input" type="number" min="1" max="60" name="min_stay_nights" placeholder="1" value="{{ old('min_stay_nights', $service->min_stay_nights) }}"></div></div>
