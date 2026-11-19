@@ -28,7 +28,8 @@ class AkciiController extends Controller
         $data = $request->validate($this->rules());
         $data = $this->prepare($request, $data);
 
-        Akcii::create($data);
+        $akcii = Akcii::create($data);
+        \App\Services\NewYearMode::setAkcii($akcii->id, $request->boolean('is_new_year'));
 
         return redirect()->route('admin.akcii.index')->with(['message' => __('translate.Created successfully'), 'alert-type' => 'success']);
     }
@@ -46,12 +47,14 @@ class AkciiController extends Controller
         $data = $this->prepare($request, $data);
 
         $akcii->update($data);
+        \App\Services\NewYearMode::setAkcii($akcii->id, $request->boolean('is_new_year'));
 
         return redirect()->route('admin.akcii.index')->with(['message' => __('translate.Updated successfully'), 'alert-type' => 'success']);
     }
 
     public function destroy(Akcii $akcii)
     {
+        \App\Services\NewYearMode::setAkcii($akcii->id, false);
         $akcii->delete();
 
         return redirect()->route('admin.akcii.index')->with(['message' => __('translate.Deleted successfully'), 'alert-type' => 'success']);

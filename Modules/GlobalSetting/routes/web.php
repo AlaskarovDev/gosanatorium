@@ -55,6 +55,9 @@ Route::group(['as'=> 'admin.', 'prefix' => 'admin', 'middleware' => ['auth:admin
             Route::get('company-facts', 'company_facts')->name('company-facts');
             Route::put('company-facts-update', 'company_facts_update')->name('company-facts-update');
 
+            Route::get('new-year-mode', 'new_year_mode')->name('new-year-mode');
+            Route::put('new-year-mode-update', 'new_year_mode_update')->name('new-year-mode-update');
+
             Route::get('maintenance-mode', 'maintenance_mode')->name('maintenance-mode');
             Route::put('maintenance-mode-update', 'maintenance_mode_update')->name('maintenance-mode-update');
 

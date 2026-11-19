@@ -77,6 +77,7 @@
 
 <body class="td_theme_2">
     @include('partials.announcement-bar')
+    @include('partials.topbar-offset')
     @if ($general_setting->preloader_status == 'enable')
         <!-- Start Preloader -->
         <div id="loading">

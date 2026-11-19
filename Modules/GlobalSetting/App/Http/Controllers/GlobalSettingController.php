@@ -677,6 +677,36 @@ class GlobalSettingController extends Controller
         return redirect()->back()->with($notify_message);
     }
 
+    public function new_year_mode()
+    {
+        $values = [];
+        foreach (\App\Services\NewYearMode::DEFAULTS as $key => $default) {
+            $values[$key] = \App\Services\NewYearMode::get($key);
+        }
+        $active = \App\Services\NewYearMode::isActive();
+        $barText = \App\Services\NewYearMode::barText();
+
+        return view('globalsetting::new_year_mode', compact('values', 'active', 'barText'));
+    }
+
+    public function new_year_mode_update(Request $request)
+    {
+        $request->validate([
+            'ny_mode'  => 'required|in:auto,on,off',
+            'ny_start' => 'required|date_format:Y-m-d',
+            'ny_end'   => 'required|date_format:Y-m-d',
+            'ny_link'  => ['required', 'string', 'max:255', 'regex:#^(/|https?://)#i'],
+        ], [
+            'ny_link.regex' => 'Ссылка должна начинаться с / или https://',
+        ]);
+
+        \App\Services\NewYearMode::save($request->only(['ny_mode', 'ny_start', 'ny_end', 'ny_link']));
+
+        $notify_message = trans('translate.Updated successfully');
+        $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
+        return redirect()->back()->with($notify_message);
+    }
+
     public function maintenance_mode()
     {
 
