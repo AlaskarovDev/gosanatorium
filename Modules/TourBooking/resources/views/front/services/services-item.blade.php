@@ -23,7 +23,8 @@
                             @include('tourbooking::front.services.badges', ['service' => $service, 'class' => 'gs-sbadges--overlay'])
                             @include('tourbooking::front.services.rating-badges', ['service' => $service, 'class' => 'gs-rating-badges--card'])
                             <div class="tg-listing-2-price">
-                                {!! $service->price_display !!}
+                                {{ app()->getLocale() === 'ru' ? 'от' : 'from' }} {!! currency_span(\Modules\TourBooking\App\Services\FromPrice::for($service)) !!}
+                                <small class="d-block" style="font-size:12px;font-weight:500;color:#94a3b8">{{ \Modules\TourBooking\App\Services\FromPrice::shortLabel($service) }}</small>
                             </div>
                         </div>
                         <div class="tg-listing-card-content p-relative">

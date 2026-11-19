@@ -513,7 +513,7 @@ public function destroyRoom(ServiceRoom $room): RedirectResponse
     private function applyNumericDefaults(array $data, ?Service $service = null): array
     {
         // Room-search fields: drop them until the database update (migration) has added the columns
-        foreach (['min_stay_nights', 'meal_plan'] as $column) {
+        foreach (['min_stay_nights', 'meal_plan', 'price_basis'] as $column) {
             if (array_key_exists($column, $data) && ! \Illuminate\Support\Facades\Schema::hasColumn('services', $column)) {
                 unset($data[$column]);
             }

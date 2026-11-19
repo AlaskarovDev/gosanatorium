@@ -361,5 +361,6 @@ final class RoomPricing
         }
 
         $room->unsetRelation('occupancyPrices');
+        FromPrice::flush();
     }
 }

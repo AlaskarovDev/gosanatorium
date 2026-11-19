@@ -1,12 +1,19 @@
 @php
+    // Task 10: prices come from room prices of Naftalan sanatoriums (cheapest per person per night
+    // in that period). No price for a period = the line is not shown.
     $gsSeasons = [
-        ['months' => 'Январь–Февраль',   'season' => 'Низкий сезон',  'price' => 'От $80/ночь',  'load' => 'Свободно',     'level' => 1],
-        ['months' => 'Март–Апрель',      'season' => 'Средний сезон', 'price' => 'От $95/ночь',  'load' => 'Умеренно',     'level' => 2],
-        ['months' => 'Май–Июнь',         'season' => 'Высокий сезон', 'price' => 'От $110/ночь', 'load' => 'Занято',       'level' => 3],
-        ['months' => 'Июль–Август',      'season' => 'Пик сезона',    'price' => 'От $130/ночь', 'load' => 'Очень занято', 'level' => 4],
-        ['months' => 'Сентябрь–Октябрь', 'season' => 'Высокий сезон', 'price' => 'От $110/ночь', 'load' => 'Занято',       'level' => 3],
-        ['months' => 'Ноябрь–Декабрь',   'season' => 'Средний сезон', 'price' => 'От $95/ночь',  'load' => 'Умеренно',     'level' => 2],
+        ['months' => 'Январь–Февраль',   'm' => [1, 2],   'season' => 'Низкий сезон',  'load' => 'Свободно',     'level' => 1],
+        ['months' => 'Март–Апрель',      'm' => [3, 4],   'season' => 'Средний сезон', 'load' => 'Умеренно',     'level' => 2],
+        ['months' => 'Май–Июнь',         'm' => [5, 6],   'season' => 'Высокий сезон', 'load' => 'Занято',       'level' => 3],
+        ['months' => 'Июль–Август',      'm' => [7, 8],   'season' => 'Пик сезона',    'load' => 'Очень занято', 'level' => 4],
+        ['months' => 'Сентябрь–Октябрь', 'm' => [9, 10],  'season' => 'Высокий сезон', 'load' => 'Занято',       'level' => 3],
+        ['months' => 'Ноябрь–Декабрь',   'm' => [11, 12], 'season' => 'Средний сезон', 'load' => 'Умеренно',     'level' => 2],
     ];
+    try {
+        $gsSeasonPrices = \Modules\TourBooking\App\Services\FromPrice::seasonBlock('naftalan', array_column($gsSeasons, 'm'));
+    } catch (\Throwable $e) {
+        $gsSeasonPrices = [];
+    }
 @endphp
 <section class="gsseason-section" id="section-season">
 <style>
@@ -24,6 +31,7 @@
 .gsseason-months{font-size:20px;font-weight:800;color:#1a2540;margin:0 0 4px}
 .gsseason-name{font-size:14px;font-weight:600;color:#1a9e87;margin:0 0 16px}
 .gsseason-price{font-size:24px;font-weight:800;color:#1a2540;margin:0 0 14px}
+.gsseason-per{font-size:13px;font-weight:500;color:#64748b}
 .gsseason-load{display:flex;align-items:center;gap:10px;font-size:14px;color:#64748b}
 .gsseason-load span.t{font-weight:600;color:#1a2540}
 .gsseason-bars{display:inline-flex;gap:3px}
@@ -43,7 +51,9 @@
       <div class="gsseason-card lvl{{ $s['level'] }}">
         <h3 class="gsseason-months">{{ $s['months'] }}</h3>
         <div class="gsseason-name">{{ $s['season'] }}</div>
-        <div class="gsseason-price">{{ $s['price'] }}</div>
+        @if (! empty($gsSeasonPrices[$loop->index]))
+        <div class="gsseason-price">от {!! currency_span($gsSeasonPrices[$loop->index]) !!} <span class="gsseason-per">с человека / ночь</span></div>
+        @endif
         <div class="gsseason-load">
           <span class="gsseason-bars">@for($i=1;$i<=4;$i++)<i class="{{ $i <= $s['level'] ? 'on' : '' }}"></i>@endfor</span>
           <span class="t">{{ $s['load'] }}</span>

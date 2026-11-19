@@ -188,6 +188,7 @@ class ServiceRequest extends FormRequest
             'procedures_per_day' => 'nullable|integer|min:0|max:50',
             'meals_included' => 'nullable|in:0,1',
             'meal_plan' => 'nullable|string|max:255',
+            'price_basis' => 'nullable|in:person,room',
             'min_stay_nights' => 'nullable|integer|min:1|max:60',
             'tests_included' => 'nullable|in:0,1',
             'doctor_exam_included' => 'nullable|in:0,1',

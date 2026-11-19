@@ -3,7 +3,7 @@
 @section('title')
     @php
         $metaTitle = $service?->translation?->seo_title ?: ($service?->translation?->title ?? 'Санаторий');
-        $metaDesc = trim(strip_tags((string) ($service?->translation?->seo_description ?: $service?->translation?->short_description ?: $service?->translation?->description ?: '')));
+        $metaDesc = trim(strip_tags(\Modules\TourBooking\App\Services\FromPrice::fill((string) ($service?->translation?->seo_description ?: $service?->translation?->short_description ?: $service?->translation?->description ?: ''), $service)));
         $metaDesc = $metaDesc !== '' ? \Illuminate\Support\Str::limit(preg_replace('/\s+/u', ' ', $metaDesc), 155) : $metaTitle . ' — бронирование без предоплаты на GoSanatorium.com';
     @endphp
     <title>{{ $metaTitle }}</title>
@@ -91,7 +91,7 @@
 <div class="gstd-about-card"><div class="gstd-about-icon"><i class="fas fa-procedures"></i></div><div class="gstd-about-val">33–72</div><div class="gstd-about-lbl">Процедур в туре</div></div>
 </div>
 <h2 class="gstd-section-title">О санатории</h2>
-<div class="gstd-desc-text">{!! $service?->translation?->description ?? $service->description ?? '' !!}</div>
+<div class="gstd-desc-text">{!! \Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->description ?? $service->description ?? '', $service) !!}</div>
 @include('partials.sanatorium-results-block')
 <div class="gstd-highlights">
 <div class="gstd-hl-item"><i class="fas fa-check-circle"></i><span class="gstd-hl-text">{{ company_fact('prepayment_policy') }}</span></div>
