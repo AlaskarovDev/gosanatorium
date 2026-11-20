@@ -175,6 +175,8 @@
                                                             </select>
                                                         </div>
                                                     </div>
+
+                                                    @include('blog::_blog_links_fields')
                                                 @endif
 
                                                 <div class="col-12">

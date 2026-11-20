@@ -88,6 +88,8 @@
                                                     </div>
                                                 </div>
 
+                                                @include('blog::_blog_links_fields')
+
                                                 <div class="col-12">
                                                     <div class="crancy__item-form--group mg-top-form-20">
                                                         <label class="crancy__item-label">{{ __('translate.Short Description') }} *</label>

@@ -3,11 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use Modules\Blog\App\Http\Controllers\BlogController;
 use Modules\Blog\App\Http\Controllers\BlogCategoryController;
+use Modules\Blog\App\Http\Controllers\BlogAuthorController;
 
 
 Route::group(['as'=> 'admin.', 'prefix' => 'admin/cms', 'middleware' => ['auth:admin']], function () {
     Route::resource('blog', BlogController::class)->names('blog');
     Route::resource('blog-category', BlogCategoryController::class)->names('blog-category');
+    Route::resource('blog-author', BlogAuthorController::class)->except(['show'])->names('blog-author');
 
     Route::get('comment-list', [BlogController::class, 'blog_list'])->name('comment-list');
     Route::get('show-comment/{id}', [BlogController::class, 'show_comment'])->name('show-comment');

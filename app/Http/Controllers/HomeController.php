@@ -222,7 +222,7 @@ class HomeController extends Controller
 
     public function blog($slug)
     {
-        $blog = Blog::with('author')->where('status', 1)->where('slug', $slug)->firstOrFail();
+        $blog = Blog::with(['author', 'writer', 'expert', 'linkedService.translation', 'linkedService.thumbnail', 'category'])->where('status', 1)->where('slug', $slug)->firstOrFail();
 
         $blog->views = $blog->views + 1;
         $blog->save();
@@ -257,8 +257,20 @@ class HomeController extends Controller
             }
         }
 
+        // Task 20: 3 related posts from the same category (topped up with the latest posts)
+        $related_blogs = Blog::with('front_translate', 'category')->where('status', 1)->where('id', '!=', $blog->id)
+            ->where('blog_category_id', $blog->blog_category_id)->orderByDesc('created_at')->orderByDesc('id')->take(3)->get();
+        if ($related_blogs->count() < 3) {
+            $related_blogs = $related_blogs->concat(
+                Blog::with('front_translate', 'category')->where('status', 1)->where('id', '!=', $blog->id)
+                    ->whereNotIn('id', $related_blogs->pluck('id'))->orderByDesc('created_at')->orderByDesc('id')
+                    ->take(3 - $related_blogs->count())->get()
+            );
+        }
+
         return view('blog_detail', [
             'blog' => $blog,
+            'related_blogs' => $related_blogs,
             'blog_comments' => $blog_comments,
             'breadcrumb_title' => $breadcrumb_title,
             'breadcrumb_items' => $breadcrumb_items,

@@ -60,6 +60,7 @@ class BlogController extends Controller
         $blog->is_popular = $request->is_popular ? 1 : 0;
         $blog->status = $request->status ? 1 : 0;
         $blog->tags = $request->tags;
+        $this->fillLinks($request, $blog);
         $blog->save();
 
         $languages = Language::all();
@@ -128,6 +129,7 @@ class BlogController extends Controller
             $blog->is_popular = $request->is_popular ? 1 : 0;
             $blog->status = $request->status ? 1 : 0;
             $blog->tags = $request->tags;
+            $this->fillLinks($request, $blog);
             $blog->save();
         }
 
@@ -168,6 +170,15 @@ class BlogController extends Controller
         $notify_message = trans('translate.Deleted successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
         return redirect()->route('admin.blog.index')->with($notify_message);
+    }
+
+    /** Task 20: author, medical expert and linked sanatorium. */
+    private function fillLinks(Request $request, Blog $blog): void
+    {
+        $id = fn ($v) => ($v !== null && $v !== '' && ctype_digit((string) $v)) ? (int) $v : null;
+        $blog->author_id = $id($request->input('author_id'));
+        $blog->expert_id = $id($request->input('expert_id'));
+        $blog->service_id = $id($request->input('service_id'));
     }
 
     public function blog_list(){
