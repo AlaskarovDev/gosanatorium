@@ -35,13 +35,13 @@
       <div class="ct-card__icon">📞</div>
       <h3 class="ct-card__title">Баку (Азербайджан)</h3>
       <p class="ct-card__text">{{ company_fact('phone_main') }}</p>
-      <a href="{{ company_fact('phone_main_tel') }}" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
+      <a href="tel:{{ company_fact('phone_main_tel') }}" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
     </div>
     <div class="ct-card">
       <div class="ct-card__icon">📞</div>
       <h3 class="ct-card__title">Тбилиси (Грузия)</h3>
       <p class="ct-card__text">{{ company_fact('phone_second') }}</p>
-      <a href="{{ company_fact('phone_second_tel') }}" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
+      <a href="tel:{{ company_fact('phone_second_tel') }}" class="ct-card__btn ct-card__btn--teal">Позвонить</a>
     </div>
   </div>
 </div>
@@ -68,7 +68,7 @@
         <div>
           <h4 class="ct-office__city">Баку, Азербайджан</h4>
           <p class="ct-office__detail">{{ company_fact('legal_name') }}</p>
-          <p class="ct-office__detail">📞 <a href="{{ company_fact('phone_main_tel') }}">{{ company_fact('phone_main') }}</a></p>
+          <p class="ct-office__detail">📞 <a href="tel:{{ company_fact('phone_main_tel') }}">{{ company_fact('phone_main') }}</a></p>
           <p class="ct-office__detail">⏰ {{ company_fact('working_hours_text') }}</p>
         </div>
       </div>
@@ -77,7 +77,7 @@
         <div>
           <h4 class="ct-office__city">Тбилиси, Грузия</h4>
           <p class="ct-office__detail">{{ company_fact('legal_name') }}</p>
-          <p class="ct-office__detail">📞 <a href="{{ company_fact('phone_second_tel') }}">{{ company_fact('phone_second') }}</a></p>
+          <p class="ct-office__detail">📞 <a href="tel:{{ company_fact('phone_second_tel') }}">{{ company_fact('phone_second') }}</a></p>
           <p class="ct-office__detail">⏰ {{ company_fact('working_hours_text') }}</p>
         </div>
       </div>

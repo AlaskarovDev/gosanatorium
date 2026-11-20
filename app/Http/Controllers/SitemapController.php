@@ -67,7 +67,7 @@ class SitemapController extends Controller
 
         // Treatment directions + disease pages + catalog filtered by disease (own canonical, Task 7/15)
         if (class_exists(Disease::class)) {
-            $diseases = Disease::active()->whereNotNull('slug')->where('slug', '!=', '')->get();
+            $diseases = Disease::visible()->whereNotNull('slug')->where('slug', '!=', '')->get();
             $urls[] = $this->makeEntry('napravleniya-lecheniya', '0.7', 'monthly', $latest($diseases));
             $urls[] = $this->makeEntry('bolezni', '0.7', 'monthly', $latest($diseases));
             foreach ($diseases as $disease) {

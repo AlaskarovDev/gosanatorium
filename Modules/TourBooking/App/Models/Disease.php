@@ -42,6 +42,14 @@ final class Disease extends Model
         return $query->where('is_active', true);
     }
 
+    /** Bug 3: public lists show only active, non-legacy categories that have at least one active sanatorium. */
+    public function scopeVisible(Builder $query): Builder
+    {
+        return $query->where('is_active', true)
+            ->whereNotIn('slug', array_keys(self::LEGACY_SLUGS))
+            ->whereHas('sanatoriums', fn (Builder $q) => $q->where('services.status', true));
+    }
+
     public function scopeOrdered(Builder $query): Builder
     {
         return $query->orderBy('sort_order')->orderBy('id');
@@ -92,6 +100,9 @@ final class Disease extends Model
         'neuro' => 'nevrologiya',
         'gastro' => 'zhkt',
         'endo' => 'diabet',
+        // Bug 3: old empty duplicates of sustavy / kozha
+        'bolezni-sustavov' => 'sustavy',
+        'bolezni-kozhi' => 'kozha',
     ];
 
     /** H1 of the filtered sanatorium list, e.g. «Санатории для лечения суставов». */
