@@ -88,6 +88,8 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
     Route::get('/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->name('bez-predoplaty');
     Route::get('/{locale}/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->where('locale', 'ru|az|en')->name('bez-predoplaty.locale');
+    // Task 32: lead forms (contact, consultation, …)
+    Route::post('/lead', [\App\Http\Controllers\LeadController::class, 'store'])->middleware('throttle:20,1')->name('lead.store');
     // Task 26: reviews about the company
     Route::get('/otzyvy', [\App\Http\Controllers\CompanyReviewController::class, 'index'])->name('company-reviews');
     Route::post('/otzyvy', [\App\Http\Controllers\CompanyReviewController::class, 'store'])->middleware('throttle:10,1')->name('company-reviews.store');
@@ -230,6 +232,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
         Route::get('/', [DashboardController::class, 'dashboard']);
         Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
+        // Task 32: «Заявки»
+        Route::get('leads', [\App\Http\Controllers\Admin\LeadController::class, 'index'])->name('leads');
+        Route::put('leads/{lead}', [\App\Http\Controllers\Admin\LeadController::class, 'update'])->name('leads.update');
+        Route::delete('leads/{lead}', [\App\Http\Controllers\Admin\LeadController::class, 'destroy'])->name('leads.destroy');
+        Route::post('leads/test-telegram', [\App\Http\Controllers\Admin\LeadController::class, 'testTelegram'])->name('leads.test-telegram');
         // Task 26: reviews about the company (moderation)
         Route::get('company-reviews', [\App\Http\Controllers\Admin\CompanyReviewController::class, 'index'])->name('company-reviews');
         Route::put('company-reviews/{review}', [\App\Http\Controllers\Admin\CompanyReviewController::class, 'update'])->name('company-reviews.update');

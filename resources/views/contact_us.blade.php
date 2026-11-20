@@ -110,43 +110,9 @@
         <li>✅ {{ company_fact('working_hours_text') }}</li>
       </ul>
     </div>
-    <form class="ct-form" id="contact-form" action="{{ route('store-contact-message') }}" method="POST">
-      @csrf
-      <input type="hidden" name="instructor_id" value="0">
-      <input type="hidden" name="subject" value="Заявка на подбор санатория">
-      <div class="ct-form__row">
-        <div class="ct-form__field">
-          <label class="ct-form__label">Ваше имя *</label>
-          <input class="ct-form__input" type="text" name="name" placeholder="Иван Иванов" required>
-          <span class="text-danger error-name"></span>
-        </div>
-        <div class="ct-form__field">
-          <label class="ct-form__label">Телефон *</label>
-          <input class="ct-form__input" type="tel" name="phone" placeholder="+7 999 123 45 67" required>
-          <span class="text-danger error-phone"></span>
-        </div>
-      </div>
-      <div class="ct-form__field">
-        <label class="ct-form__label">Email *</label>
-        <input class="ct-form__input" type="email" name="email" placeholder="example@mail.com" required>
-        <span class="text-danger error-email"></span>
-      </div>
-      <div class="ct-form__field">
-        <label class="ct-form__label">Ваш диагноз или вопрос *</label>
-        <textarea class="ct-form__textarea" name="message" rows="4" placeholder="Опишите ваш диагноз, желаемые даты и бюджет..." required></textarea>
-        <span class="text-danger error-message"></span>
-      </div>
-      @if ($general_setting->recaptcha_status == 1)
-        <div class="ct-form__field">
-          <div class="g-recaptcha" data-sitekey="{{ $general_setting->recaptcha_site_key }}"></div>
-          <span class="text-danger error-g-recaptcha-response"></span>
-        </div>
-      @endif
-      <button type="submit" class="ct-form__submit">
-        <span class="loader-text d-none">{{ __('translate.Please wait') }}</span>
-        <span class="button-text">Отправить заявку →</span>
-      </button>
-    </form>
+    <div class="ct-form ct-form--lead">
+      @include('components.front.lead-form', ['lfType' => 'contact', 'lfId' => 'contact-lead', 'lfButton' => 'Отправить заявку →'])
+    </div>
   </div>
 </div>
 
@@ -161,49 +127,4 @@
 
 @endsection
 
-@push('js_section')
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 
-    <script>
-        $(document).ready(function() {
-            $('#contact-form').on('submit', function(e) {
-                e.preventDefault();
-
-                let form = $(this)[0];
-                let formData = new FormData(form);
-
-                // Clear previous errors
-                $('.text-danger').text('');
-                $('.ct-form__submit').attr('disabled', 'disabled');
-                $('.ct-form__submit .button-text').addClass('d-none');
-                $('.ct-form__submit .loader-text').removeClass('d-none');
-
-                axios.post("{{ route('store-contact-message') }}", formData)
-                    .then(function(response) {
-                        if (response.data.alert_type == 'success') {
-                            toastr.success(response.data.message);
-                            if (window.gsGoal) window.gsGoal('contact_form_sent', { form: 'contact_page' });
-                            form.reset(); // Reset form
-                        }
-                    })
-                    .catch(function(error) {
-                        if (error.response && error.response.data && error.response.data.errors) {
-                            let errors = error.response.data.errors;
-                            $.each(errors, function(field, messages) {
-                                $('.error-' + field).text(messages[0]);
-                            });
-                        } else {
-                            $('.ajax-response').html(
-                                '<span style="color:red;">An error occurred. Please try again.</span>'
-                            );
-                        }
-                    }).finally(function() {
-                        $('.ct-form__submit').removeAttr('disabled');
-                        $('.ct-form__submit .button-text').removeClass('d-none');
-                        $('.ct-form__submit .loader-text').addClass('d-none');
-                    });
-            });
-        });
-    </script>
-@endpush

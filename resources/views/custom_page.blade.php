@@ -1770,64 +1770,10 @@
                 <p style="color:#6b7280;font-size:16px">Ответим за 15 минут — бесплатно и без обязательств</p>
             </div>
             <div class="gscon-form-wrap">
-                <form action="{{ route('consultation.store') }}" method="POST" id="consultForm">
-                    @csrf
-                    <input type="hidden" name="custom_page_id" value="{{ $custom_page->id }}">
-                    <div class="gscon-form-grid">
-                        <div class="gscon-form-group">
-                            <label class="gscon-label">Имя *</label>
-                            <input type="text" name="first_name" class="gscon-input" placeholder="Ваше имя" required>
-                        </div>
-                        <div class="gscon-form-group">
-                            <label class="gscon-label">Фамилия *</label>
-                            <input type="text" name="last_name" class="gscon-input" placeholder="Ваша фамилия" required>
-                        </div>
-                        <div class="gscon-form-group">
-                            <label class="gscon-label">Email *</label>
-                            <input type="email" name="email" class="gscon-input" placeholder="your@email.com" required>
-                        </div>
-                        <div class="gscon-form-group">
-                            <label class="gscon-label">Телефон *</label>
-                            <div class="gscon-phone-row">
-                                <select name="country" class="gscon-select gscon-phone-select">
-                                    <option value="AZ">🇦🇿 +994</option>
-                                    <option value="RU">🇷🇺 +7</option>
-                                    <option value="UZ">🇺🇿 +998</option>
-                                    <option value="KZ">🇰🇿 +7</option>
-                                    <option value="GE">🇬🇪 +995</option>
-                                    <option value="BY">🇧🇾 +375</option>
-                                    <option value="UA">🇺🇦 +380</option>
-                                    <option value="IL">🇮🇱 +972</option>
-                                    <option value="DE">🇩🇪 +49</option>
-                                </select>
-                                <input type="tel" name="phone" class="gscon-input gscon-phone-input" placeholder="555 12 34 56" required>
-                            </div>
-                        </div>
-                        <div class="gscon-form-group full">
-                            <label class="gscon-label">Ваш вопрос / диагноз *</label>
-                            <textarea name="message" class="gscon-textarea" placeholder="Опишите ваш диагноз или вопрос..." required></textarea>
-                        </div>
-                    </div>
-                    <label class="gscon-consent">
-                        <input type="checkbox" name="marketing_consent" value="1" required>
-                        <span>Я согласен(а) на обработку персональных данных</span>
-                    </label>
-                    <button type="submit" class="gscon-submit" id="gsconSubmitBtn">Отправить вопрос доктору</button>
-                    <div class="gscon-guarantee-row">
-                        <div class="gscon-guarantee-item"><i class="fas fa-lock"></i> Данные защищены</div>
-                        <div class="gscon-guarantee-item"><i class="fas fa-clock"></i> Ответ за 15 минут</div>
-                        <div class="gscon-guarantee-item"><i class="fas fa-ban"></i> Без спама</div>
-                    </div>
-                </form>
+                @include('components.front.lead-form', ['lfType' => 'consult', 'lfId' => 'consult-lead-1', 'lfButton' => 'Отправить вопрос доктору'])
             </div>
         </div>
     </section>
-    <script>
-    document.getElementById('consultForm').addEventListener('submit',function(){
-        var b=document.getElementById('gsconSubmitBtn');
-        b.textContent='Отправка...';b.disabled=true;
-    });
-    </script>
     @else
     <section class="cp-form-section">
         <div class="container">
@@ -1843,66 +1789,7 @@
                             <div class="cp-form-head__line"></div>
                         </div>
 
-                        <form action="{{ route('consultation.store') }}" method="POST" id="consultationForm">
-                            @csrf
-                            <input type="hidden" name="custom_page_id" value="{{ $custom_page->id }}">
-                            <div class="cp-grid">
-                                <div class="cp-field">
-                                    <label><span class="cp-label-dot"></span>Имя</label>
-                                    <div class="cp-input-box"><input type="text" name="first_name" placeholder="Иван" required><div class="cp-input-bar"></div></div>
-                                </div>
-                                <div class="cp-field">
-                                    <label><span class="cp-label-dot"></span>Фамилия</label>
-                                    <div class="cp-input-box"><input type="text" name="last_name" placeholder="Петров" required><div class="cp-input-bar"></div></div>
-                                </div>
-                                <div class="cp-field">
-                                    <label><span class="cp-label-dot"></span>Email</label>
-                                    <div class="cp-input-box"><input type="email" name="email" placeholder="example@mail.com" required><div class="cp-input-bar"></div></div>
-                                </div>
-                                <div class="cp-field">
-                                    <label><span class="cp-label-dot"></span>Страна и телефон</label>
-                                    <div class="cp-phone">
-                                        <select name="country" id="countrySelector">
-                                            <option value="AZ" data-code="+994">🇦🇿 Азербайджан</option>
-                                            <option value="RU" data-code="+7">🇷🇺 Россия</option>
-                                            <option value="TR" data-code="+90">🇹🇷 Турция</option>
-                                            <option value="UA" data-code="+380">🇺🇦 Украина</option>
-                                            <option value="KZ" data-code="+7">🇰🇿 Казахстан</option>
-                                            <option value="GE" data-code="+995">🇬🇪 Грузия</option>
-                                            <option value="BY" data-code="+375">🇧🇾 Беларусь</option>
-                                            <option value="UZ" data-code="+998">🇺🇿 Узбекистан</option>
-                                            <option value="DE" data-code="+49">🇩🇪 Германия</option>
-                                            <option value="IL" data-code="+972">🇮🇱 Израиль</option>
-                                        </select>
-                                        <div class="cp-phone__num">
-                                            <span class="cp-phone__code" id="phoneCodeDisplay">+994</span>
-                                            <input type="tel" name="phone" placeholder="50 123 45 67" required>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="cp-field cp-full">
-                                    <label><span class="cp-label-dot"></span>Сообщение</label>
-                                    <div class="cp-input-box"><textarea name="message" rows="5" placeholder="Ваш вопрос доктору" required></textarea><div class="cp-input-bar"></div></div>
-                                </div>
-                                <div class="cp-field cp-full">
-                                    <label class="cp-check">
-                                        <input type="checkbox" name="marketing_consent" value="1">
-                                        <span class="cp-check__box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg></span>
-                                        <span class="cp-check__txt">Я согласен на использование моих персональных данных. Вы можете отписаться в любое время.</span>
-                                    </label>
-                                </div>
-                                <div class="cp-field cp-full">
-                                    <button type="submit" class="cp-submit" id="submitBtn">
-                                        <span class="cp-submit__main">
-                                            <span>Отправить вопрос доктору</span>
-                                            <span class="cp-submit__icon"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg></span>
-                                        </span>
-                                        <span class="cp-submit__loading"><svg class="cp-spin" width="22" height="22" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="3" fill="none" stroke-dasharray="60" stroke-linecap="round"/></svg>Отправка...</span>
-                                        <div class="cp-submit__shine"></div>
-                                    </button>
-                                </div>
-                            </div>
-                        </form>
+                        @include('components.front.lead-form', ['lfType' => 'consult', 'lfId' => 'consult-lead-2', 'lfButton' => 'Отправить вопрос доктору'])
                     </div>
                 </div>
             </div>
