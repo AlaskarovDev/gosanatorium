@@ -48,6 +48,19 @@ class SetLocaleFromUrl
             $code = $matches[1];
             $newPath = ($matches[2] ?? '') ?: '/';
 
+            // Task 17: only translated versions exist. Retired prefixes (/en, /az, /tr …
+            // were Google-translated copies of RU) → one 301 to the same page on the default language.
+            if (! \App\Support\SiteLanguages::isActive($code)) {
+                $default = \App\Support\SiteLanguages::default();
+                if (in_array($request->getMethod(), ['GET', 'HEAD'], true)) {
+                    $qs = $request->server->get('QUERY_STRING', '');
+                    $target = '/' . $default . ($newPath === '/' ? '' : $newPath);
+
+                    return redirect()->away($request->getSchemeAndHttpHost() . $target . ($qs !== '' ? '?' . $qs : ''), 301);
+                }
+                $code = $default;
+            }
+
             $qs = $request->server->get('QUERY_STRING', '');
             $newRequestUri = $newPath . ($qs ? '?' . $qs : '');
 
@@ -65,21 +78,14 @@ class SetLocaleFromUrl
                 $request->getContent()
             );
 
-            $cfg = $langs[$code] ?? [];
-            $isNative = $cfg['native'] ?? false;
-
-            // Yalnız "native" dil (ru) öz real məzmununu göstərir.
-            // Qalan dillər ru məzmununu göstərir, Google client-side çevirir.
-            $contentLocale = $isNative ? $code : 'ru';
+            // Task 17: every active language has its own real content (no auto-translate).
+            $contentLocale = $code;
             app()->setLocale($contentLocale);
 
-            // detected_lang → SyncLocaleToSession/CurrencyLangauge məzmun locale-ni
-            // bundan götürür (tərcümə dilləri üçün ru olmalıdır).
+            // detected_lang → SyncLocaleToSession/CurrencyLangauge məzmun locale-ni bundan götürür.
             $request->attributes->set('detected_lang', $contentLocale);
             // display_lang → bayraq düyməsi hansı dilin seçildiyini bundan bilir (URL prefiksi).
             $request->attributes->set('display_lang', $code);
-            // gt_lang → Google tərcümə hədəfi (native = null = tərcümə yoxdur).
-            $request->attributes->set('gt_lang', $isNative ? null : ($cfg['gt'] ?? $code));
 
             $root = $request->getSchemeAndHttpHost();
             $urlGen = app('url');
