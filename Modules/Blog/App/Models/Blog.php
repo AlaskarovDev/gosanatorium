@@ -26,6 +26,37 @@ class Blog extends Model
         return $this->belongsTo(Admin::class, 'admin_id', 'id')->select('id', 'name', 'image', 'about_me');
     }
 
+    /** Task 20: post author (blog_authors); falls back to the default author. */
+    public function writer(){
+        return $this->belongsTo(BlogAuthor::class, 'author_id');
+    }
+
+    /** Task 20: «Проверено врачом» */
+    public function expert(){
+        return $this->belongsTo(BlogAuthor::class, 'expert_id');
+    }
+
+    /** Task 20: sanatorium the post is about (CTA card). */
+    public function linkedService(){
+        return $this->belongsTo(\Modules\TourBooking\App\Models\Service::class, 'service_id');
+    }
+
+    public function displayAuthor(): ?BlogAuthor
+    {
+        $a = $this->writer;
+
+        return ($a && $a->status) ? $a : BlogAuthor::defaultAuthor();
+    }
+
+    /** Task 20: reading time = words / 180, rounded up (Cyrillic-aware). */
+    public function getReadingMinutesAttribute(): int
+    {
+        $text = html_entity_decode(strip_tags((string) $this->description), ENT_QUOTES | ENT_HTML5, 'UTF-8');
+        $words = preg_match_all('/[\p{L}\p{N}]+/u', $text);
+
+        return max(1, (int) ceil($words / 180));
+    }
+
     public function category(){
         return $this->belongsTo(BlogCategory::class, 'blog_category_id', 'id');
     }

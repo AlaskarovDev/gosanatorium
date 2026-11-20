@@ -435,6 +435,9 @@
                             <li><a href="{{ route('admin.blog.index') }}"><span class="menu-bar__text"><span
                                             class="menu-bar__name">{{ __('translate.Blog List') }}</span></span></a></li>
 
+                            <li><a href="{{ route('admin.blog-author.index') }}"><span class="menu-bar__text"><span
+                                            class="menu-bar__name">Авторы и врачи</span></span></a></li>
+
                             <li><a href="{{ route('admin.comment-list') }}"><span class="menu-bar__text"><span
                                             class="menu-bar__name">{{ __('translate.Comment List') }}</span></span></a>
                             </li>
