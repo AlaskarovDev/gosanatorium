@@ -83,13 +83,8 @@
                                 <img class="gscard-img" {!! img_attrs($service?->thumbnail?->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service, $service?->thumbnail?->caption), ['sizes' => '(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px']) !!}>
                             </a>
                             @include('tourbooking::front.services.badges', ['service' => $service, 'class' => 'gs-sbadges--overlay', 'limit' => 3])
-                            <div @class([
-                                'tg-listing-item-wishlist',
-                                'gscard-fav',
-                                'active' => $service?->my_wishlist_exists == 1,
-                            ]) data-url="{{ route('user.wishlist.store') }}"
-                                onclick="addToWishlist({{ $service->id }}, this, 'service')">
-                                <a href="javascript:void(0)">
+                            <div class="tg-listing-item-wishlist gscard-fav gs-fav-btn" role="button" tabindex="0" aria-pressed="false" aria-label="В избранное" title="В избранное" data-slug="{{ $service->slug }}" data-title="{{ gs_display_title($service?->translation?->title) }}">
+                                <a href="javascript:void(0)" tabindex="-1">
                                     <svg width="20" height="18" viewBox="0 0 20 18" fill="none"
                                         xmlns="http://www.w3.org/2000/svg">
                                         <path
@@ -111,14 +106,17 @@
                                 @endif
                             </div>
                             <h3 class="gscard-title">
-                                <a href="{{ $gsUrl }}">{{ $service?->translation?->title }}</a>
+                                <a href="{{ $gsUrl }}">{{ gs_display_title($service?->translation?->title) }}</a>
                             </h3>
+                            @if ((int) ($service->stars ?? 0) > 0)
+                                <div class="gscard-hstars" aria-label="{{ (int) $service->stars }} звезд{{ (int) $service->stars === 1 ? 'а' : ((int) $service->stars < 5 ? 'ы' : '') }}">@for ($gsI = 0; $gsI < (int) $service->stars; $gsI++)<i class="fa-solid fa-star" aria-hidden="true"></i>@endfor</div>
+                            @endif
                             @if ($gsAddr = gscardAddress($service))
                                 <div class="gscard-address">
                                     <i class="fa-solid fa-location-dot"></i> {{ $gsAddr }}
                                 </div>
                             @endif
-                            <div class="gs-compare-wrap"><button type="button" class="gs-compare-btn" data-slug="{{ $service->slug }}" data-title="{{ $service?->translation?->title }}" aria-pressed="false"><span class="gs-compare-box"></span><span class="gs-compare-label">Сравнить</span></button></div>
+                            <div class="gs-compare-wrap"><button type="button" class="gs-compare-btn" data-slug="{{ $service->slug }}" data-title="{{ gs_display_title($service?->translation?->title) }}" aria-pressed="false"><span class="gs-compare-box"></span><span class="gs-compare-label">Сравнить</span></button></div>
                             <div class="gscard-footer">
                                 <div class="gscard-price-wrap">
                                     <div class="gscard-price">{{ app()->getLocale() === 'ru' ? 'от' : 'from' }} {!! currency_span($gsRaw) !!}</div>

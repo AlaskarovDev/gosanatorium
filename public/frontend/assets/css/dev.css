@@ -1479,3 +1479,9 @@ h3.gs-h4 { font-size: 18px; }
 }
 @media (max-width: 991px) { body.gs-has-stickybook .tg-mobile-bottom-nav { display: none !important; } }
 .gs-summary__btn { white-space: nowrap; }
+
+/* Task 29: favorites heart — keep the icon inside its white circle; ♥ state */
+.gscard-fav > a { position: static !important; inset: auto !important; transform: none !important; margin: 0 !important; background: none !important; box-shadow: none !important; }
+.gscard-fav.gs-fav-btn:focus-visible { outline: 2px solid #1a9e87; outline-offset: 2px; }
+.btn-glass.gs-fav-btn.is-active { background: #fff !important; color: #dc2626 !important; }
+.gs-fav-link .gs-fav-count { background: #ef4444; color: #fff; border-radius: 10px; font-size: 12px; padding: 1px 7px; margin-left: 2px; }

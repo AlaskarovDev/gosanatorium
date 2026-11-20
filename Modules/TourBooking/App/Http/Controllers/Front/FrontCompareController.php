@@ -13,20 +13,14 @@ final class FrontCompareController extends Controller
 {
     private const MAX = 3;
 
-    /** Side-by-side comparison of up to 3 sanatoriums: /sravnenie?s1=slug&s2=slug&s3=slug */
+    /** Side-by-side comparison of up to 3 sanatoriums: /sravnenie?ids=slug1,slug2,slug3 (old links ?s1=&s2=&s3= still work) */
     public function index(Request $request): View
     {
-        $slugs = [];
-        foreach (range(1, self::MAX) as $i) {
-            $slug = strtolower(trim((string) $request->query('s' . $i, '')));
-            if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug) && !in_array($slug, $slugs, true)) {
-                $slugs[] = $slug;
-            }
-        }
+        $slugs = self::slugs($request, self::MAX);
 
         $found = $slugs === [] ? collect() : Service::where('status', true)
             ->whereIn('slug', $slugs)
-            ->with(['thumbnail', 'translation', 'activeRooms'])
+            ->with(['thumbnail', 'translation', 'activeRooms', 'destination:id,name,country', 'diseases'])
             ->withCount('activeReviews')
             ->withAvg('activeReviews', 'rating')
             ->get()
@@ -38,6 +32,48 @@ final class FrontCompareController extends Controller
         $rows = $services->map(fn (Service $s) => $this->presentRow($s));
 
         return view('tourbooking::front.compare', ['rows' => $rows]);
+    }
+
+    /** Favorites: /izbrannoe?ids=slug1,slug2 (the list itself lives in the visitor's browser). */
+    public function favorites(Request $request): View
+    {
+        $slugs = self::slugs($request, 50);
+        $found = $slugs === [] ? collect() : Service::where('status', true)
+            ->whereIn('slug', $slugs)
+            ->with(['thumbnail', 'serviceType', 'translation', 'destination:id,name,country'])
+            ->withCount('activeReviews')
+            ->withAvg('activeReviews', 'rating')
+            ->get()
+            ->keyBy('slug');
+        $services = collect($slugs)->map(fn ($s) => $found->get($s))->filter()->values();
+
+        return view('tourbooking::front.favorites', ['services' => $services]);
+    }
+
+    /** @return list<string> */
+    private static function slugs(Request $request, int $max): array
+    {
+        $raw = [];
+        $ids = $request->query('ids');
+        if (is_string($ids) && $ids !== '') {
+            $raw = explode(',', $ids);
+        } else {
+            foreach (range(1, self::MAX) as $i) {
+                $raw[] = (string) $request->query('s' . $i, '');
+            }
+        }
+        $slugs = [];
+        foreach ($raw as $slug) {
+            $slug = strtolower(trim((string) $slug));
+            if ($slug !== '' && preg_match('/^[a-z0-9-]+$/', $slug) && ! in_array($slug, $slugs, true)) {
+                $slugs[] = $slug;
+            }
+            if (count($slugs) >= $max) {
+                break;
+            }
+        }
+
+        return $slugs;
     }
 
     private function presentRow(Service $s): array
@@ -72,9 +108,35 @@ final class FrontCompareController extends Controller
             $child[] = 'скидка ' . $s->child_discount;
         }
 
+        $fromPrice = \Modules\TourBooking\App\Services\FromPrice::for($s);
+        $pools = [];
+        if ($s->pool_indoor) {
+            $pools[] = 'крытый';
+        }
+        if ($s->pool_outdoor) {
+            $pools[] = 'открытый';
+        }
+        $poolText = $pools ? implode(' + ', $pools)
+            : (($s->pool_indoor === false && $s->pool_outdoor === false) ? false : null);
+        $hasRooms = $s->activeRooms->isNotEmpty();
+
         return [
             'slug' => $s->slug,
-            'title' => $s->translation?->title ?: $s->title,
+            'title' => gs_display_title($s->translation?->title ?: $s->title),
+            'from_price' => $fromPrice,
+            'from_basis' => \Modules\TourBooking\App\Services\FromPrice::label($s),
+            'stars' => (int) ($s->stars ?? 0),
+            'city' => gscardAddress($s) ?: null,
+            'diseases' => $s->diseases->pluck('name')->filter()->values()->all(),
+            'meal_plan' => trim((string) ($s->meal_plan ?? '')) ?: null,
+            'pools' => $poolText,
+            'spa' => $s->has_spa,
+            'free_transfer' => $s->free_transfer,
+            'transfer_info' => trim((string) ($s->transfer_info ?? '')) ?: null,
+            'min_nights' => (int) ($s->min_stay_nights ?? 0) ?: null,
+            'book_url' => $hasRooms
+                ? route('front.tourbooking.rooms.selection', $s->slug)
+                : route('front.tourbooking.services.show', ['slug' => $s->slug]),
             'photo' => $s->thumbnail?->file_path ? asset($s->thumbnail->file_path) : null,
             'url' => route('front.tourbooking.services.show', ['slug' => $s->slug]),
             'price' => $priceText,

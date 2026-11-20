@@ -836,6 +836,20 @@
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Трансфер (блок «Коротко»)</label>
 <input class="crancy__item-input" type="text" maxlength="255" name="transfer_info" placeholder="Бесплатно из Гянджи · из Баку — платно" value="{{ old('transfer_info', $service->transfer_info) }}"></div></div>
 @endif
+@if (\Illuminate\Support\Facades\Schema::hasColumn('services', 'stars'))
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Звёзды (каталог, показываются ★)</label>
+<select class="crancy__item-input" name="stars"><option value="">—</option>@foreach ([1, 2, 3, 4, 5] as $st)<option value="{{ $st }}" @selected((string) old('stars', $service->stars) === (string) $st)>{{ str_repeat('★', $st) }} ({{ $st }})</option>@endforeach</select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Крытый бассейн (фильтр, сравнение)</label>
+<select class="crancy__item-input" name="pool_indoor"><option value="">—</option><option value="1" @selected((string) old('pool_indoor', $service->pool_indoor) === '1')>Да</option><option value="0" @selected((string) old('pool_indoor', $service->pool_indoor) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Открытый бассейн (фильтр, сравнение)</label>
+<select class="crancy__item-input" name="pool_outdoor"><option value="">—</option><option value="1" @selected((string) old('pool_outdoor', $service->pool_outdoor) === '1')>Да</option><option value="0" @selected((string) old('pool_outdoor', $service->pool_outdoor) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">SPA (сравнение)</label>
+<select class="crancy__item-input" name="has_spa"><option value="">—</option><option value="1" @selected((string) old('has_spa', $service->has_spa) === '1')>Да</option><option value="0" @selected((string) old('has_spa', $service->has_spa) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Бесплатный трансфер (фильтр, сравнение)</label>
+<select class="crancy__item-input" name="free_transfer"><option value="">—</option><option value="1" @selected((string) old('free_transfer', $service->free_transfer) === '1')>Да</option><option value="0" @selected((string) old('free_transfer', $service->free_transfer) === '0')>Нет</option></select></div></div>
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Вес в сортировке «Популярные» (больше — выше)</label>
+<input class="crancy__item-input" type="number" min="-1000" max="1000" name="sort_weight" placeholder="0" value="{{ old('sort_weight', $service->sort_weight ?? 0) }}"></div></div>
+@endif
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Анализы при заезде (сравнение)</label>
 <select class="crancy__item-input" name="tests_included"><option value="">—</option><option value="1" @selected((string) old('tests_included', $service->tests_included) === '1')>Да</option><option value="0" @selected((string) old('tests_included', $service->tests_included) === '0')>Нет</option></select></div></div>
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Осмотр врача (сравнение)</label>

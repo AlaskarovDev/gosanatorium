@@ -513,13 +513,22 @@ public function destroyRoom(ServiceRoom $room): RedirectResponse
     private function applyNumericDefaults(array $data, ?Service $service = null): array
     {
         // Room-search fields: drop them until the database update (migration) has added the columns
-        foreach (['min_stay_nights', 'meal_plan', 'price_basis', 'transfer_info'] as $column) {
+        foreach (['min_stay_nights', 'meal_plan', 'price_basis', 'transfer_info', 'stars', 'pool_indoor', 'pool_outdoor', 'has_spa', 'free_transfer', 'sort_weight'] as $column) {
             if (array_key_exists($column, $data) && ! \Illuminate\Support\Facades\Schema::hasColumn('services', $column)) {
                 unset($data[$column]);
             }
         }
         if (array_key_exists('min_stay_nights', $data) && ($data['min_stay_nights'] === '' || (int) $data['min_stay_nights'] < 1)) {
             $data['min_stay_nights'] = null;
+        }
+        // Task 28: catalog fields — empty select means «не указано» (null); weight defaults to 0
+        foreach (['stars', 'pool_indoor', 'pool_outdoor', 'has_spa', 'free_transfer'] as $column) {
+            if (array_key_exists($column, $data) && ($data[$column] === '' || $data[$column] === null)) {
+                $data[$column] = null;
+            }
+        }
+        if (array_key_exists('sort_weight', $data)) {
+            $data['sort_weight'] = (int) ($data['sort_weight'] ?? 0);
         }
 
         $defaults = [

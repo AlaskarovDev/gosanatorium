@@ -373,6 +373,8 @@ Route::group(['middleware' => ['web']], function () {
     Route::get('/sanatorii', [FrontDiseaseController::class, 'sanatoriums'])->name('sanatoriums.list.alias');
     // Sanatorium comparison (/ru/sravnenie?s1=slug1&s2=slug2&s3=slug3)
     Route::get('/sravnenie', [\Modules\TourBooking\App\Http\Controllers\Front\FrontCompareController::class, 'index'])->name('sanatoriums.compare');
+    // Favorites (Task 29): /ru/izbrannoe?ids=slug1,slug2 — the list is stored in the visitor's browser
+    Route::get('/izbrannoe', [\Modules\TourBooking\App\Http\Controllers\Front\FrontCompareController::class, 'favorites'])->name('sanatoriums.favorites');
     Route::get('/bolezni', [FrontDiseaseController::class, 'index'])->name('diseases.index.alias');
     Route::get('/napravleniya', [FrontDiseaseController::class, 'index'])->name('diseases.index.napravleniya');
     Route::get('/napravleniya-lecheniya', [FrontDiseaseController::class, 'directions'])->name('diseases.directions');
