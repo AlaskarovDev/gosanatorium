@@ -76,5 +76,8 @@
                 </a>
             @endforeach
         </div>
+        <div class="container">
+            @include('partials.medical_disclaimer')
+        </div>
     </section>
 @endsection

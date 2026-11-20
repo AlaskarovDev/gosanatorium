@@ -3351,6 +3351,9 @@
                         </div>
                     @endif
 
+                    {{-- Task 27: medical disclaimer after the treatment section --}}
+                    @include('partials.medical_disclaimer', ['gsDiscClass' => 'gs-med-disclaimer--card'])
+
                     {{-- Itinerary --}}
                     @if($service?->itineraries && $service?->itineraries->count() > 0)
                         <div class="card" data-aos="fade-up" id="section-itinerary">

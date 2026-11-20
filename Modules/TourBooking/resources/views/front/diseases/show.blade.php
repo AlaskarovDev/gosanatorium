@@ -56,6 +56,7 @@
             @else
                 <div class="gs-disease-empty">{{ \Modules\TourBooking\App\Models\Disease::t('Coming soon') }}</div>
             @endif
+            @include('partials.medical_disclaimer')
             @if ($disease->image_credit)
                 <div class="gs-disease-credit">{{ $disease->image_credit }}</div>
             @endif
