@@ -3284,6 +3284,7 @@
                             {!! currency_span(\Modules\TourBooking\App\Services\FromPrice::for($service)) !!}
                         </div>
                         <div class="feature-card__note">{{ \Modules\TourBooking\App\Services\FromPrice::label($service) }}</div>
+                        <div class="gs-rate-note" data-gs-rate-note hidden></div>
                     </div>
                 </div>
             </div>
@@ -3593,6 +3594,7 @@
                                 </div>
                             </a>
                         @endif
+                        <p class="gs-rate-note gs-rate-note--block" data-gs-rate-note hidden></p>
 
                         {{-- 1.2 PRICE LIST (PDF) --}}
                         @if($service->priceLists && $service->priceLists->count() > 0)

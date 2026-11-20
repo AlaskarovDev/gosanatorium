@@ -26,6 +26,7 @@
     <option value="TRY">TRY</option>
     <option value="KZT">KZT</option>
     <option value="GEL">GEL</option>
+    <option value="UZS">UZS</option>
   </select>
 </div>
 <div class="gscurrate-table" id="gcTable"></div>
@@ -39,27 +40,35 @@ var gcCurrencies=[
   {code:'EUR',flag:'🇪🇺',name:'Евро'},
   {code:'TRY',flag:'🇹🇷',name:'Турецкая лира'},
   {code:'KZT',flag:'🇰🇿',name:'Казахстанский тенге'},
-  {code:'GEL',flag:'🇬🇪',name:'Грузинский лари'}
+  {code:'GEL',flag:'🇬🇪',name:'Грузинский лари'},
+  {code:'UZS',flag:'🇺🇿',name:'Узбекский сум'}
 ];
+function gcFmt(v,code){
+  var dec=(code==='KZT'||code==='UZS'||code==='RUB')?0:2;
+  if(Math.abs(v)<1&&v!==0)dec=4;
+  var p=Number(v).toFixed(dec).split('.');
+  return p[0].replace(/\B(?=(\d{3})+(?!\d))/g,'\u00a0')+(p[1]?'.'+p[1]:'');
+}
 function gcCalc(){
   var amount=parseFloat(document.getElementById('gcAmount').value)||0;
   var from=document.getElementById('gcFrom').value;
   var table=document.getElementById('gcTable');
   if(!gcRates[from]){table.innerHTML='<div style="color:rgba(255,255,255,0.5);padding:20px">Загрузка...</div>';return;}
   table.innerHTML=gcCurrencies.filter(function(c){return c.code!==from;}).map(function(c){
-    var result=gcRates[c.code]?(amount/gcRates[from]*gcRates[c.code]).toFixed(2):'—';
+    var result=gcRates[c.code]?gcFmt(amount/gcRates[from]*gcRates[c.code],c.code):'—';
     return '<div class="gscurrate-row"><span class="gscurrate-flag">'+c.flag+'</span><span class="gscurrate-code">'+c.code+'</span><span class="gscurrate-name">'+c.name+'</span><span class="gscurrate-val">'+result+'</span></div>';
   }).join('');
 }
 gcCalc();
-fetch('https://open.er-api.com/v6/latest/AZN')
+fetch('/api/exchange-rates',{headers:{'Accept':'application/json'}})
   .then(function(r){return r.json();})
   .then(function(data){
-    gcRates=data.rates;
-    gcRates['AZN']=1;
+    var d=data._date||'';
+    delete data._date; delete data._source;
+    gcRates=data;
     gcCalc();
-    var now=new Date();
-    document.getElementById('gcUpdated').textContent='Обновлено: '+now.toLocaleString('ru-RU');
+    var p=d.split('-');
+    document.getElementById('gcUpdated').textContent=p.length===3?('Курс ЦБ Азербайджана на '+p[2]+'.'+p[1]+'.'+p[0]+', ориентировочно'):'';
   })
   .catch(function(){
     document.getElementById('gcTable').innerHTML='<div style="color:rgba(255,255,255,0.5);padding:20px">Не удалось загрузить курсы</div>';

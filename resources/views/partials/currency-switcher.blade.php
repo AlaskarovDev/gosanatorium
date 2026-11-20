@@ -19,9 +19,10 @@
                 ? 'Цены отображаются в выбранной валюте. Пересчёт ориентировочный; валюта и условия оплаты указываются при подтверждении бронирования.'
                 : 'Prices are shown in the selected currency. Conversion is approximate; the currency and payment terms are confirmed when the booking is confirmed.' }}
         </p>
-        <div class="currency-modal__section-title">{{ $csRu ? 'Рекомендовано для вас' : 'Recommended for you' }}</div>
+        <p class="currency-modal__note" data-gs-rate-note hidden></p>
+        <div class="currency-modal__section-title">{{ $csRu ? 'Популярные валюты' : 'Popular currencies' }}</div>
         <div class="currency-modal__grid" id="recommendedCurrencies"></div>
-        <div class="currency-modal__section-title">{{ $csRu ? 'Все валюты' : 'All currencies' }}</div>
+        <div class="currency-modal__section-title">{{ $csRu ? 'Другие валюты' : 'Other currencies' }}</div>
         <div class="currency-modal__grid" id="allCurrencies"></div>
     </div>
 </div>
@@ -52,30 +53,54 @@
 <script>
 (function () {
     var RU = {{ $csRu ? 'true' : 'false' }};
+    // Task 33: header selector — USD, AZN, RUB, KZT, UZS, EUR, GEL.
     var CURRENCIES = [
+        { code: 'USD', ru: 'Доллар США', en: 'US dollar', flag: '🇺🇸', recommended: true },
         { code: 'AZN', ru: 'Азербайджанский манат', en: 'Azerbaijani manat', flag: '🇦🇿', recommended: true },
         { code: 'RUB', ru: 'Российский рубль', en: 'Russian ruble', flag: '🇷🇺', recommended: true },
-        { code: 'USD', ru: 'Доллар США', en: 'US dollar', flag: '🇺🇸', recommended: true },
-        { code: 'EUR', ru: 'Евро', en: 'Euro', flag: '🇪🇺', recommended: true },
         { code: 'KZT', ru: 'Казахстанский тенге', en: 'Kazakhstani tenge', flag: '🇰🇿', recommended: true },
-        { code: 'GEL', ru: 'Грузинский лари', en: 'Georgian lari', flag: '🇬🇪' },
-        { code: 'UZS', ru: 'Узбекский сум', en: 'Uzbekistani som', flag: '🇺🇿' },
-        { code: 'BYN', ru: 'Белорусский рубль', en: 'Belarusian ruble', flag: '🇧🇾' },
-        { code: 'KGS', ru: 'Кыргызский сом', en: 'Kyrgyzstani som', flag: '🇰🇬' },
-        { code: 'TJS', ru: 'Таджикский сомони', en: 'Tajikistani somoni', flag: '🇹🇯' },
-        { code: 'TRY', ru: 'Турецкая лира', en: 'Turkish lira', flag: '🇹🇷' },
-        { code: 'AED', ru: 'Дирхам ОАЭ', en: 'UAE dirham', flag: '🇦🇪' },
-        { code: 'ILS', ru: 'Израильский шекель', en: 'Israeli shekel', flag: '🇮🇱' },
-        { code: 'CNY', ru: 'Китайский юань', en: 'Chinese yuan', flag: '🇨🇳' }
+        { code: 'UZS', ru: 'Узбекский сум', en: 'Uzbekistani som', flag: '🇺🇿', recommended: true },
+        { code: 'EUR', ru: 'Евро', en: 'Euro', flag: '🇪🇺' },
+        { code: 'GEL', ru: 'Грузинский лари', en: 'Georgian lari', flag: '🇬🇪' }
     ];
-    var SYMBOLS = { USD: '$', EUR: '€', RUB: '₽', AZN: '₼', KZT: '₸', GEL: '₾', TRY: '₺', AED: 'د.إ', ILS: '₪', CNY: '¥' };
+    var SYMBOLS = { USD: '$', EUR: '€', RUB: '₽', AZN: '₼', KZT: '₸', UZS: 'сум', GEL: '₾' };
+    var ZERO_DEC = { KZT: 1, UZS: 1, RUB: 1 };
+    var COOKIE = 'gs_currency';
+
+    function known(code) { return CURRENCIES.some(function (c) { return c.code === code; }); }
+    function readCookie(name) {
+        var m = document.cookie.match(new RegExp('(?:^|; )' + name + '=([^;]*)'));
+        return m ? decodeURIComponent(m[1]) : null;
+    }
+    function saveChoice(code) {
+        try { document.cookie = COOKIE + '=' + code + ';path=/;max-age=' + (365 * 86400) + ';SameSite=Lax'; } catch (e) {}
+        try { localStorage.setItem('currency', code); } catch (e) {}
+    }
+    // Default by visitor country: KZ → KZT, UZ → UZS, RU → RUB, others → USD.
+    // Country: server header (if the host/CDN sends one), otherwise the browser time zone.
+    function defaultCurrency() {
+        var cc = (document.documentElement.getAttribute('data-visitor-country') || '').toUpperCase();
+        if (!cc) {
+            var tz = '';
+            try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch (e) {}
+            if (/^Asia\/(Almaty|Qostanay|Qyzylorda|Aqtobe|Aqtau|Atyrau|Oral)$/.test(tz)) cc = 'KZ';
+            else if (/^Asia\/(Tashkent|Samarkand)$/.test(tz)) cc = 'UZ';
+            else if (/^(Europe\/(Moscow|Kaliningrad|Samara|Volgograd|Saratov|Ulyanovsk|Astrakhan|Kirov)|Asia\/(Yekaterinburg|Omsk|Novosibirsk|Barnaul|Tomsk|Novokuznetsk|Krasnoyarsk|Irkutsk|Chita|Yakutsk|Khandyga|Vladivostok|Ust-Nera|Magadan|Sakhalin|Srednekolymsk|Kamchatka|Anadyr))$/.test(tz)) cc = 'RU';
+        }
+        return { KZ: 'KZT', UZ: 'UZS', RU: 'RUB' }[cc] || 'USD';
+    }
 
     var exchangeRates = {};
-    var selectedCurrency = 'USD';
-    try {
-        var saved = localStorage.getItem('currency');
-        if (saved && CURRENCIES.some(function (c) { return c.code === saved; })) selectedCurrency = saved;
-    } catch (e) {}
+    var ratesDate = null;
+    var selectedCurrency = null;
+    var savedChoice = readCookie(COOKIE);
+    if (!savedChoice) { try { savedChoice = localStorage.getItem('currency'); } catch (e) {} }
+    if (savedChoice && known(savedChoice)) {
+        selectedCurrency = savedChoice;
+        if (!readCookie(COOKIE)) saveChoice(savedChoice);
+    } else {
+        selectedCurrency = defaultCurrency();
+    }
 
     function convertPrice(usd, code) {
         if (code === 'USD') return usd;
@@ -83,13 +108,29 @@
         return usd * exchangeRates[code];
     }
 
+    // 12 345 ₸ · 1 234 567 сум · 82 000 ₽ · $1 234.50 · €99.00 · 170.00 ₼ · 259.00 ₾
     function formatPrice(amount, code) {
-        var twoDec = (code === 'USD' || code === 'EUR');
-        var num = Number(amount).toLocaleString(code === 'USD' ? 'en-US' : 'ru-RU', {
-            minimumFractionDigits: twoDec ? 2 : 0, maximumFractionDigits: twoDec ? 2 : 0
+        var dec = ZERO_DEC[code] ? 0 : 2;
+        var parts = Number(amount).toFixed(dec).split('.');
+        var num = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (dec ? '.' + parts[1] : '');
+        var sym = SYMBOLS[code] || code;
+        return (code === 'USD' || code === 'EUR') ? sym + num : num + ' ' + sym;
+    }
+
+    function rateNoteText() {
+        if (!ratesDate) return '';
+        var d = ratesDate.split('-');
+        var date = d.length === 3 ? d[2] + '.' + d[1] + '.' + d[0] : ratesDate;
+        return RU
+            ? 'Курс на ' + date + ', ориентировочно. Оплата в санатории в AZN/GEL.'
+            : 'Exchange rate as of ' + date + ', approximate. Payment at the sanatorium in AZN/GEL.';
+    }
+    function updateRateNotes() {
+        var txt = rateNoteText();
+        document.querySelectorAll('[data-gs-rate-note]').forEach(function (el) {
+            el.textContent = txt;
+            el.hidden = !txt || selectedCurrency === 'AZN' && el.hasAttribute('data-hide-azn');
         });
-        var sym = SYMBOLS[code];
-        return sym ? (code === 'USD' || code === 'EUR' ? sym + num : sym + ' ' + num) : num + ' ' + code;
     }
 
     function updateAllPrices() {
@@ -100,6 +141,7 @@
             if (conv === null) return; // rates not loaded yet: keep server text
             el.textContent = formatPrice(conv, selectedCurrency);
         });
+        updateRateNotes();
     }
 
     function updateButton() {
@@ -126,12 +168,12 @@
 
     function renderModal() {
         renderGrid('recommendedCurrencies', CURRENCIES.filter(function (c) { return c.recommended; }));
-        renderGrid('allCurrencies', CURRENCIES);
+        renderGrid('allCurrencies', CURRENCIES.filter(function (c) { return !c.recommended; }));
     }
 
     function selectCurrency(code) {
         selectedCurrency = code;
-        try { localStorage.setItem('currency', code); } catch (e) {}
+        saveChoice(code);
         updateButton();
         renderModal();
         updateAllPrices();
@@ -155,6 +197,7 @@
         var conv = convertPrice(parseFloat(usd) || 0, selectedCurrency);
         return conv === null ? null : formatPrice(conv, selectedCurrency);
     };
+    window.gsRateNote = rateNoteText;
     window.gsCurrencyCode = function () {
         return (selectedCurrency === 'USD' || exchangeRates[selectedCurrency]) ? selectedCurrency : 'USD';
     };
@@ -167,7 +210,13 @@
     function loadRates() {
         fetch('/api/exchange-rates', { headers: { 'Accept': 'application/json' } })
             .then(function (r) { return r.json(); })
-            .then(function (data) { exchangeRates = data || {}; updateAllPrices(); notifyChange(); })
+            .then(function (data) {
+                data = data || {};
+                ratesDate = data._date || null;
+                delete data._date; delete data._source;
+                exchangeRates = data;
+                updateAllPrices(); notifyChange();
+            })
             .catch(function () {});
     }
 

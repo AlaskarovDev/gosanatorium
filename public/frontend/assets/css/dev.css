@@ -1417,3 +1417,9 @@ h3.gs-h4 { font-size: 18px; }
 .gs-med-disclaimer--card { margin: -8px 0 24px; }
 .gs-med-disclaimer, .gs-med-disclaimer span, .gs-med-disclaimer a { font-size: 13px !important; line-height: 1.5 !important; margin-bottom: 0; }
 .gs-med-disclaimer a { font-weight: 400 !important; }
+
+/* Task 33: exchange-rate note under prices */
+.gs-rate-note { white-space: normal; overflow-wrap: anywhere; max-width: 100%; font-size: 11px; line-height: 1.4; color: #94a3b8; margin-top: 4px; }
+.gs-rate-note--block { font-size: 12px; margin: 8px 0 0; text-align: center; }
+.gs-rate-note[hidden] { display: none !important; }
+.feature-card--price .gs-rate-note { color: inherit; opacity: .8; white-space: normal; overflow-wrap: anywhere; max-width: 100%; }
