@@ -183,6 +183,7 @@
                     .then(function(response) {
                         if (response.data.alert_type == 'success') {
                             toastr.success(response.data.message);
+                            if (window.gsGoal) window.gsGoal('contact_form_sent', { form: 'contact_page' });
                             form.reset(); // Reset form
                         }
                     })
