@@ -10,9 +10,8 @@ use Symfony\Component\HttpFoundation\Response;
  * Bütün frontend HTML səhifələrinə dil seçicisini əlavə edir:
  *  - Header-də dairəvi bayraq düyməsi (cari dilin bayrağı)
  *  - Klikləyəndə bayraqlı modal (Google booking.com kimi)
- *  - Seçilən dil URL-də görünür (/ru, /en ...), keçid eyni səhifədə qalır
- *  - Task 17: yalnız real (tərcümə olunmuş) dillər göstərilir; Google Translate yoxdur.
- *    Ad tarixi səbəbdən saxlanılıb (Kernel-də qeydiyyatdadır).
+ *  - Seçilən dil URL-də görünür (/az, /en ...)
+ *  - ru/az real məzmun, qalan dillər Google Translate ilə (gizli)
  */
 class InjectGoogleTranslate
 {
@@ -46,11 +45,48 @@ class InjectGoogleTranslate
     }
 
     /**
-     * <head>-də işləyən erkən snippet: köhnə googtrans cookie-ni təmizləyir.
+     * <head>-də işləyən erkən snippet:
+     *  - Tərcümə dili (gt_lang) varsa: googtrans cookie-ni dərhal qoyur, səhifəni
+     *    "lang-translating" sinfi ilə gizlədir və loader göstərir. Google tərcüməni
+     *    tətbiq edən kimi (<html>.translated-*) içəri açılır. 3s fallback var.
+     *  - Native (ru): köhnə cookie-ni təmizləyir ki, /ru-da yanlış tərcümə flash olmasın.
      */
     private function headSnippet(Request $request): string
     {
-        // Task 17: auto-translate removed — clear any old googtrans cookie left by the former widget.
+        $gt = $request->attributes->get('gt_lang'); // null = native (ru)
+
+        if ($gt) {
+            $gtJs = json_encode($gt, JSON_HEX_APOS | JSON_HEX_QUOT);
+
+            $css = <<<CSS
+<style id="lang-fout">
+html.lang-translating body{visibility:hidden!important}
+html.lang-translating::before{content:"";position:fixed;inset:0;background:#fff;z-index:2147483646}
+html.lang-translating::after{content:"";position:fixed;top:50%;left:50%;width:46px;height:46px;margin:-23px 0 0 -23px;border:4px solid #e6e9f0;border-top-color:#1a56db;border-radius:50%;animation:langspin .8s linear infinite;z-index:2147483647}
+@keyframes langspin{to{transform:rotate(360deg)}}
+</style>
+CSS;
+
+            $js = <<<JS
+<script>
+(function(){
+  var d=document,h=d.documentElement,gt=$gtJs;
+  var host=location.hostname.replace(/^www\./,'');
+  try{d.cookie='googtrans=/ru/'+gt+';path=/';d.cookie='googtrans=/ru/'+gt+';path=/;domain=.'+host;}catch(e){}
+  h.className+=' lang-translating';
+  function reveal(){h.classList.remove('lang-translating');}
+  function ok(){return h.className.indexOf('translated-')!==-1;}
+  if(ok()){setTimeout(reveal,80);return;}
+  try{var mo=new MutationObserver(function(){if(ok()){mo.disconnect();setTimeout(reveal,80);}});mo.observe(h,{attributes:true,attributeFilter:['class']});}catch(e){}
+  setTimeout(reveal,3000);
+})();
+</script>
+JS;
+
+            return $css . $js;
+        }
+
+        // Native (ru): erkən cookie təmizlə.
         return <<<'JS'
 <script>
 (function(){var d=document,host=location.hostname.replace(/^www\./,''),ex=';expires=Thu, 01 Jan 1970 00:00:01 GMT';d.cookie='googtrans=;path=/'+ex;d.cookie='googtrans=;path=/;domain=.'+host+ex;})();
@@ -79,11 +115,15 @@ JS;
     private function widget(Request $request): string
     {
         $langs = \App\Support\SiteLanguages::active();
+        if (empty($langs)) {
+            return '';
+        }
 
         $current = $request->attributes->get('display_lang', 'ru');
         if (! isset($langs[$current])) {
-            $current = \App\Support\SiteLanguages::default();
+            $current = 'ru';
         }
+        $gt = $request->attributes->get('gt_lang'); // null = native (ru)
 
         $currentFlag = $langs[$current]['flag'] ?? 'ru';
         $currentName = $langs[$current]['name'] ?? 'Русский';
@@ -100,19 +140,28 @@ JS;
         }
 
         // JS üçün məlumat
+        $jsList = [];
+        foreach ($langs as $code => $cfg) {
+            $jsList[$code] = ['gt' => $cfg['gt'] ?? $code, 'native' => (bool) ($cfg['native'] ?? false)];
+        }
         $jsData = json_encode([
             'current' => $current,
-            'active'  => array_keys($langs),
-            // all known prefixes (incl. retired) so the current one is stripped correctly
+            'gt'      => $gt,
             'codes'   => \App\Support\SiteLanguages::allCodes(),
+            'list'    => $jsList,
         ], JSON_UNESCAPED_UNICODE | JSON_HEX_APOS | JSON_HEX_QUOT);
 
-        $modalClass = count($langs) <= 3 ? ' class="lm-compact"' : '';
         $currentFlag = e($currentFlag);
         $currentName = e($currentName);
 
         $css = <<<CSS
 <style>
+  /* Google-un öz UI-ni tam gizlə */
+  #google_translate_element, .goog-te-banner-frame, .skiptranslate { display:none !important; }
+  body { top:0 !important; position:static !important; }
+  .goog-tooltip, .goog-tooltip:hover { display:none !important; }
+  .goog-text-highlight { background:none !important; box-shadow:none !important; }
+
   /* Dairəvi bayraq düyməsi */
   #lang_flag_btn {
     width:40px; height:40px; border-radius:50%; overflow:hidden;
@@ -156,19 +205,17 @@ JS;
     box-shadow:0 0 0 1px rgba(0,0,0,.08);
   }
   #lang_modal .lm-name { flex:1; }
-  /* Task 17: few real languages → compact modal */
-  #lang_modal.lm-compact { max-width:420px; }
-  #lang_modal.lm-compact .lm-grid { grid-template-columns:1fr; }
   #lang_modal .lm-check { color:#1f4ad7; font-weight:700; }
 </style>
 CSS;
 
         $html = <<<HTML
+<div id="google_translate_element"></div>
 <button id="lang_flag_btn" class="floating" type="button" title="{$currentName}" aria-label="Language">
   <img src="https://flagcdn.com/w80/{$currentFlag}.png" alt="">
 </button>
 <div id="lang_modal_overlay">
-  <div id="lang_modal"{$modalClass}>
+  <div id="lang_modal">
     <div class="lm-top">
       <div class="lm-title">Выберите язык</div>
       <button id="lang_modal_close" type="button" aria-label="Close">&times;</button>
@@ -181,9 +228,23 @@ HTML;
         $jsStatic = <<<'JS'
 (function () {
   var S = window.__siteLang;
-  // Task 17: switcher keeps the same page (Chinar RU → Chinar EN), never the homepage.
+  var host = location.hostname.replace(/^www\./, '');
+  function setCk(gt) {
+    document.cookie = 'googtrans=/ru/' + gt + ';path=/';
+    document.cookie = 'googtrans=/ru/' + gt + ';path=/;domain=.' + host;
+  }
+  function clrCk() {
+    var ex = ';expires=Thu, 01 Jan 1970 00:00:01 GMT';
+    document.cookie = 'googtrans=;path=/' + ex;
+    document.cookie = 'googtrans=;path=/;domain=.' + host + ex;
+  }
+  // Yüklənmədə: cookie cari dilə uyğun olsun (Google element bunu oxuyub çevirir)
+  if (S.gt) { setCk(S.gt); } else { clrCk(); }
+
   window.siteSelectLang = function (code) {
-    if (S.active.indexOf(code) === -1) return;
+    var info = S.list[code];
+    if (!info) return;
+    if (info.native) { clrCk(); } else { setCk(info.gt); }
     var re = new RegExp('^/(' + S.codes.join('|') + ')(?=/|$)');
     var p = location.pathname.replace(re, '');
     location.href = location.origin + '/' + code + p + location.search;
@@ -213,7 +274,15 @@ JS;
 
         $js = '<script>window.__siteLang = ' . $jsData . ';' . $jsStatic . '</script>';
 
+        $googleInit = <<<'GINIT'
+<script type="text/javascript">
+  function googleTranslateElementInit() {
+    new google.translate.TranslateElement({ pageLanguage: 'ru', autoDisplay: false }, 'google_translate_element');
+  }
+</script>
+<script src="//translate.google.com/translate_a/element.js?cb=googleTranslateElementInit" defer></script>
+GINIT;
 
-        return "\n" . $css . $html . $js . "\n";
+        return "\n" . $css . $html . $js . $googleInit . "\n";
     }
 }

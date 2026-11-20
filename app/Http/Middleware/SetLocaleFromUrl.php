@@ -48,8 +48,7 @@ class SetLocaleFromUrl
             $code = $matches[1];
             $newPath = ($matches[2] ?? '') ?: '/';
 
-            // Task 17: only translated versions exist. Retired prefixes (/en, /az, /tr …
-            // were Google-translated copies of RU) → one 301 to the same page on the default language.
+            // Disabled prefixes (not in the picker) → one 301 to the same page on the default language.
             if (! \App\Support\SiteLanguages::isActive($code)) {
                 $default = \App\Support\SiteLanguages::default();
                 if (in_array($request->getMethod(), ['GET', 'HEAD'], true)) {
@@ -78,14 +77,21 @@ class SetLocaleFromUrl
                 $request->getContent()
             );
 
-            // Task 17: every active language has its own real content (no auto-translate).
-            $contentLocale = $code;
+            $cfg = $langs[$code] ?? [];
+            $isNative = $cfg['native'] ?? false;
+
+            // Yalnız "native" dil (ru) öz real məzmununu göstərir.
+            // Qalan dillər ru məzmununu göstərir, Google client-side çevirir.
+            $contentLocale = $isNative ? $code : 'ru';
             app()->setLocale($contentLocale);
 
-            // detected_lang → SyncLocaleToSession/CurrencyLangauge məzmun locale-ni bundan götürür.
+            // detected_lang → SyncLocaleToSession/CurrencyLangauge məzmun locale-ni
+            // bundan götürür (tərcümə dilləri üçün ru olmalıdır).
             $request->attributes->set('detected_lang', $contentLocale);
             // display_lang → bayraq düyməsi hansı dilin seçildiyini bundan bilir (URL prefiksi).
             $request->attributes->set('display_lang', $code);
+            // gt_lang → Google tərcümə hədəfi (native = null = tərcümə yoxdur).
+            $request->attributes->set('gt_lang', $isNative ? null : ($cfg['gt'] ?? $code));
 
             $root = $request->getSchemeAndHttpHost();
             $urlGen = app('url');

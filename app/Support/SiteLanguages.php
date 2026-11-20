@@ -3,12 +3,12 @@
 namespace App\Support;
 
 /**
- * Task 17: which language versions really exist.
+ * Site languages (config/site_languages.php).
  *
- * config('site_languages') lists every known URL prefix; only entries with
- * 'native' => true are real (translated) versions. The others are retired:
- * their URLs 301 to the /ru page, and they are hidden from the picker,
- * hreflang and sitemap.
+ * active  = 'enabled' (or native) entries: shown in the picker; non-native ones are
+ *           Google auto-translated from RU.
+ * native  = real content (RU): the only ones in hreflang/canonical.
+ * Other known prefixes are retired: their URLs 301 to the same /ru page.
  */
 class SiteLanguages
 {
@@ -23,7 +23,7 @@ class SiteLanguages
     /** Active (translated) languages: code => config. RU always first. */
     public static function active(): array
     {
-        $active = array_filter(config('site_languages', []), fn ($cfg) => ! empty($cfg['native']));
+        $active = array_filter(config('site_languages', []), fn ($cfg) => ! empty($cfg['enabled']) || ! empty($cfg['native']));
         if (empty($active)) {
             $active = ['ru' => ['name' => 'Русский', 'flag' => 'ru', 'native' => true]];
         }
@@ -34,6 +34,14 @@ class SiteLanguages
     public static function activeCodes(): array
     {
         return array_keys(self::active());
+    }
+
+    /** Languages with real (non machine-translated) content — used for hreflang. */
+    public static function nativeCodes(): array
+    {
+        $codes = array_keys(array_filter(self::active(), fn ($cfg) => ! empty($cfg['native'])));
+
+        return $codes ?: [self::default()];
     }
 
     public static function isActive(string $code): bool
