@@ -105,6 +105,7 @@ final class Service extends Model
         'meal_plan',
         'price_basis',
         'min_stay_nights',
+        'transfer_info',
     ];
 
     /**

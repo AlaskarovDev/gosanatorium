@@ -3200,17 +3200,24 @@
     <script type="application/json" id="galleryData">@json($galleryPayload)</script>
 
     {{-- MOBILE TABS (Quick navigation) --}}
-    <nav class="mobile-tabs" id="mobileTabs">
-        <a href="#section-about" class="mobile-tabs__item active">О туре</a>
-        @if($service?->itineraries && $service?->itineraries->count() > 0)
-            <a href="#section-itinerary" class="mobile-tabs__item">Программа</a>
+    {{-- Task 30: sticky section menu (mobile; desktop uses the left sticky nav) --}}
+    @php
+        $gsNavFaq = $service?->itineraries && $service?->itineraries->count() > 0;
+        $gsNavTreat = isset($service->treatmentItems) && $service->treatmentItems->where('status', true)->count() > 0;
+    @endphp
+    <nav class="mobile-tabs" id="mobileTabs" aria-label="Разделы страницы">
+        <a href="#section-about" class="mobile-tabs__item active">Обзор</a>
+        <a href="#section-summary" class="mobile-tabs__item">Цены</a>
+        @if($gsNavTreat)
+            <a href="#section-treatment" class="mobile-tabs__item">Лечение</a>
+        @endif
+        <a href="{{ $hasRooms ? route('front.tourbooking.rooms.selection', $service->slug) : route('front.tourbooking.guest-booking-form', $service->slug) }}" class="mobile-tabs__item">Номера</a>
+        <a href="#section-reviews" class="mobile-tabs__item">Отзывы</a>
+        @if($gsNavFaq)
+            <a href="#section-itinerary" class="mobile-tabs__item">FAQ</a>
         @endif
         @if($service?->google_map_url)
-            <a href="#section-map" class="mobile-tabs__item">Карта</a>
-        @endif
-        <a href="#section-reviews" class="mobile-tabs__item">Отзывы</a>
-        @if($service?->included || $service?->excluded)
-            <a href="#section-included" class="mobile-tabs__item">Включено</a>
+            <a href="#section-map" class="mobile-tabs__item">Как добраться</a>
         @endif
     </nav>
 
@@ -3294,6 +3301,7 @@
     {{-- MAIN CONTENT --}}
     <section class="main-section">
         <div class="container">
+            @include('tourbooking::front.services.summary-box')
             <div class="bento-layout">
                 {{-- LEFT - Content --}}
                 <div class="bento-grid">
@@ -4158,6 +4166,7 @@
             .popular-section > .container {
                 margin-left: 180px !important;
                 margin-right: 20px !important;
+                max-width: calc(100% - 200px) !important;
             }
         }
         #stickyLeftNav ul li a:hover {
@@ -4738,11 +4747,14 @@ window.closeDoctorModal = function() {
             // Smooth scroll on tap
             tabs.forEach(tab => {
                 tab.addEventListener('click', function(e) {
+                    const href = this.getAttribute('href') || '';
+                    if (!href.startsWith('#')) return; // «Номера» opens the rooms page
                     e.preventDefault();
-                    const target = document.querySelector(this.getAttribute('href'));
+                    const target = document.querySelector(href);
                     if (target) {
-                        const tabsHeight = document.getElementById('mobileTabs')?.offsetHeight || 50;
-                        const y = target.getBoundingClientRect().top + window.scrollY - tabsHeight - 10;
+                        const navEl = document.getElementById('mobileTabs');
+                        const navBottom = navEl && navEl.classList.contains('is-fixed') ? navEl.getBoundingClientRect().bottom : 120;
+                        const y = target.getBoundingClientRect().top + window.scrollY - navBottom - 10;
                         window.scrollTo({ top: y, behavior: 'smooth' });
                     }
                 });
@@ -4754,11 +4766,11 @@ window.closeDoctorModal = function() {
                 if (!ticking) {
                     requestAnimationFrame(function() {
                         const tabsHeight = document.getElementById('mobileTabs')?.offsetHeight || 50;
-                        const scrollPos = window.scrollY + tabsHeight + 60;
+                        const scrollPos = window.scrollY + tabsHeight + 160;
 
                         let activeSection = sections[0];
                         for (const section of sections) {
-                            if (section.el.offsetTop <= scrollPos) {
+                            if ((section.el.getBoundingClientRect().top + window.scrollY) <= scrollPos) {
                                 activeSection = section;
                             }
                         }

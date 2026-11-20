@@ -190,6 +190,7 @@ class ServiceRequest extends FormRequest
             'meal_plan' => 'nullable|string|max:255',
             'price_basis' => 'nullable|in:person,room',
             'min_stay_nights' => 'nullable|integer|min:1|max:60',
+            'transfer_info' => 'nullable|string|max:255',
             'tests_included' => 'nullable|in:0,1',
             'doctor_exam_included' => 'nullable|in:0,1',
             'airport_distance_km' => 'nullable|numeric|min:0|max:9999',
