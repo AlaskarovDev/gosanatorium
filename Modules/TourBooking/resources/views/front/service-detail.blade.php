@@ -3099,7 +3099,7 @@
                 @include('partials.breadcrumb_trail', ['crumbs' => $crumbs])
 
                 <h1 class="hero__title" data-aos="fade-up" data-aos-delay="200">
-                    {{ $service?->translation?->title }}
+                    {{ gs_display_title($service?->translation?->title) }}
                 </h1>
 
                 @include('tourbooking::front.services.badges', ['service' => $service, 'limit' => 10])
@@ -3126,14 +3126,11 @@
                 </div>
 
                 <div class="hero__actions" data-aos="fade-up" data-aos-delay="400">
-                    <button class="btn-glass @if($service?->my_wishlist_exists == 1) active @endif"
-                        data-url="{{ route('user.wishlist.store') }}"
-                        onclick="addToWishlist({{ $service->id }}, this, 'service')">
-                        <i class="fa-solid fa-heart"></i>
-                        <span class="wishlist_change_text">
-                            @if($service?->my_wishlist_exists == 1) Сохранено @else Сохранить @endif
-                        </span>
+                    <button type="button" class="btn-glass gs-fav-btn" aria-pressed="false"
+                        data-slug="{{ $service->slug }}" data-title="{{ gs_display_title($service?->translation?->title) }}">
+                        <span class="gs-fav-label">♡ В избранное</span>
                     </button>
+                    <a class="btn-glass gs-fav-link" href="{{ localize_front_url('/izbrannoe') }}">Избранное <span class="gs-fav-count" style="display:none"></span></a>
                 </div>
             </div>
         </div>

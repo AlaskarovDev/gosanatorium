@@ -22,14 +22,17 @@
         .gs-cmp-yes { color: #16a34a; font-weight: 700; }
         .gs-cmp-no { color: #dc2626; font-weight: 700; }
         .gs-cmp-na { color: #94a3b8; }
-        .gs-cmp-star { color: #f59e0b; }
+        .gs-cmp-star { color: #f59e0b; letter-spacing: 1px; }
+        .gs-cmp-price { display: block; color: #1a9e87; font-size: 18px; }
+        .gs-cmp-basis { display: block; font-size: 12px; color: #64748b; margin-top: 2px; }
+        .gs-cmp-list { font-size: 13px !important; line-height: 1.45; }
         .gs-cmp-cta { display: inline-block; background: #1a9e87; color: #fff; border-radius: 8px; padding: 10px 20px; font-weight: 600; }
         .gs-cmp-cta:hover { background: #158573; color: #fff; }
         .gs-cmp-remove { display: block; margin: 6px auto 0; font-size: 12px; color: #94a3b8; background: none; border: 0; cursor: pointer; }
         .gs-cmp-empty { text-align: center; padding: 60px 16px; font-size: 18px; color: #334155; }
         .gs-cmp-actions { text-align: center; margin-top: 20px; }
         .gs-cmp-share { background: #fff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 8px 18px; cursor: pointer; font-weight: 600; color: #334155; }
-        @media (max-width: 767px) { .gs-cmp-hero { padding: 120px 0 30px; } .gs-cmp-hero h1 { font-size: 26px; } .gs-cmp-table td { min-width: 170px; } }
+        @media (max-width: 767px) { .gs-cmp-hero { padding: 120px 0 30px; } .gs-cmp-hero h1 { font-size: 26px; } .gs-cmp-table { min-width: 0; } .gs-cmp-table th.gs-cmp-param { min-width: 96px; max-width: 110px; font-size: 13px; padding: 10px 8px; } .gs-cmp-table td { min-width: 132px; padding: 10px 8px; font-size: 13px; } .gs-cmp-photo { height: 90px; } .gs-cmp-cta { padding: 8px 14px; } }
     </style>
 @endpush
 
@@ -76,19 +79,42 @@
                                 @endforeach
                             </tr>
                             <tr>
-                                <th class="gs-cmp-param">Цена за сутки</th>
-                                @foreach ($rows as $r)<td>{!! $dash($r['price']) !!}</td>@endforeach
+                                <th class="gs-cmp-param">Цена от</th>
+                                @foreach ($rows as $r)
+                                    <td>
+                                        @if ($r['from_price'])
+                                            <strong class="gs-cmp-price">от {!! currency_span($r['from_price']) !!}</strong>
+                                            <span class="gs-cmp-basis">{{ $r['from_basis'] }}</span>
+                                        @else {!! $dash($r['price']) !!} @endif
+                                    </td>
+                                @endforeach
                             </tr>
                             <tr>
-                                <th class="gs-cmp-param">Рейтинг</th>
+                                <th class="gs-cmp-param">Звёзды</th>
+                                @foreach ($rows as $r)<td>{!! $r['stars'] > 0 ? '<span class="gs-cmp-star" aria-label="' . $r['stars'] . '★">' . str_repeat('★', $r['stars']) . '</span>' : '<span class="gs-cmp-na">—</span>' !!}</td>@endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">Рейтинг гостей</th>
                                 @foreach ($rows as $r)
                                     <td>
                                         @if ($r['rating'] !== null)
                                             <span class="gs-cmp-star">★</span> <strong>{{ number_format($r['rating'], 1) }}</strong>
-                                            <span class="gs-cmp-na">({{ $r['reviews'] }})</span>
+                                            <span class="gs-cmp-na">({{ \Modules\TourBooking\App\Models\Review::countLabel($r['reviews']) }})</span>
                                         @else <span class="gs-cmp-na">Нет отзывов</span> @endif
                                     </td>
                                 @endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">Город</th>
+                                @foreach ($rows as $r)<td>{!! $dash($r['city']) !!}</td>@endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">Расстояние до аэропорта</th>
+                                @foreach ($rows as $r)<td>{!! $r['airport'] !== null ? e($r['airport']) . ' км' : '<span class="gs-cmp-na">—</span>' !!}</td>@endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">Что лечат</th>
+                                @foreach ($rows as $r)<td class="gs-cmp-list">{!! $r['diseases'] ? e(implode(', ', $r['diseases'])) : '<span class="gs-cmp-na">—</span>' !!}</td>@endforeach
                             </tr>
                             <tr>
                                 <th class="gs-cmp-param">Процедуры в день</th>
@@ -96,7 +122,25 @@
                             </tr>
                             <tr>
                                 <th class="gs-cmp-param">Питание</th>
-                                @foreach ($rows as $r)<td>{!! $yn($r['meals']) !!}</td>@endforeach
+                                @foreach ($rows as $r)<td>{!! $r['meal_plan'] ? e($r['meal_plan']) : $yn($r['meals']) !!}</td>@endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">Бассейн</th>
+                                @foreach ($rows as $r)<td>{!! is_string($r['pools']) ? '<span class="gs-cmp-yes">✓</span> ' . e($r['pools']) : $yn($r['pools']) !!}</td>@endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">SPA</th>
+                                @foreach ($rows as $r)<td>{!! $yn($r['spa']) !!}</td>@endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">Бесплатный трансфер</th>
+                                @foreach ($rows as $r)
+                                    <td>{!! $yn($r['free_transfer']) !!}@if ($r['transfer_info'])<span class="gs-cmp-basis">{{ $r['transfer_info'] }}</span>@endif</td>
+                                @endforeach
+                            </tr>
+                            <tr>
+                                <th class="gs-cmp-param">Минимум ночей</th>
+                                @foreach ($rows as $r)<td>{!! $r['min_nights'] ? 'от ' . (int) $r['min_nights'] : '<span class="gs-cmp-na">—</span>' !!}</td>@endforeach
                             </tr>
                             <tr>
                                 <th class="gs-cmp-param">Анализы при заезде</th>
@@ -107,16 +151,12 @@
                                 @foreach ($rows as $r)<td>{!! $yn($r['doctor']) !!}</td>@endforeach
                             </tr>
                             <tr>
-                                <th class="gs-cmp-param">Расстояние от аэропорта</th>
-                                @foreach ($rows as $r)<td>{!! $r['airport'] !== null ? e($r['airport']) . ' км' : '<span class="gs-cmp-na">—</span>' !!}</td>@endforeach
-                            </tr>
-                            <tr>
-                                <th class="gs-cmp-param">Детям</th>
+                                <th class="gs-cmp-param">Дети</th>
                                 @foreach ($rows as $r)<td>{!! $dash($r['child']) !!}</td>@endforeach
                             </tr>
                             <tr>
-                                <th class="gs-cmp-param">Ссылка</th>
-                                @foreach ($rows as $r)<td><a class="gs-cmp-cta" href="{{ $r['url'] }}">Забронировать</a></td>@endforeach
+                                <th class="gs-cmp-param"></th>
+                                @foreach ($rows as $r)<td><a class="gs-cmp-cta" href="{{ $r['book_url'] }}">Выбрать</a></td>@endforeach
                             </tr>
                         </tbody>
                     </table>

@@ -92,6 +92,9 @@ class SeoText
     /** Star class: not a separate field, so it is read from «5★» / «5*» in the name or short text. */
     protected static function stars($service): ?int
     {
+        if ((int) ($service?->stars ?? 0) > 0) {
+            return (int) $service->stars; // Task 28: admin field
+        }
         $tr = $service?->translation;
         foreach ([$tr?->title, $service?->title, $tr?->short_description] as $src) {
             $plain = self::title((string) $src);

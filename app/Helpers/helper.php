@@ -628,3 +628,12 @@ if (!function_exists('img_size_attrs')) {
         return $s ? 'width="' . $s[0] . '" height="' . $s[1] . '"' : '';
     }
 }
+
+if (!function_exists('gs_display_title')) {
+    /** Task 28: displayed sanatorium name without the year («… 2026»); the slug and stored title are not changed. */
+    function gs_display_title(?string $title): string
+    {
+        $t = preg_replace('/\s*[\(\[]?\b202\d\b[\)\]]?\s*/u', ' ', (string) $title);
+        return (string) preg_replace('/^[\s\-–—|,]+|[\s\-–—|,]+$/u', '', (string) preg_replace('/\s{2,}/u', ' ', (string) $t));
+    }
+}

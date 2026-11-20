@@ -106,6 +106,12 @@ final class Service extends Model
         'price_basis',
         'min_stay_nights',
         'transfer_info',
+        'stars',
+        'pool_indoor',
+        'pool_outdoor',
+        'has_spa',
+        'free_transfer',
+        'sort_weight',
     ];
 
     /**
@@ -144,6 +150,10 @@ final class Service extends Model
         'meals_included' => 'boolean',
         'tests_included' => 'boolean',
         'doctor_exam_included' => 'boolean',
+        'pool_indoor' => 'boolean',
+        'pool_outdoor' => 'boolean',
+        'has_spa' => 'boolean',
+        'free_transfer' => 'boolean',
     ];
 
     protected static function booted(): void
