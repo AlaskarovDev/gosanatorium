@@ -15,7 +15,7 @@
 @if (count($pcVals) >= 2)
 <div class="gs-pc" id="{{ $pcId ?? 'section-price-calendar' }}">
     <h2 class="gs-pc__title">Когда ехать выгоднее?</h2>
-    <p class="gs-pc__sub">Минимальная цена за ночь с человека по месяцам. {{ $pcNote ?? '' }}</p>
+    <p class="gs-pc__sub">Минимальная цена по месяцам ({{ $pcLabel ?? 'за ночь с человека' }}). {{ $pcNote ?? '' }}</p>
     <div class="gs-pc__strip" role="list">
         @foreach ($pcMonths as $i => $mo)
             @php
