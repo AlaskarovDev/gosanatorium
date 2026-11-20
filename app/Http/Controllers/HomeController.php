@@ -159,7 +159,7 @@ class HomeController extends Controller
             }
         }
 
-        $blogs = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc');
+        $blogs = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc')->orderBy('id', 'desc');
 
         if ($request->category) {
             $blogs = $blogs->where('blog_category_id', $request->category);
@@ -175,16 +175,28 @@ class HomeController extends Controller
             });
         }
 
-        $blogs = $blogs->with('category')->paginate($paginate_qty)->withPath(route('blogs'));
+        // Task 22: keep category/search in page links; page after the last one → 404
+        $gsKeep = array_filter($request->only(['category', 'search', 'page_view']), fn ($v) => $v !== null && $v !== '');
+        $blogs = $blogs->with('category')->paginate($paginate_qty)->withPath(route('blogs'))->appends($gsKeep);
+        $gsPage = (int) $request->query('page', 1);
+        if ($request->has('page') && ($gsPage < 1 || ($gsPage > 1 && $gsPage > $blogs->lastPage()))) {
+            abort(404);
+        }
+        if ($blogs->currentPage() > 1) {
+            $this->applySeo('blogs-page-' . $blogs->currentPage(), [
+                'title'       => 'Блог GoSanatorium — страница ' . $blogs->currentPage(),
+                'description' => 'Статьи о санаториях и лечении — страница ' . $blogs->currentPage() . '. Нафталан, Боржоми, Цхалтубо: цены, советы, отзывы.',
+            ]);
+        }
 
         // Axtarış nəticəsi boşdursa (məs. Google-dan gələn köhnə/yanlış URL),
         // boş səhifə əvəzinə bütün bloqları göstər
         if ($request->search && $blogs->isEmpty()) {
-            $fallbackQuery = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc');
+            $fallbackQuery = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc')->orderBy('id', 'desc');
             if ($request->category) {
                 $fallbackQuery->where('blog_category_id', $request->category);
             }
-            $blogs = $fallbackQuery->with('category')->paginate($paginate_qty)->withPath(route('blogs'));
+            $blogs = $fallbackQuery->with('category')->paginate($paginate_qty)->withPath(route('blogs'))->appends(array_filter($request->only(['category']), fn ($v) => $v !== null && $v !== ''));
             session()->flash('search_no_results', $request->search);
         }
 
@@ -192,7 +204,7 @@ class HomeController extends Controller
 
         $breadcrumb_title = trans('translate.Our Blogs');
 
-        $latest_blogs = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc')->take(5)->get();
+        $latest_blogs = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->take(5)->get();
 
         $blog_categories = BlogCategory::where('status', 1)->get();
 
@@ -240,7 +252,7 @@ class HomeController extends Controller
         $breadcrumb_title = 'Блог';
         $breadcrumb_items = \App\Support\Breadcrumbs::forBlog($blog);
 
-        $latest_blogs = Blog::with('author')->where('status', 1)->take(5)->get();
+        $latest_blogs = Blog::with('author')->where('status', 1)->orderBy('created_at', 'desc')->orderBy('id', 'desc')->take(5)->get();
 
         $blog_categories = BlogCategory::where('status', 1)->get();
 
