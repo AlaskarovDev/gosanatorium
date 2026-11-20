@@ -18,7 +18,10 @@ class BlogContent
         $toc = [];
         $used = [];
 
-        $html = preg_replace_callback('/<h2\b([^>]*)>(.*?)<\/h2>/isu', function ($m) use (&$toc, &$used) {
+        // TOC from H2; older posts use H3 as section headings → fall back to H3
+        $tag = preg_match_all('/<h2\b/i', $html) >= 2 ? 'h2' : (preg_match_all('/<h3\b/i', $html) >= 2 ? 'h3' : 'h2');
+
+        $html = preg_replace_callback('/<' . $tag . '\b([^>]*)>(.*?)<\/' . $tag . '>/isu', function ($m) use (&$toc, &$used, $tag) {
             $attrs = $m[1];
             $text = trim(preg_replace('/\s+/u', ' ', html_entity_decode(strip_tags($m[2]), ENT_QUOTES | ENT_HTML5, 'UTF-8')));
             if ($text === '') {
@@ -38,7 +41,7 @@ class BlogContent
             $used[$id] = true;
             $toc[] = ['id' => $id, 'text' => $text];
 
-            return '<h2' . $attrs . '>' . $m[2] . '</h2>';
+            return '<' . $tag . $attrs . '>' . $m[2] . '</' . $tag . '>';
         }, $html);
 
         [$first, $rest] = self::splitAtThird($html);
@@ -56,7 +59,7 @@ class BlogContent
         $third = (int) ($len / 3);
 
         $pos = null;
-        if (preg_match('/<h2\b/i', $html, $m, PREG_OFFSET_CAPTURE, $third)) {
+        if (preg_match('/<h[23]\b/i', $html, $m, PREG_OFFSET_CAPTURE, $third)) {
             $pos = $m[0][1];
         }
         if ($pos === null || $pos > $len * 0.7) {
