@@ -4,7 +4,7 @@
     $home1_blog = getContent('theme1_blog.content', true);
     $blogs = Blog::with('translate:id,blog_id,lang_code,title,reading_time')
         ->where('status', true)
-        ->latest()
+        ->orderBy('created_at', 'desc')->orderBy('id', 'desc')
         ->take(3)
         ->get();
     $gsIsRu = app()->getLocale() === 'ru';
