@@ -2898,6 +2898,8 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         bookingData.checkOut = null;
         bookingData.selectedOptional = {};
         bookingData.quoteTotal = null;
+        bookingData.quoteLines = [];
+        bookingData.quoteStayDiscount = "";
         bookingData.quoteNights = 0;
         bookingData.quoteChildPriced = !!(quote && quote.childPriced);
         var useQuote = !!(quote && RS_SEARCH && quote.total > 0);
@@ -2905,6 +2907,8 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             // Same dates, guests and price as on the room card
             bookingData.quoteTotal = parseFloat(quote.total);
             bookingData.quoteNights = parseInt(quote.nights, 10) || RS_SEARCH.nights;
+            bookingData.quoteLines = quote.lines || [];
+            bookingData.quoteStayDiscount = quote.stayDiscount || '';
             bookingData.adults = RS_SEARCH.adults;
             bookingData.children = RS_SEARCH.children;
             bookingData.checkIn = rsParseDate(RS_SEARCH.checkin);
@@ -3108,6 +3112,14 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         bookingData.nights = nights;
         var optionalPerNight = 0;
         var breakdownHtml = '';
+        // Bug 4: «10 ночей × 250 = 2 500» and the stay discount, same as on the room card
+        (bookingData.quoteLines || []).forEach(function(l) {
+            breakdownHtml += '<div class="price-row rs-quote-line"><span>' + l.n + ' ' + getNightsWord(l.n) + ' × ' + priceHtml(l.p) + '</span><span>' + priceHtml(l.a) + '</span></div>';
+        });
+        if (bookingData.quoteStayDiscount) {
+            var sd = String(bookingData.quoteStayDiscount).split('|');
+            breakdownHtml += '<div class="price-row rs-quote-line rs-quote-disc"><span>Скидка ' + sd[0] + '%</span><span>−' + priceHtml(sd[1]) + '</span></div>';
+        }
         Object.keys(bookingData.selectedOptional || {}).forEach(function(k) {
             var ex = bookingData.selectedOptional[k];
             if (!ex) return;
@@ -3266,7 +3278,9 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
             const price = parseFloat(btn.dataset.roomPrice || card.dataset.price || 0);
             const maxGuests = parseInt(btn.dataset.maxGuests || card.dataset.guests || 4);
             const basePriceFor = parseInt(btn.dataset.basePriceFor || maxGuests);
-            const quote = btn.dataset.quoteTotal ? { total: parseFloat(btn.dataset.quoteTotal), nights: parseInt(btn.dataset.quoteNights, 10), childPriced: btn.dataset.quoteChildPriced === '1' } : null;
+            let quoteLines = [];
+            try { quoteLines = JSON.parse(btn.dataset.quoteLines || '[]') || []; } catch (e) { quoteLines = []; }
+            const quote = btn.dataset.quoteTotal ? { total: parseFloat(btn.dataset.quoteTotal), nights: parseInt(btn.dataset.quoteNights, 10), childPriced: btn.dataset.quoteChildPriced === '1', lines: quoteLines, stayDiscount: btn.dataset.quoteStayDiscount || '' } : null;
             let extras = [];
             try { extras = JSON.parse(btn.dataset.extras || '[]'); } catch (err) { extras = []; }
             let roomThumb = '';

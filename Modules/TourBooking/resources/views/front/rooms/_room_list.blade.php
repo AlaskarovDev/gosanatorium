@@ -293,6 +293,21 @@
                         @endif
                         <div class="current-price rc-total-price">{!! currency_span($rsQuote['total']) !!} <span class="rc-total-for">за {{ $rsQuote['nights'] }} {{ $rsNightsWord($rsQuote['nights']) }}</span></div>
                         <div class="price-note rc-per-night">≈ {!! currency_span($rsQuote['per_night']) !!} за ночь</div>
+                        @if(!empty($rsQuote['tier_price']) || !empty($rsQuote['stay_discount']))
+                            {{-- Bug 4: breakdown «10 ночей × 250 = 2 500», stay discounts --}}
+                            <div class="rc-breakdown">
+                                @foreach($rsQuote['lines'] ?? [] as $rsLine)
+                                    <div>{{ $rsLine['nights'] }} {{ $rsNightsWord($rsLine['nights']) }} × {!! currency_span($rsLine['price']) !!} = {!! currency_span($rsLine['amount']) !!}</div>
+                                @endforeach
+                                @if(!empty($rsQuote['stay_discount']))
+                                    <div class="rc-breakdown-disc">Скидка {{ rtrim(rtrim(number_format($rsQuote['stay_discount_percent'], 2, '.', ''), '0'), '.') }}%: −{!! currency_span($rsQuote['stay_discount_amount']) !!}</div>
+                                @endif
+                            </div>
+                        @endif
+                        @if(!empty($cheaperHints[$room->id]))
+                            @php $rsHint = $cheaperHints[$room->id]; @endphp
+                            <a class="rc-cheaper-hint" href="{{ $rsHint['url'] }}"><i class="fa-solid fa-lightbulb"></i> {{ $rsHint['nights'] }} {{ $rsNightsWord($rsHint['nights']) }} выйдут дешевле: {!! currency_span($rsHint['total']) !!}</a>
+                        @endif
                         <div class="rc-guests-line"><i class="fa-solid fa-user-group"></i> {{ $rsSearch['adults'] }} {{ $rsAdultsWord($rsSearch['adults']) }}, {{ $rsSearch['children'] }} {{ $rsChildrenWord($rsSearch['children']) }}</div>
                         @if($rsSearch['children'] > 0 && empty($rsQuote['child_priced']))
                             <div class="rc-children-note">Стоимость для детей уточнит менеджер</div>
@@ -309,7 +324,11 @@
                             . (!empty($rsSearch['ages']) ? ' (возраст: ' . implode(', ', $rsSearch['ages']) . ')' : '') . '.';
                     @endphp
                     <div class="rc-price-line rc-price-line--request">
-                        <div class="rc-request-price">Цена по запросу</div>
+                        @if(!empty($tierGaps[$room->id]))
+                            <div class="rc-request-price">Для {{ $tierGaps[$room->id] }} {{ $rsNightsWord($tierGaps[$room->id]) === 'ночь' ? 'ночи' : 'ночей' }} цену уточнит менеджер</div>
+                        @else
+                            <div class="rc-request-price">Цена по запросу</div>
+                        @endif
                         <div class="rc-guests-line"><i class="fa-solid fa-user-group"></i> {{ $rsSearch['adults'] }} {{ $rsAdultsWord($rsSearch['adults']) }}, {{ $rsSearch['children'] }} {{ $rsChildrenWord($rsSearch['children']) }}</div>
                     </div>
                 @else
@@ -374,6 +393,8 @@
                             data-room-price="{{ number_format($rsQuote['per_night'], 2, '.', '') }}"
                             data-quote-total="{{ number_format($rsQuote['total'], 2, '.', '') }}"
                             data-quote-nights="{{ $rsQuote['nights'] }}"
+                            data-quote-lines='{!! e(json_encode(array_map(fn ($l) => ['n' => $l['nights'], 'p' => $l['price'], 'a' => $l['amount']], (!empty($rsQuote['tier_price']) || !empty($rsQuote['stay_discount'])) ? ($rsQuote['lines'] ?? []) : []))) !!}'
+                            data-quote-stay-discount="{{ !empty($rsQuote['stay_discount']) ? rtrim(rtrim(number_format($rsQuote['stay_discount_percent'], 2, '.', ''), '0'), '.') . '|' . number_format($rsQuote['stay_discount_amount'], 2, '.', '') : '' }}"
                             data-quote-child-priced="{{ !empty($rsQuote['child_priced']) ? 1 : 0 }}"
                             data-max-guests="{{ $maxGuests }}"
                             data-extras='{!! $roomExtrasJson !!}'

@@ -63,12 +63,24 @@ final class FrontServiceController extends Controller
 
         $rooms = $allRooms;
         $quotes = [];
+        $tierGaps = [];
+        $cheaperHints = [];
         if ($search) {
             $rooms = $allRooms->filter(fn ($room) => ((int) ($room->max_guests ?: 2)) >= $search['guests'])->values();
             if ($search['min_stay_ok']) {
                 $pricing = new RoomPricing();
                 foreach ($rooms as $room) {
-                    $quotes[$room->id] = $pricing->quote($room, $search['checkin'], $search['checkout'], $search['adults'], $search['children']);
+                    $q = $pricing->quote($room, $search['checkin'], $search['checkout'], $search['adults'], $search['children']);
+                    $quotes[$room->id] = $q;
+                    if (! $q && isset($pricing->tierGaps[$room->id])) {
+                        $tierGaps[$room->id] = $pricing->tierGaps[$room->id]; // Bug 4: «Для N ночей цену уточнит менеджер»
+                    } elseif ($q && ! empty($q['tier_price']) && $search['nights'] < 88) {
+                        // Bug 4: «11 ночей выйдут дешевле: …»
+                        $hint = $pricing->cheaperLonger($room, $search['checkin'], $search['nights'], $search['adults'], $search['children'], (float) $q['total']);
+                        if ($hint) {
+                            $cheaperHints[$room->id] = $hint + ['url' => request()->fullUrlWithQuery(['checkout' => $search['checkin']->copy()->addDays($hint['nights'])->toDateString()])];
+                        }
+                    }
                 }
             }
         }
@@ -81,7 +93,7 @@ final class FrontServiceController extends Controller
             : [];
 
         return view('tourbooking::front.rooms.room-selection', compact(
-            'service', 'rooms', 'allRooms', 'nights', 'search', 'searchError', 'quotes', 'minStay', 'stopSales'
+            'service', 'rooms', 'allRooms', 'nights', 'search', 'searchError', 'quotes', 'minStay', 'stopSales', 'tierGaps', 'cheaperHints'
         ));
     }
 

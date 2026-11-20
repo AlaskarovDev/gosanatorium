@@ -172,6 +172,21 @@
     </a>
 </li>
 
+{{-- Round 2, Bug 4: length-of-stay prices and stay discounts --}}
+<li class="{{ Route::is('admin.tourbooking.stay-pricing.*') ? 'active' : '' }}">
+    <a class="collapsed" href="{{ route('admin.tourbooking.stay-pricing.index') }}">
+        <span class="menu-bar__text">
+            <span class="crancy-menu-icon crancy-svg-icon__v1">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <rect x="3" y="5" width="18" height="16" rx="2" stroke="currentColor" stroke-width="1.5"/>
+                    <path d="M3 10h18M8 3v4M16 3v4M8 14h3M8 17h6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+                </svg>
+            </span>
+            <span class="menu-bar__name">Цены по длительности</span>
+        </span>
+    </a>
+</li>
+
 {{-- Date discounts per sanatorium --}}
 <li class="{{ Route::is('admin.tourbooking.date-discounts.*') ? 'active' : '' }}">
     <a class="collapsed" href="{{ route('admin.tourbooking.date-discounts.index') }}">
