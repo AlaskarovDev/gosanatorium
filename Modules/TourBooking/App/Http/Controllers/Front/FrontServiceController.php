@@ -75,8 +75,13 @@ final class FrontServiceController extends Controller
 
         $nights = $search['nights'] ?? 1;
 
+        // Task 42: stop-sales and «rooms left» for the searched dates
+        $stopSales = $search
+            ? \Modules\TourBooking\App\Services\StopSales::forStay($rooms->pluck('id')->map(fn ($i) => (int) $i)->all(), $search['checkin'], $search['checkout'])
+            : [];
+
         return view('tourbooking::front.rooms.room-selection', compact(
-            'service', 'rooms', 'allRooms', 'nights', 'search', 'searchError', 'quotes', 'minStay'
+            'service', 'rooms', 'allRooms', 'nights', 'search', 'searchError', 'quotes', 'minStay', 'stopSales'
         ));
     }
 

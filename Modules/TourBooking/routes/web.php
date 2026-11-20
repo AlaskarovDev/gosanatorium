@@ -123,6 +123,12 @@ Route::delete('services/treatment-items/{treatmentItem}', [ServiceController::cl
     Route::put('services/extra-charges/{charge}', [ServiceController::class, 'updateExtraCharge'])->name('services.extra-charges.update');
     Route::delete('services/extra-charges/{charge}', [ServiceController::class, 'deleteExtraCharge'])->name('services.extra-charges.destroy');
 
+    // Task 42: room availability calendar (stop-sales)
+    Route::get('services/{service}/stop-sales', [\Modules\TourBooking\App\Http\Controllers\Admin\StopSaleController::class, 'index'])->name('services.stop-sales');
+    Route::post('services/{service}/stop-sales', [\Modules\TourBooking\App\Http\Controllers\Admin\StopSaleController::class, 'store'])->name('services.stop-sales.store');
+    Route::post('services/{service}/stop-sales/import', [\Modules\TourBooking\App\Http\Controllers\Admin\StopSaleController::class, 'import'])->name('services.stop-sales.import');
+    Route::delete('services/{service}/stop-sales/{stopSale}', [\Modules\TourBooking\App\Http\Controllers\Admin\StopSaleController::class, 'destroy'])->name('services.stop-sales.destroy');
+
     // Availability
     Route::get('services/{service}/availability', [ServiceController::class, 'showAvailability'])->name('services.availability');
     Route::post('services/{service}/availability', [ServiceController::class, 'storeAvailability'])->name('services.availability.store');

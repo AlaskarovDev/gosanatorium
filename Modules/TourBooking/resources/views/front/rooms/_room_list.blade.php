@@ -266,8 +266,24 @@
                 $rsAdultsWord = fn ($n) => $n == 1 ? 'взрослый' : 'взрослых';
                 $rsChildrenWord = fn ($n) => $n == 1 ? 'ребёнок' : 'детей';
             @endphp
+            @php
+                // Task 42: availability set in admin (stop-sale / rooms left) for the searched dates
+                $ssInfo = $rsSearch ? (($stopSales ?? [])[$room->id] ?? null) : null;
+                $ssClosed = $ssInfo && $ssInfo['closed'];
+                $ssAltUrl = null;
+                if ($ssClosed && ! empty($ssInfo['alt'])) {
+                    $ssAltUrl = route('front.tourbooking.rooms.selection', $service->slug) . '?' . http_build_query(array_merge(request()->except(['checkin', 'checkout']), $ssInfo['alt']));
+                }
+            @endphp
             <div class="room-price-col">
-                @if($rsQuote)
+                @if($ssClosed)
+                    <div class="rc-price-line rc-stop">
+                        <div class="rc-stop-title"><i class="fa-regular fa-calendar-xmark"></i> Нет мест на эти даты</div>
+                        @if($ssAltUrl)
+                            <div class="rc-stop-alt">Свободно: {{ \Carbon\Carbon::parse($ssInfo['alt']['checkin'])->format('d.m') }} — {{ \Carbon\Carbon::parse($ssInfo['alt']['checkout'])->format('d.m.Y') }}</div>
+                        @endif
+                    </div>
+                @elseif($rsQuote)
                     <div class="rc-price-line rc-price-line--quote">
                         @if($rsQuote['has_discount'])
                             <div class="discount-tag">
@@ -307,7 +323,11 @@
                     $lowStockShow = (bool) ($room->low_stock_show ?? false);
                     $lowStockText = trim((string) ($room->low_stock_text ?? ''));
                 @endphp
-                @if($lowStockShow && $quantity > 0)
+                @if(! $ssClosed && $ssInfo && $ssInfo['left'] === 1)
+                    <div class="low-stock-alert">
+                        <i class="fa-solid fa-exclamation-triangle me-1"></i>Остался 1 номер
+                    </div>
+                @elseif($lowStockShow && $quantity > 0 && ! $ssClosed)
                     <div class="low-stock-alert">
                         <i class="fa-solid fa-exclamation-triangle me-1"></i>
                         {{ $lowStockText !== '' ? $lowStockText : 'Осталось только ' . $quantity . ' ' . $roomWord($quantity) . '!' }}
@@ -335,7 +355,14 @@
                         JSON_HEX_APOS | JSON_HEX_QUOT
                     );
                 @endphp
-                @if($quantity <= 0)
+                @if($ssClosed)
+                    @php
+                        $ssWa = company_fact('whatsapp_url') . '?text=' . rawurlencode('Здравствуйте! Санаторий: ' . ($service->translation->title ?? $service->title ?? '') . '. Номер: ' . $roomName . '. На даты ' . $rsSearch['checkin']->format('d.m.Y') . ' — ' . $rsSearch['checkout']->format('d.m.Y') . ' нет мест. Предложите, пожалуйста, другие даты.');
+                    @endphp
+                    <a class="select-room-btn rc-ask-btn" href="{{ $ssAltUrl ?: $ssWa }}" @if(! $ssAltUrl) target="_blank" rel="noopener" @endif>
+                        <i class="fa-regular fa-calendar"></i>Предложить другие даты
+                    </a>
+                @elseif($quantity <= 0)
                     <button type="button" class="select-room-btn" disabled>
                         <i class="fa-solid fa-ban me-2"></i>Распродано
                     </button>

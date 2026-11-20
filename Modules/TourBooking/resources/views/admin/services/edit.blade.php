@@ -1525,6 +1525,7 @@
                                                                                     'price' => (float) $x->price,
                                                                                 ])->toArray();
                                                                             @endphp
+                                                                            <a href="{{ route('admin.tourbooking.services.stop-sales', ['service' => $service->id, 'room' => $room->id]) }}" class="crancy-btn crancy-btn__nostyle crancy-color3" title="Календарь: нет мест / осталось номеров"><i class="fa fa-calendar"></i> Календарь</a>
                                                                             <button type="button" class="crancy-btn crancy-btn__nostyle crancy-color3 edit-room-btn"
                                                                                     data-room-id="{{ $room->id }}"
                                                                                     data-room-name="{{ $room->name }}"

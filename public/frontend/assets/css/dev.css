@@ -1485,3 +1485,9 @@ h3.gs-h4 { font-size: 18px; }
 .gscard-fav.gs-fav-btn:focus-visible { outline: 2px solid #1a9e87; outline-offset: 2px; }
 .btn-glass.gs-fav-btn.is-active { background: #fff !important; color: #dc2626 !important; }
 .gs-fav-link .gs-fav-count { background: #ef4444; color: #fff; border-radius: 10px; font-size: 12px; padding: 1px 7px; margin-left: 2px; }
+
+/* Task 42: room stop-sale in the rooms search */
+.rc-stop { background: #fef2f2; border: 1px solid #fecaca; border-radius: 10px; padding: 10px 12px; margin-bottom: 10px; }
+.rc-stop-title { color: #b91c1c; font-weight: 700; font-size: 15px; }
+.rc-stop-title i { margin-right: 4px; }
+.rc-stop-alt { color: #475569; font-size: 13px; margin-top: 4px; }
