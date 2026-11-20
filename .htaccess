@@ -12,6 +12,11 @@ RewriteRule ^update - [L]
     RewriteRule ^az/az(/.*)?$ /az$1 [L,R=301]
     RewriteRule ^en/en(/.*)?$ /en$1 [L,R=301]
 
+    # Task 15: old custom-page URLs (with or without /ru) -> clean URLs in one 301 (query string kept)
+    RewriteRule ^(?:ru/)?custom-page/consultant/?$ /ru/konsultaciya-vracha [L,R=301]
+    RewriteRule ^(?:ru/)?custom-page/transfer/?$ /ru/transfer [L,R=301]
+    RewriteRule ^(?:ru/)?custom-page/video/?$ /ru/video [L,R=301]
+
 
 
     RewriteCond %{REQUEST_FILENAME} -d [OR]

@@ -7,6 +7,7 @@
 @endsection
 
 @section('front-content')
+
 <style>
 *{box-sizing:border-box}
 .gsfaq-hero{background:linear-gradient(135deg,#0d7a68 0%,#1a9e87 50%,#2ec4a9 100%);padding:72px 0 60px;position:relative;overflow:hidden}
@@ -73,8 +74,8 @@
 
 @php
     // Bug 2: questions grouped by topic; every group and question has its own anchor (/faq#otmena, /faq#q-…).
-    $gsConsultUrl = url('/custom-page/consultant');
-    $gsTransferUrl = url('/custom-page/transfer');
+    $gsConsultUrl = gs_page_url('consultant');
+    $gsTransferUrl = gs_page_url('transfer');
     $gsfaqGroups = [
         ['id' => 'bronirovanie-i-oplata', 'icon' => 'fa-calendar-check', 'emoji' => '📅', 'title' => 'Бронирование и оплата', 'items' => [
             ['id' => 'otlichie', 'q' => 'Чем GoSanatorium отличается от других сайтов?', 'a' => e('Мы подбираем санаторий под ваш диагноз, организуем трансфер и консультацию врача и поддерживаем клиента на каждом шаге (' . company_fact('working_hours') . ').')],
@@ -124,6 +125,7 @@
 <div class="gsfaq-stats"><div class="gsfaq-stat"><div class="gsfaq-stat-num">{{ $gsfaqTotal }}</div><div class="gsfaq-stat-lbl">Ответов</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">{{ company_fact('partners_count') }}</div><div class="gsfaq-stat-lbl">Санаториев</div></div><div class="gsfaq-stat"><div class="gsfaq-stat-num">{{ company_fact('working_hours') }}</div><div class="gsfaq-stat-lbl">Поддержка</div></div></div>
 </div></div></section>
 
+@include('partials.page_crumbs', ['crumbs' => \App\Support\Breadcrumbs::page('Частые вопросы')])
 @php ob_start(); @endphp
 <section class="gsfaq-main"><div class="container"><div class="gsfaq-layout">
 <div class="gsfaq-sidebar"><div class="gsfaq-cat-list">

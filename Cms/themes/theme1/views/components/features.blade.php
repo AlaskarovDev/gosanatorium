@@ -24,14 +24,14 @@ $features = [
         'icon' => 'fa-user-md',
         'title' => 'Медицинская консультация',
         'description' => 'У нас профессиональные врачи',
-        'link' => 'https://gosanatorium.com/custom-page/consultant', // Link dəyişdirin
+        'link' => gs_page_url('consultant'), // Link dəyişdirin
         'color' => '#0096c7',
     ],
     [
         'icon' => 'fa-bus',
         'title' => 'Трансферы',
         'description' => 'Индивидуальные и групповые поездки',
-        'link' => 'https://gosanatorium.com/custom-page/transfer', // Link dəyişdirin
+        'link' => gs_page_url('transfer'), // Link dəyişdirin
         'color' => '#0077b6',
     ],
     [
@@ -45,7 +45,7 @@ $features = [
         'icon' => 'fa-play-circle',
         'title' => 'Видео',
         'description' => 'Видео для каждого курорта',
-        'link' => 'https://gosanatorium.com/custom-page/video', // Link dəyişdirin
+        'link' => gs_page_url('video'), // Link dəyişdirin
         'color' => '#03045e',
     ],
 ];

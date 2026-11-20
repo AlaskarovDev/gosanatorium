@@ -37,11 +37,13 @@
 @endpush
 
 @section('front-content')
+
     <div class="gsspecials-hero">
         <h1>Акции и скидки в санаториях</h1>
         <p>Выгодные предложения для вашего отдыха и лечения</p>
     </div>
 
+@include('partials.page_crumbs', ['crumbs' => \App\Support\Breadcrumbs::promo()])
     <section class="fakcii-section">
         <div class="container">
             @php $gspItems = collect($placeholders ?? $akcii->getCollection())->filter(fn ($i) => !empty($i->image ?: ($i->service?->thumbnail?->file_path))); @endphp

@@ -637,3 +637,29 @@ if (!function_exists('gs_display_title')) {
         return (string) preg_replace('/^[\s\-–—|,]+|[\s\-–—|,]+$/u', '', (string) preg_replace('/\s{2,}/u', ' ', (string) $t));
     }
 }
+
+if (!function_exists('gs_page_url')) {
+    /** Task 15: clean URL of a custom page (consultant → /ru/konsultaciya-vracha, transfer → /ru/transfer, video → /ru/video). */
+    function gs_page_url(string $slug): string
+    {
+        $clean = \App\Http\Controllers\HomeController::CLEAN_PAGE_URLS[$slug] ?? null;
+
+        return url('/' . ($clean ?? 'custom-page/' . $slug));
+    }
+}
+
+if (!function_exists('gs_clean_link')) {
+    /** Task 15: rewrites a stored link to an old /custom-page/{consultant|transfer|video} address to its clean URL. */
+    function gs_clean_link(?string $url, string $fallbackSlug = ''): string
+    {
+        $url = trim((string) $url);
+        if ($url === '') {
+            return $fallbackSlug !== '' ? gs_page_url($fallbackSlug) : '';
+        }
+        if (preg_match('#^(?:https?://(?:www\.)?gosanatorium\.com)?/?(?:(?:ru|en|az)/)?custom-page/(consultant|transfer|video)/?(\?.*)?$#i', $url, $m)) {
+            return gs_page_url(strtolower($m[1])) . ($m[2] ?? '');
+        }
+
+        return $url;
+    }
+}

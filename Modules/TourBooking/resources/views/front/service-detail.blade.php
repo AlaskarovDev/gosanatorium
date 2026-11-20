@@ -3703,7 +3703,7 @@
                                             <i class="fa-solid fa-paper-plane"></i>
                                             Написать консультанту
                                         </button>
-                                        <a href="{{ $service->consultant_button_url ?? 'https://gosanatorium.com/custom-page/consultant' }}" 
+                                        <a href="{{ gs_clean_link($service->consultant_button_url ?? '', 'consultant') }}" 
                                            class="sidebar-doctor__btn-secondary" target="_blank">
                                             <i class="fa-solid fa-arrow-up-right-from-square"></i>
                                             Подробнее о консультации

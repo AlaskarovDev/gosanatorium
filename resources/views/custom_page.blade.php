@@ -1,7 +1,18 @@
 @extends('layout_inner_page')
 
+@php
+    // Task 11: titles and descriptions of the consultation, transfer and video pages
+    $gsCpSeo = [
+        'consultant' => ['Бесплатная консультация врача по выбору санатория | GoSanatorium', 'Бесплатная консультация врача: подберём санаторий в Нафталане или Грузии под ваш диагноз, бюджет и даты. Ответ за 15 минут, без обязательств.'],
+        'transfer' => ['Трансфер из аэропортов Баку и Гянджи в санатории — цены | GoSanatorium', 'Трансфер из аэропортов Баку и Гянджи в санатории Нафталана, Баку и Ленкорани: цены за автомобиль, встреча с табличкой, без предоплаты.'],
+        'video' => ['Видео о санаториях Нафталана и Грузии | GoSanatorium', 'Видео о санаториях Нафталана, Баку и Грузии: номера, процедуры, территория и отзывы гостей.'],
+    ][$custom_page->slug] ?? null;
+@endphp
 @section('title')
-<title>{{ $custom_page->page_name }}</title>
+<title>{{ $gsCpSeo[0] ?? $custom_page->page_name }}</title>
+@if ($gsCpSeo)
+<meta name="description" content="{{ $gsCpSeo[1] }}">
+@endif
 @endsection
 
 @push('style_section')
@@ -1346,6 +1357,7 @@
 @section('front-content')
 <div class="custom-page-wrapper">
 
+    @include('partials.breadcrumb_trail', ['crumbs' => \App\Support\Breadcrumbs::page((string) $custom_page->page_name)])
     {{-- BREADCRUMB --}}
     <div class="tg-breadcrumb-spacing-3 include-bg p-relative fix"
         data-background="{{ asset($general_setting->secondary_breadcrumb_image ?? $general_setting->breadcrumb_image) }}">
@@ -1447,11 +1459,28 @@
                 <div class="gstr-uline"></div>
                 <div class="gstr-slabel">Популярные маршруты</div>
                 <h2 class="gstr-stitle">Цены на трансфер</h2>
+                @php
+                    // Task 35: prices come from Admin → Трансферы (transfer_routes, USD per car), shown in the visitor's currency.
+                    $gsTrRoutes = \Schema::hasTable('transfer_routes')
+                        ? \Modules\TourBooking\App\Models\TransferRoute::where('status', true)->orderBy('display_order')->orderBy('id')->get()
+                        : collect();
+                    $gsTrFrom = [
+                        'Heydar Aliyev International Airport' => 'Аэропорт Гейдар Алиев',
+                        'Ganja International Airport' => 'Аэропорт Гянджа',
+                        'Tbilisi International Airport' => 'Аэропорт Тбилиси',
+                        'Kutaisi International Airport' => 'Аэропорт Кутаиси',
+                    ];
+                @endphp
                 <div class="gstr-rgrid">
-                    <div class="gstr-rcard"><div class="gstr-ricon">✈️</div><div class="gstr-rfrom">Аэропорт Гейдар Алиев</div><div class="gstr-rto">→ Нафталан</div><div class="gstr-rprice">49 ₼</div><div class="gstr-rper">за автомобиль</div></div>
-                    <div class="gstr-rcard"><div class="gstr-ricon">✈️</div><div class="gstr-rfrom">Аэропорт Гейдар Алиев</div><div class="gstr-rto">→ Ленкорань</div><div class="gstr-rprice">49 ₼</div><div class="gstr-rper">за автомобиль</div></div>
-                    <div class="gstr-rcard"><div class="gstr-ricon">🏙️</div><div class="gstr-rfrom">Аэропорт Гейдар Алиев</div><div class="gstr-rto">→ Баку (город)</div><div class="gstr-rprice">15 ₼</div><div class="gstr-rper">за автомобиль</div></div>
-                    <div class="gstr-rcard"><div class="gstr-ricon">✈️</div><div class="gstr-rfrom">Аэропорт Гянджа</div><div class="gstr-rto">→ Нафталан</div><div class="gstr-rprice" style="font-size:18px">По запросу</div><div class="gstr-rper">уточните у менеджера</div></div>
+                    @foreach ($gsTrRoutes as $gsTr)
+                        <div class="gstr-rcard"><div class="gstr-ricon">{{ mb_stripos($gsTr->to_location, 'Баку') !== false ? '🏙️' : '✈️' }}</div><div class="gstr-rfrom">{{ $gsTrFrom[$gsTr->from_location] ?? $gsTr->from_location }}</div><div class="gstr-rto">→ {{ $gsTr->to_location }}{{ mb_stripos($gsTr->to_location, 'Баку') !== false ? ' (город)' : '' }}</div>
+                        @if ((float) $gsTr->base_price > 0)
+                            <div class="gstr-rprice">{{ currency((float) $gsTr->base_price) }}</div><div class="gstr-rper">за автомобиль</div>
+                        @else
+                            <div class="gstr-rprice" style="font-size:18px">По запросу</div><div class="gstr-rper">уточните у менеджера</div>
+                        @endif
+                        </div>
+                    @endforeach
                 </div>
             </div>
         </section>
@@ -1524,7 +1553,7 @@
         <style>
         .vg-section { padding: 60px 0 80px; background: var(--cp-white); }
         .vg-heading { text-align: center; margin-bottom: 48px; }
-        .vg-heading h2 { font-family: var(--cp-font-display) !important; font-size: 40px !important; font-weight: 400 !important; color: var(--cp-ink) !important; margin-bottom: 12px !important; }
+        .vg-heading h2, .vg-heading .vg-title { font-family: var(--cp-font-display) !important; font-size: 40px !important; font-weight: 400 !important; color: var(--cp-ink) !important; margin-bottom: 12px !important; }
         .vg-heading p { font-family: var(--cp-font-body); font-size: 16px; color: var(--cp-slate); max-width: 500px; margin: 0 auto; }
         .vg-heading__line { width: 50px; height: 3px; background: linear-gradient(90deg, var(--cp-indigo), var(--cp-indigo-bright)); border-radius: 2px; margin: 20px auto 0; }
         .vg-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 36px 28px; }
@@ -1557,6 +1586,7 @@
 
         <section class="vg-section">
             <div class="container">
+                <div class="vg-heading"><h1 class="vg-title">Видео о санаториях</h1></div>
 
                 @if(isset($custom_page->videos) && $custom_page->videos->where('status', true)->count() > 0)
                     <div class="vg-grid">

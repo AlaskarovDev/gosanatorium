@@ -108,6 +108,10 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
     Route::get('/terms-conditions', [HomeController::class, 'terms_conditions'])->name('terms-conditions');
 
+    // Task 15: clean URLs of the consultation, transfer and video pages (old /custom-page/{slug} → 301)
+    Route::get('/konsultaciya-vracha', [HomeController::class, 'custom_page'])->defaults('slug', 'consultant')->name('page.consultant');
+    Route::get('/transfer', [HomeController::class, 'custom_page'])->defaults('slug', 'transfer')->name('page.transfer');
+    Route::get('/video', [HomeController::class, 'custom_page'])->defaults('slug', 'video')->name('page.video');
     Route::get('/custom-page/{slug}', [HomeController::class, 'custom_page'])->name('custom-page');
 
     Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');

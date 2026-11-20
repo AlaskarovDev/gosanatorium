@@ -6,7 +6,8 @@
         <div class="row">
             <div class="col-12">
                 <div class="tg-breadcrumb-content text-center">
-                    <h2 class="tg-breadcrumb-title mb-10 fs-40">{{ $breadcrumb_title }}</h2>
+                    @php $gsBcTag = ($breadcrumb_tag ?? 'h2') === 'div' ? 'div' : 'h2'; @endphp
+                    <{{ $gsBcTag }} class="tg-breadcrumb-title mb-10 fs-40">{{ $breadcrumb_title }}</{{ $gsBcTag }}>
                     <div class="tg-breadcrumb-list-4">
                         @if (! empty($breadcrumb_items))
                             <ul aria-label="breadcrumb">

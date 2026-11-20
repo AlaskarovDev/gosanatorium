@@ -94,7 +94,7 @@ class SitemapController extends Controller
         if (class_exists(CustomPage::class)) {
             CustomPage::where('status', 1)->select('slug', 'updated_at')->get()
                 ->each(function ($page) use (&$urls) {
-                    $urls[] = $this->makeEntry('custom-page/' . $page->slug, '0.5', 'monthly', $page->updated_at);
+                    $urls[] = $this->makeEntry(\App\Http\Controllers\HomeController::CLEAN_PAGE_URLS[$page->slug] ?? 'custom-page/' . $page->slug, '0.5', 'monthly', $page->updated_at);
                 });
         }
 

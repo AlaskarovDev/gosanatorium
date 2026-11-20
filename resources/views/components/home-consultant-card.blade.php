@@ -88,7 +88,7 @@
             <a href="https://instagram.com/gosanatorium" target="_blank" rel="noopener" style="color:#cc2366!important;text-decoration:none!important;font-size:16px!important">@gosanatorium</a>
           </div>
         </div>
-        <a href="{{ $consultant->button_url }}" class="gscons2-btn" target="_blank" rel="noopener">{{ $consultant->button_text }}</a>
+        <a href="{{ gs_clean_link($consultant->button_url) }}" class="gscons2-btn" target="_blank" rel="noopener">{{ $consultant->button_text }}</a>
       </div>
     </div>
   </div>

@@ -395,8 +395,21 @@ class HomeController extends Controller
         return view('terms_conditions', ['terms_conditions' => $terms_conditions, 'seo_setting' => $seo_setting, 'breadcrumb_title' => $breadcrumb_title]);
     }
 
+    /** Task 15: custom pages that have a clean URL (slug => path without locale). */
+    public const CLEAN_PAGE_URLS = [
+        'consultant' => 'konsultaciya-vracha',
+        'transfer' => 'transfer',
+        'video' => 'video',
+    ];
+
     public function custom_page($slug)
     {
+        if (request()->route()?->getName() === 'custom-page' && isset(self::CLEAN_PAGE_URLS[$slug])) {
+            $qs = request()->getQueryString();
+
+            return redirect()->to(gs_page_url($slug) . ($qs ? '?' . $qs : ''), 301);
+        }
+
         $custom_page = CustomPage::where('slug', $slug)->firstOrFail();
 
         $breadcrumb_title = $custom_page->page_name;

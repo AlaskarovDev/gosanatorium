@@ -39,7 +39,7 @@
     @endphp
 
 
-    @include('breadcrumb')
+    @include('breadcrumb', ['breadcrumb_tag' => 'div'])
 
     <!-- tg-blog-grid-area-start -->
     <div class="tg-blog-grid-area pt-130 pb-80">
@@ -52,8 +52,7 @@
                                 <img class="w-100" {!! img_attrs(safe_image($blog->image, $general_setting->not_found ?? null), $blog?->translate?->title, ['sizes' => '(max-width: 991px) 100vw, 800px', 'priority' => true]) !!}>
                             </div>
                             <div class="tg-blog-standard-content">
-                                <h2 class="tg-blog-standard-title"> {{ $blog?->title }}
-                                </h2>
+                                <h1 class="tg-blog-standard-title">{{ $blog?->title }}</h1>
                                 @include('partials.blog_post_header', ['blog' => $blog])
 
                                 @if (count($gsPost['toc']) >= 2)
@@ -103,7 +102,8 @@
                                 <a target="_blank" rel="noopener" aria-label="WhatsApp" href="https://wa.me/?text={{ $gsShareTitle }}%20{{ $gsShareUrl }}"><i class="fa-brands fa-whatsapp"></i></a>
                                 <a target="_blank" rel="noopener" aria-label="Telegram" href="https://t.me/share/url?url={{ $gsShareUrl }}&text={{ $gsShareTitle }}"><i class="fa-brands fa-telegram"></i></a>
                                 <a target="_blank" rel="noopener" aria-label="VK" href="https://vk.com/share.php?url={{ $gsShareUrl }}&title={{ $gsShareTitle }}"><i class="fa-brands fa-vk"></i></a>
-                                <a href="#" class="gs-copy-link" aria-label="Скопировать ссылку" title="Скопировать ссылку" data-url="{{ route('blog', $blog->slug) }}"><i class="fa-solid fa-link"></i></a>
+                                <button type="button" class="gs-copy-link" aria-label="Скопировать ссылку" title="Скопировать ссылку" data-url="{{ route('blog', $blog->slug) }}"><i class="fa-solid fa-link" aria-hidden="true"></i></button>
+                                <span class="gs-copy-msg" role="status" aria-live="polite"></span>
                             </div>
                         </div>
                         @include('partials.blog_author_box', ['blog' => $blog])
@@ -203,7 +203,8 @@
             if (!a) return;
             e.preventDefault();
             var url = a.getAttribute('data-url');
-            var done = function () { a.classList.add('is-copied'); a.title = 'Ссылка скопирована'; setTimeout(function () { a.classList.remove('is-copied'); a.title = 'Скопировать ссылку'; }, 2000); };
+            var msg = a.parentNode.querySelector('.gs-copy-msg');
+            var done = function () { a.classList.add('is-copied'); a.title = 'Ссылка скопирована'; if (msg) msg.textContent = 'Ссылка скопирована'; setTimeout(function () { a.classList.remove('is-copied'); a.title = 'Скопировать ссылку'; if (msg) msg.textContent = ''; }, 2000); };
             if (navigator.clipboard && window.isSecureContext) { navigator.clipboard.writeText(url).then(done, function () { window.prompt('Скопируйте ссылку:', url); }); }
             else { window.prompt('Скопируйте ссылку:', url); }
         });

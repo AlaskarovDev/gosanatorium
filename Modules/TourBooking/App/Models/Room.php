@@ -168,6 +168,10 @@ final class Room extends Model
             'queen' => 'Queen Size Bed',
             'twin' => 'Twin Beds',
             'bunk' => 'Bunk Beds',
+            // Values stored by the sanatorium room form (Task 8: shown in Russian on /ru)
+            'King Bed' => 'King Size Bed',
+            'Queen Bed' => 'Queen Size Bed',
+            'Bunk Bed' => 'Bunk Beds',
         ];
 
         $label = $types[$bedType] ?? (string) $bedType;

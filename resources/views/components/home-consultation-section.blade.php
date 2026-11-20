@@ -34,7 +34,7 @@
         <p class="hcons-feature-text">Организуем трансфер, авиабилеты и заезд. Всё в одном месте.</p>
       </div>
     </div>
-    <a href="/ru/custom-page/consultant" class="hcons-btn">
+    <a href="{{ gs_page_url('consultant') }}" class="hcons-btn">
       Получить бесплатную консультацию
     </a>
     <p class="hcons-note">{{ company_fact('working_hours_text') }} · Нафталан · Боржоми · Цхалтубо · Саирме</p>

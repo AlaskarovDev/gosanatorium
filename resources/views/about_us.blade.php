@@ -8,6 +8,7 @@
 
 @section('front-content')
 
+
 {{-- HERO --}}
 <div class="ab-hero">
   <div class="ab-hero__inner">
@@ -17,6 +18,7 @@
 </div>
 
 {{-- MIDDLE: boxes left + center text + boxes right --}}
+@include('partials.page_crumbs', ['crumbs' => \App\Support\Breadcrumbs::page('О нас')])
 <div class="ab-mid">
   <div class="ab-mid__wrap">
 

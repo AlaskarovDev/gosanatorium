@@ -6,7 +6,8 @@
         : 'The information on this website is for general guidance only and is not medical advice. Treatment results vary from person to person. Please consult your doctor before the trip.';
     $gsDiscLink = company_fact('medical_disclaimer_link');
     if ($gsDiscLink !== '' && !preg_match('#^https?://#i', $gsDiscLink)) {
-        $gsDiscLink = url('/' . ltrim($gsDiscLink, '/'));
+        // url() adds the locale prefix itself: drop a typed «/ru/» so the link is not /ru/ru/… (Task 3)
+        $gsDiscLink = url('/' . preg_replace('#^(ru|en|az)(/|$)#', '', ltrim($gsDiscLink, '/')));
     }
 @endphp
 @if ($gsDiscText !== '')

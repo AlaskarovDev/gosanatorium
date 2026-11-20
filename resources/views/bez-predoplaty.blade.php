@@ -64,12 +64,14 @@
 @endpush
 
 @section('front-content')
+
 <section class="bp-hero">
     <h1>Бронирование без предоплаты</h1>
     <p>Приедете — понравится — оплатите. Никакого риска, никаких скрытых платежей. Уже {{ company_fact('clients_count') }} клиентов бронировали санатории через GoSanatorium.</p>
     <a class="bp-btn" href="/ru/tour-booking/services">Выбрать санаторий</a>
 </section>
 
+@include('partials.page_crumbs', ['crumbs' => \App\Support\Breadcrumbs::page('Бронирование без предоплаты')])
 <section class="bp-cards">
     <div class="bp-card"><div class="bp-card-icon">🏨</div><h3>Оплата по прибытии</h3><p>Приезжайте, заселяйтесь, убедитесь что всё нравится — и только потом платите. {{ company_fact('payment_methods') }}</p></div>
     <div class="bp-card"><div class="bp-card-icon">🔒</div><h3>Никакого риска</h3><p>Мы не берём ни копейки при бронировании. Ваши деньги остаются у вас до момента заезда</p></div>
@@ -122,7 +124,7 @@
 <section class="bp-cta">
     <h2>Готовы забронировать?</h2>
     <p>Выберите санаторий — оплатите по приезду. Без предоплаты, без риска, без лишних вопросов.</p>
-    <a class="bp-btn" href="/ru/custom-page/consultant">Забронировать без предоплаты</a>
+    <a class="bp-btn" href="{{ gs_page_url('consultant') }}">Забронировать без предоплаты</a>
 </section>
 
 <script type="application/ld+json">{!! json_encode($bpSchema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES | JSON_HEX_TAG) !!}</script>

@@ -113,7 +113,7 @@
   <div class="gsfooter-bottom">
     <span class="gsfooter-copy">© {{ date('Y') }} {{ company_fact('legal_name') }}{{ company_fact('voen') !== '' ? ' · VÖEN ' . company_fact('voen') : '' }}. Все права защищены.</span>
     <div class="gsfooter-bottom-links">
-      <a href="{{ route('custom-page', 'consultant') }}">Бесплатная консультация</a>
+      <a href="{{ gs_page_url('consultant') }}">Бесплатная консультация</a>
       <a href="{{ route('contact-us') }}">Связаться с нами</a>
     </div>
   </div>
