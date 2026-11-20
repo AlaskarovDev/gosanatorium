@@ -70,7 +70,17 @@ final class GuestBookingController extends Controller
         if ($room && (int) $room->service_id === (int) $service->id) {
             // Same calculation as the room selection page: per night by season, for this number of adults
             $room->load(RoomPricing::eagerLoads());
-            $quote = (new RoomPricing())->quote($room, $checkInDate, $checkOutDate, min(4, $adults), $children);
+            $gsPricing = new RoomPricing();
+            $quote = $gsPricing->quote($room, $checkInDate, $checkOutDate, min(4, $adults), $children);
+            // Bug 4: no length-of-stay price for this number of nights → the manager quotes it (never a guessed price)
+            if (! $quote && isset($gsPricing->tierGaps[$room->id])) {
+                return redirect()->to(route('front.tourbooking.rooms.selection', ['slug' => $service->slug]) . '?' . http_build_query([
+                    'checkin' => $checkInDate->toDateString(),
+                    'checkout' => $checkOutDate->toDateString(),
+                    'adults' => $adults,
+                    'children' => $children,
+                ]));
+            }
         }
 
         if ($quote) {

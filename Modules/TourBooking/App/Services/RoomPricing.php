@@ -13,6 +13,7 @@ use Modules\TourBooking\App\Models\Season;
 use Modules\TourBooking\App\Models\SeasonPrice;
 use Modules\TourBooking\App\Models\ServiceDateDiscount;
 use Modules\TourBooking\App\Models\ServiceRoom;
+use Modules\TourBooking\App\Models\ServiceStayDiscount;
 
 /**
  * Room price for a stay: per room, per season, per number of adults.
@@ -35,6 +36,25 @@ final class RoomPricing
     private static ?bool $tableReady = null;
 
     private static ?bool $discountsReady = null;
+
+    private static ?bool $stayReady = null;
+
+    /** @var array<int, array> length-of-stay tiers per room id: [key][adults] => list of [min, max|null, price] */
+    private array $tiers = [];
+
+    /** @var array<int, Collection<int, ServiceStayDiscount>> stay discount rules per service id */
+    private array $stayDiscounts = [];
+
+    /**
+     * Rooms whose last quote() had no length-of-stay tier for the number of nights (room id => nights).
+     * The site then says «Для N ночей цену уточнит менеджер» instead of guessing a price.
+     *
+     * @var array<int, int>
+     */
+    public array $tierGaps = [];
+
+    /** «Today» for early-booking rules (tests set it). */
+    public ?CarbonInterface $today = null;
 
     /** @var array<int, Collection<int, ServiceDateDiscount>> active date discounts per service id */
     private array $dateDiscounts = [];
@@ -80,6 +100,101 @@ final class RoomPricing
         return self::$discountsReady;
     }
 
+    public static function stayReady(): bool
+    {
+        if (self::$stayReady === null) {
+            try {
+                self::$stayReady = Schema::hasTable('room_stay_tiers') && Schema::hasTable('service_stay_discounts');
+            } catch (\Throwable) {
+                self::$stayReady = false;
+            }
+        }
+
+        return self::$stayReady;
+    }
+
+    /** Tests: switch the optional tables on/off without a database. */
+    public static function setReady(?bool $grid = null, ?bool $dateDiscounts = null, ?bool $stay = null): void
+    {
+        self::$tableReady = $grid;
+        self::$discountsReady = $dateDiscounts;
+        self::$stayReady = $stay;
+    }
+
+    /** Length-of-stay tiers of a room: [ 'base' | seasonId => [ adults => [[min, max|null, price], …] ] ]. */
+    public function tiers(ServiceRoom $room): array
+    {
+        if (isset($this->tiers[$room->id])) {
+            return $this->tiers[$room->id];
+        }
+        $out = [];
+        if (self::stayReady()) {
+            $rows = $room->relationLoaded('stayTiers') ? $room->stayTiers : $room->stayTiers()->get();
+            foreach ($rows as $t) {
+                if ((float) $t->price <= 0) {
+                    continue;
+                }
+                $out[$t->season_id ?? self::BASE][(int) $t->adults][] = [(int) $t->min_nights, $t->max_nights === null ? null : (int) $t->max_nights, round((float) $t->price, 2)];
+            }
+        }
+
+        return $this->tiers[$room->id] = $out;
+    }
+
+    /**
+     * Price per night from the length-of-stay tiers, or:
+     *  - null  when the room has no tiers for this season/adults (use the normal price grid);
+     *  - false when it has tiers but none covers this number of nights (gap: manager quotes the price).
+     */
+    public static function tierPrice(array $tiers, string|int $key, int $adults, int $nights): float|false|null
+    {
+        $list = $tiers[$key][$adults] ?? null;
+        if (! $list) {
+            return null;
+        }
+        foreach ($list as [$min, $max, $price]) {
+            if ($nights >= $min && ($max === null || $nights <= $max)) {
+                return $price;
+            }
+        }
+
+        return false;
+    }
+
+    /** @param Collection<int, ServiceStayDiscount>|null $rules preloaded rules (tests) */
+    public function setStayDiscounts(int $serviceId, Collection $rules): void
+    {
+        $this->stayDiscounts[$serviceId] = $rules;
+    }
+
+    /**
+     * Sum of the stay discount rules (percent) that match the stay. Rules add up, capped at 100%.
+     *
+     * @return array{percent: float, rules: array<int, array{label: string, percent: float}>}
+     */
+    public function stayDiscountFor(int $serviceId, int $nights, CarbonInterface $checkIn): array
+    {
+        if (! isset($this->stayDiscounts[$serviceId])) {
+            $this->stayDiscounts[$serviceId] = self::stayReady()
+                ? ServiceStayDiscount::query()->where('service_id', $serviceId)->where('status', true)->get()
+                : collect();
+        }
+        $today = Carbon::parse(($this->today ?? Carbon::now('Asia/Baku'))->toDateString());
+        $daysBefore = (int) $today->diffInDays(Carbon::parse($checkIn->toDateString()), false);
+        $pct = 0.0;
+        $applied = [];
+        foreach ($this->stayDiscounts[$serviceId] as $rule) {
+            if (! $rule->status || ! $rule->matches($nights, $daysBefore)) {
+                continue;
+            }
+            $p = (float) $rule->percentage;
+            $pct += $p;
+            $applied[] = ['label' => $rule->label(), 'percent' => $p];
+        }
+
+        return ['percent' => min(100.0, $pct), 'rules' => $applied];
+    }
+
     /** Date discount (percent) of the sanatorium for one night, 0 when none. */
     public function dateDiscountFor(int $serviceId, CarbonInterface $date): float
     {
@@ -106,7 +221,12 @@ final class RoomPricing
     /** Relations to eager load on ServiceRoom before calling grid()/quote() for many rooms. */
     public static function eagerLoads(): array
     {
-        return self::tableReady() ? ['occupancyPrices', 'seasonPrices'] : ['seasonPrices'];
+        $loads = self::tableReady() ? ['occupancyPrices', 'seasonPrices'] : ['seasonPrices'];
+        if (self::stayReady()) {
+            $loads[] = 'stayTiers';
+        }
+
+        return $loads;
     }
 
     public function seasons(): Collection
@@ -248,7 +368,10 @@ final class RoomPricing
         }
 
         $grid = $this->grid($room);
+        $tiers = $this->tiers($room);
         $ratio = self::ratioFor($room);
+        unset($this->tierGaps[$room->id]);
+        $usedTier = false;
 
         $children = max(0, $children);
         $childPriced = $children > 0;
@@ -260,13 +383,24 @@ final class RoomPricing
             $night = $checkIn->copy()->addDays($i);
             $season = $this->seasonForDate($night);
             $key = $season ? $season->id : self::BASE;
-            $list = $grid[$key][$adults] ?? null;
+            // Bug 4: the tier is chosen by the number of nights of the whole booking; each night by its own season.
+            $tier = self::tierPrice($tiers, $key, $adults, $nights);
+            if ($tier === false) {
+                $this->tierGaps[$room->id] = $nights;
+
+                return null;
+            }
+            if ($tier !== null) {
+                $usedTier = true;
+            }
+            $list = $tier ?? ($grid[$key][$adults] ?? null);
             if ($list === null) {
                 return null;
             }
             $childList = 0.0;
             if ($children > 0) {
-                $one = $grid[$key][self::CHILD] ?? $grid[self::BASE][self::CHILD] ?? null;
+                $childTier = self::tierPrice($tiers, $key, self::CHILD, $nights);
+                $one = is_float($childTier) ? $childTier : ($grid[$key][self::CHILD] ?? $grid[self::BASE][self::CHILD] ?? null);
                 if ($one === null) {
                     $childPriced = false;
                 } else {
@@ -294,22 +428,69 @@ final class RoomPricing
         $total = round($total, 2);
         $listTotal = round($listTotal, 2);
 
+        // Breakdown «10 ночей × 250 = 2 500» (consecutive nights with the same price are grouped)
+        $lines = [];
+        foreach ($detail as $d) {
+            $last = count($lines) - 1;
+            if ($last >= 0 && abs($lines[$last]['price'] - $d['price']) < 0.005) {
+                $lines[$last]['nights']++;
+                $lines[$last]['amount'] = round($lines[$last]['amount'] + $d['price'], 2);
+            } else {
+                $lines[] = ['nights' => 1, 'price' => $d['price'], 'amount' => $d['price'], 'season' => $d['season']];
+            }
+        }
+
+        // Bug 4: stay discount rules (length of stay, early booking) on the exact total, rounded only at the end
+        $subtotal = $total;
+        $stay = $this->stayDiscountFor((int) $room->service_id, $nights, $checkIn);
+        $stayAmount = 0.0;
+        if ($stay['percent'] > 0) {
+            $total = round($subtotal * (1 - $stay['percent'] / 100), 2);
+            $stayAmount = round($subtotal - $total, 2);
+        }
+
         return [
             'nights'           => $nights,
+            'subtotal'         => $subtotal,
+            'lines'            => $lines,
+            'tier_price'       => $usedTier,
+            'stay_discount_percent' => $stay['percent'],
+            'stay_discount_amount'  => $stayAmount,
+            'stay_discount_rules'   => $stay['rules'],
             'adults'           => $adults,
             'children'         => $children,
             'child_priced'     => $childPriced,
             'total'            => $total,
             'list_total'       => $listTotal,
             'per_night'        => round($total / $nights, 2),
-            'has_discount'     => ($ratio < 1 || $hasDateDiscount) && $listTotal > $total,
-            // With a date discount the badge shows the real saving of the whole stay.
-            'discount_percent' => $hasDateDiscount && $listTotal > 0
+            'has_discount'     => ($ratio < 1 || $hasDateDiscount || $stayAmount > 0) && $listTotal > $total,
+            // With a date or stay discount the badge shows the real saving of the whole stay.
+            'discount_percent' => ($hasDateDiscount || $stayAmount > 0) && $listTotal > 0
                 ? (int) round((1 - $total / $listTotal) * 100)
                 : self::discountPercent($room),
             'date_discount'    => $hasDateDiscount,
+            'stay_discount'    => $stayAmount > 0,
             'nights_detail'    => $detail,
         ];
+    }
+
+    /**
+     * Bug 4 hint: when 1 or 2 more nights cost less than the current stay (a cheaper tier),
+     * returns ['nights' => N, 'total' => …] of the cheapest such stay, otherwise null.
+     */
+    public function cheaperLonger(ServiceRoom $room, CarbonInterface $checkIn, int $nights, int $adults, int $children, float $currentTotal, int $maxExtra = 2): ?array
+    {
+        $best = null;
+        $gaps = $this->tierGaps;
+        for ($n = $nights + 1; $n <= $nights + $maxExtra; $n++) {
+            $q = $this->quote($room, $checkIn, Carbon::parse($checkIn->toDateString())->addDays($n), $adults, $children);
+            if ($q && $q['total'] < $currentTotal - 0.005 && ($best === null || $q['total'] < $best['total'])) {
+                $best = ['nights' => $n, 'total' => $q['total']];
+            }
+        }
+        $this->tierGaps = $gaps;
+
+        return $best;
     }
 
     /**

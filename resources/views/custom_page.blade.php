@@ -1667,7 +1667,6 @@
                         <span class="gscon-example-tag">🫧 Псориаз → Нафталан</span>
                         <span class="gscon-example-tag">🫀 ЖКТ → Боржоми</span>
                         <span class="gscon-example-tag">🦴 Суставы → Цхалтубо</span>
-                        <span class="gscon-example-tag">💧 Почки → Карловы Вары</span>
                     </div>
                 </div></div>
             </div>

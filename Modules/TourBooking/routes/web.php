@@ -20,6 +20,7 @@ use Modules\TourBooking\App\Http\Controllers\Admin\TransferVehicleController;
 use Modules\TourBooking\App\Http\Controllers\Admin\TransferBookingController;
 use Modules\TourBooking\App\Http\Controllers\Admin\SeasonController;
 use Modules\TourBooking\App\Http\Controllers\Admin\DateDiscountController;
+use Modules\TourBooking\App\Http\Controllers\Admin\StayPricingController;
 use Modules\TourBooking\App\Http\Controllers\Front\FrontTransferController;
 
 use Modules\TourBooking\App\Http\Controllers\Front\FrontBookingController;
@@ -217,6 +218,13 @@ Route::delete('services/treatment-items/{treatmentItem}', [ServiceController::cl
     Route::post('date-discounts/{service}', [DateDiscountController::class, 'store'])->name('date-discounts.store');
     Route::put('date-discounts/item/{discount}', [DateDiscountController::class, 'update'])->name('date-discounts.update');
     Route::delete('date-discounts/item/{discount}', [DateDiscountController::class, 'destroy'])->name('date-discounts.destroy');
+    // Round 2, Bug 4: length-of-stay prices and stay discount rules
+    Route::get('stay-pricing', [StayPricingController::class, 'index'])->name('stay-pricing.index');
+    Route::post('stay-pricing/{service}/tiers', [StayPricingController::class, 'storeTier'])->name('stay-pricing.tiers.store');
+    Route::delete('stay-pricing/{service}/tiers', [StayPricingController::class, 'destroyTier'])->name('stay-pricing.tiers.destroy');
+    Route::post('stay-pricing/{service}/rules', [StayPricingController::class, 'storeRule'])->name('stay-pricing.rules.store');
+    Route::patch('stay-pricing/rules/{rule}', [StayPricingController::class, 'toggleRule'])->name('stay-pricing.rules.toggle');
+    Route::delete('stay-pricing/rules/{rule}', [StayPricingController::class, 'destroyRule'])->name('stay-pricing.rules.destroy');
 });
 
 

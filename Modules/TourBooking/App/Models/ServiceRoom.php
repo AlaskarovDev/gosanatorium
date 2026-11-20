@@ -113,6 +113,12 @@ class ServiceRoom extends Model
         return $this->hasMany(RoomOccupancyPrice::class, 'room_id');
     }
 
+    /** Bug 4: length-of-stay prices (season × adults × nights range). */
+    public function stayTiers(): HasMany
+    {
+        return $this->hasMany(RoomStayTier::class, 'room_id');
+    }
+
     /**
      * Today's effective per-night price after any active seasonal rule.
      */
