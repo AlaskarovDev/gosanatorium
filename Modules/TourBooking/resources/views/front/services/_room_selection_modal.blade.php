@@ -63,8 +63,7 @@
 <div class="col-lg-4 col-md-4 col-12 mb-3 mb-md-0">
     <div class="room-image-wrapper position-relative">
         @if($room->thumbnail_url)
-            <img src="{{ $room->thumbnail_url }}" 
-                 alt="{{ $room->name }}" 
+            <img {!! img_attrs($room->thumbnail_url, $room->name . ' — ' . \App\Helpers\ResponsiveImage::serviceAlt($service ?? $room->service), ['sizes' => '(max-width: 767px) 100vw, 300px']) !!}
                  class="img-fluid rounded"
                  style="width: 100%; height: 180px; object-fit: cover;">
         @else

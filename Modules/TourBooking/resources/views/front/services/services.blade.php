@@ -15,9 +15,9 @@
             <!-- tg-booking-form-area-start -->
             <div class="tg-booking-form-area p-relative z-index-1 tg-listing-booking-shadow">
                 <img class="tg-booking-4-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/hill-4.png') }}"
-                    alt="shape">
+                    alt="">
                 <img class="tg-booking-4-shape-2 d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/hill-5.png') }}"
-                    alt="shape">
+                    alt="">
                 <div class="container">
                     <div class="row">
                         <div class="col-12">

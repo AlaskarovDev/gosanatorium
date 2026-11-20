@@ -17,6 +17,9 @@ class FileUploadHelper
 
         $file->move(public_path($folder), $filename);
 
+        // Task 19: originals are kept at most 1600 px wide
+        ResponsiveImage::limitUploadWidth(public_path($path));
+
         if (in_array($extension, ['jpg', 'jpeg', 'png'], true)) {
             self::generateWebp(public_path($path));
         }
@@ -31,6 +34,14 @@ class FileUploadHelper
 
         if (File::exists($fullPath)) {
             $deleted = File::delete($fullPath);
+        }
+
+        // Task 19: responsive WebP variants of this image
+        foreach (ResponsiveImage::WIDTHS as $w) {
+            $variant = public_path('uploads/_r/' . $w . '/' . preg_replace('#^/?uploads/#', '', $path) . '.webp');
+            if (str_starts_with(ltrim($path, '/'), 'uploads/') && File::exists($variant)) {
+                File::delete($variant);
+            }
         }
 
         $webpPath = preg_replace('/\.(jpe?g|png)$/i', '.webp', $fullPath);

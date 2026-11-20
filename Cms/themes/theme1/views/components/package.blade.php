@@ -9,11 +9,11 @@
 <!-- tg-listing-area-start -->
 <div id="section-sanatoria" class="tg-listing-area gscard-section pt-140 pb-110 p-relative z-index-9">
     <img class="tg-listing-shape d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/air-plane.png') }}"
-        alt="air-plane">
+        alt="">
     <img class="tg-listing-shape-2 d-none d-xl-block" src="{{ asset('frontend/assets/img/shape/pyramid.png') }}"
-        alt="pyramid">
+        alt="">
     <img class="tg-listing-shape-3 d-none d-lg-block" src="{{ asset('frontend/assets/img/shape/hill.png') }}"
-        alt="hill">
+        alt="">
     <div class="container">
         <div class="row">
             <div class="col-12">
@@ -56,7 +56,7 @@
                             <span class="borders"></span>
                             <span class="icon">
                                 @if ($service_type->image)
-                                    <img width="19" height="12" src="{{ asset($service_type->image) }}">
+                                    <img width="19" height="12" src="{{ asset($service_type->image) }}" alt="">
                                 @elseif ($service_type->icon)
                                     <i class="{{ $service_type->icon }}"></i>
                                 @endif
@@ -80,9 +80,7 @@
                     <div class="gscard-card">
                         <div class="gscard-media">
                             <a href="{{ $gsUrl }}">
-                                <img class="gscard-img"
-                                    src="{{ asset($service?->thumbnail?->file_path) }}"
-                                    alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
+                                <img class="gscard-img" {!! img_attrs($service?->thumbnail?->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service, $service?->thumbnail?->caption), ['sizes' => '(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px']) !!}>
                             </a>
                             @include('tourbooking::front.services.badges', ['service' => $service, 'class' => 'gs-sbadges--overlay', 'limit' => 3])
                             <div @class([

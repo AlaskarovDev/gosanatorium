@@ -46,7 +46,7 @@
                     <div class="tg-blog-details-wrap tg-blog-lg-spacing mr-50 mb-50">
                         <div class="tg-blog-standard-item mb-35">
                             <div class="tg-blog-standard-thumb mb-15">
-                                <img class="w-100" src="{{ safe_image($blog->image, $general_setting->not_found ?? null) }}" alt="blog">
+                                <img class="w-100" {!! img_attrs(safe_image($blog->image, $general_setting->not_found ?? null), $blog?->translate?->title, ['sizes' => '(max-width: 991px) 100vw, 800px', 'priority' => true]) !!}>
                             </div>
                             <div class="tg-blog-standard-content">
                                 <div class="tg-blog-standard-date mb-10">
@@ -112,7 +112,7 @@
                                 <li class="mb-40">
                                     <div class="tg-tour-about-cus-review d-flex">
                                         <div class="tg-tour-about-cus-review-thumb">
-                                            <img src="{{ safe_image($blog?->author?->image, $general_setting->not_found ?? null) }}" alt="avatar">
+                                            <img src="{{ safe_image($blog?->author?->image, $general_setting->not_found ?? null) }}" alt="{{ $blog?->author?->name }}" loading="lazy">
                                         </div>
                                         <div>
                                             <div class="tg-tour-about-cus-name">

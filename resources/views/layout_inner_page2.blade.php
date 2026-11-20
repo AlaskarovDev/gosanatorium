@@ -275,7 +275,7 @@
                             <div class="tgmenu__wrap d-flex align-items-center">
                                 <div class="logo flex-auto">
                                     <a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}"
-                                            alt="Logo">
+                                            alt="GoSanatorium — бронирование санаториев" {!! img_size_attrs($general_setting->secondary_logo) !!}>
                                     </a>
                                 </div>
                                 <nav class="tgmenu__nav  ml-90 d-none d-xl-block">
@@ -326,7 +326,7 @@
                 <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
                 <div class="nav-logo">
                     <a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}"
-                            alt="logo"></a>
+                            alt="GoSanatorium — бронирование санаториев" {!! img_size_attrs($general_setting->secondary_logo) !!}></a>
                 </div>
                 <div class="tgmobile__menu-outer">
                     <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->

@@ -29,7 +29,7 @@
                 <div class="col-lg-5">
                     <div class="tg-banner-content p-relative z-index-1 text-center">
                         <img class="tg-banner-shape" src="{{ asset('frontend/assets/img/shape/tree-2.png') }}"
-                            alt="shape">
+                            alt="">
                         <h4 class="tg-banner-subtitle mb-10">{{ getTranslatedValue($home1_banner, 'sub_title') }}</h4>
                         <h2 class="tg-banner-title mb-25">{{ getTranslatedValue($home1_banner, 'title') }}</h2>
                         <div class="tg-banner-btn">

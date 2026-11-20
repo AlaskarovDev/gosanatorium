@@ -29,7 +29,7 @@
 
     <!-- Brand column -->
     <div>
-      <a href="{{ route('home') }}"><img src="{{ asset($general_setting->footer_logo) }}" alt="GoSanatorium" class="gsfooter-brand-logo"></a>
+      <a href="{{ route('home') }}"><img src="{{ asset($general_setting->footer_logo) }}" alt="GoSanatorium — бронирование санаториев" {!! img_size_attrs($general_setting->footer_logo) !!} class="gsfooter-brand-logo"></a>
       <p class="gsfooter-brand-text">Бесплатный подбор санатория под ваш диагноз. Нафталан, Боржоми, Цхалтубо, Саирме — бронирование без предоплаты.</p>
       <div class="gsfooter-socials">
         <a href="{{ company_fact('whatsapp_url') }}" class="gsfooter-social" target="_blank" rel="noopener" title="WhatsApp">

@@ -3,7 +3,7 @@
         <div class="close-btn"><i class="fa-solid fa-xmark"></i></div>
         <div class="nav-logo">
             <a href="{{ route('home') }}"><img src="{{ asset($general_setting->secondary_logo) }}"
-                    alt="logo"></a>
+                    alt="GoSanatorium — бронирование санаториев" {!! img_size_attrs($general_setting->secondary_logo) !!}></a>
         </div>
         <div class="tgmobile__menu-outer">
             <!--Here Menu Will Come Automatically Via Javascript / Same Menu as in Header-->

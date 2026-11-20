@@ -24,9 +24,7 @@
                                 <div class="col-xl-6 col-lg-12 col-md-6">
                                     <div class="tg-blog-grid-item mb-30">
                                         <div class="tg-blog-standard-thumb mb-15">
-                                            <a href="{{ route('blog', $blog->slug) }}"><img class="w-100"
-                                                    src="{{ safe_image($blog->image, $general_setting->not_found ?? null) }}"
-                                                    alt="{{ $blog?->translate?->title }}"></a>
+                                            <a href="{{ route('blog', $blog->slug) }}"><img class="w-100" {!! img_attrs(safe_image($blog->image, $general_setting->not_found ?? null), $blog?->translate?->title, ['sizes' => '(max-width: 767px) 100vw, 400px']) !!}></a>
                                         </div>
                                         <div class="tg-blog-standard-content">
                                             <h2 class="tg-blog-standard-title">
@@ -119,7 +117,7 @@
                                 <div class="col-12">
                                     <div class="courses_not_found_main">
                                         <div class="courses_not_found_thumb">
-                                            <img src="{{ asset($general_setting->not_found ?? '') }}" alt="thumb">
+                                            <img src="{{ asset($general_setting->not_found ?? '') }}" alt="">
                                         </div>
                                         <div class="courses_not_found_text">
                                             <h3>{{ __('translate.OOPS! Blog not Found') }}</h3>

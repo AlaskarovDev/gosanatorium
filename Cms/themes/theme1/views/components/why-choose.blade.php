@@ -7,7 +7,7 @@
     <!-- tg-chose-us-area-start -->
     <div class="tg-chose-area p-relative pt-135 pb-100">
         <img class="tg-chose-shape p-absolute" src="{{ asset('frontend/assets/img/shape/map-shape-2.png') }}"
-            alt="shape">
+            alt="">
         <div class="container">
             <div class="row">
                 <div class="col-lg-5">
@@ -80,10 +80,10 @@
                             <div class="col-lg-3 col-md-6">
                                 <div class="tg-chose-thumb">
                                     <img class="tg-chose-shape-2 mb-30 ml-15 d-none d-lg-block"
-                                        src="{{ asset('frontend/assets/img/shape/star-2.png') }}" alt="shape">
+                                        src="{{ asset('frontend/assets/img/shape/star-2.png') }}" alt="">
                                     <img class="w-100 wow fadeInRight" data-wow-delay=".4s" data-wow-duration=".9s"
                                         src="{{ asset(getSingleImage($home1_why_choose, 'small_image')) }}"
-                                        alt="chose">
+                                        alt="">
                                 </div>
                             </div>
                             <div class="col-lg-9 col-md-6">
@@ -92,7 +92,7 @@
                                         data-wow-duration=".9s">
                                         <img class="w-100 tg-round-15"
                                             src="{{ asset(getSingleImage($home1_why_choose, 'large_image')) }}"
-                                            alt="chose">
+                                            alt="">
                                     </div>
                                     <div class="tg-chose-big-text d-none d-xl-block">
                                         <h2

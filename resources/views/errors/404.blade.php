@@ -13,7 +13,7 @@
             <div class="row justify-content-center">
                 <div class="col-xl-6 col-lg-7 col-md-9">
                     <div class="tg-error-content text-center">
-                        <img class="mb-40" src="{{ asset( $general_setting->not_found ? $general_setting->not_found : 'frontend/assets/img/shape/not_found.png') }}" alt="error">
+                        <img class="mb-40" src="{{ asset( $general_setting->not_found ? $general_setting->not_found : 'frontend/assets/img/shape/not_found.png') }}" alt="">
                         <h2 class="mb-15">{{ __('translate.Error Page!') }}</h2>
                         <p class="mb-35">{{ __('translate.Sorry! This Page is Not Available!') }}</p>
                         <div class="tg-error-btn">

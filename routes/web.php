@@ -21,6 +21,21 @@ use App\Http\Controllers\Agency\ProfileController as AgencyProfileController;
 use App\Http\Controllers\User\OrderController;
 use Illuminate\Support\Facades\Artisan;
 
+// Task 19: responsive WebP variants (400/800/1200 px) of uploaded images, generated on first request.
+// After that the file exists under public/uploads/_r/... and is served statically by the web server.
+Route::get('uploads/_r/{width}/{path}', function (int $width, string $path) {
+    $file = \App\Helpers\ResponsiveImage::makeVariant($width, $path);
+    if (!$file) {
+        $original = \App\Helpers\ResponsiveImage::localPath('uploads/' . preg_replace('/\.webp$/', '', $path));
+        abort_unless($original, 404);
+        return redirect(asset($original), 302);
+    }
+    return response()->file($file, [
+        'Content-Type' => 'image/webp',
+        'Cache-Control' => 'public, max-age=31536000, immutable',
+    ]);
+})->where(['width' => '400|800|1200', 'path' => '.+\.webp']);
+
 // Yandex sayt sahibliyini təsdiqləmə faylı (fayl yüklənməsə belə işləsin deyə fallback)
 Route::get('yandex_0605409069bcef72.html', function () {
     return response(

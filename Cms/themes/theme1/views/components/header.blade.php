@@ -6,10 +6,10 @@
                         <div class="tgmenu__wrap d-flex align-items-center">
                             <div class="logo">
                                 <a class="logo-1" href="{{ route('home') }}">
-                                    <img src="{{ asset($general_setting->logo) }}" alt="Logo">
+                                    <img src="{{ asset($general_setting->logo) }}" alt="GoSanatorium — бронирование санаториев" {!! img_size_attrs($general_setting->logo) !!}>
                                 </a>
                                 <a class="logo-2 d-none" href="{{ route('home') }}">
-                                    <img src="{{ asset($general_setting->secondary_logo) }}" alt="Logo">  
+                                    <img src="{{ asset($general_setting->secondary_logo) }}" alt="GoSanatorium — бронирование санаториев" {!! img_size_attrs($general_setting->secondary_logo) !!}>  
                                 </a>
                             </div>
                             <nav class="tgmenu__nav tgmenu-1-space ml-30">
