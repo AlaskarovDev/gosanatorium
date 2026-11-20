@@ -1423,3 +1423,59 @@ h3.gs-h4 { font-size: 18px; }
 .gs-rate-note--block { font-size: 12px; margin: 8px 0 0; text-align: center; }
 .gs-rate-note[hidden] { display: none !important; }
 .feature-card--price .gs-rate-note { color: inherit; opacity: .8; white-space: normal; overflow-wrap: anywhere; max-width: 100%; }
+
+/* ===== Task 30: sanatorium page — «Коротко» box, mobile sticky booking bar, section menu ===== */
+.gs-summary-wrap { margin: -16px 0 28px; }
+@media (max-width: 991px) { .gs-summary-wrap { margin: 0 0 20px; } }
+.gs-summary { background: #fff; border: 1px solid #e5e7eb; border-radius: 18px; padding: 20px 24px; box-shadow: 0 4px 18px rgba(15,23,42,.05); }
+.gs-summary__head { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+.gs-summary__title { font-size: 22px; margin: 0; line-height: 1.2; }
+.gs-summary__rating { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; color: #475569; text-decoration: none; }
+.gs-summary__score { background: #16a34a; color: #fff; border-radius: 8px; padding: 3px 8px; font-weight: 700; }
+.gs-summary__grid { display: grid; grid-template-columns: minmax(170px, 1.1fr) 1.4fr 1.5fr minmax(190px, 1fr); gap: 18px 24px; align-items: center; }
+.gs-summary__price { display: flex; flex-direction: column; }
+.gs-summary__from { font-size: 13px; color: #64748b; }
+.gs-summary__amount { font-size: 26px; font-weight: 800; color: #0f766e; line-height: 1.15; }
+.gs-summary__basis { font-size: 13px; color: #64748b; }
+.gs-summary__inc { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 8px 14px; }
+.gs-summary__inc li { display: flex; align-items: center; gap: 8px; font-size: 14px; color: #1e293b; }
+.gs-summary__inc i { width: 30px; height: 30px; border-radius: 8px; background: #ecfdf5; color: #0f766e; display: inline-flex; align-items: center; justify-content: center; flex: 0 0 30px; font-size: 14px; }
+.gs-summary__facts { margin: 0; display: grid; gap: 6px; }
+.gs-summary__facts > div { display: flex; flex-wrap: wrap; gap: 2px 8px; font-size: 14px; }
+.gs-summary__facts dt { font-weight: 400; color: #64748b; display: inline-flex; align-items: center; gap: 6px; }
+.gs-summary__facts dt i { color: #0f766e; width: 16px; text-align: center; }
+.gs-summary__facts dd { margin: 0; color: #1e293b; font-weight: 600; }
+.gs-summary__cta { display: flex; flex-direction: column; gap: 8px; }
+.gs-summary__btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; min-height: 46px; padding: 10px 16px; border-radius: 12px; font-weight: 700; font-size: 15px; text-decoration: none !important; transition: filter .2s; }
+.gs-summary__btn:hover { filter: brightness(.95); }
+.gs-summary__btn--main { background: #0f766e; color: #fff !important; }
+.gs-summary__btn--wa { background: #fff; color: #128c4b !important; border: 2px solid #25d366; }
+@media (max-width: 1199px) { .gs-summary__grid { grid-template-columns: 1fr 1fr; } }
+@media (max-width: 575px) {
+  .gs-summary { padding: 16px; border-radius: 14px; }
+  .gs-summary__title { font-size: 19px; }
+  .gs-summary__grid { grid-template-columns: 1fr; gap: 14px; }
+  .gs-summary__cta { flex-direction: row; }
+  .gs-summary__cta .gs-summary__btn { flex: 1 1 0; }
+}
+
+.gs-stickybook { display: none; }
+@media (max-width: 991px) {
+  /* the sticky bar replaces the old bottom tab bar and the floating WhatsApp button on this page */
+  body.gs-has-stickybook #mobileAppTabbar { display: none !important; }
+  body.gs-has-stickybook .wa-float-btn { display: none !important; }
+  body.gs-has-stickybook { padding-bottom: 76px; }
+  .gs-stickybook { display: flex; align-items: center; gap: 10px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 10000; background: #fff; border-top: 1px solid #e5e7eb; box-shadow: 0 -4px 16px rgba(15,23,42,.08); padding: 10px 12px calc(10px + env(safe-area-inset-bottom)); }
+  .gs-stickybook.is-hidden { display: none; }
+  .gs-stickybook__price { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; line-height: 1.2; }
+  .gs-stickybook__amount { font-weight: 800; font-size: 16px; color: #0f172a; white-space: nowrap; }
+  .gs-stickybook__basis { font-size: 11px; color: #64748b; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .gs-stickybook__btn { flex: 0 0 auto; background: #0f766e; color: #fff !important; font-weight: 700; font-size: 15px; border-radius: 12px; padding: 12px 16px; text-decoration: none !important; white-space: nowrap; }
+  .gs-stickybook__wa { flex: 0 0 46px; width: 46px; height: 46px; border-radius: 50%; background: #25d366; color: #fff !important; display: inline-flex; align-items: center; justify-content: center; font-size: 24px; text-decoration: none !important; }
+  /* section menu: visible again on mobile, fixed under the header after the summary box */
+  #mobileTabs.mobile-tabs { display: flex !important; position: relative; top: auto; }
+  #mobileTabs.mobile-tabs.is-fixed { position: fixed; left: 0; right: 0; z-index: 996; }
+  #mobileTabs .mobile-tabs__item { padding: 12px 14px; font-size: 14px; white-space: nowrap; }
+}
+@media (max-width: 991px) { body.gs-has-stickybook .tg-mobile-bottom-nav { display: none !important; } }
+.gs-summary__btn { white-space: nowrap; }

@@ -832,6 +832,10 @@
 @endif
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Минимальный срок лечения, ночей</label>
 <input class="crancy__item-input" type="number" min="1" max="60" name="min_stay_nights" placeholder="1" value="{{ old('min_stay_nights', $service->min_stay_nights) }}"></div></div>
+@if (\Illuminate\Support\Facades\Schema::hasColumn('services', 'transfer_info'))
+<div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Трансфер (блок «Коротко»)</label>
+<input class="crancy__item-input" type="text" maxlength="255" name="transfer_info" placeholder="Бесплатно из Гянджи · из Баку — платно" value="{{ old('transfer_info', $service->transfer_info) }}"></div></div>
+@endif
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Анализы при заезде (сравнение)</label>
 <select class="crancy__item-input" name="tests_included"><option value="">—</option><option value="1" @selected((string) old('tests_included', $service->tests_included) === '1')>Да</option><option value="0" @selected((string) old('tests_included', $service->tests_included) === '0')>Нет</option></select></div></div>
 <div class="col-lg-4 col-md-6 col-12"><div class="crancy__item-form--group mg-top-form-20"><label class="crancy__item-label">Осмотр врача (сравнение)</label>
