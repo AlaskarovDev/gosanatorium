@@ -1408,3 +1408,12 @@ h3.gs-h4 { font-size: 18px; }
     .tg-blog-standard-content .gs-table-wrap table { font-size: 14px; }
     .tg-blog-standard-content .gs-table-wrap th, .tg-blog-standard-content .gs-table-wrap td { min-width: 110px; padding: 8px 10px !important; }
 }
+
+/* Task 27: medical disclaimer — small grey text, not a popup */
+.gs-med-disclaimer { display: flex; gap: 8px; align-items: flex-start; margin: 16px 0 24px; padding: 10px 14px; font-size: 13px; line-height: 1.5; color: #6b7280; background: #f9fafb; border-left: 3px solid #d1d5db; border-radius: 6px; }
+.gs-med-disclaimer i { margin-top: 3px; flex: 0 0 auto; color: #9ca3af; }
+.gs-med-disclaimer a { color: #4b5563; text-decoration: underline; white-space: nowrap; }
+.gs-med-disclaimer a:hover { color: #111827; }
+.gs-med-disclaimer--card { margin: -8px 0 24px; }
+.gs-med-disclaimer, .gs-med-disclaimer span, .gs-med-disclaimer a { font-size: 13px !important; line-height: 1.5 !important; margin-bottom: 0; }
+.gs-med-disclaimer a { font-weight: 400 !important; }

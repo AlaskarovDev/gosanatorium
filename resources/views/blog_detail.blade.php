@@ -79,6 +79,7 @@
                                     {!! $gsPost['rest'] !!}
                                 @endif
                                 @include('partials.blog_post_cta', ['blog' => $blog, 'gsCtaPlace' => 'end'])
+                                @include('partials.medical_disclaimer')
                             </div>
                         </div>
 
