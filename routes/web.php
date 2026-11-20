@@ -29,6 +29,14 @@ Route::get('yandex_0605409069bcef72.html', function () {
     )->header('Content-Type', 'text/html; charset=UTF-8');
 });
 
+// Yandex Webmaster yeni təsdiq faylı
+Route::get('yandex_a6a21f140bf7773c.html', function () {
+    return response(
+        "<html>\n    <head>\n        <meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">\n    </head>\n    <body>Verification: a6a21f140bf7773c</body>\n</html>",
+        200
+    )->header('Content-Type', 'text/html; charset=UTF-8');
+});
+
 // Sayt sahibliyini təsdiqləmə faylı (verification)
 Route::get('0605409069bcef72.html', function () {
     return response(
