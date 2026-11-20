@@ -117,17 +117,22 @@
         return (code === 'USD' || code === 'EUR') ? sym + num : num + ' ' + sym;
     }
 
-    function rateNoteText() {
+    var PAY_NOTES = {
+        AZ: RU ? 'Оплата в санатории: AZN, USD или картой.' : 'Payment at the sanatorium: AZN, USD or card.',
+        GE: RU ? 'Оплата в санатории: GEL, USD или картой.' : 'Payment at the sanatorium: GEL, USD or card.',
+        ALL: RU ? 'Оплата в санатории: в Азербайджане — AZN, USD или картой; в Грузии — GEL, USD или картой.'
+                : 'Payment at the sanatorium: Azerbaijan — AZN, USD or card; Georgia — GEL, USD or card.'
+    };
+    function rateNoteText(country) {
         if (!ratesDate) return '';
         var d = ratesDate.split('-');
         var date = d.length === 3 ? d[2] + '.' + d[1] + '.' + d[0] : ratesDate;
-        return RU
-            ? 'Курс на ' + date + ', ориентировочно. Оплата в санатории в AZN/GEL.'
-            : 'Exchange rate as of ' + date + ', approximate. Payment at the sanatorium in AZN/GEL.';
+        var pay = PAY_NOTES[country] || PAY_NOTES.ALL;
+        return (RU ? 'Курс на ' + date + ', ориентировочно. ' : 'Exchange rate as of ' + date + ', approximate. ') + pay;
     }
     function updateRateNotes() {
-        var txt = rateNoteText();
         document.querySelectorAll('[data-gs-rate-note]').forEach(function (el) {
+            var txt = rateNoteText(el.getAttribute('data-pay-country'));
             el.textContent = txt;
             el.hidden = !txt || selectedCurrency === 'AZN' && el.hasAttribute('data-hide-azn');
         });
