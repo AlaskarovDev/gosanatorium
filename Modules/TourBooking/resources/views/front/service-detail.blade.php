@@ -3299,6 +3299,33 @@
     <section class="main-section">
         <div class="container">
             @include('tourbooking::front.services.summary-box')
+            {{-- Task 34: «Когда ехать выгоднее?» --}}
+            @php
+                $pcData = \Modules\TourBooking\App\Services\FromPrice::monthlyMins([(int) $service->id]);
+                $pcNights = max(7, (int) ($service->min_stay_nights ?? 0));
+                $pcUrl = function (int $y, int $m) use ($service, $hasRooms, $pcNights) {
+                    if (! $hasRooms) {
+                        return null;
+                    }
+                    $in = \Carbon\Carbon::create($y, $m, 1, 0, 0, 0, 'Asia/Baku');
+                    $tomorrow = \Carbon\Carbon::now('Asia/Baku')->startOfDay()->addDay();
+                    if ($in->lt($tomorrow)) {
+                        $in = $tomorrow;
+                    }
+                    return route('front.tourbooking.rooms.selection', $service->slug) . '?' . http_build_query([
+                        'checkin' => $in->toDateString(),
+                        'checkout' => $in->copy()->addDays($pcNights)->toDateString(),
+                        'adults' => 2,
+                    ]);
+                };
+            @endphp
+            @include('tourbooking::front.services.price-calendar', [
+                'pcMonths' => $pcData['months'],
+                'pcPrices' => $pcData['prices'][(int) $service->id] ?? [],
+                'pcUrl' => $pcUrl,
+                'pcClickable' => $hasRooms,
+                'pcNote' => 'Цены по сезонам санатория, ориентировочно.',
+            ])
             <div class="bento-layout">
                 {{-- LEFT - Content --}}
                 <div class="bento-grid">
