@@ -7,7 +7,7 @@
                     <i class="fa fa-bed me-2"></i>
                     {{ __('translate.Select Your Room') }}
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ app()->getLocale() === 'ru' ? 'Закрыть' : 'Close' }}"></button>
             </div>
             <div class="modal-body p-0">
                 <!-- Date Selection Header -->
@@ -71,7 +71,7 @@
                     <i class="fa fa-user-plus me-2"></i>
                     {{ __('translate.Complete Your Booking') }}
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ app()->getLocale() === 'ru' ? 'Закрыть' : 'Close' }}"></button>
             </div>
             <div class="modal-body">
                 <!-- Booking Summary -->

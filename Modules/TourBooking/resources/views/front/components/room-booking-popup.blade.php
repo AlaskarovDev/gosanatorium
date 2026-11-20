@@ -7,7 +7,7 @@
                 <h5 class="modal-title rb-title" id="roomBookingModalLabel">
                     <i class="fa fa-bed me-2"></i><span data-rb-step-title>{{ __('translate.Select Room') }}</span>
                 </h5>
-                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="{{ app()->getLocale() === 'ru' ? 'Закрыть' : 'Close' }}"></button>
             </div>
 
             <div class="modal-body rb-body p-0">

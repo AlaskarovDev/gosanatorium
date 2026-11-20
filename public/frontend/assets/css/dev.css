@@ -1491,3 +1491,19 @@ h3.gs-h4 { font-size: 18px; }
 .rc-stop-title { color: #b91c1c; font-weight: 700; font-size: 15px; }
 .rc-stop-title i { margin-right: 4px; }
 .rc-stop-alt { color: #475569; font-size: 13px; margin-top: 4px; }
+
+/* Task 20: «copy link» is a real button styled like the other share icons */
+.tg-blog-details-social { align-items: center; flex-wrap: wrap; }
+.tg-blog-details-social .gs-copy-link { font-size: 18px; color: #353844; margin-left: 10px; background: none; border: 0; padding: 0; cursor: pointer; line-height: 1; min-width: 24px; min-height: 24px; }
+.tg-blog-details-social .gs-copy-link:hover { color: var(--tg-theme-primary); }
+.tg-blog-details-social .gs-copy-msg { font-size: 13px; color: #1a9e87; margin-left: 8px; font-weight: 600; }
+.tg-blog-details-social .gs-copy-msg:empty { display: none; }
+
+/* Task 13: breadcrumb strip on static pages and promotions */
+.gs-pcrumbs { background: #f8fafb; border-bottom: 1px solid #eef1f4; font-size: 13px; }
+.gs-pcrumbs ol { list-style: none; margin: 0; padding: 10px 0; display: flex; flex-wrap: wrap; gap: 4px; align-items: center; }
+.gs-pcrumbs li { color: #6b7280; display: inline-flex; align-items: center; }
+.gs-pcrumbs li + li::before { content: "›"; margin-right: 6px; color: #9ca3af; }
+.gs-pcrumbs a { color: #1a7f6e; text-decoration: none; padding: 6px 0; }
+.gs-pcrumbs a:hover { text-decoration: underline; }
+.gs-pcrumbs--inline { background: none; border: 0; margin-bottom: 12px; }

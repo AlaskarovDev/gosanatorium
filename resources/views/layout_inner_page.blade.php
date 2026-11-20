@@ -559,7 +559,7 @@
     @if ($general_setting->cookie_consent_status == 1)
         <!-- common-modal start  -->
         <div class="common-modal cookie_consent_modal d-none bg-white">
-            <button type="button" class="btn-close cookie_consent_close_btn" aria-label="Close"></button>
+            <button type="button" class="btn-close cookie_consent_close_btn" aria-label="{{ app()->getLocale() === 'ru' ? 'Закрыть' : 'Close' }}"></button>
 
             <div class="gs-h5 cookie-title">{{ __('translate.Cookies') }}</div>
             <p>{{ $general_setting->cookie_consent_message }}</p>

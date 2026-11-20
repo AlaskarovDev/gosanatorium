@@ -35,7 +35,7 @@ class Breadcrumbs
         }
 
         $crumbs[] = [
-            'name' => (string) ($service->translation?->title ?? $service->title ?? ''),
+            'name' => gs_display_title((string) ($service->translation?->title ?? $service->title ?? '')),
             'url' => $linkLast ? route('front.tourbooking.services.show', ['slug' => $service->slug]) : null,
         ];
 
@@ -67,5 +67,21 @@ class Breadcrumbs
         $crumbs[] = ['name' => (string) $blog->title, 'url' => null];
 
         return $crumbs;
+    }
+
+    /** Static pages: Главная > {Страница} */
+    public static function page(string $name): array
+    {
+        return [self::home(), ['name' => $name, 'url' => null]];
+    }
+
+    /** Главная > Акции > {Promotion} */
+    public static function promo(?string $title = null): array
+    {
+        if ($title === null) {
+            return [self::home(), ['name' => 'Акции', 'url' => null]];
+        }
+
+        return [self::home(), ['name' => 'Акции', 'url' => localize_front_url('/akcii')], ['name' => $title, 'url' => null]];
     }
 }

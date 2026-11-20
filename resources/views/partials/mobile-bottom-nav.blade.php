@@ -1,7 +1,7 @@
 {{-- ===== Mobil alt menyu (yalnız telefonda/mobil görünür) ===== --}}
 @php
     $__mbnServices = url('tour-booking/services') . '?service_type_ids%5B%5D=10';
-    $__mbnConsult  = url('custom-page/consultant');
+    $__mbnConsult  = gs_page_url('consultant');
 @endphp
 <nav class="tg-mobile-bottom-nav">
     <a href="{{ $__mbnServices }}" class="tg-mbn-item">

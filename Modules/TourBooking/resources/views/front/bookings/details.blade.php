@@ -118,7 +118,7 @@
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="cancelBookingModalLabel">{{ __('translate.Cancel Booking') }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ app()->getLocale() === 'ru' ? 'Закрыть' : 'Close' }}"></button>
                         </div>
                         <div class="modal-body">
                             <p class="text-danger">{{ __('translate.Are you sure you want to cancel this booking?') }}</p>
@@ -150,7 +150,7 @@
                         @csrf
                         <div class="modal-header">
                             <h5 class="modal-title" id="leaveReviewModalLabel">{{ __('translate.Leave a Review') }}</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="{{ app()->getLocale() === 'ru' ? 'Закрыть' : 'Close' }}"></button>
                         </div>
                         <div class="modal-body">
                             <div class="mb-3">

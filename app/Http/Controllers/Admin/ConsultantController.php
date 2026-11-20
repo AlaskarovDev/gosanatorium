@@ -18,7 +18,7 @@ class ConsultantController extends Controller
     {
         $consultant = Consultant::first() ?? new Consultant([
             'button_text' => 'Получить консультацию →',
-            'button_url' => '/ru/custom-page/consultant',
+            'button_url' => '/ru/konsultaciya-vracha',
             'is_active' => true,
         ]);
 
@@ -50,7 +50,7 @@ class ConsultantController extends Controller
         }
 
         $data['button_text'] = $data['button_text'] ?: 'Получить консультацию →';
-        $data['button_url'] = $data['button_url'] ?: '/ru/custom-page/consultant';
+        $data['button_url'] = $data['button_url'] ?: '/ru/konsultaciya-vracha';
         $data['is_active'] = $request->boolean('is_active');
 
         $consultant->fill($data)->save();

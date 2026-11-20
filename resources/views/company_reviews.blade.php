@@ -51,6 +51,7 @@
 @endpush
 
 @section('front-content')
+
     <section class="gscr-hero">
         <div class="container">
             <h1>Отзывы о GoSanatorium</h1>
@@ -60,6 +61,7 @@
 
     @include('partials.rated_by')
 
+@include('partials.page_crumbs', ['crumbs' => \App\Support\Breadcrumbs::page('Отзывы о GoSanatorium')])
     <section class="gscr-section">
         <div class="container">
             <div class="gscr-grid">

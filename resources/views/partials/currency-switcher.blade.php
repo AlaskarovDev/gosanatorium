@@ -12,7 +12,7 @@
     <div class="currency-modal" role="dialog" aria-modal="true">
         <div class="currency-modal__header">
             <div class="currency-modal__title">{{ $csRu ? 'Выберите валюту' : 'Select currency' }}</div>
-            <button type="button" class="currency-modal__close" onclick="closeCurrencyModal()" aria-label="Close">✕</button>
+            <button type="button" class="currency-modal__close" onclick="closeCurrencyModal()" aria-label="{{ app()->getLocale() === 'ru' ? 'Закрыть' : 'Close' }}">✕</button>
         </div>
         <p class="currency-modal__note">
             {{ $csRu

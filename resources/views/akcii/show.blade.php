@@ -35,8 +35,10 @@
 @endpush
 
 @section('front-content')
+
     <section class="akcia-page">
         <div class="container">
+            @include('partials.page_crumbs', ['crumbs' => \App\Support\Breadcrumbs::promo($akcia->title), 'gsCrumbsInline' => true])
             @if ($img)
                 <img class="akcia-img" src="{{ asset($img) }}" alt="{{ $akcia->title }}">
             @endif

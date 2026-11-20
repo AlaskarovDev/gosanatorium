@@ -8,6 +8,7 @@
 
 @section('front-content')
 
+
 {{-- HERO --}}
 <div class="ct-hero">
   <div class="ct-hero__inner">
@@ -17,6 +18,7 @@
 </div>
 
 {{-- CONTACT CHANNELS --}}
+@include('partials.page_crumbs', ['crumbs' => \App\Support\Breadcrumbs::page('Контакты')])
 <div class="ct-channels">
   <div class="ct-channels__wrap">
     <div class="ct-card">
