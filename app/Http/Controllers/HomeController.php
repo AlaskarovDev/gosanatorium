@@ -339,7 +339,11 @@ class HomeController extends Controller
 
         $footer_cta = getContent('footer_cta.content', true);
 
-        $seo_setting = SeoSetting::where('id', 4)->first();
+        // Bug 2: the FAQ page used the contact page SEO record (id 4); it has its own title and description now.
+        $seo_setting = (object) [
+            'seo_title' => 'Частые вопросы о бронировании санаториев | GoSanatorium',
+            'seo_description' => 'Ответы на частые вопросы: бронирование без предоплаты, оплата, отмена, трансфер, документы и лечение в санаториях Нафталана и Грузии.',
+        ];
 
         $breadcrumb_title = trans('translate.Frequently Asked Question');
 
@@ -352,6 +356,9 @@ class HomeController extends Controller
     }
     public function pricing()
     {
+        // Bug 2: theme leftover «Pricing Plan» page had the contact page title; prices live in the catalog.
+        return redirect()->to(url('/sanatoriyi'), 301);
+
 
         $footer_cta = getContent('footer_cta.content', true);
 

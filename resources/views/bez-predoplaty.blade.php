@@ -103,7 +103,7 @@
             <h3>Остались вопросы? Мы на связи</h3>
             <p>Наш менеджер ответит в течение нескольких минут и поможет подобрать санаторий под ваш диагноз и бюджет</p>
             <a class="bp-btn" href="{{ company_fact('whatsapp_url') }}" target="_blank" rel="noopener">Написать в WhatsApp</a>
-            <a class="bp-phone" href="{{ company_fact('phone_main_tel') }}">{{ company_fact('phone_main') }}</a>
+            <a class="bp-phone" href="tel:{{ company_fact('phone_main_tel') }}">{{ company_fact('phone_main') }}</a>
             <p class="bp-small">{{ company_fact('working_hours_text') }}</p>
         </div>
     </aside>

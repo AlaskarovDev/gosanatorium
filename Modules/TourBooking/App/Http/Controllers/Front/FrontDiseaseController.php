@@ -18,7 +18,7 @@ final class FrontDiseaseController extends Controller
 
     public function index(): View
     {
-        $diseases = Disease::active()->ordered()->get();
+        $diseases = Disease::visible()->ordered()->get();
 
         $this->applySeo('diseases', [
             'title'       => 'Санатории по заболеваниям — подбор по диагнозу',
@@ -31,7 +31,7 @@ final class FrontDiseaseController extends Controller
     /** /napravleniya-lecheniya: all treatment directions with a short text. */
     public function directions(): View
     {
-        $diseases = Disease::active()->ordered()->get();
+        $diseases = Disease::visible()->ordered()->get();
 
         $this->applySeo('treatment-directions', [
             'title'       => 'Направления лечения в санаториях Азербайджана и Грузии',
@@ -116,7 +116,7 @@ final class FrontDiseaseController extends Controller
             'countries'    => $all->map(fn ($s) => trim((string) ($s->destination?->country ?? '')))->filter()->unique()->sort()->values(),
             'destinations' => $all->map(fn ($s) => $s->destination)->filter()->unique('id')->sortBy('name')
                 ->filter(fn ($d) => $f['country'] === '' || trim((string) $d->country) === $f['country'])->values(),
-            'diseases'     => Disease::active()->ordered()->get(),
+            'diseases'     => Disease::visible()->ordered()->get(),
             'price_min'    => $prices->isEmpty() ? 0 : (int) floor($prices->min()),
             'price_max'    => $prices->isEmpty() ? 0 : (int) ceil($prices->max()),
             'sorts'        => $sorts,
