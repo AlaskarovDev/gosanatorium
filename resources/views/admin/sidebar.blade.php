@@ -106,6 +106,16 @@
                 --}}
 
 
+                <li class="{{ Route::is('admin.company-reviews') ? 'active' : '' }}"><a class="collapsed" href="{{ route('admin.company-reviews') }}">
+                        <span class="menu-bar__text">
+                            <span class="crancy-menu-icon crancy-svg-icon__v1">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l2.6 5.3 5.9.9-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.9L12 3z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/></svg>
+                            </span>
+                            <span class="menu-bar__name">Отзывы о компании</span>
+                        </span>
+                    </a>
+                </li>
+
                 <li class="{{ Route::is('admin.contact-message') || Route::is('admin.show-message') ? 'active' : '' }}"><a
                         class="collapsed" href="{{ route('admin.contact-message') }}">
                         <span class="menu-bar__text">

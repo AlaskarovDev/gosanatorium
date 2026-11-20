@@ -40,6 +40,8 @@
 
     {{-- testimonial section --}}
     @include('theme::components.testimonial')
+    {{-- Task 26: «Нас оценивают» --}}
+    @include('partials.rated_by')
 
     {{-- blog section --}}
     @include('theme::components.blog')

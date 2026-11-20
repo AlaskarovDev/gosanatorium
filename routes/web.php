@@ -88,6 +88,9 @@ Route::group(['middleware' => ['HtmlSpecialchars', 'MaintenanceMode']], function
     Route::get('/faq', [HomeController::class, 'faq'])->name('faq');
     Route::get('/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->name('bez-predoplaty');
     Route::get('/{locale}/bez-predoplaty', [HomeController::class, 'bezPredoplaty'])->where('locale', 'ru|az|en')->name('bez-predoplaty.locale');
+    // Task 26: reviews about the company
+    Route::get('/otzyvy', [\App\Http\Controllers\CompanyReviewController::class, 'index'])->name('company-reviews');
+    Route::post('/otzyvy', [\App\Http\Controllers\CompanyReviewController::class, 'store'])->middleware('throttle:10,1')->name('company-reviews.store');
     Route::get('/naftalan-protivopokazaniya', [HomeController::class, 'contraindications'])->name('contraindications');
     Route::get('/{locale}/naftalan-protivopokazaniya', [HomeController::class, 'contraindications'])->where('locale', 'ru|az|en')->name('contraindications.locale');
     Route::get('/{locale}/naftalan-produkty', [App\Http\Controllers\NaftalanProductsController::class, 'index'])->where('locale', 'ru|az|en')->name('naftalan.products');
@@ -226,6 +229,11 @@ Route::group(['as' => 'admin.', 'prefix' => 'admin'], function () {
 
         Route::get('/', [DashboardController::class, 'dashboard']);
         Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
+
+        // Task 26: reviews about the company (moderation)
+        Route::get('company-reviews', [\App\Http\Controllers\Admin\CompanyReviewController::class, 'index'])->name('company-reviews');
+        Route::put('company-reviews/{review}', [\App\Http\Controllers\Admin\CompanyReviewController::class, 'update'])->name('company-reviews.update');
+        Route::delete('company-reviews/{review}', [\App\Http\Controllers\Admin\CompanyReviewController::class, 'destroy'])->name('company-reviews.destroy');
 
         Route::controller(ProfileController::class)->group(function () {
             Route::get('edit-profile', 'edit_profile')->name('edit-profile');
