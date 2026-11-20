@@ -350,6 +350,70 @@ final class FromPrice
         }
     }
 
+    /**
+     * Task 34: minimum price per person per night for each of the next $months calendar months
+     * (current month first), per sanatorium. Room prices only (seasons table), as in periodMinPerPerson().
+     *
+     * @param  array<int, int>  $serviceIds
+     * @return array{months: array<int, array{y:int, m:int}>, prices: array<int, array<int, float|null>>}
+     */
+    public static function monthlyMins(array $serviceIds, int $months = 12): array
+    {
+        $compute = function () use ($serviceIds, $months) {
+            $today = self::today();
+            $pricing = new RoomPricing();
+            $rooms = $serviceIds === [] ? collect() : ServiceRoom::query()
+                ->whereIn('service_id', $serviceIds)
+                ->where('status', true)
+                ->with(RoomPricing::eagerLoads())
+                ->get()
+                ->groupBy('service_id');
+            $list = [];
+            $prices = [];
+            for ($i = 0; $i < $months; $i++) {
+                $first = $today->copy()->startOfMonth()->addMonthsNoOverflow($i);
+                $from = $i === 0 ? $today->copy() : $first->copy();
+                $to = $first->copy()->endOfMonth()->startOfDay();
+                $list[$i] = ['y' => (int) $first->year, 'm' => (int) $first->month];
+                $keys = [];
+                foreach ($pricing->activeSeasons() as $season) {
+                    if ($season->start_date && $season->end_date
+                        && $season->start_date->toDateString() <= $to->toDateString()
+                        && $season->end_date->toDateString() >= $from->toDateString()) {
+                        $keys[] = $season->id;
+                    }
+                }
+                for ($d = $from->copy(); $d->lte($to); $d->addDay()) {
+                    if ($pricing->seasonForDate($d) === null) {
+                        $keys[] = RoomPricing::BASE;
+                        break;
+                    }
+                }
+                foreach ($serviceIds as $id) {
+                    $min = null;
+                    foreach ($rooms->get($id, collect()) as $room) {
+                        $p = self::roomFrom($pricing, $room, $keys, self::BASIS_PERSON);
+                        if ($p !== null && ($min === null || $p < $min)) {
+                            $min = $p;
+                        }
+                    }
+                    $prices[$id][$i] = $min !== null ? round($min, 2) : null;
+                }
+            }
+
+            return ['months' => $list, 'prices' => $prices];
+        };
+
+        try {
+            $key = 'gs_monthly_mins:v1:' . md5(json_encode([$serviceIds, $months])) . ':'
+                . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
+
+            return Cache::remember($key, now()->addHours(6), $compute);
+        } catch (\Throwable) {
+            return $compute();
+        }
+    }
+
     private static function today(): Carbon
     {
         return Carbon::now('Asia/Baku')->startOfDay();
