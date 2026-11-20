@@ -8,22 +8,23 @@
 | name  => modalda görünən ad
 | gt    => Google Translate dil kodu
 | flag  => flagcdn.com ölkə kodu (yuvarlaq bayraq şəkli üçün)
-| native=> true: real (tərcümə olunmuş) versiya. Yalnız bunlar seçicidə, hreflang-da
-|           və sitemap-da görünür (Task 17).
-|
-| native olmayan kodlar AKTİV DEYİL: onların URL-ləri (/en/..., /az/...) 301 ilə eyni
-| səhifənin /ru versiyasına yönləndirilir. Avtomatik tərcümə (Google) yoxdur.
-| Dili açmaq üçün: title/meta/H1/məzmun həmin dilə tərcümə olunandan sonra
-| 'native' => true et.
+| native=> true: real məzmun (ru). Qalan aktiv dillər Google Translate ilə avtomatik çevrilir.
+| enabled=> true: seçicidə görünür. enabled olmayan kodların URL-ləri (/fr/...) 301 ilə
+|           eyni səhifənin /ru versiyasına yönləndirilir.
+| hreflang/canonical yalnız native dillərə (ru) işarə edir: tərcümələr maşın tərcüməsidir.
 */
 
+
 return [
-    'ru' => ['name' => 'Русский',        'gt' => 'ru',    'flag' => 'ru', 'native' => true],
-    'az' => ['name' => 'Azərbaycan',     'gt' => 'az',    'flag' => 'az'],
-    'en' => ['name' => 'English',        'gt' => 'en',    'flag' => 'gb'],
-    'tr' => ['name' => 'Türkçe',         'gt' => 'tr',    'flag' => 'tr'],
+    'ru' => ['name' => 'Русский',        'gt' => 'ru',    'flag' => 'ru', 'native' => true, 'enabled' => true],
+    'en' => ['name' => 'English',        'gt' => 'en',    'flag' => 'gb', 'enabled' => true],
+    'az' => ['name' => 'Azərbaycan',     'gt' => 'az',    'flag' => 'az', 'enabled' => true],
+    'de' => ['name' => 'Deutsch',        'gt' => 'de',    'flag' => 'de', 'enabled' => true],
+    'uz' => ['name' => 'Oʻzbekcha',      'gt' => 'uz',    'flag' => 'uz', 'enabled' => true],
+    'kk' => ['name' => 'Қазақша',        'gt' => 'kk',    'flag' => 'kz', 'enabled' => true],
+    'he' => ['name' => 'עברית',          'gt' => 'iw',    'flag' => 'il', 'enabled' => true],
+    'tr' => ['name' => 'Türkçe',         'gt' => 'tr',    'flag' => 'tr', 'enabled' => true],
     'ar' => ['name' => 'العربية',        'gt' => 'ar',    'flag' => 'sa'],
-    'de' => ['name' => 'Deutsch',        'gt' => 'de',    'flag' => 'de'],
     'fr' => ['name' => 'Français',       'gt' => 'fr',    'flag' => 'fr'],
     'es' => ['name' => 'Español',        'gt' => 'es',    'flag' => 'es'],
     'it' => ['name' => 'Italiano',       'gt' => 'it',    'flag' => 'it'],
@@ -33,7 +34,6 @@ return [
     'uk' => ['name' => 'Українська',     'gt' => 'uk',    'flag' => 'ua'],
     'ka' => ['name' => 'ქართული',        'gt' => 'ka',    'flag' => 'ge'],
     'fa' => ['name' => 'فارسی',          'gt' => 'fa',    'flag' => 'ir'],
-    'he' => ['name' => 'עברית',          'gt' => 'iw',    'flag' => 'il'],
     'zh' => ['name' => '中文',            'gt' => 'zh-CN', 'flag' => 'cn'],
     'ja' => ['name' => '日本語',          'gt' => 'ja',    'flag' => 'jp'],
     'ko' => ['name' => '한국어',          'gt' => 'ko',    'flag' => 'kr'],
