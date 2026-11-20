@@ -2810,7 +2810,8 @@ body.booking-modal-open div[data-pf-id] { display: none !important; }
         var note = document.getElementById('summaryCurrencyNote');
         if (!note) return;
         if (isConverted() && bookingData.total > 0) {
-            note.innerHTML = 'Пересчёт ориентировочный. Сумма бронирования в USD: <strong>' + formatBaseCurrency(bookingData.total) + '</strong>';
+            var rateNote = typeof window.gsRateNote === 'function' ? window.gsRateNote() : '';
+            note.innerHTML = (rateNote ? rateNote + ' ' : 'Пересчёт ориентировочный. ') + 'Сумма бронирования в USD: <strong>' + formatBaseCurrency(bookingData.total) + '</strong>';
             note.style.display = '';
         } else {
             note.style.display = 'none';
