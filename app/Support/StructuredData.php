@@ -68,6 +68,12 @@ class StructuredData
         if ($tg = trim((string) $facts->get('telegram'), " @")) {
             $sameAs[] = 'https://t.me/' . $tg;
         }
+        foreach (['google_url', 'yandex_url'] as $k) { // Task 26
+            $u = trim((string) $facts->get($k));
+            if (preg_match('#^https?://#i', $u)) {
+                $sameAs[] = $u;
+            }
+        }
 
         $org = array_filter([
             '@type' => 'Organization',
