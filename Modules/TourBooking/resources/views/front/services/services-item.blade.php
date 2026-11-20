@@ -6,9 +6,7 @@
                     <div class="tg-listing-card-item tg-listing-4-card-item mb-25">
                         <div class="tg-listing-card-thumb tg-listing-2-card-thumb mb-15 fix p-relative" style="position:relative;overflow:hidden;">
                             <a href="{{ route('front.tourbooking.services.show', ['slug' => $service?->slug]) }}">
-                                <img class="tg-card-border w-100"
-                                    src="{{ asset($service?->thumbnail?->file_path) }}"
-                                    alt="{{ $service?->thumbnail?->caption ?? $service?->translation?->title }}">
+                                <img class="tg-card-border w-100" {!! img_attrs($service?->thumbnail?->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service, $service?->thumbnail?->caption), ['sizes' => '(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px']) !!}>
 
                                 @if ($service?->is_new == 1)
                                     <span class="tg-listing-item-price-discount shape"

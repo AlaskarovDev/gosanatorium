@@ -3076,9 +3076,9 @@
     <section class="hero" id="section-hero">
         <div class="hero__media">
             @if(isset($thumbnails[0]))
-                <img src="{{ asset($thumbnails[0]->file_path) }}" alt="{{ $service?->translation?->title }}">
+                <img {!! img_attrs($thumbnails[0]->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service), ['sizes' => '100vw', 'priority' => true]) !!}>
             @else
-                <img src="{{ asset('frontend/assets/img/shape/placeholder.png') }}" alt="default">
+                <img src="{{ asset('frontend/assets/img/shape/placeholder.png') }}" alt="">
             @endif
         </div>
         <div class="hero__overlay"></div>
@@ -3145,7 +3145,7 @@
             <div class="gallery__grid" data-aos="fade-up" id="galleryGrid">
                 @if(isset($thumbnails[0]))
                     <a href="{{ asset($thumbnails[0]->file_path) }}" class="gallery__item js-gallery-open" data-gallery-open>
-                        <img src="{{ asset($thumbnails[0]->file_path) }}" alt="{{ $thumbnails[0]->caption ?: $service?->translation?->title }}">
+                        <img {!! img_attrs($thumbnails[0]->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service, $thumbnails[0]->caption), ['sizes' => '(max-width: 767px) 100vw, 50vw']) !!}>
                         <div class="gallery__overlay">
                             <div class="gallery__icon"><i class="fa-solid fa-expand"></i></div>
                         </div>
@@ -3154,14 +3154,14 @@
 
                 @if(isset($nonThumbnails[0]) && $service->video_url)
                     <div class="gallery__item">
-                        <img src="{{ asset($nonThumbnails[0]->file_path) }}" alt="{{ $nonThumbnails[0]->caption ?: $service?->translation?->title }}">
+                        <img {!! img_attrs($nonThumbnails[0]->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service, $nonThumbnails[0]->caption), ['sizes' => '(max-width: 767px) 50vw, 25vw']) !!}>
                         <a href="{{ $service->video_url }}" class="gallery__play glightbox" data-gallery="video">
                             <i class="fa-solid fa-play"></i>
                         </a>
                     </div>
                 @elseif(isset($nonThumbnails[0]))
                     <a href="{{ asset($nonThumbnails[0]->file_path) }}" class="gallery__item js-gallery-open" data-gallery-open>
-                        <img src="{{ asset($nonThumbnails[0]->file_path) }}" alt="{{ $nonThumbnails[0]->caption ?: $service?->translation?->title }}">
+                        <img {!! img_attrs($nonThumbnails[0]->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service, $nonThumbnails[0]->caption), ['sizes' => '(max-width: 767px) 50vw, 25vw']) !!}>
                         <div class="gallery__overlay">
                             <div class="gallery__icon"><i class="fa-solid fa-expand"></i></div>
                         </div>
@@ -3171,7 +3171,7 @@
                 @for($i = 1; $i <= 3; $i++)
                     @if(isset($nonThumbnails[$i]))
                         <a href="{{ asset($nonThumbnails[$i]->file_path) }}" class="gallery__item js-gallery-open" data-gallery-open>
-                            <img src="{{ asset($nonThumbnails[$i]->file_path) }}" alt="{{ $nonThumbnails[$i]->caption ?: $service?->translation?->title }}">
+                            <img {!! img_attrs($nonThumbnails[$i]->file_path, \App\Helpers\ResponsiveImage::serviceAlt($service, $nonThumbnails[$i]->caption), ['sizes' => '(max-width: 767px) 50vw, 25vw']) !!}>
                             <div class="gallery__overlay">
                                 <div class="gallery__icon"><i class="fa-solid fa-expand"></i></div>
                             </div>
@@ -3333,7 +3333,7 @@
                                         @if($item->image)
                                             <a href="{{ asset($item->image) }}" class="treatment-gallery__link glightbox" data-gallery="treatments" data-glightbox="title: {{ $item->title }}">
                                                 <div class="treatment-gallery__circle">
-                                                    <img src="{{ asset($item->image) }}" alt="{{ $item->title }}" loading="lazy">
+                                                    <img {!! img_attrs($item->image, $item->title, ['sizes' => '(max-width: 767px) 50vw, 300px']) !!}>
                                                     <div class="treatment-gallery__overlay">
                                                         <i class="fa-solid fa-expand"></i>
                                                     </div>
@@ -3376,7 +3376,7 @@
                                             <div class="itinerary-content">
                                                 @if($itinerary?->image)
                                                     <div class="itinerary-image">
-                                                        <img src="{{ asset($itinerary->image) }}" alt="{{ $itinerary->title }}" loading="lazy">
+                                                        <img {!! img_attrs($itinerary->image, $itinerary->title, ['sizes' => '400px']) !!}>
                                                     </div>
                                                 @endif
                                                 <div class="itinerary-details">
@@ -3630,7 +3630,7 @@
                                 <div class="sidebar-doctor__body">
                                     <div class="sidebar-doctor__photo-wrap">
                                         @if($service->doctor_image)
-                                            <img src="{{ asset($service->doctor_image) }}" alt="{{ $service->doctor_name }}" class="sidebar-doctor__photo">
+                                            <img {!! img_attrs($service->doctor_image, $service->doctor_name, ['sizes' => '120px', 'class' => 'sidebar-doctor__photo']) !!}>
                                         @else
                                             <div class="sidebar-doctor__photo-placeholder">
                                                 <i class="fa-solid fa-user-doctor"></i>

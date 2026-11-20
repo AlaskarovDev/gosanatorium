@@ -102,7 +102,7 @@
                                         <span class="borders"></span>
                                         <span class="icon">
                                             @if ($service_type->image)
-                                                <img width="19" height="12" src="{{ asset($service_type->image) }}">
+                                                <img width="19" height="12" src="{{ asset($service_type->image) }}" alt="">
                                             @elseif ($service_type->icon)
                                                 <i class="{{ $service_type->icon }}"></i>
                                             @else

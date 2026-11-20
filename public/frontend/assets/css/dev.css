@@ -1333,3 +1333,6 @@ body.gs-compare-bar-on { padding-bottom: 70px; }
 :where(.gs-h5) { font-size: 17px; }
 :where(.gs-h6) { font-size: 16px; }
 h3.gs-h4 { font-size: 18px; }
+
+/* Task 19: width/height attributes reserve space without distorting images (zero specificity, theme rules win) */
+:where(img[width][height]) { height: auto; }

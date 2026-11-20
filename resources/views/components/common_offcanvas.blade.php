@@ -5,7 +5,7 @@
         </div>
         <div class="offCanvas__logo mb-30">
             <a href="{{ route('home') }}"><img src="{{ asset($general_setting?->secondary_logo) }}"
-                    alt="Logo"></a>
+                    alt="GoSanatorium — бронирование санаториев" {!! img_size_attrs($general_setting?->secondary_logo) !!}></a>
         </div>
         <div class="offCanvas__side-info mb-30">
             <div class="contact-list mb-30">

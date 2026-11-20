@@ -23,7 +23,7 @@
             @foreach ($blogs as $blog)
                 <a href="{{ route('blog', ['slug' => $blog->slug]) }}" class="gsblog-card">
                     <div class="gsblog-img-wrap">
-                        <img src="{{ asset($blog->image) }}" alt="{{ $blog?->translate?->title }}" class="gsblog-img" loading="lazy">
+                        <img class="gsblog-img" {!! img_attrs($blog->image, $blog?->translate?->title, ['sizes' => '(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px']) !!}>
                         @if ($blog?->category?->name)
                             <span class="gsblog-tag">{{ $blog->category->name }}</span>
                         @endif

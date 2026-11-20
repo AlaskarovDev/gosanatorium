@@ -106,7 +106,7 @@
                        data-room-name="{{ $roomName }}"
                        data-video-url="{{ $room->video_url ?? '' }}"
                        data-images='@json($allImages)'>
-                        <img src="{{ $thumbnailUrl }}" alt="{{ $roomName }}" loading="lazy"
+                        <img {!! img_attrs($thumbnailUrl, $roomName, ['sizes' => '(max-width: 767px) 100vw, 400px']) !!}
                              onerror="this.onerror=null; this.closest('.room-image-col').innerHTML='<div class=\'room-image-placeholder\'><i class=\'fa-solid fa-image\'></i></div>';">
                         <div class="image-overlay">
                             <i class="fa-solid fa-expand"></i>

@@ -25,7 +25,7 @@
                         $dest_count = (int) $destination_item->services_count;
                     @endphp
                     <a href="{{ $destination_url }}" class="gsdest-card">
-                        <img src="{{ asset($destination_item->image) }}" alt="{{ $destination_item->country }}" class="gsdest-card-img">
+                        <img class="gsdest-card-img" {!! img_attrs($destination_item->image, trim(preg_replace("/\s+[-–]\s+|\s*\|\s*/u", ", ", $destination_item->name), ", "), ['sizes' => '(max-width: 575px) 100vw, (max-width: 991px) 50vw, 400px']) !!}>
                         <div class="gsdest-overlay"></div>
                         @if ($dest_count > 0)
                             <div class="gsdest-badge">{{ sanatoriumCountLabel($dest_count) }}</div>

@@ -610,3 +610,21 @@ if (!function_exists('company_text')) {
         return \App\Services\CompanyFacts::instance()->text($value);
     }
 }
+
+if (!function_exists('img_attrs')) {
+    /** Task 19: <img> attributes with WebP srcset, width/height, alt and lazy loading. */
+    function img_attrs(?string $path, ?string $alt = '', array $options = []): string
+    {
+        return \App\Helpers\ResponsiveImage::attrs($path, $alt, $options);
+    }
+}
+
+if (!function_exists('img_size_attrs')) {
+    /** Task 19: width="…" height="…" of a local uploaded image ('' if unknown). */
+    function img_size_attrs(?string $path): string
+    {
+        $s = \App\Helpers\ResponsiveImage::size($path);
+
+        return $s ? 'width="' . $s[0] . '" height="' . $s[1] . '"' : '';
+    }
+}
