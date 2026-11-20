@@ -146,6 +146,11 @@ class ResponsiveImage
         if ($caption === '' || $caption === trim((string) $name)) {
             return $place;
         }
+        // caption already names the place (e.g. «…, Санаторий Чинар Нафталан») → keep it as is
+        $short = trim(preg_replace('/\s*\(.*$/u', '', (string) $name));
+        if (($city !== '' && mb_stripos($caption, $city) !== false) || ($short !== '' && mb_stripos($caption, $short) !== false)) {
+            return $caption;
+        }
 
         return $place !== '' ? $caption . ' — ' . $place : $caption;
     }
@@ -153,7 +158,8 @@ class ResponsiveImage
     /** City of a sanatorium from its destination name («Нафталан - Азербайджан» → «Нафталан»). */
     public static function serviceCity($service): ?string
     {
-        $name = $service?->location ?: $service?->destination?->name;
+        // destination name is «City - Country»; the location field holds a full street address, not used here
+        $name = $service?->destination?->name;
         if (!$name) {
             return null;
         }
