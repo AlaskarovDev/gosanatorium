@@ -3288,7 +3288,12 @@
                             {!! currency_span(\Modules\TourBooking\App\Services\FromPrice::for($service)) !!}
                         </div>
                         <div class="feature-card__note">{{ \Modules\TourBooking\App\Services\FromPrice::label($service) }}</div>
-                        <div class="gs-rate-note" data-gs-rate-note hidden></div>
+                        @php
+    // Payment currencies depend on the sanatorium's country: Georgia — GEL/USD/card, Azerbaijan — AZN/USD/card.
+    $gsPayDest = $service->destination;
+    $gsPayCountry = preg_match('/georgia|грузи|gürcüstan|borjomi|боржоми/iu', trim(($gsPayDest->country ?? '') . ' ' . ($gsPayDest->name ?? '') . ' ' . $service->title)) ? 'GE' : 'AZ';
+@endphp
+<div class="gs-rate-note" data-gs-rate-note data-pay-country="{{ $gsPayCountry }}" hidden></div>
                     </div>
                 </div>
             </div>
@@ -3633,7 +3638,7 @@
                                 </div>
                             </a>
                         @endif
-                        <p class="gs-rate-note gs-rate-note--block" data-gs-rate-note hidden></p>
+                        <p class="gs-rate-note gs-rate-note--block" data-gs-rate-note data-pay-country="{{ $gsPayCountry }}" hidden></p>
 
                         {{-- 1.2 PRICE LIST (PDF) --}}
                         @if($service->priceLists && $service->priceLists->count() > 0)
