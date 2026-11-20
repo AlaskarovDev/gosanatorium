@@ -106,6 +106,16 @@
                 --}}
 
 
+                <li class="{{ Route::is('admin.leads') ? 'active' : '' }}"><a class="collapsed" href="{{ route('admin.leads') }}">
+                        <span class="menu-bar__text">
+                            <span class="crancy-menu-icon crancy-svg-icon__v1">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 5h16v11H8l-4 4V5z" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round"/><path d="M8 9h8M8 12h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg>
+                            </span>
+                            <span class="menu-bar__name">Заявки</span>
+                        </span>
+                    </a>
+                </li>
+
                 <li class="{{ Route::is('admin.company-reviews') ? 'active' : '' }}"><a class="collapsed" href="{{ route('admin.company-reviews') }}">
                         <span class="menu-bar__text">
                             <span class="crancy-menu-icon crancy-svg-icon__v1">
