@@ -3301,7 +3301,13 @@
             @include('tourbooking::front.services.summary-box')
             {{-- Task 34: «Когда ехать выгоднее?» --}}
             @php
-                $pcData = \Modules\TourBooking\App\Services\FromPrice::monthlyMins([(int) $service->id]);
+                // same basis as the «от» price; when the rooms have no price for it, the other basis
+                $pcBasis = \Modules\TourBooking\App\Services\FromPrice::basis($service);
+                $pcData = \Modules\TourBooking\App\Services\FromPrice::monthlyMins([(int) $service->id], 12, $pcBasis);
+                if (count(array_filter($pcData['prices'][(int) $service->id] ?? [])) < 2) {
+                    $pcBasis = $pcBasis === 'room' ? 'person' : 'room';
+                    $pcData = \Modules\TourBooking\App\Services\FromPrice::monthlyMins([(int) $service->id], 12, $pcBasis);
+                }
                 $pcNights = max(7, (int) ($service->min_stay_nights ?? 0));
                 $pcUrl = function (int $y, int $m) use ($service, $hasRooms, $pcNights) {
                     if (! $hasRooms) {
@@ -3324,6 +3330,7 @@
                 'pcPrices' => $pcData['prices'][(int) $service->id] ?? [],
                 'pcUrl' => $pcUrl,
                 'pcClickable' => $hasRooms,
+                'pcLabel' => \Modules\TourBooking\App\Services\FromPrice::bases()[$pcBasis] ?? 'за ночь',
                 'pcNote' => 'Цены по сезонам санатория, ориентировочно.',
             ])
             <div class="bento-layout">

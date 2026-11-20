@@ -357,9 +357,9 @@ final class FromPrice
      * @param  array<int, int>  $serviceIds
      * @return array{months: array<int, array{y:int, m:int}>, prices: array<int, array<int, float|null>>}
      */
-    public static function monthlyMins(array $serviceIds, int $months = 12): array
+    public static function monthlyMins(array $serviceIds, int $months = 12, string $basis = self::BASIS_PERSON): array
     {
-        $compute = function () use ($serviceIds, $months) {
+        $compute = function () use ($serviceIds, $months, $basis) {
             $today = self::today();
             $pricing = new RoomPricing();
             $rooms = $serviceIds === [] ? collect() : ServiceRoom::query()
@@ -392,7 +392,7 @@ final class FromPrice
                 foreach ($serviceIds as $id) {
                     $min = null;
                     foreach ($rooms->get($id, collect()) as $room) {
-                        $p = self::roomFrom($pricing, $room, $keys, self::BASIS_PERSON);
+                        $p = self::roomFrom($pricing, $room, $keys, $basis);
                         if ($p !== null && ($min === null || $p < $min)) {
                             $min = $p;
                         }
@@ -405,7 +405,7 @@ final class FromPrice
         };
 
         try {
-            $key = 'gs_monthly_mins:v1:' . md5(json_encode([$serviceIds, $months])) . ':'
+            $key = 'gs_monthly_mins:v2:' . md5(json_encode([$serviceIds, $months, $basis])) . ':'
                 . (int) Cache::get(self::VERSION_KEY, 0) . ':' . self::today()->toDateString();
 
             return Cache::remember($key, now()->addHours(6), $compute);

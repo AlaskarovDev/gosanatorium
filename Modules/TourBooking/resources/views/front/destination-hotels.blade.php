@@ -195,11 +195,16 @@
             {{-- Task 34: average of the sanatoriums' minimum prices per month --}}
             @php
                 $pcIds = \Modules\TourBooking\App\Models\Service::where('status', true)->where('destination_id', $destination->id)->pluck('id')->map(fn ($i) => (int) $i)->all();
-                $pcData = \Modules\TourBooking\App\Services\FromPrice::monthlyMins($pcIds);
-                $pcAvg = [];
-                foreach ($pcData['months'] as $pcI => $pcMo) {
-                    $pcVals = collect($pcData['prices'])->map(fn ($row) => $row[$pcI] ?? null)->filter(fn ($v) => $v !== null && $v > 0);
-                    $pcAvg[$pcI] = $pcVals->isNotEmpty() ? round($pcVals->avg(), 2) : null;
+                foreach (['person', 'room'] as $pcBasis) {
+                    $pcData = \Modules\TourBooking\App\Services\FromPrice::monthlyMins($pcIds, 12, $pcBasis);
+                    $pcAvg = [];
+                    foreach ($pcData['months'] as $pcI => $pcMo) {
+                        $pcVals = collect($pcData['prices'])->map(fn ($row) => $row[$pcI] ?? null)->filter(fn ($v) => $v !== null && $v > 0);
+                        $pcAvg[$pcI] = $pcVals->isNotEmpty() ? round($pcVals->avg(), 2) : null;
+                    }
+                    if (count(array_filter($pcAvg)) >= 2) {
+                        break;
+                    }
                 }
             @endphp
             <div class="mt-40">
@@ -208,6 +213,7 @@
                     'pcPrices' => $pcAvg,
                     'pcUrl' => fn ($y, $m) => null,
                     'pcClickable' => false,
+                    'pcLabel' => \Modules\TourBooking\App\Services\FromPrice::bases()[$pcBasis] ?? 'за ночь',
                     'pcNote' => 'Средняя из минимальных цен санаториев направления, ориентировочно.',
                 ])
             </div>
