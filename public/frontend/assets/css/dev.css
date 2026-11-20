@@ -1391,3 +1391,20 @@ h3.gs-h4 { font-size: 18px; }
 .gs-related__meta { font-size: 12px; color: #5d6b67; }
 @media (max-width: 767px) { .gs-related__grid { grid-template-columns: 1fr; } }
 .gs-copy-link.is-copied { color: #1a9e87 !important; }
+
+/* ===== Task 21: tables in blog posts ===== */
+.tg-blog-standard-content .gs-table-wrap { width: 100%; overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 18px 0 24px; border: 1px solid #dfe7e4; border-radius: 10px; }
+.tg-blog-standard-content .gs-table-wrap table { width: 100% !important; min-width: 100%; border-collapse: collapse; margin: 0 !important; font-size: 15px; line-height: 1.45; }
+.tg-blog-standard-content .gs-table-wrap th,
+.tg-blog-standard-content .gs-table-wrap td { border: 1px solid #e3eae7; padding: 9px 12px !important; vertical-align: top; text-align: left; }
+.tg-blog-standard-content .gs-table-wrap table > tbody:first-child > tr:first-child > td,
+.tg-blog-standard-content .gs-table-wrap thead th,
+.tg-blog-standard-content .gs-table-wrap thead td { background: #e9f6f2; font-weight: 700; color: #10221d; }
+.tg-blog-standard-content .gs-table-wrap tbody tr:nth-child(even) td { background: #f7fbfa; }
+.tg-blog-standard-content .gs-table-wrap tr > :first-child { border-left: 0; }
+.tg-blog-standard-content .gs-table-wrap tr > :last-child { border-right: 0; }
+.tg-blog-standard-content .gs-table-wrap p { margin: 0 !important; }
+@media (max-width: 575px) {
+    .tg-blog-standard-content .gs-table-wrap table { font-size: 14px; }
+    .tg-blog-standard-content .gs-table-wrap th, .tg-blog-standard-content .gs-table-wrap td { min-width: 110px; padding: 8px 10px !important; }
+}

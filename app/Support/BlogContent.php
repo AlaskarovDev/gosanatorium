@@ -44,6 +44,9 @@ class BlogContent
             return '<' . $tag . $attrs . '>' . $m[2] . '</' . $tag . '>';
         }, $html);
 
+        // Task 21: every table scrolls horizontally inside its own wrapper (not the whole page)
+        $html = preg_replace('/<table\b(.*?)<\/table>/is', '<div class="gs-table-wrap"><table$1</table></div>', $html);
+
         [$first, $rest] = self::splitAtThird($html);
 
         return ['toc' => $toc, 'first' => $first, 'rest' => $rest];
