@@ -8,7 +8,7 @@ use Illuminate\Http\Request;
  * Task 15: one canonical URL format for the whole site.
  *
  *  - https, non-www host
- *  - always the /ru prefix (az/en are machine-translated copies of the RU content)
+ *  - always the /ru prefix (Task 17: RU is the only real language version; /en, /az … 301 to /ru)
  *  - no trailing slash (home = /ru)
  *  - query: only ?page=N (N > 1) and the catalog disease filter (?disease=slug) are kept;
  *    sort/budget/nights/utm … point to the clean URL

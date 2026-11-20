@@ -8,7 +8,13 @@
 | name  => modalda görünən ad
 | gt    => Google Translate dil kodu
 | flag  => flagcdn.com ölkə kodu (yuvarlaq bayraq şəkli üçün)
-| native=> true olanlar real məzmuna malikdir (ru, az). Qalanları Google çevirir.
+| native=> true: real (tərcümə olunmuş) versiya. Yalnız bunlar seçicidə, hreflang-da
+|           və sitemap-da görünür (Task 17).
+|
+| native olmayan kodlar AKTİV DEYİL: onların URL-ləri (/en/..., /az/...) 301 ilə eyni
+| səhifənin /ru versiyasına yönləndirilir. Avtomatik tərcümə (Google) yoxdur.
+| Dili açmaq üçün: title/meta/H1/məzmun həmin dilə tərcümə olunandan sonra
+| 'native' => true et.
 */
 
 return [
