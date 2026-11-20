@@ -75,6 +75,7 @@
                                     <td><strong>Код заказа:</strong></td>
                                     <td class="text-end">
                                         <span class="badge bg-primary fs-6">{{ $booking->booking_code }}</span>
+                                        <span data-gs-goal-once="booking_request_sent" data-gs-goal-key="{{ $booking->booking_code }}" data-gs-goal-source="booking_form" hidden></span>
                                     </td>
                                 </tr>
                                 <tr>

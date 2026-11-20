@@ -383,6 +383,7 @@
     </script>
     <noscript><div><img src="https://mc.webvisor.org/watch/109569026" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
     {{-- /Yandex.Metrika counter --}}
+    @include('partials.goals')
     @include('partials.new-year-head')
 </head>
 

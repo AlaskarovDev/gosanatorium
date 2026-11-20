@@ -114,7 +114,8 @@ class ConsultationController extends Controller
         $notify_message = trans('translate.Your question has been sent successfully');
         $notify_message = array('message' => $notify_message, 'alert-type' => 'success');
 
-        return redirect()->back()->with($notify_message);
+        return redirect()->back()->with($notify_message)
+            ->with('gs_goal', 'contact_form_sent'); // Task 18: conversion goal on the next page
     }
 
     /**
