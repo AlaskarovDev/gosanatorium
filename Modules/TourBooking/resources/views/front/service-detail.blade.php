@@ -3035,6 +3035,139 @@
                 overscroll-behavior-y: contain;
             }
         }
+
+        /* ═══════════════════════════════════════════════════════════════
+           COMPACT SECTIONS: description by sections, FAQ «show all», review form on demand
+        ═══════════════════════════════════════════════════════════════ */
+        .gs-desc-head {
+            display: flex;
+            align-items: baseline;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .gs-desc-all {
+            background: none;
+            border: 0;
+            padding: 6px 0;
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--accent-hover);
+            cursor: pointer;
+            white-space: nowrap;
+        }
+        .gs-desc-all:hover { text-decoration: underline; text-underline-offset: 3px; }
+        .gs-desc-acc {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 24px;
+        }
+        .gs-desc-sec {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            transition: background-color .2s ease;
+        }
+        .gs-desc-sec:hover { background: var(--bg-tertiary); }
+        .gs-desc-sec[open] { background: var(--bg-primary); }
+        .gs-desc-sec__head {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px 20px;
+            cursor: pointer;
+            list-style: none;
+            min-height: 56px;
+            box-sizing: border-box;
+        }
+        .gs-desc-sec__head::-webkit-details-marker { display: none; }
+        .gs-desc-sec__head::marker { content: ''; }
+        .gs-desc-sec__head:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; border-radius: var(--radius-md); }
+        .gs-desc-sec__title {
+            flex: 1;
+            min-width: 0;
+            margin: 0;
+            font-family: inherit;
+            font-size: 16px;
+            font-weight: 600;
+            line-height: 1.4;
+            color: var(--text-primary);
+            overflow-wrap: anywhere;
+        }
+        .gs-desc-sec__toggle {
+            flex: 0 0 32px;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background-color .2s ease, border-color .2s ease;
+        }
+        .gs-desc-sec__toggle i { font-size: 12px; color: var(--text-secondary); transition: transform .2s ease; }
+        .gs-desc-sec[open] .gs-desc-sec__toggle { background: var(--accent); border-color: var(--accent); }
+        .gs-desc-sec[open] .gs-desc-sec__toggle i { color: #fff; transform: rotate(180deg); }
+        .gs-desc-sec__body { padding: 0 20px 20px; }
+        .gs-desc-sec__body > :first-child { margin-top: 0 !important; }
+
+        .gs-desc-clamp { position: relative; max-height: 560px; overflow: hidden; }
+        .gs-desc-clamp--intro { max-height: 440px; }
+        .gs-desc-clamp.is-open { max-height: none; }
+        .gs-desc-clamp:not(.is-open)::after {
+            content: '';
+            position: absolute;
+            left: 0; right: 0; bottom: 0;
+            height: 96px;
+            background: linear-gradient(rgba(255,255,255,0), var(--bg-primary));
+            pointer-events: none;
+        }
+
+        .gs-more-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            min-height: 44px;
+            padding: 10px 20px;
+            border: 1px solid var(--accent);
+            border-radius: 100px;
+            background: var(--bg-primary);
+            color: var(--accent-hover);
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color .2s ease, color .2s ease;
+        }
+        .gs-more-btn:hover { background: var(--accent); color: #fff; }
+        .gs-more-btn i { font-size: 12px; transition: transform .2s ease; }
+        .gs-more-btn[aria-expanded="true"] i { transform: rotate(180deg); }
+
+        .gs-more-btn--text {
+            border: 0;
+            padding: 6px 0;
+            min-height: 0;
+            margin-top: 8px;
+            background: none;
+        }
+        .gs-more-btn--text:hover { background: none; color: var(--accent-hover); text-decoration: underline; text-underline-offset: 3px; }
+
+        .itinerary-list:not(.is-all) > .gs-itin-extra { display: none; }
+
+        @media (max-width: 991px) {
+            .gs-desc-acc { margin-top: 18px; gap: 8px; }
+            .gs-desc-sec__head { padding: 14px 14px; gap: 10px; min-height: 52px; }
+            .gs-desc-sec__title { font-size: 15px; }
+            .gs-desc-sec__body { padding: 0 14px 16px; }
+            .gs-desc-clamp { max-height: 440px; }
+            .gs-desc-clamp--intro { max-height: 320px; }
+            .gs-more-btn { width: 100%; }
+            .gs-more-btn--text { width: auto; min-height: 44px; }
+            .gs-desc-all { font-size: 13px; }
+        }
     </style>
 @endpush
 
@@ -3205,6 +3338,9 @@
     <nav class="mobile-tabs" id="mobileTabs" aria-label="Разделы страницы">
         <a href="#section-about" class="mobile-tabs__item active">Обзор</a>
         <a href="#section-summary" class="mobile-tabs__item">Цены</a>
+        @if($service?->translation?->description)
+            <a href="#section-description" class="mobile-tabs__item">Описание</a>
+        @endif
         @if($gsNavTreat)
             <a href="#section-treatment" class="mobile-tabs__item">Лечение</a>
         @endif
@@ -3353,12 +3489,55 @@
 
                     {{-- Description --}}
                     @if($service?->translation?->description)
-                        <div class="card" data-aos="fade-up">
+                        @php
+                            // short intro + collapsible sections; texts without structure get «Читать полностью»
+                            $gsDescHtml = \Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->description, $service);
+                            $gsDesc = \Modules\TourBooking\App\Services\DescriptionSections::split($gsDescHtml);
+                        @endphp
+                        <div class="card" data-aos="fade-up" id="section-description">
                             <div class="card__icon"><i class="fa-regular fa-file-lines"></i></div>
-                            <h2 class="card__title">Описание</h2>
-                            <div class="card__text">
-                                {!! \Modules\TourBooking\App\Services\FromPrice::fill($service?->translation?->description, $service) !!}
+                            <div class="gs-desc-head">
+                                <h2 class="card__title">Описание</h2>
+                                @if($gsDesc)
+                                    <button type="button" class="gs-desc-all" data-gs-desc-all aria-expanded="false">
+                                        <span data-gs-desc-all-label>Развернуть всё</span>
+                                    </button>
+                                @endif
                             </div>
+                            @if($gsDesc)
+                                <div class="card__text gs-desc-clamp gs-desc-clamp--intro" data-gs-clamp>
+                                    {!! $gsDesc['intro'] !!}
+                                </div>
+                                <button type="button" class="gs-more-btn gs-more-btn--text" data-gs-clamp-btn aria-expanded="false" hidden>
+                                    <span data-gs-clamp-label>Читать далее</span>
+                                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                </button>
+                                <div class="gs-desc-acc">
+                                    @foreach($gsDesc['sections'] as $gsSec)
+                                        <details class="gs-desc-sec" @if(preg_match('/^Цены\b/u', $gsSec['title'])) open @endif>
+                                            <summary class="gs-desc-sec__head">
+                                                @if($gsSec['heading'])
+                                                    <h3 class="gs-desc-sec__title">{{ $gsSec['title'] }}</h3>
+                                                @else
+                                                    <span class="gs-desc-sec__title">{{ $gsSec['title'] }}</span>
+                                                @endif
+                                                <span class="gs-desc-sec__toggle" aria-hidden="true"><i class="fa-solid fa-chevron-down"></i></span>
+                                            </summary>
+                                            <div class="card__text gs-desc-sec__body">
+                                                {!! $gsSec['body'] !!}
+                                            </div>
+                                        </details>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="card__text gs-desc-clamp" data-gs-clamp>
+                                    {!! $gsDescHtml !!}
+                                </div>
+                                <button type="button" class="gs-more-btn" data-gs-clamp-btn aria-expanded="false" hidden>
+                                    <span data-gs-clamp-label>Читать полностью</span>
+                                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                </button>
+                            @endif
                         </div>
                     @endif
                     
@@ -3412,9 +3591,14 @@
                                 <p class="card__subtitle">{{ $service?->tour_plan_sub_title }}</p>
                             @endif
 
-                            <div class="itinerary-list">
+                            @php
+                                // long FAQ: first questions visible, the rest behind «Показать все вопросы»
+                                $gsItinTotal = $service->itineraries->count();
+                                $gsItinShow = $gsItinTotal > 7 ? 5 : $gsItinTotal;
+                            @endphp
+                            <div class="itinerary-list" id="gsItinList">
                                 @foreach($service?->itineraries as $index => $itinerary)
-                                    <div class="itinerary-item @if($loop->first) active @endif">
+                                    <div class="itinerary-item @if($loop->first) active @endif @if($loop->index >= $gsItinShow) gs-itin-extra @endif">
                                         <div class="itinerary-header" onclick="toggleItinerary(this)">
 <span class="itinerary-day">{{ $itinerary?->day_display }}</span>
                                             <h3 class="itinerary-title">{{ $itinerary?->title }}</h3>
@@ -3460,6 +3644,12 @@
                                     </div>
                                 @endforeach
                             </div>
+                            @if($gsItinTotal > $gsItinShow)
+                                <button type="button" class="gs-more-btn" data-gs-itin-more aria-controls="gsItinList" aria-expanded="false">
+                                    <span data-gs-itin-label>{{ $gsItinIsFaq ? 'Показать все вопросы' : 'Показать всю программу' }} ({{ $gsItinTotal }})</span>
+                                    <i class="fa-solid fa-chevron-down" aria-hidden="true"></i>
+                                </button>
+                            @endif
                         </div>
                     @endif
 
@@ -3555,7 +3745,12 @@
                             </div>
                         @endif
 
-                        <div class="review-form">
+                        <button type="button" class="gs-more-btn gs-review-open" x-show="!formOpen" @click="formOpen = true; $nextTick(() => $refs.gsReviewText && $refs.gsReviewText.focus({ preventScroll: true }))">
+                            <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i>
+                            <span>Написать отзыв</span>
+                        </button>
+
+                        <div class="review-form" x-show="formOpen" x-cloak>
                             <h3 class="review-form__title">Написать отзыв</h3>
 
                             <div class="rating-grid">
@@ -3575,7 +3770,7 @@
                                 </template>
                             </div>
 
-                            <textarea class="review-form__textarea" x-model="message" placeholder="Поделитесь своими впечатлениями..."></textarea>
+                            <textarea class="review-form__textarea" x-ref="gsReviewText" x-model="message" placeholder="Поделитесь своими впечатлениями..."></textarea>
 
                             <div class="review-form__submit">
                                 <button type="button" class="btn btn--primary" @click="submitForm">
@@ -4235,6 +4430,9 @@
     <div id="stickyLeftNav">
         <ul>
             <li><a href="#section-about" class="active-link" data-target="section-about" data-tooltip="О санатории"><i class="fa-solid fa-compass"></i><span class="nav-label">О санатории</span></a></li>
+            @if($service?->translation?->description)
+            <li><a href="#section-description" data-target="section-description" data-tooltip="Описание"><i class="fa-solid fa-file-lines"></i><span class="nav-label">Описание</span></a></li>
+            @endif
             <li><a href="#section-treatment" data-target="section-treatment" data-tooltip="Лечение"><i class="fa-solid fa-heart-pulse"></i><span class="nav-label">Лечение</span></a></li>
             @if(!empty($sbVideoEmbed))
             <li><a href="#section-video" data-target="section-video" data-tooltip="Видео"><i class="fa-solid fa-clapperboard"></i><span class="nav-label">Видео</span></a></li>
@@ -4302,6 +4500,98 @@
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/ru.js"></script>
     <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script>
+    // Compact sections: description «Развернуть всё», «Читать полностью», FAQ «Показать все вопросы»
+    (function () {
+        function aosRefresh() { if (window.AOS && typeof AOS.refresh === 'function') AOS.refresh(); }
+        function scrollBackTo(el) {
+            var top = el.getBoundingClientRect().top;
+            if (top < 0) window.scrollTo({ top: window.scrollY + top - 140, behavior: 'smooth' });
+        }
+
+        function init() {
+            var card = document.getElementById('section-description');
+            if (card) {
+                var secs = card.querySelectorAll('.gs-desc-sec');
+                var clamp = card.querySelector('[data-gs-clamp]');
+                var clampBtn = card.querySelector('[data-gs-clamp-btn]');
+                var allBtn = card.querySelector('[data-gs-desc-all]');
+                var allLabel = card.querySelector('[data-gs-desc-all-label]');
+                var syncAll = function () {
+                    if (!allBtn) return;
+                    var allOpen = Array.prototype.every.call(secs, function (d) { return d.open; });
+                    allBtn.setAttribute('aria-expanded', allOpen ? 'true' : 'false');
+                    allLabel.textContent = allOpen ? 'Свернуть всё' : 'Развернуть всё';
+                };
+                secs.forEach(function (d) { d.addEventListener('toggle', function () { syncAll(); aosRefresh(); }); });
+                if (allBtn) {
+                    allBtn.addEventListener('click', function () {
+                        var open = allBtn.getAttribute('aria-expanded') !== 'true';
+                        secs.forEach(function (d) { d.open = open; });
+                        if (clamp && clampBtn && !clampBtn.hidden) setClamp(open);
+                        syncAll();
+                        if (!open) scrollBackTo(card);
+                    });
+                    syncAll();
+                }
+
+                var clampLabel = card.querySelector('[data-gs-clamp-label]');
+                var clampMore = clampLabel ? clampLabel.textContent.trim() : '';
+                var setClamp = function (open) {
+                    clamp.classList.toggle('is-open', open);
+                    clampBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    clampLabel.textContent = open ? 'Свернуть' : clampMore;
+                    aosRefresh();
+                };
+                if (clamp && clampBtn) {
+                    // short text: no button, no fade
+                    if (clamp.scrollHeight > clamp.clientHeight + 60) {
+                        clampBtn.hidden = false;
+                    } else {
+                        clamp.classList.add('is-open');
+                    }
+                    clampBtn.addEventListener('click', function () {
+                        var open = !clamp.classList.contains('is-open');
+                        setClamp(open);
+                        if (!open) scrollBackTo(card);
+                    });
+                }
+            }
+
+            var list = document.getElementById('gsItinList');
+            var moreBtn = document.querySelector('[data-gs-itin-more]');
+            if (list && moreBtn) {
+                var label = moreBtn.querySelector('[data-gs-itin-label]');
+                var moreText = label.textContent.trim();
+                moreBtn.addEventListener('click', function () {
+                    var open = !list.classList.contains('is-all');
+                    list.classList.toggle('is-all', open);
+                    moreBtn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                    label.textContent = open ? 'Свернуть вопросы' : moreText;
+                    if (!open) scrollBackTo(list);
+                    aosRefresh();
+                });
+            }
+
+            // a link to a hidden part (#anchor inside a closed section or a hidden question) opens it
+            var openFor = function () {
+                if (!location.hash || location.hash.length < 2) return;
+                var t;
+                try { t = document.querySelector(location.hash); } catch (e) { return; }
+                if (!t) return;
+                var d = t.closest('.gs-desc-sec');
+                if (d) d.open = true;
+                if (t.closest('.gs-itin-extra') && list) list.classList.add('is-all');
+                var c = t.closest('[data-gs-clamp]');
+                if (c) c.classList.add('is-open');
+            };
+            openFor();
+            window.addEventListener('hashchange', openFor);
+        }
+
+        if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+    })();
+    </script>
 
     <script>
         
@@ -4845,6 +5135,7 @@ window.closeDoctorModal = function() {
                 hoverRating: 0,
                 hoverIndex: null,
                 message: '',
+                formOpen: false,
 
                 setRating(i, r) {
                     this.categories[i].rating = r;
