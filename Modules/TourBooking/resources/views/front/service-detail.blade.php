@@ -157,6 +157,7 @@
                 right: 12px !important;
                 width: auto !important;
                 max-width: calc(100vw - 24px) !important;
+                transform: none !important;
             }
 
             .mat-tab {
@@ -408,6 +409,15 @@
                 pointer-events: auto;
             }
 
+            /* Hero üstündə saytın öz başlığı var: üzən düymələr yalnız scroll-dan sonra görünür */
+            .mobile-floating-header:not(.scrolled) {
+                opacity: 0;
+                visibility: hidden;
+            }
+            .mobile-floating-header {
+                transition: background 0.3s ease, box-shadow 0.3s ease, top 0.3s ease, opacity 0.25s ease, visibility 0.25s;
+            }
+
             .mobile-floating-header.scrolled {
                 background: rgba(255,255,255,0.97);
                 backdrop-filter: blur(20px);
@@ -541,7 +551,8 @@
             font-size: clamp(2.5rem, 5vw, 4rem);
             color: #fff;
             margin-bottom: 20px;
-            max-width: 800px;
+            max-width: 1000px;
+            text-wrap: balance;
         }
 
         .hero__meta {
@@ -549,6 +560,20 @@
             flex-wrap: wrap;
             align-items: center;
             gap: 24px;
+        }
+
+        .hero__score {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 40px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #4CAF50;
+            color: #fff;
+            font-weight: 700;
+            font-size: 15px;
+            line-height: 1.3;
         }
 
         .hero__location {
@@ -565,9 +590,11 @@
         .hero__stars { display: flex; gap: 3px; }
         .hero__stars i { font-size: 14px; color: rgba(255,255,255,0.3); }
         .hero__stars i.active { color: var(--gold); }
-        .hero__reviews { color: rgba(255,255,255,0.7); font-size: 14px; }
+        .hero__reviews { color: rgba(255,255,255,0.88); font-size: 14px; }
 
         .hero__actions { margin-top: 28px; display: flex; gap: 12px; }
+        /* "Избранное" linki yalnız siyahıda nəsə olanda görünür */
+        .hero__actions .gs-fav-link:has(.gs-fav-count[style*="none"]) { display: none; }
 
         .btn-glass {
             display: inline-flex;
@@ -3236,7 +3263,6 @@
                 </h1>
 
                 @include('tourbooking::front.services.badges', ['service' => $service, 'limit' => 10])
-@include('tourbooking::front.services.rating-badges', ['service' => $service])
 
                 <div class="hero__meta" data-aos="fade-up" data-aos-delay="300">
                     @if($service?->location)
@@ -3246,16 +3272,19 @@
                         </div>
                     @endif
 
+                    @if($reviews->count() > 0)
                     <div class="hero__rating">
+                        <span class="hero__score">{{ number_format((float) $avgRating, 1) }}</span>
                         <div class="hero__stars">
                             @foreach(range(1, 5) as $star)
                                 <i class="fa-solid fa-star @if($avgRating >= $star) active @endif"></i>
                             @endforeach
                         </div>
                         <span class="hero__reviews">
-                            ({{ \Modules\TourBooking\App\Models\Review::countLabel($reviews->count()) }})
+                            {{ \Modules\TourBooking\App\Models\Review::countLabel($reviews->count()) }}
                         </span>
                     </div>
+                    @endif
                 </div>
 
                 <div class="hero__actions" data-aos="fade-up" data-aos-delay="400">
